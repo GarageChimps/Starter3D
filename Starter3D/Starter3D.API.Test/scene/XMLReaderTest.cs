@@ -86,6 +86,31 @@ namespace ThreeAPI.Test.scene
       Assert.AreEqual(400.0, translationNode.Z);
     }
 
+    [Test()]
+    public void ReadFile_OneShapeNode_CorrectParametersOfShapeNode()
+    {
+      var testXml = @"<Scene>
+                        <Shape shapeType='Mesh' filePath='test.obj' >                                                   
+                        </Shape>                          
+                      </Scene>";
+      File.WriteAllText("test.xml", testXml);
+
+      var testObj = @"v 1.0 1.0 0.0
+                      v 1.0 -1.0 0.0
+                      v -1.0 -1.0 0.0
+                      v -1.0 1.0 0.0
+                      f 1 2 3
+                      f 3 4 1
+                    ";
+      File.WriteAllText("test.obj", testObj);
+
+      var xmlReader = CreateXMLReader();
+      var scene = xmlReader.Read("test.xml");
+      var shapeNode = (ShapeNode)scene.Children.First();
+      Assert.IsInstanceOf(typeof(Mesh), shapeNode.Shape);
+      Assert.AreEqual(4, (shapeNode.Shape as Mesh).Vertices.Count());
+    }
+
     private static XMLDataNodeReader CreateXMLReader()
     {
       var vertexFactory = new VertexFactory();

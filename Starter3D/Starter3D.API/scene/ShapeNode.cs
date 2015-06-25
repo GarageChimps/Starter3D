@@ -5,7 +5,7 @@ namespace ThreeAPI.scene
 {
   public class ShapeNode : BaseSceneNode
   {
-    private readonly IShape _shape;
+    private IShape _shape;
     private readonly IShapeFactory _shapeFactory;
 
     public IShape Shape
@@ -28,13 +28,13 @@ namespace ThreeAPI.scene
     {
       var shapeTypeString = dataNode.ReadParameter("shapeType");
       var filePath = dataNode.ReadParameter("filePath");
-      var fileTypeString = Path.GetExtension(filePath);
+      var fileTypeString = Path.GetExtension(filePath).TrimStart('.');
       
 
       var shapeType = (ShapeType)Enum.Parse(typeof(ShapeType), shapeTypeString);
       var fileType = (FileType) Enum.Parse(typeof (FileType), fileTypeString);
-      var shape = _shapeFactory.CreateShape(shapeType, fileType);
-      shape.Load(filePath);
+      _shape = _shapeFactory.CreateShape(shapeType, fileType);
+      _shape.Load(filePath);
     }
   }
 }
