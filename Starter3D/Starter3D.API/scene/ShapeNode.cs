@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace ThreeAPI.scene
 {
@@ -25,11 +26,14 @@ namespace ThreeAPI.scene
 
     public override void Load(IDataNode dataNode)
     {
-      var type = dataNode.ReadParameter("type");
+      var shapeTypeString = dataNode.ReadParameter("shapeType");
       var filePath = dataNode.ReadParameter("filePath");
+      var fileTypeString = Path.GetExtension(filePath);
       
-      var shapeType = (ShapeType)Enum.Parse(typeof(ShapeType), type);
-      var shape = _shapeFactory.CreateShape(shapeType);
+
+      var shapeType = (ShapeType)Enum.Parse(typeof(ShapeType), shapeTypeString);
+      var fileType = (FileType) Enum.Parse(typeof (FileType), fileTypeString);
+      var shape = _shapeFactory.CreateShape(shapeType, fileType);
       shape.Load(filePath);
     }
   }

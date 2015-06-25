@@ -5,7 +5,10 @@ namespace ThreeAPI.scene
   public interface IMesh : IShape
   {
     IEnumerable<IVertex> Vertices { get; }
-    IEnumerable<IPolygon> Polygons { get; }
-    IPolygon AddPolygon(List<IVertex> vertices);
+    IEnumerable<IFace> Faces { get; }
+    IEnumerable<IPolygon> GetTriangles();
+    void AddVertex(IVertex vertex);
+    void AddFace(IFace face);
+    void GenerateMissingNormals();
   }
 }

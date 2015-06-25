@@ -7,10 +7,10 @@ using ThreeAPI.scene;
 namespace ThreeAPI.Test.scene
 {
   [TestFixture()]
-  public class IntegrationTest
+  public class XMLReaderTest
   {
     [Test()]
-    public void TestSceneGraph()
+    public void ReadFile_NestedNodes_CorrectTypesStoredInSceneGraph()
     {
       var testXml = @"<Scene>
                         <Scale x='2' y='2' z='2'>
@@ -32,7 +32,7 @@ namespace ThreeAPI.Test.scene
     }
 
     [Test()]
-    public void TestScaleParameters()
+    public void ReadFile_OneScaleNode_CorrectParametersOfScaleNode()
     {
       var testXml = @"<Scene>
                         <Scale x='2' y='3' z='4'>                                                   
@@ -50,7 +50,7 @@ namespace ThreeAPI.Test.scene
     }
 
     [Test()]
-    public void TestRotateParameters()
+    public void ReadFile_OneRotateNode_CorrectParametersOfRotateNode()
     {
       var testXml = @"<Scene>
                         <Rotate x='1' y='0' z='4' angle='90'>                                           
@@ -69,7 +69,7 @@ namespace ThreeAPI.Test.scene
     }
 
     [Test()]
-    public void TestTranslateParameters()
+    public void ReadFile_OneTranslateNode_CorrectParametersOfTranslateNode()
     {
       var testXml = @"<Scene>
                         <Translate x='20' y='1' z='400'>                                                   
@@ -89,8 +89,10 @@ namespace ThreeAPI.Test.scene
     private static XMLDataNodeReader CreateXMLReader()
     {
       var vertexFactory = new VertexFactory();
-      var meshLoader = new ObjMeshLoader(vertexFactory);
-      var shapeFactory = new ShapeFactory(meshLoader);
+      var faceFactory = new FaceFactory();
+      var meshLoaderFactory = new MeshLoaderFactory(vertexFactory, faceFactory);
+      var meshFactory = new MeshFactory(meshLoaderFactory);
+      var shapeFactory = new ShapeFactory(meshFactory);
       var sceneNodeFactory = new SceneNodeFactory(shapeFactory);
       var dataNodeFactory = new DataNodeFactory(sceneNodeFactory);
       var xmlReader = new XMLDataNodeReader(dataNodeFactory);

@@ -1,29 +1,30 @@
-﻿using System;
+using System;
 
 namespace ThreeAPI.scene
 {
   public class ShapeFactory : IShapeFactory
   {
-    private readonly IMeshLoader _meshLoader;
+    private readonly IMeshFactory _meshFactory;
 
-    public ShapeFactory(IMeshLoader meshLoader)
+    public ShapeFactory(IMeshFactory meshFactory)
     {
-      _meshLoader = meshLoader;
+      _meshFactory = meshFactory;
     }
 
-    public IShape CreateShape(ShapeType type)
+    public IShape CreateShape(ShapeType shapeType, FileType fileType)
     {
-      switch (type)
+      switch (shapeType)
       {
         case ShapeType.Mesh:
-          return new Mesh(_meshLoader);
+          return _meshFactory.CreateMesh(fileType);
         case ShapeType.PointCloud:
           throw new NotImplementedException();
         case ShapeType.Curve:
           throw new NotImplementedException();
         default:
-          throw new ArgumentOutOfRangeException("type");
+          throw new ArgumentOutOfRangeException("shapeType");
       }
+      
     }
   }
 }

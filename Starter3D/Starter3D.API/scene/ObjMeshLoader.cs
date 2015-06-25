@@ -11,10 +11,12 @@ namespace ThreeAPI.scene
     private readonly char[] _faceParamaterSplitter = { '/' };
 
     private readonly IVertexFactory _vertexFactory;
+    private readonly IFaceFactory _faceFactory;
 
-    public ObjMeshLoader(IVertexFactory vertexFactory)
+    public ObjMeshLoader(IVertexFactory vertexFactory, IFaceFactory faceFactory)
     {
       _vertexFactory = vertexFactory;
+      _faceFactory = faceFactory;
     }
 
     public void Load(IMesh mesh, string filePath)
@@ -27,12 +29,15 @@ namespace ThreeAPI.scene
 
     private void Load(TextReader textReader, IMesh mesh)
     {
-      var vertices = new List<Vector3>();
+      var vertices = new List<IVertex>();
+      var faces = new List<IFace>();
+      var verticesIndexMap = new Dictionary<IVertex, int>();
+      int currentVertexIndex = 0;
+
+      var positions = new List<Vector3>();
       var normals = new List<Vector3>();
       var texCoords = new List<Vector2>();
-      var verticesMap = new Dictionary<IVertex, Vector3>();
-      var vertexToNormal = new Dictionary<Vector3, List<Vector3>>();
-
+      
       string line;
       while ((line = textReader.ReadLine()) != null)
       {
@@ -50,7 +55,7 @@ namespace ThreeAPI.scene
             var x = float.Parse(parameters[1], CultureInfo.InvariantCulture);
             var y = float.Parse(parameters[2], CultureInfo.InvariantCulture);
             var z = float.Parse(parameters[3], CultureInfo.InvariantCulture);
-            vertices.Add(new Vector3(x, y, z));
+            positions.Add(new Vector3(x, y, z));
             break;
 
           case "vt": // TexCoord
@@ -63,63 +68,42 @@ namespace ThreeAPI.scene
             var nx = float.Parse(parameters[1], CultureInfo.InvariantCulture);
             var ny = float.Parse(parameters[2], CultureInfo.InvariantCulture);
             var nz = float.Parse(parameters[3], CultureInfo.InvariantCulture);
-            normals.Add(new Vector3(nx, ny, nz));
+            normals.Add(new Vector3(nx, ny, nz).Normalized());
             break;
 
           case "f":
-            switch (parameters.Length)
+            var faceVertexIndices = new List<int>();
+            for (int i = 0; i < parameters.Length - 1; i++)
             {
-              case 4:
-
-                var triangleVertices = new List<IVertex>();
-                for (int i = 0; i < 3; i++)
-                {
-                  var vertex = GetVertex(parameters[i + 1], vertices, normals, texCoords);
-                  triangleVertices.Add(vertex);
-                  verticesMap.Add(vertex, vertex.Position);
-
-                }
-                var polygon = mesh.AddPolygon(triangleVertices);
-                foreach (var vertex in polygon.Vertices)
-                {
-                  if (!vertexToNormal.ContainsKey(vertex.Position))
-                    vertexToNormal.Add(vertex.Position, new List<Vector3>());
-                  vertexToNormal[vertex.Position].Add(polygon.GetFaceNormal());
-                }
-
-                break;
-
-              case 5:
-                //Quads
-                break;
+              //The definition of what is a vertex in an OBJ file only exists appears when the vertex of each face is being defined
+              //We only want to add distinctive vertices to our list of vertices, so we test here if we already have a vertex with the same
+              //parameters, in which case we will use the existing vertex, if not we will add the new vertex to our list and increase the vertex
+              //index counter
+              var candidateVertex = GetVertex(parameters[i + 1], positions, normals, texCoords);
+              if (!verticesIndexMap.ContainsKey(candidateVertex))
+              {
+                verticesIndexMap.Add(candidateVertex, currentVertexIndex);
+                vertices.Add(candidateVertex);
+                currentVertexIndex++;
+              }
+              var index = verticesIndexMap[candidateVertex];
+              faceVertexIndices.Add(index);
             }
+            var face = _faceFactory.CreateFace(faceVertexIndices);
+            faces.Add(face);
             break;
         }
       }
-
-      if (normals.Count == 0)
+      foreach (var vertex in vertices)
       {
-        foreach (var keyValue in verticesMap)
-        {
-          var normal = GetAverageNormal(vertexToNormal[keyValue.Value]);
-          keyValue.Key.Normal = normal;
-        }
+        mesh.AddVertex(vertex);
       }
-
-
-    }
-
-    private Vector3 GetAverageNormal(IEnumerable<Vector3> normals)
-    {
-      var average = new Vector3();
-      foreach (var normal in normals)
+      foreach (var face in faces)
       {
-        average += normal;
+        mesh.AddFace(face);
       }
-      average.Normalize();
-      return average;
     }
-
+    
     private IVertex GetVertex(string faceParameter, List<Vector3> vertices, List<Vector3> normals, List<Vector2> texCoords)
     {
       var position = new Vector3();

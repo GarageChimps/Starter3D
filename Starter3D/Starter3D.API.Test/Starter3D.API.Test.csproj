@@ -41,7 +41,8 @@
     <Compile Include="math\PlaneTest.cs" />
     <Compile Include="math\RayTest.cs" />
     <Compile Include="math\BoundingSphereTest.cs" />
-    <Compile Include="scene\IntegrationTest.cs" />
+    <Compile Include="scene\ObjMeshLoaderTest.cs" />
+    <Compile Include="scene\XMLReaderTest.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
