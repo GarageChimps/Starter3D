@@ -25,7 +25,7 @@ namespace ThreeAPI.scene
 
     public CameraNode()
     {
-      
+
     }
 
     public override void Load(IDataNode dataNode)
@@ -47,9 +47,9 @@ namespace ThreeAPI.scene
 
     public override Matrix4 ComposeTransform()
     {
-      var viewMatrix = _parent.ComposeTransform();
+      var viewMatrix = _parent.ComposeTransform().Inverted();
       var perspectiveMatrix = Matrix4.CreatePerspectiveFieldOfView(_fieldOfView, _aspectRatio, _farClip, _nearClip);
-      return perspectiveMatrix*viewMatrix;
+      return perspectiveMatrix * viewMatrix;
     }
   }
 }

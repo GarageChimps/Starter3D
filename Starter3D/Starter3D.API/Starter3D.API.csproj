@@ -42,6 +42,7 @@
     <Compile Include="math\Plane.cs" />
     <Compile Include="math\Ray.cs" />
     <Compile Include="scene\BaseSceneNode.cs" />
+    <Compile Include="scene\CameraNode.cs" />
     <Compile Include="scene\DataNodeFactory.cs" />
     <Compile Include="scene\Extensions.cs" />
     <Compile Include="scene\Face.cs" />
