@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using OpenTK;
 
 namespace ThreeAPI.scene
 {
@@ -14,6 +15,9 @@ namespace ThreeAPI.scene
   public interface ISceneNode
   {
     IEnumerable<ISceneNode> Children { get; }
+    ISceneNode Parent { get; set; }
+    Matrix4 Transform { get;  }
+    Matrix4 ComposeTransform();
     void AddChild(ISceneNode child);
     void RemoveChild(ISceneNode child);
     void Load(IDataNode dataNode);

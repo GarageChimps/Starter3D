@@ -6,7 +6,7 @@ namespace ThreeAPI.scene
   {
     protected Matrix4 _transform;
 
-    public Matrix4 Transform
+    public override Matrix4 Transform
     {
       get { return _transform; }
     }
