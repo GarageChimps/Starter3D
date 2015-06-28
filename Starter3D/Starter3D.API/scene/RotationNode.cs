@@ -5,33 +5,27 @@ namespace ThreeAPI.scene
 {
   public class RotationNode : TransformNode
   {
-    private float _x;
-    private float _y;
-    private float _z;
+    private Vector3 _axis = new Vector3();
     private float _angle;
 
     public float X
     {
-      get { return _x; }
-      set { _x = value; }
+      get { return _axis.X; }
     }
 
     public float Y
     {
-      get { return _y; }
-      set { _y = value; }
+      get { return _axis.Y; }
     }
 
     public float Z
     {
-      get { return _z; }
-      set { _z = value; }
+      get { return _axis.Z; }
     }
 
     public float Angle
     {
       get { return _angle; }
-      set { _angle = value; }
     }
 
     public RotationNode()
@@ -46,11 +40,11 @@ namespace ThreeAPI.scene
     
     private void Init(float x, float y, float z, float angle)
     {
-      _x = x;
-      _y = y;
-      _z = z;
+      _axis.X = x;
+      _axis.Y = y;
+      _axis.Z = z;
       _angle = angle;
-      _transform = Matrix4.CreateFromAxisAngle(new Vector3(x, y, z), angle);
+      _transform = Matrix4.CreateFromAxisAngle(_axis, angle);
     }
 
     public override void Load(IDataNode dataNode)
@@ -64,9 +58,9 @@ namespace ThreeAPI.scene
 
     public override void Save(IDataNode dataNode)
     {
-      dataNode.WriteParameter("x", _x.ToString(CultureInfo.InvariantCulture));
-      dataNode.WriteParameter("y", _y.ToString(CultureInfo.InvariantCulture));
-      dataNode.WriteParameter("z", _z.ToString(CultureInfo.InvariantCulture));
+      dataNode.WriteParameter("x", X.ToString(CultureInfo.InvariantCulture));
+      dataNode.WriteParameter("y", Y.ToString(CultureInfo.InvariantCulture));
+      dataNode.WriteParameter("z", Z.ToString(CultureInfo.InvariantCulture));
       dataNode.WriteParameter("angle", _angle.ToString(CultureInfo.InvariantCulture));
     }
   }

@@ -5,26 +5,26 @@ namespace ThreeAPI.scene
 {
   public class TranslationNode : TransformNode
   {
-    private float _x;
-    private float _y;
-    private float _z;
+    private Vector3 _translation = new Vector3();
 
     public float X
     {
-      get { return _x; }
-      set { _x = value; }
+      get { return _translation.X; }
     }
 
     public float Y
     {
-      get { return _y; }
-      set { _y = value; }
+      get { return _translation.Y; }
     }
 
     public float Z
     {
-      get { return _z; }
-      set { _z = value; }
+      get { return _translation.Z; }
+    }
+
+    public Vector3 Translation
+    {
+      get { return _translation; }
     }
 
     public TranslationNode(float x, float y, float z)
@@ -34,10 +34,10 @@ namespace ThreeAPI.scene
 
     private void Init(float x, float y, float z)
     {
-      _x = x;
-      _y = y;
-      _z = z;
-      _transform = Matrix4.CreateTranslation(x, y, z);
+      _translation.X = x;
+      _translation.Y = y;
+      _translation.Z = z;
+      _transform = Matrix4.CreateTranslation(_translation);
     }
 
     public TranslationNode()
@@ -55,9 +55,9 @@ namespace ThreeAPI.scene
 
     public override void Save(IDataNode dataNode)
     {
-      dataNode.WriteParameter("x", _x.ToString(CultureInfo.InvariantCulture));
-      dataNode.WriteParameter("y", _y.ToString(CultureInfo.InvariantCulture));
-      dataNode.WriteParameter("z", _z.ToString(CultureInfo.InvariantCulture));
+      dataNode.WriteParameter("x", X.ToString(CultureInfo.InvariantCulture));
+      dataNode.WriteParameter("y", Y.ToString(CultureInfo.InvariantCulture));
+      dataNode.WriteParameter("z", Z.ToString(CultureInfo.InvariantCulture));
     }
   }
 }

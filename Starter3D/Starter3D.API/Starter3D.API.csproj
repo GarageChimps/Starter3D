@@ -44,6 +44,7 @@
     <Compile Include="scene\BaseSceneNode.cs" />
     <Compile Include="scene\CameraNode.cs" />
     <Compile Include="scene\DataNodeFactory.cs" />
+    <Compile Include="scene\DirectionalLight.cs" />
     <Compile Include="scene\Extensions.cs" />
     <Compile Include="scene\Face.cs" />
     <Compile Include="scene\FaceFactory.cs" />
@@ -67,11 +68,13 @@
     <Compile Include="scene\IDataNodeFactory.cs" />
     <Compile Include="scene\IVertexFactory.cs" />
     <Compile Include="scene\IXmlDataNodeReader.cs" />
+    <Compile Include="scene\LightNode.cs" />
     <Compile Include="scene\Mesh.cs" />
     <Compile Include="scene\MeshFactory.cs" />
     <Compile Include="scene\ObjMeshLoader.cs" />
     <Compile Include="scene\OrtographicCamera.cs" />
     <Compile Include="scene\PerspectiveCamera.cs" />
+    <Compile Include="scene\PointLight.cs" />
     <Compile Include="scene\RotationNode.cs" />
     <Compile Include="scene\ScaleNode.cs" />
     <Compile Include="scene\SceneNodeFactory.cs" />

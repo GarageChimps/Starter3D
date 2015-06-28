@@ -27,8 +27,12 @@ namespace ThreeAPI.scene
           return new ShapeNode(_shapeFactory);
         case SceneNodeType.PerspectiveCamera:
           return new PerspectiveCamera();
-          case SceneNodeType.OrthographicCamera:
+        case SceneNodeType.OrthographicCamera:
           return new OrtographicCamera();
+        case SceneNodeType.PointLight:
+          return new PointLight();
+        case SceneNodeType.DirectionalLight:
+          return new DirectionalLight();
         default:
           throw new ArgumentOutOfRangeException("type");
       }

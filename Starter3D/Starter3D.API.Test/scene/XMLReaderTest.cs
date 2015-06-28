@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using NUnit.Framework;
+using OpenTK;
 using ThreeAPI.scene;
 
 namespace ThreeAPI.Test.scene
@@ -159,12 +160,54 @@ namespace ThreeAPI.Test.scene
 
       var xmlReader = CreateXMLReader();
       var scene = xmlReader.Read("test.xml");
-      var perspectiveCameraNode = (OrtographicCamera)scene.Children.First();
-      Assert.AreEqual(0.01f, perspectiveCameraNode.NearClip);
-      Assert.AreEqual(100, perspectiveCameraNode.FarClip);
-      Assert.AreEqual(1, perspectiveCameraNode.Order);
-      Assert.AreEqual(150, perspectiveCameraNode.Width);
-      Assert.AreEqual(200, perspectiveCameraNode.Height);
+      var cameraNode = (OrtographicCamera)scene.Children.First();
+      Assert.AreEqual(0.01f, cameraNode.NearClip);
+      Assert.AreEqual(100, cameraNode.FarClip);
+      Assert.AreEqual(1, cameraNode.Order);
+      Assert.AreEqual(150, cameraNode.Width);
+      Assert.AreEqual(200, cameraNode.Height);
+    }
+
+    [Test()]
+    public void ReadFile_OnePointLightNode_CorrectParametersOfLightNode()
+    {
+      var testXml = @"<Scene>
+                        <PointLight r='0.5' g='0.2' b='0.1' x='100' y='200' z='300'>                                                   
+                        </PointLight>                          
+                      </Scene>";
+      File.WriteAllText("test.xml", testXml);
+
+
+      var xmlReader = CreateXMLReader();
+      var scene = xmlReader.Read("test.xml");
+      var lightNode = (PointLight)scene.Children.First();
+      Assert.AreEqual(0.5f, lightNode.Color.R);
+      Assert.AreEqual(0.2f, lightNode.Color.G);
+      Assert.AreEqual(0.1f, lightNode.Color.B);
+      Assert.AreEqual(100, lightNode.Position.X);
+      Assert.AreEqual(200, lightNode.Position.Y);
+      Assert.AreEqual(300, lightNode.Position.Z);
+    }
+
+    [Test()]
+    public void ReadFile_OneDirectionalLightNode_CorrectParametersOfLightNode()
+    {
+      var testXml = @"<Scene>
+                        <DirectionalLight r='0.5' g='0.2' b='0.1' x='100' y='200' z='300'>                                                   
+                        </DirectionalLight>                          
+                      </Scene>";
+      File.WriteAllText("test.xml", testXml);
+
+      var normalizedDirection = new Vector3(100, 200, 300).Normalized();
+      var xmlReader = CreateXMLReader();
+      var scene = xmlReader.Read("test.xml");
+      var lightNode = (DirectionalLight)scene.Children.First();
+      Assert.AreEqual(0.5f, lightNode.Color.R);
+      Assert.AreEqual(0.2f, lightNode.Color.G);
+      Assert.AreEqual(0.1f, lightNode.Color.B);
+      Assert.AreEqual(normalizedDirection.X, lightNode.Direction.X);
+      Assert.AreEqual(normalizedDirection.Y, lightNode.Direction.Y);
+      Assert.AreEqual(normalizedDirection.Z, lightNode.Direction.Z);
     }
 
     private static XMLDataNodeReader CreateXMLReader()

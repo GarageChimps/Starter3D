@@ -5,26 +5,26 @@ namespace ThreeAPI.scene
 {
   public class ScaleNode : TransformNode
   {
-    private float _x;
-    private float _y;
-    private float _z;
+    private Vector3 _scaling = new Vector3();
 
     public float X
     {
-      get { return _x; }
-      set { _x = value; }
+      get { return _scaling.X; }
     }
 
     public float Y
     {
-      get { return _y; }
-      set { _y = value; }
+      get { return _scaling.Y; }
     }
 
     public float Z
     {
-      get { return _z; }
-      set { _z = value; }
+      get { return _scaling.Z; }
+    }
+
+    public Vector3 Scaling
+    {
+      get { return _scaling; }
     }
 
     public ScaleNode()
@@ -41,10 +41,10 @@ namespace ThreeAPI.scene
 
     private void Init(float x, float y, float z)
     {
-      _x = x;
-      _y = y;
-      _z = z;
-      _transform = Matrix4.CreateScale(x, y, z);
+      _scaling.X = x;
+      _scaling.Y = y;
+      _scaling.Z = z;
+      _transform = Matrix4.CreateScale(_scaling);
     }
 
     public override void Load(IDataNode dataNode)
@@ -57,9 +57,9 @@ namespace ThreeAPI.scene
 
     public override void Save(IDataNode dataNode)
     {
-      dataNode.WriteParameter("x", _x.ToString(CultureInfo.InvariantCulture));
-      dataNode.WriteParameter("y", _y.ToString(CultureInfo.InvariantCulture));
-      dataNode.WriteParameter("z", _z.ToString(CultureInfo.InvariantCulture));
+      dataNode.WriteParameter("x", X.ToString(CultureInfo.InvariantCulture));
+      dataNode.WriteParameter("y", Y.ToString(CultureInfo.InvariantCulture));
+      dataNode.WriteParameter("z", Z.ToString(CultureInfo.InvariantCulture));
     }
   }
 }

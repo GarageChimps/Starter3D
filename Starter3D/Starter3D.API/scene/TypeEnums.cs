@@ -8,7 +8,9 @@
     Scale,
     Shape,
     PerspectiveCamera,
-    OrthographicCamera
+    OrthographicCamera,
+    PointLight,
+    DirectionalLight
   }
 
   public enum ShapeType
