@@ -3,6 +3,8 @@ using Moq;
 using NUnit.Framework;
 using OpenTK;
 using ThreeAPI.scene;
+using ThreeAPI.scene.geometry;
+using ThreeAPI.scene.geometry.loaders;
 
 namespace ThreeAPI.Test.scene
 {

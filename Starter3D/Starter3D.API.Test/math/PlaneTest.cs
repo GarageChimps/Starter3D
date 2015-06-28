@@ -4,6 +4,7 @@ using System;
 using OpenTK;
 
 using ThreeAPI;
+using ThreeAPI.math;
 
 namespace ThreeAPI.Test
 {

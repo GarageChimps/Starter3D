@@ -5,6 +5,7 @@ using Moq;
 using NUnit.Framework;
 using OpenTK;
 using ThreeAPI.scene;
+using ThreeAPI.scene.nodes;
 
 namespace ThreeAPI.Test.scene
 {
