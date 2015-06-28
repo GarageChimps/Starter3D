@@ -35,6 +35,11 @@ namespace ThreeAPI.scene
       throw new System.NotImplementedException();
     }
 
+    public bool HasParameter(string parameterName)
+    {
+      return _element.Attribute(parameterName) != null;
+    }
+
     public string ReadParameter(string parameterName)
     {
       return _element.Attribute(parameterName).Value;

@@ -70,6 +70,8 @@
     <Compile Include="scene\Mesh.cs" />
     <Compile Include="scene\MeshFactory.cs" />
     <Compile Include="scene\ObjMeshLoader.cs" />
+    <Compile Include="scene\OrtographicCamera.cs" />
+    <Compile Include="scene\PerspectiveCamera.cs" />
     <Compile Include="scene\RotationNode.cs" />
     <Compile Include="scene\ScaleNode.cs" />
     <Compile Include="scene\SceneNodeFactory.cs" />

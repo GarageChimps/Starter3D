@@ -43,7 +43,7 @@ namespace ThreeAPI.Test.scene
       var xmlReader = CreateXMLReader();
       var scene = xmlReader.Read("test.xml");
 
-      var scaleNode = (ScaleNode) scene.Children.First();
+      var scaleNode = (ScaleNode)scene.Children.First();
       Assert.AreEqual(2.0, scaleNode.X);
       Assert.AreEqual(3.0, scaleNode.Y);
       Assert.AreEqual(4.0, scaleNode.Z);
@@ -109,6 +109,62 @@ namespace ThreeAPI.Test.scene
       var shapeNode = (ShapeNode)scene.Children.First();
       Assert.IsInstanceOf(typeof(Mesh), shapeNode.Shape);
       Assert.AreEqual(4, (shapeNode.Shape as Mesh).Vertices.Count());
+    }
+
+    [Test()]
+    public void ReadFile_OnePerspectiveCameraNode_CorrectParametersOfCameraNode()
+    {
+      var testXml = @"<Scene>
+                        <PerspectiveCamera nearClip='0.01' farClip='100' order='1' fieldOfView='45' aspectRatio='1.33' >                                                   
+                        </PerspectiveCamera>                          
+                      </Scene>";
+      File.WriteAllText("test.xml", testXml);
+
+
+      var xmlReader = CreateXMLReader();
+      var scene = xmlReader.Read("test.xml");
+      var perspectiveCameraNode = (PerspectiveCamera)scene.Children.First();
+      Assert.AreEqual(0.01f, perspectiveCameraNode.NearClip);
+      Assert.AreEqual(100, perspectiveCameraNode.FarClip);
+      Assert.AreEqual(1, perspectiveCameraNode.Order);
+      Assert.AreEqual(45.0f.ToRadians(), perspectiveCameraNode.FieldOfView);
+      Assert.AreEqual(1.33f, perspectiveCameraNode.AspectRatio);
+    }
+
+    [Test()]
+    public void ReadFile_OnePerspectiveCameraNodeNoOrderParameter_OrderEquals0()
+    {
+      var testXml = @"<Scene>
+                        <PerspectiveCamera nearClip='0.01' farClip='100' fieldOfView='45' aspectRatio='1.33' >                                                   
+                        </PerspectiveCamera>                          
+                      </Scene>";
+      File.WriteAllText("test.xml", testXml);
+
+
+      var xmlReader = CreateXMLReader();
+      var scene = xmlReader.Read("test.xml");
+      var perspectiveCameraNode = (PerspectiveCamera)scene.Children.First();
+      Assert.AreEqual(0, perspectiveCameraNode.Order);
+    }
+
+    [Test()]
+    public void ReadFile_OneOrthographicCameraNode_CorrectParametersOfCameraNode()
+    {
+      var testXml = @"<Scene>
+                        <OrthographicCamera nearClip='0.01' farClip='100' order='1' width='150' height='200' >                                                   
+                        </OrthographicCamera>                          
+                      </Scene>";
+      File.WriteAllText("test.xml", testXml);
+
+
+      var xmlReader = CreateXMLReader();
+      var scene = xmlReader.Read("test.xml");
+      var perspectiveCameraNode = (OrtographicCamera)scene.Children.First();
+      Assert.AreEqual(0.01f, perspectiveCameraNode.NearClip);
+      Assert.AreEqual(100, perspectiveCameraNode.FarClip);
+      Assert.AreEqual(1, perspectiveCameraNode.Order);
+      Assert.AreEqual(150, perspectiveCameraNode.Width);
+      Assert.AreEqual(200, perspectiveCameraNode.Height);
     }
 
     private static XMLDataNodeReader CreateXMLReader()

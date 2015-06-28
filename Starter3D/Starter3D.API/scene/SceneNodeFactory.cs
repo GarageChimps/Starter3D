@@ -4,7 +4,7 @@ namespace ThreeAPI.scene
 {
   public class SceneNodeFactory : ISceneNodeFactory
   {
-    private IShapeFactory _shapeFactory;
+    private readonly IShapeFactory _shapeFactory;
 
     public SceneNodeFactory(IShapeFactory shapeFactory)
     {
@@ -25,6 +25,10 @@ namespace ThreeAPI.scene
           return new ScaleNode();
         case SceneNodeType.Shape:
           return new ShapeNode(_shapeFactory);
+        case SceneNodeType.PerspectiveCamera:
+          return new PerspectiveCamera();
+          case SceneNodeType.OrthographicCamera:
+          return new OrtographicCamera();
         default:
           throw new ArgumentOutOfRangeException("type");
       }

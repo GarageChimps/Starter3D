@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using OpenTK;
 
 namespace ThreeAPI.scene
@@ -54,7 +55,18 @@ namespace ThreeAPI.scene
 
     }
 
-
+    public IEnumerable<T> GetNodes<T>() where T : class, ISceneNode
+    {
+      var elements = new List<T>();
+      if (this.GetType().IsSubclassOf(typeof(T)))
+        elements.Add(this as T);
+      foreach (var child in Children)
+      {
+        var childElements = child.GetNodes<T>();
+        elements.AddRange(childElements);
+      }
+      return elements;
+    }
 
   }
 }

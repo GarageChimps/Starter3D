@@ -46,6 +46,7 @@
     <Compile Include="math\BoundingSphereTest.cs" />
     <Compile Include="scene\MeshTest.cs" />
     <Compile Include="scene\ObjMeshLoaderTest.cs" />
+    <Compile Include="scene\BaseSceneNodeTest.cs" />
     <Compile Include="scene\XMLReaderTest.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

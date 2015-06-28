@@ -3,53 +3,70 @@ using OpenTK;
 
 namespace ThreeAPI.scene
 {
-  public class CameraNode : BaseSceneNode
+  public abstract class CameraNode : BaseSceneNode
   {
-    private float _fieldOfView;
-    private float _nearClip;
-    private float _farClip;
-    private float _aspectRatio;
+    protected float _nearClip;
+    protected float _farClip;
+    protected int _order;
 
-    public CameraNode(float fieldOfView, float nearClip, float farClip, float aspectRatio)
+    public float NearClip
     {
-      Init(fieldOfView, nearClip, farClip, aspectRatio);
+      get { return _nearClip; }
     }
 
-    private void Init(float fieldOfView, float nearClip, float farClip, float aspectRatio)
+    public float FarClip
     {
-      _fieldOfView = fieldOfView;
+      get { return _farClip; }
+    }
+
+    public int Order
+    {
+      get { return _order; }
+    }
+
+
+    protected CameraNode(float nearClip, float farClip, int order)
+    {
+      Init(nearClip, farClip, order);
+    }
+
+    protected CameraNode()
+    {
+      
+    }
+
+    
+    private void Init(float nearClip, float farClip, int order)
+    {
       _nearClip = nearClip;
       _farClip = farClip;
-      _aspectRatio = aspectRatio;
-    }
-
-    public CameraNode()
-    {
-
+      _order = order;
     }
 
     public override void Load(IDataNode dataNode)
     {
-      float fov = float.Parse(dataNode.ReadParameter("fov")).ToRadians();
-      float near = float.Parse(dataNode.ReadParameter("near"));
-      float far = float.Parse(dataNode.ReadParameter("far"));
-      float aspectRatio = float.Parse(dataNode.ReadParameter("aspect"));
-      Init(fov, near, far, aspectRatio);
+      float nearClip = float.Parse(dataNode.ReadParameter("nearClip"));
+      float farClip = float.Parse(dataNode.ReadParameter("farClip"));
+      int order = 0;
+      if (dataNode.HasParameter("order"))
+        order = int.Parse(dataNode.ReadParameter("order"));
+      Init(nearClip, farClip, order);
     }
 
     public override void Save(IDataNode dataNode)
     {
-      dataNode.WriteParameter("fov", _fieldOfView.ToDegrees().ToString(CultureInfo.InvariantCulture));
-      dataNode.WriteParameter("near", _nearClip.ToString(CultureInfo.InvariantCulture));
-      dataNode.WriteParameter("far", _farClip.ToString(CultureInfo.InvariantCulture));
-      dataNode.WriteParameter("aspect", _aspectRatio.ToString(CultureInfo.InvariantCulture));
+      dataNode.WriteParameter("nearClip", _nearClip.ToString(CultureInfo.InvariantCulture));
+      dataNode.WriteParameter("farClip", _farClip.ToString(CultureInfo.InvariantCulture));
+      dataNode.WriteParameter("order", _order.ToString(CultureInfo.InvariantCulture));
     }
-
+    
     public override Matrix4 ComposeTransform()
     {
       var viewMatrix = _parent.ComposeTransform().Inverted();
-      var perspectiveMatrix = Matrix4.CreatePerspectiveFieldOfView(_fieldOfView, _aspectRatio, _farClip, _nearClip);
-      return perspectiveMatrix * viewMatrix;
+      var projectionMatrix = CreateProjectionMatrix();
+      return projectionMatrix * viewMatrix;
     }
+
+    protected abstract Matrix4 CreateProjectionMatrix();
   }
 }
