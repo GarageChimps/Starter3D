@@ -61,7 +61,7 @@ namespace ThreeAPI.scene.nodes
       dataNode.WriteParameter("order", _order.ToString(CultureInfo.InvariantCulture));
     }
     
-    public override Matrix4 ComposeTransform()
+    public Matrix4 RenderTransform()
     {
       var viewMatrix = _parent.ComposeTransform().Inverted();
       var projectionMatrix = CreateProjectionMatrix();

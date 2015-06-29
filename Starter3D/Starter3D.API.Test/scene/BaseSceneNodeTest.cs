@@ -6,6 +6,7 @@ using NUnit.Framework;
 using OpenTK;
 using ThreeAPI.scene;
 using ThreeAPI.scene.nodes;
+using ThreeAPI.scene.utils;
 
 namespace ThreeAPI.Test.scene
 {
@@ -33,6 +34,52 @@ namespace ThreeAPI.Test.scene
       baseSceneNode.Parent = parentMock.Object;
       
       Assert.AreEqual(Matrix4.CreateScale(2), baseSceneNode.ComposeTransform());
+
+    }
+
+    [Test()]
+    public void ComposeTransform_CompleGraph_TransformIsMultiplicationInCorrectOrder()
+    {
+      var baseSceneNode = new BaseSceneNode();
+      var scaleNode = new ScaleNode(2,3,4);
+      var translateNode = new TranslationNode(20, 12, 32);
+      var rotateXNode = new RotationNode(1, 0, 0, 45);
+      var rotateXYZNode = new RotationNode(1, 1, 1, 30);
+   
+      baseSceneNode.AddChild(scaleNode);
+      scaleNode.AddChild(translateNode);
+      translateNode.AddChild(rotateXNode);
+      rotateXNode.AddChild(rotateXYZNode);
+
+
+      var rotateXYZMatrix = Matrix4.CreateFromAxisAngle(new Vector3(1, 1, 1), 30.0f.ToRadians());
+      var rotateXMatrix = Matrix4.CreateFromAxisAngle(new Vector3(1, 0, 0), 45.0f.ToRadians());
+      var translateMatrix = Matrix4.CreateTranslation(20, 12, 32);
+      var scaleMatrix = Matrix4.CreateScale(2, 3, 4);
+      Assert.AreEqual(scaleMatrix * translateMatrix * rotateXMatrix * rotateXYZMatrix, rotateXYZNode.ComposeTransform());
+
+    }
+
+    [Test()]
+    public void ComposeTransform_CompleGraph_TransformIsNotMultiplicationInInverseOrder()
+    {
+      var baseSceneNode = new BaseSceneNode();
+      var scaleNode = new ScaleNode(2, 3, 4);
+      var translateNode = new TranslationNode(20, 12, 32);
+      var rotateXNode = new RotationNode(1, 0, 0, 45);
+      var rotateXYZNode = new RotationNode(1, 1, 1, 30);
+
+      baseSceneNode.AddChild(scaleNode);
+      scaleNode.AddChild(translateNode);
+      translateNode.AddChild(rotateXNode);
+      rotateXNode.AddChild(rotateXYZNode);
+
+
+      var rotateXYZMatrix = Matrix4.CreateFromAxisAngle(new Vector3(1, 1, 1), 30.0f.ToRadians());
+      var rotateXMatrix = Matrix4.CreateFromAxisAngle(new Vector3(1, 0, 0), 45.0f.ToRadians());
+      var translateMatrix = Matrix4.CreateTranslation(20, 12, 32);
+      var scaleMatrix = Matrix4.CreateScale(2, 3, 4);
+      Assert.AreNotEqual(rotateXYZMatrix * rotateXMatrix * translateMatrix * scaleMatrix, rotateXYZNode.ComposeTransform());
 
     }
 

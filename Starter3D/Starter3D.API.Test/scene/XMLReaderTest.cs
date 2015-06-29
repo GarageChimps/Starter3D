@@ -73,7 +73,7 @@ namespace ThreeAPI.Test.scene
       Assert.AreEqual(1.0, rotateNode.X);
       Assert.AreEqual(0.0, rotateNode.Y);
       Assert.AreEqual(4.0, rotateNode.Z);
-      Assert.AreEqual((float)Math.PI / 2.0f, rotateNode.Angle);
+      Assert.AreEqual(90, rotateNode.Angle);
     }
 
     [Test()]

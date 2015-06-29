@@ -46,7 +46,7 @@ namespace ThreeAPI.scene.nodes
       _axis.Y = y;
       _axis.Z = z;
       _angle = angle;
-      _transform = Matrix4.CreateFromAxisAngle(_axis, angle);
+      _transform = Matrix4.CreateFromAxisAngle(_axis, angle.ToRadians());
     }
 
     public override void Load(IDataNode dataNode)
@@ -54,7 +54,7 @@ namespace ThreeAPI.scene.nodes
       float x = float.Parse(dataNode.ReadParameter("x"));
       float y = float.Parse(dataNode.ReadParameter("y"));
       float z = float.Parse(dataNode.ReadParameter("z"));
-      float angle = float.Parse(dataNode.ReadParameter("angle")).ToRadians();
+      float angle = float.Parse(dataNode.ReadParameter("angle"));
       Init(x, y, z, angle);
     }
 

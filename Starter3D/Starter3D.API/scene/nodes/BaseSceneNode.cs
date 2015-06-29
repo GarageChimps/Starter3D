@@ -25,7 +25,7 @@ namespace ThreeAPI.scene.nodes
       set { _parent = value; }
     }
 
-    public virtual Matrix4 ComposeTransform()
+    public Matrix4 ComposeTransform()
     {
       var transform = Transform;
       if (_parent != null)
