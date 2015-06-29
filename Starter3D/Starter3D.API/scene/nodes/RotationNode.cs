@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using OpenTK;
 using ThreeAPI.scene.persistence;
-using ThreeAPI.scene.utils;
+using ThreeAPI.utils;
 
 namespace ThreeAPI.scene.nodes
 {

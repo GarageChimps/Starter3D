@@ -3,14 +3,14 @@ using System.IO;
 using System.Linq;
 using NUnit.Framework;
 using OpenTK;
+using ThreeAPI.geometry;
+using ThreeAPI.geometry.factories;
 using ThreeAPI.scene;
-using ThreeAPI.scene.geometry;
-using ThreeAPI.scene.geometry.factories;
 using ThreeAPI.scene.nodes;
 using ThreeAPI.scene.nodes.factories;
 using ThreeAPI.scene.persistence;
 using ThreeAPI.scene.persistence.factories;
-using ThreeAPI.scene.utils;
+using ThreeAPI.utils;
 
 namespace ThreeAPI.Test.scene
 {

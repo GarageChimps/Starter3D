@@ -1,12 +1,8 @@
 ﻿using NUnit.Framework;
-using System;
-
 using OpenTK;
-
-using ThreeAPI;
 using ThreeAPI.math;
 
-namespace ThreeAPI.Test
+namespace ThreeAPI.Test.math
 {
   [TestFixture ()]
   public class PlaneTest

@@ -1,6 +1,6 @@
 ﻿using System;
-using ThreeAPI.scene.geometry.factories;
-using ThreeAPI.scene.utils;
+using ThreeAPI.geometry.factories;
+using ThreeAPI.utils;
 
 namespace ThreeAPI.scene.nodes.factories
 {

@@ -1,4 +1,4 @@
-﻿using ThreeAPI.scene.utils;
+﻿using ThreeAPI.utils;
 
 namespace ThreeAPI.scene.nodes.factories
 {

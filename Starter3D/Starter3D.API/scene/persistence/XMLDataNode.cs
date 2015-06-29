@@ -3,7 +3,7 @@ using System.Xml.Linq;
 using ThreeAPI.scene.nodes;
 using ThreeAPI.scene.nodes.factories;
 using ThreeAPI.scene.persistence.factories;
-using ThreeAPI.scene.utils;
+using ThreeAPI.utils;
 
 namespace ThreeAPI.scene.persistence
 {

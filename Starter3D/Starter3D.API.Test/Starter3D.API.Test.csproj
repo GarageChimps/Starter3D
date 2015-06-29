@@ -44,8 +44,8 @@
     <Compile Include="math\PlaneTest.cs" />
     <Compile Include="math\RayTest.cs" />
     <Compile Include="math\BoundingSphereTest.cs" />
-    <Compile Include="scene\MeshTest.cs" />
-    <Compile Include="scene\ObjMeshLoaderTest.cs" />
+    <Compile Include="geometry\MeshTest.cs" />
+    <Compile Include="geometry\ObjMeshLoaderTest.cs" />
     <Compile Include="scene\BaseSceneNodeTest.cs" />
     <Compile Include="scene\XMLReaderTest.cs" />
   </ItemGroup>

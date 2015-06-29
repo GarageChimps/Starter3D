@@ -1,10 +1,9 @@
-﻿using NUnit.Framework;
-using System;
-
+﻿using System;
+using NUnit.Framework;
 using OpenTK;
 using ThreeAPI.math;
 
-namespace ThreeAPI.Test
+namespace ThreeAPI.Test.math
 {
   [TestFixture ()]
   public class RayTest

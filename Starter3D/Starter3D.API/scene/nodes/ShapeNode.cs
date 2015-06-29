@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
-using ThreeAPI.scene.geometry;
-using ThreeAPI.scene.geometry.factories;
+using ThreeAPI.geometry;
+using ThreeAPI.geometry.factories;
 using ThreeAPI.scene.persistence;
-using ThreeAPI.scene.utils;
+using ThreeAPI.utils;
 
 namespace ThreeAPI.scene.nodes
 {

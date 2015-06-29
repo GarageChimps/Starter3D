@@ -6,7 +6,7 @@ using NUnit.Framework;
 using OpenTK;
 using ThreeAPI.scene;
 using ThreeAPI.scene.nodes;
-using ThreeAPI.scene.utils;
+using ThreeAPI.utils;
 
 namespace ThreeAPI.Test.scene
 {
