@@ -12,19 +12,30 @@ namespace ThreeAPI.geometry
     private readonly List<IVertex> _vertices = new List<IVertex>();
     private readonly List<IFace> _faces = new List<IFace>();
 
+    public Mesh(){
+    }
+
+    public Mesh(IMeshLoader meshLoader)
+    {
+      _meshLoader = meshLoader;
+    }
+
     public IEnumerable<IVertex> Vertices
     {
       get { return _vertices; }
+    }
+
+    public int VerticesCount{
+      get { return _vertices.Count; }
     }
 
     public IEnumerable<IFace> Faces
     {
       get { return _faces; }
     }
-    
-    public Mesh(IMeshLoader meshLoader)
-    {
-      _meshLoader = meshLoader;
+
+    public int FacesCount{
+      get{ return _faces.Count; }
     }
 
     public IEnumerable<IPolygon> GetTriangles()

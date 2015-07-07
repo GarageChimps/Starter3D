@@ -36,7 +36,7 @@
       <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="OpenTK">
-      <HintPath>..\ThreeDU\Libraries\OpenTK.dll</HintPath>
+      <HintPath>..\Starter3D\Libraries\OpenTK.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -56,7 +56,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Starter3D.API\Starter3D.API.csproj">
       <Project>{3567CAD0-DE95-4BA8-98DE-750B75DCB45A}</Project>
-      <Name>ThreeAPI</Name>
+      <Name>Starter3D.API</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

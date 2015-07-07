@@ -30,10 +30,11 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="OpenTK">
-      <HintPath>..\ThreeDU\Libraries\OpenTK.dll</HintPath>
+      <HintPath>..\Starter3D\Libraries\OpenTK.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -88,7 +89,12 @@
     <Compile Include="geometry\factories\VertexFactory.cs" />
     <Compile Include="scene\persistence\XMLDataNode.cs" />
     <Compile Include="scene\persistence\XMLDataNodeReader.cs" />
+    <Compile Include="renderer\OpenGLMesh.cs" />
+    <Compile Include="renderer\OpenGLHelper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />
+  <ItemGroup>
+    <Folder Include="renderer\" />
+  </ItemGroup>
 </Project>

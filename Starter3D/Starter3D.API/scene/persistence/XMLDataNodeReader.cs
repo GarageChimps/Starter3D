@@ -2,6 +2,8 @@
 using System.Xml.Linq;
 using ThreeAPI.scene.nodes;
 using ThreeAPI.scene.persistence.factories;
+using ThreeAPI.scene.nodes.factories;
+using ThreeAPI.geometry.factories;
 
 namespace ThreeAPI.scene.persistence
 {
@@ -20,6 +22,18 @@ namespace ThreeAPI.scene.persistence
       var element = xmlDoc.Elements("Scene").First();
       var node = _dataNodeFactory.CreateXmlDataNode(element);
       return node.Load();
+    }
+
+    public static XMLDataNodeReader CreateReader(){
+      var vertexFactory = new VertexFactory();
+      var faceFactory = new FaceFactory();
+      var meshLoaderFactory = new MeshLoaderFactory(vertexFactory, faceFactory);
+      var meshFactory = new MeshFactory(meshLoaderFactory);
+      var shapeFactory = new ShapeFactory(meshFactory);
+      var sceneNodeFactory = new SceneNodeFactory(shapeFactory);
+      var dataNodeFactory = new DataNodeFactory(sceneNodeFactory);
+      var xmlReader = new XMLDataNodeReader(dataNodeFactory);
+      return xmlReader;
     }
   }
 }

@@ -10,5 +10,7 @@ namespace ThreeAPI.geometry
     void AddVertex(IVertex vertex);
     void AddFace(IFace face);
     void GenerateMissingNormals();
+    int VerticesCount{ get; }
+    int FacesCount{ get; }
   }
 }

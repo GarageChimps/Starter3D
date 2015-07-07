@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Starter3D.API", "Starter3D.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Starter3D.API.Test", "Starter3D.API.Test\Starter3D.API.Test.csproj", "{53049B5F-B410-420E-B2BA-F76BFDD67D94}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Starter3D.Examples", "Starter3D.Examples\Starter3D.Examples.csproj", "{B3CAC997-4EE0-4846-949F-5FB173269F74}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,14 @@ Global
 		{78127754-23C1-4D69-A528-AE46CAD6AEC0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{78127754-23C1-4D69-A528-AE46CAD6AEC0}.Release|x86.ActiveCfg = Release|x86
 		{78127754-23C1-4D69-A528-AE46CAD6AEC0}.Release|x86.Build.0 = Release|x86
+		{B3CAC997-4EE0-4846-949F-5FB173269F74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3CAC997-4EE0-4846-949F-5FB173269F74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3CAC997-4EE0-4846-949F-5FB173269F74}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B3CAC997-4EE0-4846-949F-5FB173269F74}.Debug|x86.Build.0 = Debug|Any CPU
+		{B3CAC997-4EE0-4846-949F-5FB173269F74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3CAC997-4EE0-4846-949F-5FB173269F74}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3CAC997-4EE0-4846-949F-5FB173269F74}.Release|x86.ActiveCfg = Release|Any CPU
+		{B3CAC997-4EE0-4846-949F-5FB173269F74}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
