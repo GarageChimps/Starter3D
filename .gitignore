@@ -3,7 +3,7 @@
 *.psess
 *.etl
 *.vsp
-*.[Oo]bj
+#*.[Oo]bj
 *.user
 *.aps
 *.pch
