@@ -1,6 +1,4 @@
-﻿using ThreeAPI.renderer;
-
-namespace ThreeAPI.materials
+﻿namespace ThreeAPI.resources
 {
   public interface IMaterial
   {

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using ThreeAPI.materials;
 
 namespace ThreeAPI.geometry
 {
@@ -13,6 +12,5 @@ namespace ThreeAPI.geometry
     void GenerateMissingNormals();
     int VerticesCount{ get; }
     int FacesCount{ get; }
-    IMaterial Material { get; }
   }
 }

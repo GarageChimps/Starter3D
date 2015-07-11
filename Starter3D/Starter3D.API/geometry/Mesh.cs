@@ -4,8 +4,8 @@ using System.IO;
 using System.Linq;
 using OpenTK;
 using ThreeAPI.geometry.loaders;
-using ThreeAPI.materials;
 using ThreeAPI.renderer;
+using ThreeAPI.resources;
 
 namespace ThreeAPI.geometry
 {
@@ -46,6 +46,7 @@ namespace ThreeAPI.geometry
     public IMaterial Material
     {
       get { return _material; }
+      set { _material = value; }
     }
 
     public IEnumerable<IPolygon> GetTriangles()

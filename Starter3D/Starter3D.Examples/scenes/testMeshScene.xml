@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <Scene>
-	<Shape shapeType='Mesh' filePath='scenes/plane.obj' >                                                   
+	<Shape shapeType='Mesh' filePath='scenes/plane.obj' material='plain'>                                                   
 	</Shape>                          
 </Scene>

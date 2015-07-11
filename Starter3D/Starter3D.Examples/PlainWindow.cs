@@ -11,6 +11,7 @@ using OpenTK.Graphics.OpenGL;
 using Starter3D.API.OpenGLRendering;
 using ThreeAPI.geometry;
 using ThreeAPI.renderer;
+using ThreeAPI.resources;
 using ThreeAPI.scene.nodes;
 using ThreeAPI.scene.persistence;
 
@@ -25,6 +26,7 @@ namespace ThreeAPI.examples
     private IMesh _mesh;
     private IRenderer _renderer;
     private ISceneNode _scene;
+    private IResourceManager _resourceManager;
 
     public PlainWindow (int width, int height)
       : base(width, height,
@@ -33,7 +35,9 @@ namespace ThreeAPI.examples
         OpenTK.Graphics.GraphicsContextFlags.ForwardCompatible | OpenTK.Graphics.GraphicsContextFlags.Debug)
     {
       _renderer = new OpenGLRenderer();
-      var xmlReader = XMLDataNodeReader.CreateReader();
+      _resourceManager = new ResourceManager();
+      _resourceManager.Load("scenes/resources.xml");
+      var xmlReader = XMLDataNodeReader.CreateReader(_resourceManager);
       _scene = xmlReader.Read("scenes/testMeshScene.xml");
       _mesh = (IMesh)((ShapeNode)_scene.Children.First()).Shape;
     }

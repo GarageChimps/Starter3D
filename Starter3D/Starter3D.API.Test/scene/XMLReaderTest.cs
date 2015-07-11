@@ -5,6 +5,7 @@ using NUnit.Framework;
 using OpenTK;
 using ThreeAPI.geometry;
 using ThreeAPI.geometry.factories;
+using ThreeAPI.resources;
 using ThreeAPI.scene;
 using ThreeAPI.scene.nodes;
 using ThreeAPI.scene.nodes.factories;
@@ -219,12 +220,13 @@ namespace ThreeAPI.Test.scene
 
     private static XMLDataNodeReader CreateXMLReader()
     {
+      var resourceManager = new ResourceManager();
       var vertexFactory = new VertexFactory();
       var faceFactory = new FaceFactory();
       var meshLoaderFactory = new MeshLoaderFactory(vertexFactory, faceFactory);
       var meshFactory = new MeshFactory(meshLoaderFactory);
       var shapeFactory = new ShapeFactory(meshFactory);
-      var sceneNodeFactory = new SceneNodeFactory(shapeFactory);
+      var sceneNodeFactory = new SceneNodeFactory(shapeFactory, resourceManager);
       var dataNodeFactory = new DataNodeFactory(sceneNodeFactory);
       var xmlReader = new XMLDataNodeReader(dataNodeFactory);
       return xmlReader;

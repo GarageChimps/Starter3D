@@ -2,11 +2,11 @@
 using System.IO;
 using OpenTK;
 using ThreeAPI.geometry;
-using ThreeAPI.materials;
 using ThreeAPI.renderer;
 using OpenTK;
 using GL = OpenTK.Graphics.OpenGL.GL;
 using OpenTK.Graphics.OpenGL;
+using ThreeAPI.resources;
 
 namespace Starter3D.API.OpenGLRendering
 {

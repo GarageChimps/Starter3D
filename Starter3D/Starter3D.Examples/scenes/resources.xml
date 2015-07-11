@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<Resources>
+	<Materials>
+    <Material key='plain' vertexShader='Shaders/PositionVertexShader.glsl' fragmentShader='Shaders/PositionFragmentShader.glsl'/>
+	</Materials>                          
+</Resources>

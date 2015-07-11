@@ -1,4 +1,4 @@
-﻿namespace ThreeAPI.materials
+﻿namespace ThreeAPI.resources
 {
   public class Material : IMaterial
   {

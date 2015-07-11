@@ -49,6 +49,9 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="scenes\resources.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="scenes\testMeshScene.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

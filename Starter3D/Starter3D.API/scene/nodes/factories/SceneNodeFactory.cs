@@ -1,5 +1,6 @@
 ﻿using System;
 using ThreeAPI.geometry.factories;
+using ThreeAPI.resources;
 using ThreeAPI.utils;
 
 namespace ThreeAPI.scene.nodes.factories
@@ -7,10 +8,14 @@ namespace ThreeAPI.scene.nodes.factories
   public class SceneNodeFactory : ISceneNodeFactory
   {
     private readonly IShapeFactory _shapeFactory;
+    private readonly IResourceManager _resourceManager;
 
-    public SceneNodeFactory(IShapeFactory shapeFactory)
+    public SceneNodeFactory(IShapeFactory shapeFactory, IResourceManager resourceManager)
     {
+      if (shapeFactory == null) throw new ArgumentNullException("shapeFactory");
+      if (resourceManager == null) throw new ArgumentNullException("resourceManager");
       _shapeFactory = shapeFactory;
+      _resourceManager = resourceManager;
     }
 
     public ISceneNode CreateSceneNode(SceneNodeType type)
@@ -26,7 +31,7 @@ namespace ThreeAPI.scene.nodes.factories
         case SceneNodeType.Scale:
           return new ScaleNode();
         case SceneNodeType.Shape:
-          return new ShapeNode(_shapeFactory);
+          return new ShapeNode(_shapeFactory, _resourceManager);
         case SceneNodeType.PerspectiveCamera:
           return new PerspectiveCamera();
         case SceneNodeType.OrthographicCamera:
