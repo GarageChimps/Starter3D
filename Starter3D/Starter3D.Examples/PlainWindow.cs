@@ -8,7 +8,7 @@ using OpenTK.Input;
 using GL = OpenTK.Graphics.OpenGL.GL;
 using EnableCap = OpenTK.Graphics.OpenGL.EnableCap;
 using OpenTK.Graphics.OpenGL;
-
+using Starter3D.API.OpenGLRendering;
 using ThreeAPI.geometry;
 using ThreeAPI.renderer;
 using ThreeAPI.scene.nodes;
@@ -21,13 +21,10 @@ namespace ThreeAPI.examples
     public static int WindowWidth = 512;
     public static int WindowHeight = 512;
     public static float FrameRate = 60;
-
-    private string PixelShaderFilePath = Path.Combine("Shaders", "PositionFragmentShader.glsl");
-    private string VertexShaderFilePath = Path.Combine("Shaders", "PositionVertexShader.glsl");
-    private int _programHandle;
-    private int objHandle;
-
-    private IMesh mesh;
+    
+    private IMesh _mesh;
+    private IRenderer _renderer;
+    private ISceneNode _scene;
 
     public PlainWindow (int width, int height)
       : base(width, height,
@@ -35,9 +32,10 @@ namespace ThreeAPI.examples
         DisplayDevice.Default, 3, 0,
         OpenTK.Graphics.GraphicsContextFlags.ForwardCompatible | OpenTK.Graphics.GraphicsContextFlags.Debug)
     {
+      _renderer = new OpenGLRenderer();
       var xmlReader = XMLDataNodeReader.CreateReader();
-      var scene = xmlReader.Read("scenes/testMeshScene.xml");
-      mesh = (IMesh)((ShapeNode)scene.Children.First ()).Shape;
+      _scene = xmlReader.Read("scenes/testMeshScene.xml");
+      _mesh = (IMesh)((ShapeNode)_scene.Children.First()).Shape;
     }
 
     protected override void OnRenderFrame(FrameEventArgs e)
@@ -46,9 +44,7 @@ namespace ThreeAPI.examples
       GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
       // draw object
-      GL.BindVertexArray(objHandle);
-      GL.DrawElements( BeginMode.Triangles, OpenGLMesh.triangleCount(mesh),
-        DrawElementsType.UnsignedInt, IntPtr.Zero );
+     _renderer.Render(_mesh);
 
       GL.Flush();
       SwapBuffers();
@@ -56,17 +52,7 @@ namespace ThreeAPI.examples
 
     protected override void OnLoad(EventArgs e)
     {
-      string fs_src = File.ReadAllText(PixelShaderFilePath);
-      string vs_src= File.ReadAllText(VertexShaderFilePath);
-      _programHandle = OpenGLHelper.CreateProgram (vs_src, fs_src);
-
-      GL.UseProgram( _programHandle );
-
-      GL.GenVertexArrays(1, out  objHandle);
-      GL.BindVertexArray(objHandle);
-
-      OpenGLHelper.LoadVertexPositions(_programHandle, OpenGLMesh.vertexPositions(mesh));
-      OpenGLHelper.LoadIndexer(_programHandle, OpenGLMesh.faceIndices(mesh));
+      _renderer.ConfigureMesh(_mesh);
 
       GL.Enable( EnableCap.DepthTest );
       GL.ClearColor(Color.AliceBlue);

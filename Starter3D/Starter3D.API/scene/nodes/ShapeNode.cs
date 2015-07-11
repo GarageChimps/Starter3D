@@ -2,6 +2,7 @@
 using System.IO;
 using ThreeAPI.geometry;
 using ThreeAPI.geometry.factories;
+using ThreeAPI.renderer;
 using ThreeAPI.scene.persistence;
 using ThreeAPI.utils;
 
@@ -39,6 +40,12 @@ namespace ThreeAPI.scene.nodes
       var fileType = (FileType) Enum.Parse(typeof (FileType), fileTypeString);
       _shape = _shapeFactory.CreateShape(shapeType, fileType);
       _shape.Load(filePath);
+    }
+
+    public override void ConfigureRenderer(IRenderer renderer)
+    {
+      _shape.ConfigureRenderer(renderer);
+      base.ConfigureRenderer(renderer);
     }
   }
 }

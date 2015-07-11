@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using OpenTK;
+using ThreeAPI.renderer;
 using ThreeAPI.scene.persistence;
 
 namespace ThreeAPI.scene.nodes
@@ -15,5 +16,6 @@ namespace ThreeAPI.scene.nodes
     void Load(IDataNode dataNode);
     void Save(IDataNode dataNode);
     IEnumerable<T> GetNodes<T>() where T : class, ISceneNode;
+    void ConfigureRenderer(IRenderer renderer);
   }
 }

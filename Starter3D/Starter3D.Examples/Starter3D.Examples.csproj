@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -29,6 +29,10 @@
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
+    <ProjectReference Include="..\Starter3D.API.OpenGLRendering\Starter3D.API.OpenGLRendering.csproj">
+      <Project>{5df4039d-a058-4e23-a37e-aad79f07f207}</Project>
+      <Name>Starter3D.API.OpenGLRendering</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Starter3D.API\Starter3D.API.csproj">
       <Project>{3567CAD0-DE95-4BA8-98DE-750B75DCB45A}</Project>
       <Name>Starter3D.API</Name>
@@ -43,9 +47,7 @@
     </Reference>
     <Reference Include="System.Drawing" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="scenes\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="scenes\testMeshScene.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

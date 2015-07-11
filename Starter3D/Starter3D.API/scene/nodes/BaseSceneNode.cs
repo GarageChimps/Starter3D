@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using OpenTK;
+using ThreeAPI.renderer;
 using ThreeAPI.scene.persistence;
 
 namespace ThreeAPI.scene.nodes
@@ -68,5 +69,12 @@ namespace ThreeAPI.scene.nodes
       return elements;
     }
 
+    public virtual void ConfigureRenderer(IRenderer renderer)
+    {
+      foreach (var child in Children)
+      {
+        child.ConfigureRenderer(renderer);
+      }
+    }
   }
 }

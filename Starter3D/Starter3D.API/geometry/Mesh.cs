@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using OpenTK;
 using ThreeAPI.geometry.loaders;
+using ThreeAPI.materials;
+using ThreeAPI.renderer;
 
 namespace ThreeAPI.geometry
 {
@@ -11,8 +14,10 @@ namespace ThreeAPI.geometry
     private readonly IMeshLoader _meshLoader;
     private readonly List<IVertex> _vertices = new List<IVertex>();
     private readonly List<IFace> _faces = new List<IFace>();
+    private IMaterial _material;
 
-    public Mesh(){
+    public Mesh()
+    {
     }
 
     public Mesh(IMeshLoader meshLoader)
@@ -36,6 +41,11 @@ namespace ThreeAPI.geometry
 
     public int FacesCount{
       get{ return _faces.Count; }
+    }
+
+    public IMaterial Material
+    {
+      get { return _material; }
     }
 
     public IEnumerable<IPolygon> GetTriangles()
@@ -100,11 +110,19 @@ namespace ThreeAPI.geometry
     public void Load(string filePath)
     {
       _meshLoader.Load(this, filePath);
+      var fragmentShaderFilePath = Path.Combine("Shaders", "PositionFragmentShader.glsl");
+      var vertexShaderFilePath = Path.Combine("Shaders", "PositionVertexShader.glsl");
+      _material = new Material(vertexShaderFilePath, fragmentShaderFilePath);
     }
 
     public void Save(string filePath)
     {
       throw new NotImplementedException();
+    }
+
+    public void ConfigureRenderer(IRenderer renderer)
+    {
+      renderer.ConfigureMesh(this);
     }
 
     private void GenerateNormal(IVertex vertex, List<IFace> faces)
