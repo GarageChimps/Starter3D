@@ -7,5 +7,6 @@ namespace ThreeAPI.geometry
     bool IsQuad { get; }
     IEnumerable<int> VertexIndices { get; }
     bool HasVertex(int vertexIndex);
+    void AppendData(List<int> verticesIndices);
   }
 }

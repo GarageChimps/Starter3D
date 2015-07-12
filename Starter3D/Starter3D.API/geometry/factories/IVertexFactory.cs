@@ -4,6 +4,6 @@ namespace ThreeAPI.geometry.factories
 {
   public interface IVertexFactory
   {
-    IVertex CreateVertex(Vector3 position, Vector3 normal, Vector2 textureCoordinates);
+    IVertex CreateVertex(Vector3 position, Vector3 normal, Vector3 textureCoordinates);
   }
 }

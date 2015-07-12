@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Drawing;
 using System.Linq;
-
 using OpenTK;
-using GL = OpenTK.Graphics.OpenGL.GL;
-using EnableCap = OpenTK.Graphics.OpenGL.EnableCap;
 using OpenTK.Graphics.OpenGL;
 using ThreeAPI.geometry;
 using ThreeAPI.renderer;
 using ThreeAPI.resources;
 using ThreeAPI.scene.nodes;
 using ThreeAPI.scene.persistence;
+using GL = OpenTK.Graphics.OpenGL.GL;
+using EnableCap = OpenTK.Graphics.OpenGL.EnableCap;
 
-namespace ThreeAPI.examples
+namespace Starter3D.Examples
 {
   public class PlainWindow: GameWindow
   {
@@ -36,7 +35,7 @@ namespace ThreeAPI.examples
       _sceneNodeReader = sceneNodeReader;
       _resourceManager = resourceManager;
       _resourceManager.Load("scenes/resources.xml");
-      _scene = _sceneNodeReader.Read("scenes/testMeshScene.xml");
+      _scene = _sceneNodeReader.Read("scenes/testMeshSceneNormals.xml");
       _mesh = (IMesh)((ShapeNode)_scene.Children.First()).Shape;
     }
 
@@ -54,7 +53,7 @@ namespace ThreeAPI.examples
 
     protected override void OnLoad(EventArgs e)
     {
-      _renderer.ConfigureMesh(_mesh);
+      _scene.ConfigureRenderer(_renderer);
 
       GL.Enable( EnableCap.DepthTest );
       GL.ClearColor(Color.AliceBlue);

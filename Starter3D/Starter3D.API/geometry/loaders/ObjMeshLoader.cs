@@ -37,7 +37,7 @@ namespace ThreeAPI.geometry.loaders
 
       var positions = new List<Vector3>();
       var normals = new List<Vector3>();
-      var texCoords = new List<Vector2>();
+      var texCoords = new List<Vector3>();
       
       string line;
       while ((line = textReader.ReadLine()) != null)
@@ -62,7 +62,7 @@ namespace ThreeAPI.geometry.loaders
           case "vt": // TexCoord
             var u = float.Parse(parameters[1], CultureInfo.InvariantCulture);
             var v = float.Parse(parameters[2], CultureInfo.InvariantCulture);
-            texCoords.Add(new Vector2(u, v));
+            texCoords.Add(new Vector3(u, v, 0));
             break;
 
           case "vn": // Normal
@@ -105,10 +105,10 @@ namespace ThreeAPI.geometry.loaders
       }
     }
     
-    private IVertex GetVertex(string faceParameter, List<Vector3> vertices, List<Vector3> normals, List<Vector2> texCoords)
+    private IVertex GetVertex(string faceParameter, List<Vector3> vertices, List<Vector3> normals, List<Vector3> texCoords)
     {
       var position = new Vector3();
-      var texCoord = new Vector2();
+      var texCoord = new Vector3();
       var normal = new Vector3();
 
       var parameters = faceParameter.Split(_faceParamaterSplitter);

@@ -6,8 +6,8 @@
     <ProjectGuid>{78127754-23C1-4D69-A528-AE46CAD6AEC0}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ThreeDU</RootNamespace>
-    <AssemblyName>ThreeDU</AssemblyName>
+    <RootNamespace>Starter3D</RootNamespace>
+    <AssemblyName>Starter3D</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
@@ -36,7 +36,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>ThreeDU.ShaderExample</StartupObject>
+    <StartupObject>Starter3D.EntryPoint</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -98,7 +98,6 @@
   <ItemGroup>
     <Compile Include="GameWindowFactory.cs" />
     <Compile Include="IGameWindowFactory.cs" />
-    <Compile Include="MainWindow.cs" />
     <Content Include="libSDL2.dylib">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -126,7 +125,8 @@
     <Content Include="Shaders\PositionVertexShader.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Compile Include="ShaderExample.cs" />
+    <Compile Include="OpenGLRenderer.cs" />
+    <Compile Include="EntryPoint.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -137,10 +137,6 @@
   </Target>
   -->
   <ItemGroup>
-    <ProjectReference Include="..\Starter3D.API.OpenGLRendering\Starter3D.API.OpenGLRendering.csproj">
-      <Project>{5df4039d-a058-4e23-a37e-aad79f07f207}</Project>
-      <Name>Starter3D.API.OpenGLRendering</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Starter3D.API\Starter3D.API.csproj">
       <Project>{3567CAD0-DE95-4BA8-98DE-750B75DCB45A}</Project>
       <Name>Starter3D.API</Name>
@@ -152,5 +148,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <Content Include="Shaders\TestFragmentShader.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Shaders\TestVertexShader.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 </Project>

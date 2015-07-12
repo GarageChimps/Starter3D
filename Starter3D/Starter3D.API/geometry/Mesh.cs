@@ -111,9 +111,6 @@ namespace ThreeAPI.geometry
     public void Load(string filePath)
     {
       _meshLoader.Load(this, filePath);
-      var fragmentShaderFilePath = Path.Combine("Shaders", "PositionFragmentShader.glsl");
-      var vertexShaderFilePath = Path.Combine("Shaders", "PositionVertexShader.glsl");
-      _material = new Material(vertexShaderFilePath, fragmentShaderFilePath);
     }
 
     public void Save(string filePath)
@@ -123,7 +120,32 @@ namespace ThreeAPI.geometry
 
     public void ConfigureRenderer(IRenderer renderer)
     {
-      renderer.ConfigureMesh(this);
+      _material.ConfigureRenderer(renderer);
+      renderer.AddMesh(this);
+      renderer.SetVerticesData(GetVerticesData());
+      renderer.SetFacesData(GetFaceData());
+      _vertices.First().ConfigureRenderer(renderer); //We use the first vertex as representatve to configure the vertex info of the renderer
+      
+    }
+
+    public List<Vector3> GetVerticesData()
+    {
+      var data = new List<Vector3>();
+      foreach (var vertex in _vertices)
+      {
+        vertex.AppendData(data);
+      }
+      return data;
+    }
+
+    public List<int> GetFaceData()
+    {
+      var data = new List<int>();
+      foreach (var face in _faces)
+      {
+        face.AppendData(data);
+      }
+      return data;
     }
 
     private void GenerateNormal(IVertex vertex, List<IFace> faces)

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using OpenTK;
 
 namespace ThreeAPI.geometry
 {
@@ -12,5 +13,7 @@ namespace ThreeAPI.geometry
     void GenerateMissingNormals();
     int VerticesCount{ get; }
     int FacesCount{ get; }
+    List<Vector3> GetVerticesData();
+    List<int> GetFaceData();
   }
 }

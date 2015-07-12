@@ -2,5 +2,6 @@
 <Resources>
 	<Materials>
     <Material key='plain' vertexShader='Shaders/PositionVertexShader.glsl' fragmentShader='Shaders/PositionFragmentShader.glsl'/>
+    <Material key='test' vertexShader='Shaders/TestVertexShader.glsl' fragmentShader='Shaders/TestFragmentShader.glsl'/>
 	</Materials>                          
 </Resources>

@@ -1,4 +1,6 @@
-﻿using OpenTK;
+﻿using System.Collections.Generic;
+using OpenTK;
+using ThreeAPI.renderer;
 
 namespace ThreeAPI.geometry
 {
@@ -6,7 +8,7 @@ namespace ThreeAPI.geometry
   {
     private Vector3 _position;
     private Vector3 _normal;
-    private Vector2 _textureCoords;
+    private Vector3 _textureCoords;
 
     public Vector3 Position
     {
@@ -20,18 +22,18 @@ namespace ThreeAPI.geometry
       set { _normal = value; }
     }
 
-    public Vector2 TextureCoords
+    public Vector3 TextureCoords
     {
       get { return _textureCoords; }
       set { _textureCoords = value; }
     }
 
-    public bool HasValidNormal()
+    public Vertex(Vector3 position, Vector3 normal, Vector2 textureCoords)
+      : this(position, normal, new Vector3(textureCoords))
     {
-      return !(_normal.X == 0 && _normal.Y == 0 && _normal.Z == 0);
     }
 
-    public Vertex(Vector3 position, Vector3 normal, Vector2 textureCoords)
+    public Vertex(Vector3 position, Vector3 normal, Vector3 textureCoords)
     {
       _position = position;
       _normal = normal;
@@ -40,7 +42,26 @@ namespace ThreeAPI.geometry
 
     public Vertex()
     {
-      
+
+    }
+
+    public bool HasValidNormal()
+    {
+      return !(_normal.X == 0 && _normal.Y == 0 && _normal.Z == 0);
+    }
+
+    public void AppendData(List<Vector3> vertexData)
+    {
+      vertexData.Add(_position);
+      vertexData.Add(_normal);
+      vertexData.Add(_textureCoords);
+    }
+
+    public void ConfigureRenderer(IRenderer renderer)
+    {
+      renderer.SetVertexAttribute(0, "inPosition", 3* Vector3.SizeInBytes, 0);
+      renderer.SetVertexAttribute(1, "inNormal", 3 * Vector3.SizeInBytes, Vector3.SizeInBytes);
+      renderer.SetVertexAttribute(2, "inTextureCoords", 3 * Vector3.SizeInBytes, 2 * Vector3.SizeInBytes);
     }
 
     public override bool Equals(object obj)

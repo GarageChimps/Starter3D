@@ -1,11 +1,11 @@
 using System;
 using OpenTK.Platform;
-using ThreeAPI.examples;
+using Starter3D.Examples;
 using ThreeAPI.renderer;
 using ThreeAPI.resources;
 using ThreeAPI.scene.persistence;
 
-namespace ThreeDU
+namespace Starter3D
 {
   public class GameWindowFactory : IGameWindowFactory
   {
@@ -23,9 +23,11 @@ namespace ThreeDU
       _reader = reader;
     }
 
-    public IGameWindow CreateGameWindow(int width, int height)
+    public IGameWindow CreateGameWindow(int width, int height, string windowName)
     {
-      return new PlainWindow(width, height, _renderer, _reader, _resourceManager);
+      if (windowName == "plain")
+        return new PlainWindow(width, height, _renderer, _reader, _resourceManager);
+      throw new NotImplementedException();
     }
   }
 }

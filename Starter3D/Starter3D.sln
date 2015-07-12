@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Starter3D.API.Test", "Start
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Starter3D.Examples", "Starter3D.Examples\Starter3D.Examples.csproj", "{B3CAC997-4EE0-4846-949F-5FB173269F74}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Starter3D.API.OpenGLRendering", "Starter3D.API.OpenGLRendering\Starter3D.API.OpenGLRendering.csproj", "{5DF4039D-A058-4E23-A37E-AAD79F07F207}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,12 +51,6 @@ Global
 		{B3CAC997-4EE0-4846-949F-5FB173269F74}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B3CAC997-4EE0-4846-949F-5FB173269F74}.Release|x86.ActiveCfg = Release|Any CPU
 		{B3CAC997-4EE0-4846-949F-5FB173269F74}.Release|x86.Build.0 = Release|Any CPU
-		{5DF4039D-A058-4E23-A37E-AAD79F07F207}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5DF4039D-A058-4E23-A37E-AAD79F07F207}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5DF4039D-A058-4E23-A37E-AAD79F07F207}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{5DF4039D-A058-4E23-A37E-AAD79F07F207}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5DF4039D-A058-4E23-A37E-AAD79F07F207}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5DF4039D-A058-4E23-A37E-AAD79F07F207}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

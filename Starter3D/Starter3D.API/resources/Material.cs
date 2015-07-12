@@ -1,4 +1,6 @@
-﻿namespace ThreeAPI.resources
+﻿using ThreeAPI.renderer;
+
+namespace ThreeAPI.resources
 {
   public class Material : IMaterial
   {
@@ -14,7 +16,7 @@
     {
       get { return _fragmentShader; }
     }
-
+    
     public Material()
     {
       
@@ -25,7 +27,12 @@
       _vertexShader = vertexShader;
       _fragmentShader = fragmentShader;
     }
-    
+
+
+    public void ConfigureRenderer(IRenderer renderer)
+    {
+      renderer.SetShaders(_vertexShader, _fragmentShader);
+    }
 
   }
 }

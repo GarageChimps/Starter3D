@@ -34,6 +34,11 @@ namespace ThreeAPI.geometry
       return false;
     }
 
+    public void AppendData(List<int> verticesIndices)
+    {
+      verticesIndices.AddRange(_vertexIndices);
+    }
+
     public override bool Equals(object obj)
     {
       // If parameter cannot be cast to Point return false.

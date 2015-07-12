@@ -1,4 +1,6 @@
-﻿using OpenTK;
+﻿using System.Collections.Generic;
+using OpenTK;
+using ThreeAPI.renderer;
 
 namespace ThreeAPI.geometry
 {
@@ -6,7 +8,9 @@ namespace ThreeAPI.geometry
   {
     Vector3 Position { get; }
     Vector3 Normal { get; set; }
-    Vector2 TextureCoords { get; }
+    Vector3 TextureCoords { get; }
     bool HasValidNormal();
+    void AppendData(List<Vector3> vertexData);
+    void ConfigureRenderer(IRenderer renderer);
   }
 }

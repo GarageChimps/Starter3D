@@ -1,9 +1,9 @@
 ﻿using OpenTK.Platform;
 
-namespace ThreeDU
+namespace Starter3D
 {
   public interface IGameWindowFactory
   {
-    IGameWindow CreateGameWindow(int width, int height);
+    IGameWindow CreateGameWindow(int width, int height, string windowName);
   }
 }

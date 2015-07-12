@@ -1,7 +1,5 @@
 ﻿using System;
 using Autofac;
-using Starter3D.API.OpenGLRendering;
-using ThreeAPI.examples;
 using ThreeAPI.geometry.factories;
 using ThreeAPI.renderer;
 using ThreeAPI.resources;
@@ -9,13 +7,14 @@ using ThreeAPI.scene.nodes.factories;
 using ThreeAPI.scene.persistence;
 using ThreeAPI.scene.persistence.factories;
 
-namespace ThreeDU
+namespace Starter3D
 {
-  public class ShaderExample
+  public class EntryPoint
   {
-    public static int WindowWidth = 512;
-    public static int WindowHeight = 512;
-    public static float FrameRate = 60;
+    private static readonly int WindowWidth = 512;
+    private static readonly int WindowHeight = 512;
+    private static readonly float FrameRate = 60;
+    private static readonly string WindowName = "plain";
 
     private static IContainer Container { get; set; }
 
@@ -46,7 +45,7 @@ namespace ThreeDU
       using (var scope = Container.BeginLifetimeScope())
       {
         var gameWindowFactory = scope.Resolve<IGameWindowFactory>();
-        using (var window = gameWindowFactory.CreateGameWindow(WindowWidth, WindowHeight))
+        using (var window = gameWindowFactory.CreateGameWindow(WindowWidth, WindowHeight, WindowName))
         {
           window.Run(FrameRate);
         }
