@@ -2,7 +2,7 @@
 
 namespace ThreeAPI.scene.persistence
 {
-  public interface IXmlDataNodeReader
+  public interface ISceneNodeReader
   {
     ISceneNode Read(string filePath);
   }

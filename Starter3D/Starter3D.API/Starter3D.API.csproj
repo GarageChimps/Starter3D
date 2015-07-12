@@ -75,7 +75,7 @@
     <Compile Include="geometry\IVertex.cs" />
     <Compile Include="scene\persistence\factories\IDataNodeFactory.cs" />
     <Compile Include="geometry\factories\IVertexFactory.cs" />
-    <Compile Include="scene\persistence\IXmlDataNodeReader.cs" />
+    <Compile Include="scene\persistence\ISceneNodeReader.cs" />
     <Compile Include="scene\nodes\LightNode.cs" />
     <Compile Include="geometry\Mesh.cs" />
     <Compile Include="geometry\factories\MeshFactory.cs" />

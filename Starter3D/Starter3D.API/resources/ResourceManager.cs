@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Xml.Linq;
 using ThreeAPI.geometry;
 using ThreeAPI.geometry.factories;
@@ -17,10 +16,10 @@ namespace ThreeAPI.resources
     private readonly IShapeFactory _shapeFactory;
     private readonly IMaterialFactory _materialFactory;
 
-    public ResourceManager()//IShapeFactory shapeFactory, IMaterialFactory materialFactory)
+    public ResourceManager(IMaterialFactory materialFactory)
     {
       //if (shapeFactory == null) throw new ArgumentNullException("shapeFactory");
-      //if (materialFactory == null) throw new ArgumentNullException("materialFactory");
+      if (materialFactory == null) throw new ArgumentNullException("materialFactory");
       _materialFactory = new MaterialFactory();
     }
 

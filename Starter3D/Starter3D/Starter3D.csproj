@@ -73,6 +73,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac">
+      <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -93,6 +96,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameWindowFactory.cs" />
+    <Compile Include="IGameWindowFactory.cs" />
     <Compile Include="MainWindow.cs" />
     <Content Include="libSDL2.dylib">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -132,6 +137,10 @@
   </Target>
   -->
   <ItemGroup>
+    <ProjectReference Include="..\Starter3D.API.OpenGLRendering\Starter3D.API.OpenGLRendering.csproj">
+      <Project>{5df4039d-a058-4e23-a37e-aad79f07f207}</Project>
+      <Name>Starter3D.API.OpenGLRendering</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Starter3D.API\Starter3D.API.csproj">
       <Project>{3567CAD0-DE95-4BA8-98DE-750B75DCB45A}</Project>
       <Name>Starter3D.API</Name>
@@ -140,5 +149,8 @@
       <Project>{B3CAC997-4EE0-4846-949F-5FB173269F74}</Project>
       <Name>Starter3D.Examples</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

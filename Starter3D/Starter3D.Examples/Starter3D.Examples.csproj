@@ -29,10 +29,6 @@
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\Starter3D.API.OpenGLRendering\Starter3D.API.OpenGLRendering.csproj">
-      <Project>{5df4039d-a058-4e23-a37e-aad79f07f207}</Project>
-      <Name>Starter3D.API.OpenGLRendering</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Starter3D.API\Starter3D.API.csproj">
       <Project>{3567CAD0-DE95-4BA8-98DE-750B75DCB45A}</Project>
       <Name>Starter3D.API</Name>

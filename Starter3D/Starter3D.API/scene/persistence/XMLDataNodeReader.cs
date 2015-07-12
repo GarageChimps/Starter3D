@@ -8,7 +8,7 @@ using ThreeAPI.resources;
 
 namespace ThreeAPI.scene.persistence
 {
-  public class XMLDataNodeReader: IXmlDataNodeReader
+  public class XMLDataNodeReader: ISceneNodeReader
   {
     private readonly IDataNodeFactory _dataNodeFactory;
 
@@ -25,16 +25,6 @@ namespace ThreeAPI.scene.persistence
       return node.Load();
     }
 
-    public static XMLDataNodeReader CreateReader(IResourceManager resourceManager){
-      var vertexFactory = new VertexFactory();
-      var faceFactory = new FaceFactory();
-      var meshLoaderFactory = new MeshLoaderFactory(vertexFactory, faceFactory);
-      var meshFactory = new MeshFactory(meshLoaderFactory);
-      var shapeFactory = new ShapeFactory(meshFactory);
-      var sceneNodeFactory = new SceneNodeFactory(shapeFactory, resourceManager);
-      var dataNodeFactory = new DataNodeFactory(sceneNodeFactory);
-      var xmlReader = new XMLDataNodeReader(dataNodeFactory);
-      return xmlReader;
-    }
+    
   }
 }

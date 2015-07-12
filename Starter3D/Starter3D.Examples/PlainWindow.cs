@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Drawing;
-using System.IO;
 using System.Linq;
 
 using OpenTK;
-using OpenTK.Input;
 using GL = OpenTK.Graphics.OpenGL.GL;
 using EnableCap = OpenTK.Graphics.OpenGL.EnableCap;
 using OpenTK.Graphics.OpenGL;
-using Starter3D.API.OpenGLRendering;
 using ThreeAPI.geometry;
 using ThreeAPI.renderer;
 using ThreeAPI.resources;
@@ -23,22 +20,23 @@ namespace ThreeAPI.examples
     public static int WindowHeight = 512;
     public static float FrameRate = 60;
     
-    private IMesh _mesh;
-    private IRenderer _renderer;
+    private readonly IRenderer _renderer;
+    private readonly ISceneNodeReader _sceneNodeReader;
+    private readonly IResourceManager _resourceManager;
     private ISceneNode _scene;
-    private IResourceManager _resourceManager;
-
-    public PlainWindow (int width, int height)
+    private IMesh _mesh;
+    
+    public PlainWindow (int width, int height, IRenderer renderer, ISceneNodeReader sceneNodeReader, IResourceManager resourceManager)
       : base(width, height,
         new OpenTK.Graphics.GraphicsMode(), "Starter3D", GameWindowFlags.Default,
         DisplayDevice.Default, 3, 0,
         OpenTK.Graphics.GraphicsContextFlags.ForwardCompatible | OpenTK.Graphics.GraphicsContextFlags.Debug)
     {
-      _renderer = new OpenGLRenderer();
-      _resourceManager = new ResourceManager();
+      _renderer = renderer;
+      _sceneNodeReader = sceneNodeReader;
+      _resourceManager = resourceManager;
       _resourceManager.Load("scenes/resources.xml");
-      var xmlReader = XMLDataNodeReader.CreateReader(_resourceManager);
-      _scene = xmlReader.Read("scenes/testMeshScene.xml");
+      _scene = _sceneNodeReader.Read("scenes/testMeshScene.xml");
       _mesh = (IMesh)((ShapeNode)_scene.Children.First()).Shape;
     }
 
