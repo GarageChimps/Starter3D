@@ -99,7 +99,7 @@ namespace ThreeAPI.Test.scene
     public void ReadFile_OneShapeNode_CorrectParametersOfShapeNode()
     {
       var testXml = @"<Scene>
-                        <Shape shapeType='Mesh' filePath='test.obj' >                                                   
+                        <Shape shapeType='Mesh' filePath='test.obj' material='plain'>                                                   
                         </Shape>                          
                       </Scene>";
       File.WriteAllText("test.xml", testXml);
@@ -113,7 +113,19 @@ namespace ThreeAPI.Test.scene
                     ";
       File.WriteAllText("test.obj", testObj);
 
-      var xmlReader = CreateXMLReader();
+      var testResources = @"<Resources>
+                              <Materials>
+                                <Material key='plain' vertexShader='vs' fragmentShader='fs'>                                                   
+                                </Material>
+                              </Materials>                          
+                            </Resources>";
+      File.WriteAllText("test.res", testResources);
+      File.WriteAllText("vs", "");
+      File.WriteAllText("fs", "");
+
+      var resourceManager = new ResourceManager(new MaterialFactory());
+      resourceManager.Load("test.res");
+      var xmlReader = CreateXMLReader(resourceManager);
       var scene = xmlReader.Read("test.xml");
       var shapeNode = (ShapeNode)scene.Children.First();
       Assert.IsInstanceOf(typeof(Mesh), shapeNode.Shape);
@@ -218,9 +230,8 @@ namespace ThreeAPI.Test.scene
       Assert.AreEqual(normalizedDirection.Z, lightNode.Direction.Z);
     }
 
-    private static XMLDataNodeReader CreateXMLReader()
+    private static XMLDataNodeReader CreateXMLReader(IResourceManager resourceManager)
     {
-      var resourceManager = new ResourceManager();
       var vertexFactory = new VertexFactory();
       var faceFactory = new FaceFactory();
       var meshLoaderFactory = new MeshLoaderFactory(vertexFactory, faceFactory);
@@ -230,6 +241,13 @@ namespace ThreeAPI.Test.scene
       var dataNodeFactory = new DataNodeFactory(sceneNodeFactory);
       var xmlReader = new XMLDataNodeReader(dataNodeFactory);
       return xmlReader;
+    }
+
+    private static XMLDataNodeReader CreateXMLReader()
+    {
+      var materialFactory = new MaterialFactory();
+      var resourceManager = new ResourceManager(materialFactory);
+      return CreateXMLReader(resourceManager);
     }
   }
 }
