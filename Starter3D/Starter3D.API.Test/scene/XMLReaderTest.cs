@@ -11,7 +11,6 @@ using Starter3D.API.scene.nodes.factories;
 using Starter3D.API.scene.persistence;
 using Starter3D.API.scene.persistence.factories;
 using Starter3D.API.utils;
-using ThreeAPI.scene;
 
 namespace ThreeAPI.Test.scene
 {

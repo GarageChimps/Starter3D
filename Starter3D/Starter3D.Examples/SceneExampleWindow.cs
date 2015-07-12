@@ -37,7 +37,7 @@ namespace Starter3D.Examples
       _resourceManager = resourceManager;
       _resourceManager.Load(configuration.ResourcesPath);
       _scene = _sceneNodeReader.Read(configuration.ScenePath);
-      _mesh = (IMesh)((ShapeNode)_scene.Children.First()).Shape;
+      _mesh = _scene.GetNodes<ShapeNode>().First().Shape as IMesh;
     }
 
     protected override void OnRenderFrame(FrameEventArgs e)

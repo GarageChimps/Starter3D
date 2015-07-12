@@ -59,6 +59,8 @@ namespace Starter3D.API.scene.nodes
     public IEnumerable<T> GetNodes<T>() where T : class, ISceneNode
     {
       var elements = new List<T>();
+      if (this.GetType() == typeof(T))
+        elements.Add(this as T);
       if (this.GetType().IsSubclassOf(typeof(T)))
         elements.Add(this as T);
       foreach (var child in Children)

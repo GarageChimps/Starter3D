@@ -56,7 +56,7 @@ namespace Starter3D.API.scene.nodes
 
     protected override Matrix4 CreateProjectionMatrix()
     {
-      var perspectiveMatrix = Matrix4.CreatePerspectiveFieldOfView(_fieldOfView, _aspectRatio, FarClip, NearClip);
+      var perspectiveMatrix = Matrix4.CreatePerspectiveFieldOfView(_fieldOfView, _aspectRatio, NearClip, FarClip);
       return perspectiveMatrix;
     }
   }
