@@ -1,6 +1,6 @@
-﻿using ThreeAPI.scene.nodes;
+﻿using Starter3D.API.scene.nodes;
 
-namespace ThreeAPI.scene.persistence
+namespace Starter3D.API.scene.persistence
 {
   public interface IDataNode
   {

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using OpenTK;
-using ThreeAPI.renderer;
+using Starter3D.API.renderer;
 
-namespace ThreeAPI.geometry
+namespace Starter3D.API.geometry
 {
   public interface IVertex
   {

@@ -4,6 +4,6 @@ namespace Starter3D
 {
   public interface IGameWindowFactory
   {
-    IGameWindow CreateGameWindow(int width, int height, string windowName);
+    IGameWindow CreateGameWindow(int width, int height);
   }
 }

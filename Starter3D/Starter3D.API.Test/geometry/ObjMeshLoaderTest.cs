@@ -2,9 +2,9 @@
 using System.Linq;
 using NUnit.Framework;
 using OpenTK;
-using ThreeAPI.geometry;
-using ThreeAPI.geometry.factories;
-using ThreeAPI.geometry.loaders;
+using Starter3D.API.geometry;
+using Starter3D.API.geometry.factories;
+using Starter3D.API.geometry.loaders;
 
 namespace ThreeAPI.Test.geometry
 {

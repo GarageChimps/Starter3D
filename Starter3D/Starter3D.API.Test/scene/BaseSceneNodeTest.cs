@@ -4,9 +4,9 @@ using System.Linq;
 using Moq;
 using NUnit.Framework;
 using OpenTK;
+using Starter3D.API.scene.nodes;
+using Starter3D.API.utils;
 using ThreeAPI.scene;
-using ThreeAPI.scene.nodes;
-using ThreeAPI.utils;
 
 namespace ThreeAPI.Test.scene
 {

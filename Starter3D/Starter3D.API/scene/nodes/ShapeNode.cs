@@ -1,19 +1,19 @@
 ﻿using System;
 using System.IO;
-using ThreeAPI.geometry;
-using ThreeAPI.geometry.factories;
-using ThreeAPI.renderer;
-using ThreeAPI.resources;
-using ThreeAPI.scene.persistence;
-using ThreeAPI.utils;
+using Starter3D.API.geometry;
+using Starter3D.API.geometry.factories;
+using Starter3D.API.renderer;
+using Starter3D.API.resources;
+using Starter3D.API.scene.persistence;
+using Starter3D.API.utils;
 
-namespace ThreeAPI.scene.nodes
+namespace Starter3D.API.scene.nodes
 {
   public class ShapeNode : BaseSceneNode
   {
     private IShape _shape;
     private readonly IShapeFactory _shapeFactory;
-    private IResourceManager _resourceManager;
+    private readonly IResourceManager _resourceManager;
 
     public IShape Shape
     {
@@ -50,6 +50,8 @@ namespace ThreeAPI.scene.nodes
     public override void ConfigureRenderer(IRenderer renderer)
     {
       _shape.ConfigureRenderer(renderer);
+      var modelTransform = ComposeTransform();
+      renderer.AddMatrixParameter("modelMatrix", modelTransform);
       base.ConfigureRenderer(renderer);
     }
   }

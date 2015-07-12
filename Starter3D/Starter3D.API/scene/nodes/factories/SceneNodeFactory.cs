@@ -1,9 +1,9 @@
 ﻿using System;
-using ThreeAPI.geometry.factories;
-using ThreeAPI.resources;
-using ThreeAPI.utils;
+using Starter3D.API.geometry.factories;
+using Starter3D.API.resources;
+using Starter3D.API.utils;
 
-namespace ThreeAPI.scene.nodes.factories
+namespace Starter3D.API.scene.nodes.factories
 {
   public class SceneNodeFactory : ISceneNodeFactory
   {

@@ -1,9 +1,9 @@
 ﻿using System.Globalization;
 using OpenTK;
-using ThreeAPI.scene.persistence;
-using ThreeAPI.utils;
+using Starter3D.API.scene.persistence;
+using Starter3D.API.utils;
 
-namespace ThreeAPI.scene.nodes
+namespace Starter3D.API.scene.nodes
 {
   public class PerspectiveCamera : CameraNode
   {

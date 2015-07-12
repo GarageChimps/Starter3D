@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using OpenTK;
-using ThreeAPI.geometry.factories;
+using Starter3D.API.geometry.factories;
 
-namespace ThreeAPI.geometry.loaders
+namespace Starter3D.API.geometry.loaders
 {
   public class ObjMeshLoader : IMeshLoader
   {

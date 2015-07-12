@@ -1,11 +1,12 @@
 ﻿using System;
 using Autofac;
-using ThreeAPI.geometry.factories;
-using ThreeAPI.renderer;
-using ThreeAPI.resources;
-using ThreeAPI.scene.nodes.factories;
-using ThreeAPI.scene.persistence;
-using ThreeAPI.scene.persistence.factories;
+using Starter3D.API.geometry.factories;
+using Starter3D.API.renderer;
+using Starter3D.API.resources;
+using Starter3D.API.scene.nodes.factories;
+using Starter3D.API.scene.persistence;
+using Starter3D.API.scene.persistence.factories;
+using Starter3D.API.utils;
 
 namespace Starter3D
 {
@@ -14,7 +15,6 @@ namespace Starter3D
     private static readonly int WindowWidth = 512;
     private static readonly int WindowHeight = 512;
     private static readonly float FrameRate = 60;
-    private static readonly string WindowName = "plain";
 
     private static IContainer Container { get; set; }
 
@@ -33,6 +33,7 @@ namespace Starter3D
       builder.RegisterType<DataNodeFactory>().As<IDataNodeFactory>().SingleInstance();
       builder.RegisterType<XMLDataNodeReader>().As<ISceneNodeReader>().SingleInstance();
       builder.RegisterType<GameWindowFactory>().As<IGameWindowFactory>().SingleInstance();
+      builder.RegisterType<Configuration>().As<IConfiguration>().SingleInstance();
 
       Container = builder.Build();
       
@@ -45,7 +46,7 @@ namespace Starter3D
       using (var scope = Container.BeginLifetimeScope())
       {
         var gameWindowFactory = scope.Resolve<IGameWindowFactory>();
-        using (var window = gameWindowFactory.CreateGameWindow(WindowWidth, WindowHeight, WindowName))
+        using (var window = gameWindowFactory.CreateGameWindow(WindowWidth, WindowHeight))
         {
           window.Run(FrameRate);
         }

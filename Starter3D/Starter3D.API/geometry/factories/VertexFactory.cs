@@ -1,6 +1,6 @@
 using OpenTK;
 
-namespace ThreeAPI.geometry.factories
+namespace Starter3D.API.geometry.factories
 {
   public class VertexFactory : IVertexFactory
   {

@@ -1,4 +1,4 @@
-﻿namespace ThreeAPI.utils
+﻿namespace Starter3D.API.utils
 {
   public enum SceneNodeType
   {

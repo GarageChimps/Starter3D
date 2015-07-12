@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using OpenTK;
-using ThreeAPI.renderer;
-using ThreeAPI.scene.persistence;
+using Starter3D.API.renderer;
+using Starter3D.API.scene.persistence;
 
-namespace ThreeAPI.scene.nodes
+namespace Starter3D.API.scene.nodes
 {
   public interface ISceneNode
   {

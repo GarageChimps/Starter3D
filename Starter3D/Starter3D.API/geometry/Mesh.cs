@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using OpenTK;
-using ThreeAPI.geometry.loaders;
-using ThreeAPI.renderer;
-using ThreeAPI.resources;
+using Starter3D.API.geometry.loaders;
+using Starter3D.API.renderer;
+using Starter3D.API.resources;
 
-namespace ThreeAPI.geometry
+namespace Starter3D.API.geometry
 {
   public class Mesh : IMesh
   {

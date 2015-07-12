@@ -4,8 +4,8 @@ using System.IO;
 using System.Linq;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
-using ThreeAPI.geometry;
-using ThreeAPI.renderer;
+using Starter3D.API.geometry;
+using Starter3D.API.renderer;
 
 namespace Starter3D
 {
@@ -20,6 +20,7 @@ namespace Starter3D
       GL.DrawElements(BeginMode.Triangles, GetTriangleCount(mesh), DrawElementsType.UnsignedInt, IntPtr.Zero);
     }
 
+    
     public void SetShaders(string vertexShaderPath, string fragmentShaderPath)
     {
       string fragmentShaderSource = File.ReadAllText(fragmentShaderPath);
@@ -33,6 +34,25 @@ namespace Starter3D
       GL.GenVertexArrays(1, out  _objHandle);
       GL.BindVertexArray(_objHandle);
     }
+
+    public void AddMatrixParameter(string name, Matrix4 matrix)
+    {
+      int location = GL.GetUniformLocation(_programHandle, name);
+      GL.UniformMatrix4(location, false, ref matrix);
+    }
+
+    public void AddVectorParameter(string name, Vector3 vector)
+    {
+      int location = GL.GetUniformLocation(_programHandle, name);
+      GL.Uniform3(location, vector);
+    }
+
+    public void AddNumberParameter(string name, float number)
+    {
+      int location = GL.GetUniformLocation(_programHandle, name);
+      GL.Uniform1(location, number);
+    }
+
 
     public void SetVerticesData(List<Vector3> data)
     {

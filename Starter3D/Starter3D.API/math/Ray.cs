@@ -1,7 +1,7 @@
 ﻿using System;
 using OpenTK;
 
-namespace ThreeAPI.math
+namespace Starter3D.API.math
 {
   public class Ray
   {

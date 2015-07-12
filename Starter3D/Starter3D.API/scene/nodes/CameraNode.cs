@@ -1,8 +1,9 @@
 ﻿using System.Globalization;
 using OpenTK;
-using ThreeAPI.scene.persistence;
+using Starter3D.API.renderer;
+using Starter3D.API.scene.persistence;
 
-namespace ThreeAPI.scene.nodes
+namespace Starter3D.API.scene.nodes
 {
   public abstract class CameraNode : BaseSceneNode
   {
@@ -66,6 +67,16 @@ namespace ThreeAPI.scene.nodes
       var viewMatrix = _parent.ComposeTransform().Inverted();
       var projectionMatrix = CreateProjectionMatrix();
       return projectionMatrix * viewMatrix;
+    }
+
+    public override void ConfigureRenderer(IRenderer renderer)
+    {
+      var viewMatrix = _parent.ComposeTransform().Inverted();
+      renderer.AddMatrixParameter("viewMatrix", viewMatrix);
+      var projectionMatrix = CreateProjectionMatrix();
+      renderer.AddMatrixParameter("projectionMatrix", projectionMatrix);
+
+      base.ConfigureRenderer(renderer);
     }
 
     protected abstract Matrix4 CreateProjectionMatrix();

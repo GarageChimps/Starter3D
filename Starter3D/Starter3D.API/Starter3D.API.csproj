@@ -5,8 +5,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{3567CAD0-DE95-4BA8-98DE-750B75DCB45A}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>ThreeAPI</RootNamespace>
-    <AssemblyName>ThreeAPI</AssemblyName>
+    <RootNamespace>Starter3D.API</RootNamespace>
+    <AssemblyName>Starter3D.API</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -54,6 +54,7 @@
     <Compile Include="scene\nodes\CameraNode.cs" />
     <Compile Include="scene\persistence\factories\DataNodeFactory.cs" />
     <Compile Include="scene\nodes\DirectionalLight.cs" />
+    <Compile Include="utils\Configuration.cs" />
     <Compile Include="utils\Extensions.cs" />
     <Compile Include="geometry\Face.cs" />
     <Compile Include="geometry\factories\FaceFactory.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="scene\nodes\factories\SceneNodeFactory.cs" />
     <Compile Include="geometry\factories\ShapeFactory.cs" />
     <Compile Include="scene\nodes\ShapeNode.cs" />
+    <Compile Include="utils\IConfiguration.cs" />
     <Compile Include="utils\TypeEnums.cs" />
     <Compile Include="scene\nodes\TransformNode.cs" />
     <Compile Include="scene\nodes\TranslationNode.cs" />

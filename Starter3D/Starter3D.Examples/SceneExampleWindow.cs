@@ -3,29 +3,30 @@ using System.Drawing;
 using System.Linq;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
-using ThreeAPI.geometry;
-using ThreeAPI.renderer;
-using ThreeAPI.resources;
-using ThreeAPI.scene.nodes;
-using ThreeAPI.scene.persistence;
+using Starter3D.API.geometry;
+using Starter3D.API.renderer;
+using Starter3D.API.resources;
+using Starter3D.API.scene.nodes;
+using Starter3D.API.scene.persistence;
+using Starter3D.API.utils;
 using GL = OpenTK.Graphics.OpenGL.GL;
 using EnableCap = OpenTK.Graphics.OpenGL.EnableCap;
 
 namespace Starter3D.Examples
 {
-  public class PlainWindow: GameWindow
+  public class SceneExampleWindow : GameWindow
   {
     public static int WindowWidth = 512;
     public static int WindowHeight = 512;
     public static float FrameRate = 60;
-    
+
     private readonly IRenderer _renderer;
     private readonly ISceneNodeReader _sceneNodeReader;
     private readonly IResourceManager _resourceManager;
     private ISceneNode _scene;
     private IMesh _mesh;
-    
-    public PlainWindow (int width, int height, IRenderer renderer, ISceneNodeReader sceneNodeReader, IResourceManager resourceManager)
+
+    public SceneExampleWindow(int width, int height, IRenderer renderer, ISceneNodeReader sceneNodeReader, IResourceManager resourceManager, IConfiguration configuration)
       : base(width, height,
         new OpenTK.Graphics.GraphicsMode(), "Starter3D", GameWindowFlags.Default,
         DisplayDevice.Default, 3, 0,
@@ -34,8 +35,8 @@ namespace Starter3D.Examples
       _renderer = renderer;
       _sceneNodeReader = sceneNodeReader;
       _resourceManager = resourceManager;
-      _resourceManager.Load("scenes/resources.xml");
-      _scene = _sceneNodeReader.Read("scenes/testMeshSceneNormals.xml");
+      _resourceManager.Load(configuration.ResourcesPath);
+      _scene = _sceneNodeReader.Read(configuration.ScenePath);
       _mesh = (IMesh)((ShapeNode)_scene.Children.First()).Shape;
     }
 
@@ -45,7 +46,7 @@ namespace Starter3D.Examples
       GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
       // draw object
-     _renderer.Render(_mesh);
+      _renderer.Render(_mesh);
 
       GL.Flush();
       SwapBuffers();
@@ -55,7 +56,7 @@ namespace Starter3D.Examples
     {
       _scene.ConfigureRenderer(_renderer);
 
-      GL.Enable( EnableCap.DepthTest );
+      GL.Enable(EnableCap.DepthTest);
       GL.ClearColor(Color.AliceBlue);
 
     }

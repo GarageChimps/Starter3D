@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 using OpenTK;
-using ThreeAPI.math;
+using Starter3D.API.math;
 
 namespace ThreeAPI.Test.math
 {

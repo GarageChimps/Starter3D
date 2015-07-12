@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using OpenTK;
 
-namespace ThreeAPI.geometry
+namespace Starter3D.API.geometry
 {
   public interface IMesh : IShape
   {

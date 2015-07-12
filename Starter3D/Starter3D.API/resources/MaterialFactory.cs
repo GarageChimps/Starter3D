@@ -1,4 +1,4 @@
-﻿namespace ThreeAPI.resources
+﻿namespace Starter3D.API.resources
 {
   public class MaterialFactory : IMaterialFactory
   {

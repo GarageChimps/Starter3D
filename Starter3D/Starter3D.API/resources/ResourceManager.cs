@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
-using ThreeAPI.geometry;
-using ThreeAPI.geometry.factories;
+using Starter3D.API.geometry;
+using Starter3D.API.geometry.factories;
 
-namespace ThreeAPI.resources
+namespace Starter3D.API.resources
 {
   public class ResourceManager : IResourceManager
   {

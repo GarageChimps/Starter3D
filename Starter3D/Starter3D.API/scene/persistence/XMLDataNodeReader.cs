@@ -1,12 +1,9 @@
 ﻿using System.Linq;
 using System.Xml.Linq;
-using ThreeAPI.scene.nodes;
-using ThreeAPI.scene.persistence.factories;
-using ThreeAPI.scene.nodes.factories;
-using ThreeAPI.geometry.factories;
-using ThreeAPI.resources;
+using Starter3D.API.scene.nodes;
+using Starter3D.API.scene.persistence.factories;
 
-namespace ThreeAPI.scene.persistence
+namespace Starter3D.API.scene.persistence
 {
   public class XMLDataNodeReader: ISceneNodeReader
   {

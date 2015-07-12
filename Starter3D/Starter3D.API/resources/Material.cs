@@ -1,6 +1,6 @@
-﻿using ThreeAPI.renderer;
+﻿using Starter3D.API.renderer;
 
-namespace ThreeAPI.resources
+namespace Starter3D.API.resources
 {
   public class Material : IMaterial
   {

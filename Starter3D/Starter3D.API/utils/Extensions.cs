@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ThreeAPI.utils
+namespace Starter3D.API.utils
 {
   public static class Extensions
   {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ThreeAPI.geometry
+namespace Starter3D.API.geometry
 {
   public interface IFace
   {

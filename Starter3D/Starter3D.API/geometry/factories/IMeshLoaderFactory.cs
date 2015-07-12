@@ -1,7 +1,7 @@
-﻿using ThreeAPI.geometry.loaders;
-using ThreeAPI.utils;
+﻿using Starter3D.API.geometry.loaders;
+using Starter3D.API.utils;
 
-namespace ThreeAPI.geometry.factories
+namespace Starter3D.API.geometry.factories
 {
  
   public interface IMeshLoaderFactory

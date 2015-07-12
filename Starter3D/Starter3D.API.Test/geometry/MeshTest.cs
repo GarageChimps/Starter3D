@@ -2,8 +2,8 @@
 using Moq;
 using NUnit.Framework;
 using OpenTK;
-using ThreeAPI.geometry;
-using ThreeAPI.geometry.loaders;
+using Starter3D.API.geometry;
+using Starter3D.API.geometry.loaders;
 
 namespace ThreeAPI.Test.geometry
 {

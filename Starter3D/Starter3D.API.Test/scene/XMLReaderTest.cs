@@ -3,15 +3,15 @@ using System.IO;
 using System.Linq;
 using NUnit.Framework;
 using OpenTK;
-using ThreeAPI.geometry;
-using ThreeAPI.geometry.factories;
-using ThreeAPI.resources;
+using Starter3D.API.geometry;
+using Starter3D.API.geometry.factories;
+using Starter3D.API.resources;
+using Starter3D.API.scene.nodes;
+using Starter3D.API.scene.nodes.factories;
+using Starter3D.API.scene.persistence;
+using Starter3D.API.scene.persistence.factories;
+using Starter3D.API.utils;
 using ThreeAPI.scene;
-using ThreeAPI.scene.nodes;
-using ThreeAPI.scene.nodes.factories;
-using ThreeAPI.scene.persistence;
-using ThreeAPI.scene.persistence.factories;
-using ThreeAPI.utils;
 
 namespace ThreeAPI.Test.scene
 {

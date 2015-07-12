@@ -1,4 +1,4 @@
-namespace ThreeAPI.geometry.loaders
+namespace Starter3D.API.geometry.loaders
 {
   public interface IMeshLoader
   {

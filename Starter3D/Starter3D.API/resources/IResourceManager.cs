@@ -1,6 +1,6 @@
-﻿using ThreeAPI.geometry;
+﻿using Starter3D.API.geometry;
 
-namespace ThreeAPI.resources
+namespace Starter3D.API.resources
 {
   public interface IResourceManager
   {

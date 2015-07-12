@@ -1,7 +1,7 @@
-﻿using ThreeAPI.renderer;
-using ThreeAPI.resources;
+﻿using Starter3D.API.renderer;
+using Starter3D.API.resources;
 
-namespace ThreeAPI.geometry
+namespace Starter3D.API.geometry
 {
   public interface IShape
   {
