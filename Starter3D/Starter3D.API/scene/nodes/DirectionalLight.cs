@@ -30,21 +30,21 @@ namespace Starter3D.API.scene.nodes
       _direction = direction;
     }
 
-    public override void Load(IDataNode dataNode)
+    public override void Load(ISceneDataNode sceneDataNode)
     {
-      base.Load(dataNode);
-      float x = float.Parse(dataNode.ReadParameter("x"));
-      float y = float.Parse(dataNode.ReadParameter("y"));
-      float z = float.Parse(dataNode.ReadParameter("z"));
+      base.Load(sceneDataNode);
+      float x = float.Parse(sceneDataNode.ReadParameter("x"));
+      float y = float.Parse(sceneDataNode.ReadParameter("y"));
+      float z = float.Parse(sceneDataNode.ReadParameter("z"));
       Init(new Vector3(x,y,z).Normalized());
     }
 
-    public override void Save(IDataNode dataNode)
+    public override void Save(ISceneDataNode sceneDataNode)
     {
-      base.Save(dataNode);
-      dataNode.WriteParameter("x", Direction.X.ToString(CultureInfo.InvariantCulture));
-      dataNode.WriteParameter("y", Direction.Y.ToString(CultureInfo.InvariantCulture));
-      dataNode.WriteParameter("z", Direction.Z.ToString(CultureInfo.InvariantCulture));
+      base.Save(sceneDataNode);
+      sceneDataNode.WriteParameter("x", Direction.X.ToString(CultureInfo.InvariantCulture));
+      sceneDataNode.WriteParameter("y", Direction.Y.ToString(CultureInfo.InvariantCulture));
+      sceneDataNode.WriteParameter("z", Direction.Z.ToString(CultureInfo.InvariantCulture));
     }
   }
 }

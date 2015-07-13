@@ -45,21 +45,21 @@ namespace Starter3D.API.scene.nodes
       _order = order;
     }
 
-    public override void Load(IDataNode dataNode)
+    public override void Load(ISceneDataNode sceneDataNode)
     {
-      float nearClip = float.Parse(dataNode.ReadParameter("nearClip"));
-      float farClip = float.Parse(dataNode.ReadParameter("farClip"));
+      float nearClip = float.Parse(sceneDataNode.ReadParameter("nearClip"));
+      float farClip = float.Parse(sceneDataNode.ReadParameter("farClip"));
       int order = 0;
-      if (dataNode.HasParameter("order"))
-        order = int.Parse(dataNode.ReadParameter("order"));
+      if (sceneDataNode.HasParameter("order"))
+        order = int.Parse(sceneDataNode.ReadParameter("order"));
       Init(nearClip, farClip, order);
     }
 
-    public override void Save(IDataNode dataNode)
+    public override void Save(ISceneDataNode sceneDataNode)
     {
-      dataNode.WriteParameter("nearClip", _nearClip.ToString(CultureInfo.InvariantCulture));
-      dataNode.WriteParameter("farClip", _farClip.ToString(CultureInfo.InvariantCulture));
-      dataNode.WriteParameter("order", _order.ToString(CultureInfo.InvariantCulture));
+      sceneDataNode.WriteParameter("nearClip", _nearClip.ToString(CultureInfo.InvariantCulture));
+      sceneDataNode.WriteParameter("farClip", _farClip.ToString(CultureInfo.InvariantCulture));
+      sceneDataNode.WriteParameter("order", _order.ToString(CultureInfo.InvariantCulture));
     }
     
     public Matrix4 RenderTransform()

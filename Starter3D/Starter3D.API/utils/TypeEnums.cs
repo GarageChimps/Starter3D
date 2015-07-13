@@ -1,5 +1,12 @@
 ﻿namespace Starter3D.API.utils
 {
+  public enum MaterialType
+  {
+    BaseMaterial = 0,
+    BlinnPhongMaterial,
+    BlinnPhongColorTextureMaterial,
+  }
+
   public enum SceneNodeType
   {
     Scene = 0,

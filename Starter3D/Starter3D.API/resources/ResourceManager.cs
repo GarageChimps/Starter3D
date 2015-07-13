@@ -2,23 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
-using Starter3D.API.geometry;
-using Starter3D.API.geometry.factories;
+using Starter3D.API.utils;
 
 namespace Starter3D.API.resources
 {
   public class ResourceManager : IResourceManager
   {
     private readonly Dictionary<string, IMaterial> _materials = new Dictionary<string, IMaterial>();
-    private readonly Dictionary<string, IShape> _shapes = new Dictionary<string, IShape>();
-    private readonly Dictionary<string, string> _shaders = new Dictionary<string, string>();
-
-    private readonly IShapeFactory _shapeFactory;
     private readonly IMaterialFactory _materialFactory;
 
     public ResourceManager(IMaterialFactory materialFactory)
     {
-      //if (shapeFactory == null) throw new ArgumentNullException("shapeFactory");
       if (materialFactory == null) throw new ArgumentNullException("materialFactory");
       _materialFactory = new MaterialFactory();
     }
@@ -32,12 +26,12 @@ namespace Starter3D.API.resources
 
     private void LoadMaterials(XElement materialRoot)
     {
-      foreach (var element in materialRoot.Elements("Material"))
+      foreach (var element in materialRoot.Elements())
       {
+        var type = (MaterialType)Enum.Parse(typeof(MaterialType), element.Name.ToString());
         var key = element.Attribute("key").Value;
-        var vertexShader = element.Attribute("vertexShader").Value;
-        var fragmentShader = element.Attribute("fragmentShader").Value;
-        var material = _materialFactory.CreateMaterial(vertexShader, fragmentShader);
+        var material = _materialFactory.CreateMaterial(type);
+        material.Load(new XmlDataNode(element));
         AddMaterial(key, material);
       }
     }
@@ -50,33 +44,10 @@ namespace Starter3D.API.resources
       return _materials[key];
     }
 
-    public IShape GetShape(string key)
-    {
-      if (!_shapes.ContainsKey(key))
-        throw new ApplicationException("Shape key not found");
-      return _shapes[key];
-    }
-
-    public string GetShader(string key)
-    {
-      if (!_shaders.ContainsKey(key))
-        throw new ApplicationException("Shader key not found");
-      return _shaders[key];
-    }
-
     public void AddMaterial(string key, IMaterial material)
     {
       _materials.Add(key, material);
     }
 
-    public void AddShape(string key, IShape shape)
-    {
-      _shapes.Add(key, shape);
-    }
-
-    public void AddShader(string key, string shader)
-    {
-      _shaders.Add(key, shader);
-    }
   }
 }

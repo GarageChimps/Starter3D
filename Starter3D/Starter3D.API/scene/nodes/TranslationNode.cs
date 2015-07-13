@@ -46,19 +46,19 @@ namespace Starter3D.API.scene.nodes
       
     }
 
-    public override void Load(IDataNode dataNode)
+    public override void Load(ISceneDataNode sceneDataNode)
     {
-      float x = float.Parse(dataNode.ReadParameter("x"));
-      float y = float.Parse(dataNode.ReadParameter("y"));
-      float z = float.Parse(dataNode.ReadParameter("z"));
+      float x = float.Parse(sceneDataNode.ReadParameter("x"));
+      float y = float.Parse(sceneDataNode.ReadParameter("y"));
+      float z = float.Parse(sceneDataNode.ReadParameter("z"));
       Init(x,y,z);
     }
 
-    public override void Save(IDataNode dataNode)
+    public override void Save(ISceneDataNode sceneDataNode)
     {
-      dataNode.WriteParameter("x", X.ToString(CultureInfo.InvariantCulture));
-      dataNode.WriteParameter("y", Y.ToString(CultureInfo.InvariantCulture));
-      dataNode.WriteParameter("z", Z.ToString(CultureInfo.InvariantCulture));
+      sceneDataNode.WriteParameter("x", X.ToString(CultureInfo.InvariantCulture));
+      sceneDataNode.WriteParameter("y", Y.ToString(CultureInfo.InvariantCulture));
+      sceneDataNode.WriteParameter("z", Z.ToString(CultureInfo.InvariantCulture));
     }
   }
 }

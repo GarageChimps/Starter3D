@@ -5,20 +5,20 @@ using Starter3D.API.scene.persistence.factories;
 
 namespace Starter3D.API.scene.persistence
 {
-  public class XMLDataNodeReader: ISceneNodeReader
+  public class XmlSceneReader: ISceneReader
   {
-    private readonly IDataNodeFactory _dataNodeFactory;
+    private readonly ISceneDataNodeFactory _sceneDataNodeFactory;
 
-    public XMLDataNodeReader(IDataNodeFactory dataNodeFactory)
+    public XmlSceneReader(ISceneDataNodeFactory sceneDataNodeFactory)
     {
-      _dataNodeFactory = dataNodeFactory;
+      _sceneDataNodeFactory = sceneDataNodeFactory;
     }
 
     public ISceneNode Read(string filePath)
     {
       var xmlDoc = XDocument.Load(filePath);
       var element = xmlDoc.Elements("Scene").First();
-      var node = _dataNodeFactory.CreateXmlDataNode(element);
+      var node = _sceneDataNodeFactory.CreateXmlDataNode(element);
       return node.Load();
     }
 

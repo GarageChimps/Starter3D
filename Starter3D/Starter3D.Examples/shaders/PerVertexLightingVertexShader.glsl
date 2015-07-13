@@ -8,13 +8,16 @@ struct Light {
 };
 Light light0 = Light(vec3(0,10,10), vec3(0.5,0.5,0.5));
 
-vec3 ambientColor = vec3(0.2,0.2,0.2);
-
 vec3 eye = vec3(0,10,10);
 uniform mat4 projectionMatrix;
 uniform mat4 viewMatrix;
 
 uniform mat4 modelMatrix;
+
+uniform vec3 ambientLight;
+uniform vec3 diffuseColor;
+uniform vec3 specularColor;
+uniform float shininess;
 
 in vec3 inPosition;
 in vec3 inNormal;
@@ -38,7 +41,7 @@ vec3 blinnPhongShading(vec3 p, vec3 n, vec3 diffuse, vec3 specular, float shinin
 vec3 shade(vec3 p, vec3 n, vec3 diffuse, vec3 specular, float shininess)
 {
   vec3 color = blinnPhongShading(p,n,diffuse, specular, shininess, light0.position, light0.color); 
-  return ambientColor * diffuse + color;
+  return ambientLight * diffuse + color;
 }  
 
 
@@ -46,6 +49,6 @@ void main(void)
 {
   vec4 modelPosition = modelMatrix * vec4(inPosition, 1);
   vec4 modelNormal = modelMatrix * vec4(inNormal, 0); 
-  shadedColor = vec4(shade(modelPosition.xyz,  modelNormal.xyz, vec3(1,1,1), vec3(0,0,0), 1), 1.0);
+  shadedColor = vec4(shade(modelPosition.xyz,  modelNormal.xyz, diffuseColor, specularColor, shininess), 1.0);
   gl_Position = projectionMatrix * viewMatrix * modelPosition;
 }

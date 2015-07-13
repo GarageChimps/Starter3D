@@ -7,17 +7,17 @@ using Starter3D.API.utils;
 
 namespace Starter3D.API.scene.persistence
 {
-  public class XMLDataNode : IDataNode
+  public class XmlSceneDataNode : ISceneDataNode
   {
     private readonly XElement _element;
     private readonly ISceneNodeFactory _sceneNodeFactory;
-    private readonly IDataNodeFactory _dataNodeFactory;
+    private readonly ISceneDataNodeFactory _sceneDataNodeFactory;
 
-    public XMLDataNode(XElement element, ISceneNodeFactory sceneNodeFactory, IDataNodeFactory dataNodeFactory)
+    public XmlSceneDataNode(XElement element, ISceneNodeFactory sceneNodeFactory, ISceneDataNodeFactory sceneDataNodeFactory)
     {
       _element = element;
       _sceneNodeFactory = sceneNodeFactory;
-      _dataNodeFactory = dataNodeFactory;
+      _sceneDataNodeFactory = sceneDataNodeFactory;
     }
 
     public ISceneNode Load()
@@ -27,7 +27,7 @@ namespace Starter3D.API.scene.persistence
       sceneNode.Load(this);
       foreach (var childElement in _element.Elements())
       {
-        var childDataNode = _dataNodeFactory.CreateXmlDataNode(childElement);
+        var childDataNode = _sceneDataNodeFactory.CreateXmlDataNode(childElement);
         var childSceneNode = childDataNode.Load();
         sceneNode.AddChild(childSceneNode);
       }

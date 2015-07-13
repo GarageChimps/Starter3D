@@ -39,19 +39,19 @@ namespace Starter3D.API.scene.nodes
       _aspectRatio = aspectRatio;
     }
 
-    public override void Load(IDataNode dataNode)
+    public override void Load(ISceneDataNode sceneDataNode)
     {
-      base.Load(dataNode);
-      float fov = float.Parse(dataNode.ReadParameter("fieldOfView")).ToRadians();
-      float aspectRatio = float.Parse(dataNode.ReadParameter("aspectRatio"));
+      base.Load(sceneDataNode);
+      float fov = float.Parse(sceneDataNode.ReadParameter("fieldOfView")).ToRadians();
+      float aspectRatio = float.Parse(sceneDataNode.ReadParameter("aspectRatio"));
       Init(fov, aspectRatio);
     }
 
-    public override void Save(IDataNode dataNode)
+    public override void Save(ISceneDataNode sceneDataNode)
     {
-      base.Save(dataNode);
-      dataNode.WriteParameter("fieldOfView", _fieldOfView.ToDegrees().ToString(CultureInfo.InvariantCulture));
-      dataNode.WriteParameter("aspectRatio", _aspectRatio.ToString(CultureInfo.InvariantCulture));
+      base.Save(sceneDataNode);
+      sceneDataNode.WriteParameter("fieldOfView", _fieldOfView.ToDegrees().ToString(CultureInfo.InvariantCulture));
+      sceneDataNode.WriteParameter("aspectRatio", _aspectRatio.ToString(CultureInfo.InvariantCulture));
     }
 
     protected override Matrix4 CreateProjectionMatrix()

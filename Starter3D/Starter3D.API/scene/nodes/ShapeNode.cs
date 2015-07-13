@@ -32,10 +32,10 @@ namespace Starter3D.API.scene.nodes
       _resourceManager = resourceManager;
     }
 
-    public override void Load(IDataNode dataNode)
+    public override void Load(ISceneDataNode sceneDataNode)
     {
-      var shapeTypeString = dataNode.ReadParameter("shapeType");
-      var filePath = dataNode.ReadParameter("filePath");
+      var shapeTypeString = sceneDataNode.ReadParameter("shapeType");
+      var filePath = sceneDataNode.ReadParameter("filePath");
       var fileTypeString = Path.GetExtension(filePath).TrimStart('.');
 
       var shapeType = (ShapeType)Enum.Parse(typeof(ShapeType), shapeTypeString);
@@ -43,7 +43,7 @@ namespace Starter3D.API.scene.nodes
       _shape = _shapeFactory.CreateShape(shapeType, fileType);
       _shape.Load(filePath);
 
-      var materialKey = dataNode.ReadParameter("material");
+      var materialKey = sceneDataNode.ReadParameter("material");
       _shape.Material = _resourceManager.GetMaterial(materialKey);
     }
 

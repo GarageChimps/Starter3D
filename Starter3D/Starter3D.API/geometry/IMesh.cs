@@ -10,6 +10,7 @@ namespace Starter3D.API.geometry
     IEnumerable<IPolygon> GetTriangles();
     void AddVertex(IVertex vertex);
     void AddFace(IFace face);
+    bool HasNoValidNormal();
     void GenerateMissingNormals();
     int VerticesCount{ get; }
     int FacesCount{ get; }

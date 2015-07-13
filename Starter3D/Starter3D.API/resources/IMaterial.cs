@@ -7,5 +7,6 @@ namespace Starter3D.API.resources
     string VertexShader { get; }
     string FragmentShader { get; }
     void ConfigureRenderer(IRenderer renderer);
+    void Load(IDataNode dataNode);
   }
 }

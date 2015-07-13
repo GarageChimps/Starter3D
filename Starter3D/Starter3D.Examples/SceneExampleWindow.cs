@@ -21,23 +21,25 @@ namespace Starter3D.Examples
     public static float FrameRate = 60;
 
     private readonly IRenderer _renderer;
-    private readonly ISceneNodeReader _sceneNodeReader;
+    private readonly ISceneReader _sceneReader;
     private readonly IResourceManager _resourceManager;
     private ISceneNode _scene;
     private IMesh _mesh;
 
-    public SceneExampleWindow(int width, int height, IRenderer renderer, ISceneNodeReader sceneNodeReader, IResourceManager resourceManager, IConfiguration configuration)
+    public SceneExampleWindow(int width, int height, IRenderer renderer, ISceneReader sceneReader, IResourceManager resourceManager, IConfiguration configuration)
       : base(width, height,
         new OpenTK.Graphics.GraphicsMode(), "Starter3D", GameWindowFlags.Default,
         DisplayDevice.Default, 3, 0,
         OpenTK.Graphics.GraphicsContextFlags.ForwardCompatible | OpenTK.Graphics.GraphicsContextFlags.Debug)
     {
       _renderer = renderer;
-      _sceneNodeReader = sceneNodeReader;
+      _sceneReader = sceneReader;
       _resourceManager = resourceManager;
       _resourceManager.Load(configuration.ResourcesPath);
-      _scene = _sceneNodeReader.Read(configuration.ScenePath);
+      _scene = _sceneReader.Read(configuration.ScenePath);
       _mesh = _scene.GetNodes<ShapeNode>().First().Shape as IMesh;
+      if (_mesh.HasNoValidNormal())
+        _mesh.GenerateMissingNormals();
     }
 
     protected override void OnRenderFrame(FrameEventArgs e)

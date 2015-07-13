@@ -2,7 +2,7 @@
 
 namespace Starter3D.API.scene.persistence
 {
-  public interface ISceneNodeReader
+  public interface ISceneReader
   {
     ISceneNode Read(string filePath);
   }

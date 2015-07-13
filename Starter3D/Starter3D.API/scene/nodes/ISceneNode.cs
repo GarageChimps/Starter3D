@@ -13,8 +13,8 @@ namespace Starter3D.API.scene.nodes
     Matrix4 ComposeTransform();
     void AddChild(ISceneNode child);
     void RemoveChild(ISceneNode child);
-    void Load(IDataNode dataNode);
-    void Save(IDataNode dataNode);
+    void Load(ISceneDataNode sceneDataNode);
+    void Save(ISceneDataNode sceneDataNode);
     IEnumerable<T> GetNodes<T>() where T : class, ISceneNode;
     void ConfigureRenderer(IRenderer renderer);
   }

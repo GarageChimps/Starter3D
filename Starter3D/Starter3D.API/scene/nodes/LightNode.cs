@@ -27,19 +27,19 @@ namespace Starter3D.API.scene.nodes
       _color = color;
     }
 
-    public override void Load(IDataNode dataNode)
+    public override void Load(ISceneDataNode sceneDataNode)
     {
-      float r = float.Parse(dataNode.ReadParameter("r"));
-      float g = float.Parse(dataNode.ReadParameter("g"));
-      float b = float.Parse(dataNode.ReadParameter("b"));
+      float r = float.Parse(sceneDataNode.ReadParameter("r"));
+      float g = float.Parse(sceneDataNode.ReadParameter("g"));
+      float b = float.Parse(sceneDataNode.ReadParameter("b"));
       Init(new Color4(r,g,b,1));
     }
 
-    public override void Save(IDataNode dataNode)
+    public override void Save(ISceneDataNode sceneDataNode)
     {
-      dataNode.WriteParameter("r", Color.R.ToString(CultureInfo.InvariantCulture));
-      dataNode.WriteParameter("g", Color.G.ToString(CultureInfo.InvariantCulture));
-      dataNode.WriteParameter("b", Color.B.ToString(CultureInfo.InvariantCulture));
+      sceneDataNode.WriteParameter("r", Color.R.ToString(CultureInfo.InvariantCulture));
+      sceneDataNode.WriteParameter("g", Color.G.ToString(CultureInfo.InvariantCulture));
+      sceneDataNode.WriteParameter("b", Color.B.ToString(CultureInfo.InvariantCulture));
     }
     
   }

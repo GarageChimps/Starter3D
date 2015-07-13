@@ -29,10 +29,15 @@ namespace Starter3D.API.resources
     }
 
 
-    public void ConfigureRenderer(IRenderer renderer)
+    public virtual void ConfigureRenderer(IRenderer renderer)
     {
       renderer.SetShaders(_vertexShader, _fragmentShader);
     }
 
+    public virtual void Load(IDataNode dataNode)
+    {
+      _vertexShader = dataNode.ReadParameter("vertexShader");
+      _fragmentShader = dataNode.ReadParameter("fragmentShader");
+    }
   }
 }

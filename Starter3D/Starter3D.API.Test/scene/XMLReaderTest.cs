@@ -229,7 +229,7 @@ namespace ThreeAPI.Test.scene
       Assert.AreEqual(normalizedDirection.Z, lightNode.Direction.Z);
     }
 
-    private static XMLDataNodeReader CreateXMLReader(IResourceManager resourceManager)
+    private static XmlSceneReader CreateXMLReader(IResourceManager resourceManager)
     {
       var vertexFactory = new VertexFactory();
       var faceFactory = new FaceFactory();
@@ -237,12 +237,12 @@ namespace ThreeAPI.Test.scene
       var meshFactory = new MeshFactory(meshLoaderFactory);
       var shapeFactory = new ShapeFactory(meshFactory);
       var sceneNodeFactory = new SceneNodeFactory(shapeFactory, resourceManager);
-      var dataNodeFactory = new DataNodeFactory(sceneNodeFactory);
-      var xmlReader = new XMLDataNodeReader(dataNodeFactory);
+      var dataNodeFactory = new SceneDataNodeFactory(sceneNodeFactory);
+      var xmlReader = new XmlSceneReader(dataNodeFactory);
       return xmlReader;
     }
 
-    private static XMLDataNodeReader CreateXMLReader()
+    private static XmlSceneReader CreateXMLReader()
     {
       var materialFactory = new MaterialFactory();
       var resourceManager = new ResourceManager(materialFactory);

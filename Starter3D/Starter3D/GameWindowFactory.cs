@@ -12,10 +12,10 @@ namespace Starter3D
   {
     private readonly IRenderer _renderer;
     private readonly IResourceManager _resourceManager;
-    private readonly ISceneNodeReader _reader;
+    private readonly ISceneReader _reader;
     private readonly IConfiguration _configuration;
 
-    public GameWindowFactory(IRenderer renderer, IResourceManager resourceManager, ISceneNodeReader reader, IConfiguration configuration)
+    public GameWindowFactory(IRenderer renderer, IResourceManager resourceManager, ISceneReader reader, IConfiguration configuration)
     {
       if (renderer == null) throw new ArgumentNullException("renderer");
       if (resourceManager == null) throw new ArgumentNullException("resourceManager");

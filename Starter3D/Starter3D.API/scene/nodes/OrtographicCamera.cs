@@ -36,19 +36,19 @@ namespace Starter3D.API.scene.nodes
       _height = height;
     }
 
-    public override void Load(IDataNode dataNode)
+    public override void Load(ISceneDataNode sceneDataNode)
     {
-      base.Load(dataNode);
-      float width = float.Parse(dataNode.ReadParameter("width"));
-      float height = float.Parse(dataNode.ReadParameter("height"));
+      base.Load(sceneDataNode);
+      float width = float.Parse(sceneDataNode.ReadParameter("width"));
+      float height = float.Parse(sceneDataNode.ReadParameter("height"));
       Init(width, height);
     }
 
-    public override void Save(IDataNode dataNode)
+    public override void Save(ISceneDataNode sceneDataNode)
     {
-      base.Save(dataNode);
-      dataNode.WriteParameter("width", _width.ToString(CultureInfo.InvariantCulture));
-      dataNode.WriteParameter("height", _height.ToString(CultureInfo.InvariantCulture));
+      base.Save(sceneDataNode);
+      sceneDataNode.WriteParameter("width", _width.ToString(CultureInfo.InvariantCulture));
+      sceneDataNode.WriteParameter("height", _height.ToString(CultureInfo.InvariantCulture));
     }
 
     protected override Matrix4 CreateProjectionMatrix()

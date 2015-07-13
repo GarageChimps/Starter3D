@@ -46,12 +46,12 @@ namespace Starter3D.API.scene.nodes
       child.Parent = null;
     }
 
-    public virtual void Load(IDataNode dataNode)
+    public virtual void Load(ISceneDataNode sceneDataNode)
     {
 
     }
 
-    public virtual void Save(IDataNode dataNode)
+    public virtual void Save(ISceneDataNode sceneDataNode)
     {
 
     }

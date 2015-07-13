@@ -30,8 +30,8 @@ namespace Starter3D
       builder.RegisterType<MeshLoaderFactory>().As<IMeshLoaderFactory>().SingleInstance();
       builder.RegisterType<MeshFactory>().As<IMeshFactory>().SingleInstance();
       builder.RegisterType<SceneNodeFactory>().As<ISceneNodeFactory>().SingleInstance();
-      builder.RegisterType<DataNodeFactory>().As<IDataNodeFactory>().SingleInstance();
-      builder.RegisterType<XMLDataNodeReader>().As<ISceneNodeReader>().SingleInstance();
+      builder.RegisterType<SceneDataNodeFactory>().As<ISceneDataNodeFactory>().SingleInstance();
+      builder.RegisterType<XmlSceneReader>().As<ISceneReader>().SingleInstance();
       builder.RegisterType<GameWindowFactory>().As<IGameWindowFactory>().SingleInstance();
       builder.RegisterType<Configuration>().As<IConfiguration>().SingleInstance();
 

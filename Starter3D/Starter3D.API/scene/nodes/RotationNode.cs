@@ -49,21 +49,21 @@ namespace Starter3D.API.scene.nodes
       _transform = Matrix4.CreateFromAxisAngle(_axis, angle.ToRadians());
     }
 
-    public override void Load(IDataNode dataNode)
+    public override void Load(ISceneDataNode sceneDataNode)
     {
-      float x = float.Parse(dataNode.ReadParameter("x"));
-      float y = float.Parse(dataNode.ReadParameter("y"));
-      float z = float.Parse(dataNode.ReadParameter("z"));
-      float angle = float.Parse(dataNode.ReadParameter("angle"));
+      float x = float.Parse(sceneDataNode.ReadParameter("x"));
+      float y = float.Parse(sceneDataNode.ReadParameter("y"));
+      float z = float.Parse(sceneDataNode.ReadParameter("z"));
+      float angle = float.Parse(sceneDataNode.ReadParameter("angle"));
       Init(x, y, z, angle);
     }
 
-    public override void Save(IDataNode dataNode)
+    public override void Save(ISceneDataNode sceneDataNode)
     {
-      dataNode.WriteParameter("x", X.ToString(CultureInfo.InvariantCulture));
-      dataNode.WriteParameter("y", Y.ToString(CultureInfo.InvariantCulture));
-      dataNode.WriteParameter("z", Z.ToString(CultureInfo.InvariantCulture));
-      dataNode.WriteParameter("angle", _angle.ToString(CultureInfo.InvariantCulture));
+      sceneDataNode.WriteParameter("x", X.ToString(CultureInfo.InvariantCulture));
+      sceneDataNode.WriteParameter("y", Y.ToString(CultureInfo.InvariantCulture));
+      sceneDataNode.WriteParameter("z", Z.ToString(CultureInfo.InvariantCulture));
+      sceneDataNode.WriteParameter("angle", _angle.ToString(CultureInfo.InvariantCulture));
     }
   }
 }

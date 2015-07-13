@@ -80,6 +80,16 @@ namespace Starter3D.API.geometry
       _faces.Add(face);
     }
 
+    public bool HasNoValidNormal()
+    {
+      foreach (var vertex in _vertices)
+      {
+        if (vertex.HasValidNormal())
+          return false;
+      }
+      return true;
+    }
+
     public void GenerateMissingNormals()
     {
       var vertexToFacesMap = new Dictionary<IVertex, List<IFace>>();

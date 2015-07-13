@@ -2,7 +2,7 @@
 
 namespace Starter3D.API.scene.persistence
 {
-  public interface IDataNode
+  public interface ISceneDataNode
   {
     ISceneNode Load();
     void WriteParameter(string parameterName, string parameterValue);

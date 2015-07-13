@@ -1,7 +1,9 @@
-﻿namespace Starter3D.API.resources
+﻿using Starter3D.API.utils;
+
+namespace Starter3D.API.resources
 {
   public interface IMaterialFactory
   {
-    IMaterial CreateMaterial(string vertexShader, string fragmentShader);
+    IMaterial CreateMaterial(MaterialType type);
   }
 }

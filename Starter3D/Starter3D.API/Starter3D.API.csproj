@@ -37,6 +37,8 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="resources\BlinnPhongMaterial.cs" />
+    <Compile Include="resources\IDataNode.cs" />
     <Compile Include="resources\IMaterial.cs" />
     <Compile Include="resources\IMaterialFactory.cs" />
     <Compile Include="resources\IResourceManager.cs" />
@@ -50,16 +52,17 @@
     <Compile Include="renderer\IRenderer.cs" />
     <Compile Include="resources\MaterialFactory.cs" />
     <Compile Include="resources\ResourceManager.cs" />
+    <Compile Include="resources\XmlDataNode.cs" />
     <Compile Include="scene\nodes\BaseSceneNode.cs" />
     <Compile Include="scene\nodes\CameraNode.cs" />
-    <Compile Include="scene\persistence\factories\DataNodeFactory.cs" />
+    <Compile Include="scene\persistence\factories\SceneDataNodeFactory.cs" />
     <Compile Include="scene\nodes\DirectionalLight.cs" />
     <Compile Include="utils\Configuration.cs" />
     <Compile Include="utils\Extensions.cs" />
     <Compile Include="geometry\Face.cs" />
     <Compile Include="geometry\factories\FaceFactory.cs" />
     <Compile Include="geometry\ICurve.cs" />
-    <Compile Include="scene\persistence\IDataNode.cs" />
+    <Compile Include="scene\persistence\ISceneDataNode.cs" />
     <Compile Include="geometry\IFace.cs" />
     <Compile Include="geometry\factories\IFaceFactory.cs" />
     <Compile Include="geometry\IMesh.cs" />
@@ -74,9 +77,9 @@
     <Compile Include="geometry\factories\IShapeFactory.cs" />
     <Compile Include="geometry\ISurface.cs" />
     <Compile Include="geometry\IVertex.cs" />
-    <Compile Include="scene\persistence\factories\IDataNodeFactory.cs" />
+    <Compile Include="scene\persistence\factories\ISceneDataNodeFactory.cs" />
     <Compile Include="geometry\factories\IVertexFactory.cs" />
-    <Compile Include="scene\persistence\ISceneNodeReader.cs" />
+    <Compile Include="scene\persistence\ISceneReader.cs" />
     <Compile Include="scene\nodes\LightNode.cs" />
     <Compile Include="geometry\Mesh.cs" />
     <Compile Include="geometry\factories\MeshFactory.cs" />
@@ -96,8 +99,8 @@
     <Compile Include="geometry\Triangle.cs" />
     <Compile Include="geometry\Vertex.cs" />
     <Compile Include="geometry\factories\VertexFactory.cs" />
-    <Compile Include="scene\persistence\XMLDataNode.cs" />
-    <Compile Include="scene\persistence\XMLDataNodeReader.cs" />
+    <Compile Include="scene\persistence\XmlSceneDataNode.cs" />
+    <Compile Include="scene\persistence\XmlSceneReader.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />
