@@ -71,9 +71,11 @@ namespace Starter3D.API.scene.nodes
 
     public override void ConfigureRenderer(IRenderer renderer)
     {
-      var viewMatrix = _parent.ComposeTransform().Inverted();
-      renderer.AddMatrixParameter("viewMatrix", viewMatrix);
+      var transform = ComposeTransform();
+      var viewMatrix = transform.Inverted();
       var projectionMatrix = CreateProjectionMatrix();
+      renderer.AddVectorParameter("eye", transform.Row3.Xyz);
+      renderer.AddMatrixParameter("viewMatrix", viewMatrix);
       renderer.AddMatrixParameter("projectionMatrix", projectionMatrix);
 
       base.ConfigureRenderer(renderer);

@@ -7,23 +7,19 @@ uniform mat4 viewMatrix;
 uniform mat4 modelMatrix;
 
 in vec3 inPosition;
-in vec3 inDiffuseColor;
 in vec3 inNormal;
-in vec3 inSpecularColor;
-in vec3 inTexCoords;
+in vec3 inTextureCoords;
 
 out vec3 fragPosition;
-out vec3 fragDiffuseColor;
 out vec3 fragNormal;
-out vec3 fragSpecularColor;
-out vec3 fragTexCoords;
+out vec3 fragTextureCoords;
 
 void main(void)
 {
-  fragPosition = inPosition;
-  fragDiffuseColor = inDiffuseColor;
-  fragNormal = inNormal;
-  fragSpecularColor = inSpecularColor;
-  fragTexCoords = inTexCoords;
-  gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(fragPosition, 1);
+  vec4 worldPosition = modelMatrix * vec4(inPosition,1);
+  vec4 worldNormal = modelMatrix * vec4(inNormal,0);
+  fragPosition = worldPosition.xyz;
+  fragNormal = worldNormal.xyz;
+  fragTextureCoords = inTextureCoords;
+  gl_Position = projectionMatrix * viewMatrix * worldPosition;
 }

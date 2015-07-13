@@ -2,24 +2,27 @@
 
 precision highp float;
 
-struct Light {
-  vec3 position;
-  vec3 color;
-};
-uniform Light light0;
-
-uniform vec3 backgroundColor;
-uniform vec3 ambientColor;
-
+uniform vec3 lightPosition;
+uniform vec3 lightColor;
 uniform vec3 eye;
 
-uniform sampler2D diffuseTexture;
+uniform vec3 ambientLight;
+uniform vec3 diffuseColor;
+uniform vec3 specularColor;
+uniform float shininess;
 
-vec3 blinnPhongShading(vec3 p, vec3 n, vec3 diffuse, vec3 specular, float shininess, vec3 lightPosition, vec3 lightColor, vec2 texCoords)
+
+in vec3 fragPosition;
+in vec3 fragNormal;
+in vec3 fragTextureCoords;
+
+out vec4 outFragColor;
+
+vec3 blinnPhongShading(vec3 p, vec3 n, vec3 diffuse, vec3 specular, float shininess, vec3 lightPosition, vec3 lightColor)
 {
+  n = normalize(n);
   vec3 v = eye - p;
   v = normalize(v);
-  n =  perturb_normal(n, v, texCoords);
   vec3 l = lightPosition - p;
   l = normalize(l);
   vec3 h = v + l;
@@ -28,22 +31,14 @@ vec3 blinnPhongShading(vec3 p, vec3 n, vec3 diffuse, vec3 specular, float shinin
   return shadedColor;
 }  
 
-vec3 shade(vec3 p, vec3 n, vec3 diffuse, vec3 specular, float shininess, vec2 texCoords)
+vec3 shade(vec3 p, vec3 n, vec3 diffuse, vec3 specular, float shininess)
 {
-  vec3 color = blinnPhongShading(p,n,diffuse, specular, shininess, light0.position, light0.color, texCoords); 
-  return ambientColor * diffuse + color;
+  vec3 color = blinnPhongShading(p,n,diffuse, specular, shininess, lightPosition, lightColor); 
+  return ambientLight * diffuse + color;
 }  
 
-in vec3 fragPosition;
-in vec3 fragDiffuseColor;
-in vec3 fragNormal;
-in vec3 fragSpecularColor;
-in vec3 fragTexCoords;
-
-out vec4 outFragColor;
 
 void main(void)
 {
-  vec4 texColor = texture(diffuseTexture, fragTexCoords.xy);
-  outFragColor = vec4(shade(fragPosition, fragNormal, texColor.xyz * fragDiffuseColor, fragSpecularColor, fragTexCoords.z, fragTexCoords.xy), 1.0);
+  outFragColor = vec4(shade(fragPosition, fragNormal, diffuseColor, specularColor, shininess), 1.0);
 }

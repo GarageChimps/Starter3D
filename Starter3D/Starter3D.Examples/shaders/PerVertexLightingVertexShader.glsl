@@ -2,16 +2,13 @@
 
 precision highp float;
 
-struct Light {
-  vec3 position;
-  vec3 color;
-};
-Light light0 = Light(vec3(0,10,10), vec3(0.5,0.5,0.5));
+uniform vec3 lightPosition;
+uniform vec3 lightColor;
 
-vec3 eye = vec3(0,10,10);
+uniform vec3 eye;
+
 uniform mat4 projectionMatrix;
 uniform mat4 viewMatrix;
-
 uniform mat4 modelMatrix;
 
 uniform vec3 ambientLight;
@@ -40,7 +37,7 @@ vec3 blinnPhongShading(vec3 p, vec3 n, vec3 diffuse, vec3 specular, float shinin
 
 vec3 shade(vec3 p, vec3 n, vec3 diffuse, vec3 specular, float shininess)
 {
-  vec3 color = blinnPhongShading(p,n,diffuse, specular, shininess, light0.position, light0.color); 
+  vec3 color = blinnPhongShading(p,n,diffuse, specular, shininess, lightPosition, lightColor); 
   return ambientLight * diffuse + color;
 }  
 

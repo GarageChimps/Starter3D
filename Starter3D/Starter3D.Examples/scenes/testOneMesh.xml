@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<Scene>
+  <Scale x="0.5" y="0.5" z="0.5">
+    <Shape shapeType='Mesh' filePath='meshes/teapot.obj' material='blinnPhongPixel' />
+  </Scale>
+  <Translate x='0' y='0.5' z='5'>
+    <PerspectiveCamera nearClip="0.1" farClip="100" fieldOfView="45" aspectRatio="1" order="0" />
+    <PointLight r="0.5" g="0.5" b="0.5"/>
+  </Translate>
+  
+</Scene>

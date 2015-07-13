@@ -6,7 +6,7 @@ namespace Starter3D.API.scene.nodes
 {
   public abstract class LightNode : BaseSceneNode
   {
-    private Color4 _color;
+    protected Color4 _color;
 
     public Color4 Color
     {
@@ -41,6 +41,6 @@ namespace Starter3D.API.scene.nodes
       sceneDataNode.WriteParameter("g", Color.G.ToString(CultureInfo.InvariantCulture));
       sceneDataNode.WriteParameter("b", Color.B.ToString(CultureInfo.InvariantCulture));
     }
-    
+
   }
 }
