@@ -12,20 +12,25 @@ namespace Starter3D
     private const string ShaderBasePath = "Shaders";
     private const string FragmentShaderExtension = "Fragment.glsl";
     private const string VertexShaderExtension = "Vertex.glsl";
-    
+
     private readonly Dictionary<string, int> _shaderHandleDictionary = new Dictionary<string, int>();
     private readonly Dictionary<string, int> _objectsHandleDictionary = new Dictionary<string, int>();
+    private readonly Dictionary<string, int> _objectsVertexBufferDictionary = new Dictionary<string, int>();
+    private readonly Dictionary<string, int> _objectsIndexBufferDictionary = new Dictionary<string, int>();
 
 
     public void DrawTriangles(string name, int triangleCount)
     {
       if (!_objectsHandleDictionary.ContainsKey(name))
         throw new ApplicationException("Object must be added to the renderer before drawing");
-      GL.BindVertexArray(_objectsHandleDictionary[name]);
+      if (!_objectsVertexBufferDictionary.ContainsKey(name))
+        throw new ApplicationException("Vertices of object must be added to the renderer before drawing");
+      if (!_objectsIndexBufferDictionary.ContainsKey(name))
+        throw new ApplicationException("Faces of object must be added to the renderer before drawing");
       GL.DrawElements(BeginMode.Triangles, triangleCount, DrawElementsType.UnsignedInt, IntPtr.Zero);
     }
 
-    
+
     public void LoadShaders(string shaderName)
     {
       if (_shaderHandleDictionary.ContainsKey(shaderName))
@@ -34,7 +39,7 @@ namespace Starter3D
       var vertexShaderSource = File.ReadAllText(Path.Combine(ShaderBasePath, shaderName + VertexShaderExtension));
       var programHandle = CreateProgram(vertexShaderSource, fragmentShaderSource);
       _shaderHandleDictionary.Add(shaderName, programHandle);
-      GL.UseProgram(_shaderHandleDictionary[shaderName]);
+      //GL.UseProgram(_shaderHandleDictionary[shaderName]);
     }
 
     public void UseShader(string shaderName)
@@ -44,6 +49,18 @@ namespace Starter3D
       GL.UseProgram(_shaderHandleDictionary[shaderName]);
     }
 
+    public void BeginUsingObject(string objectName)
+    {
+      if (!_objectsHandleDictionary.ContainsKey(objectName))
+        throw new ApplicationException("Object must be added before using it");
+      GL.BindVertexArray(_objectsHandleDictionary[objectName]);
+    }
+
+    public void StopUsingObject()
+    {
+      GL.BindVertexArray(0);
+    }
+
     public void AddObject(string objectName)
     {
       if (_objectsHandleDictionary.ContainsKey(objectName))
@@ -51,7 +68,7 @@ namespace Starter3D
       int objHandle;
       GL.GenVertexArrays(1, out  objHandle);
       _objectsHandleDictionary.Add(objectName, objHandle);
-      GL.BindVertexArray(_objectsHandleDictionary[objectName]);
+      //GL.BindVertexArray(_objectsHandleDictionary[objectName]);
     }
 
     public void AddMatrixParameter(string name, Matrix4 matrix)
@@ -59,7 +76,7 @@ namespace Starter3D
       foreach (var shaderHandle in _shaderHandleDictionary.Values)
       {
         int location = GL.GetUniformLocation(shaderHandle, name);
-        if( location != -1)
+        if (location != -1)
           GL.UniformMatrix4(location, false, ref matrix);
       }
     }
@@ -74,6 +91,16 @@ namespace Starter3D
       }
     }
 
+    public void AddBooleanParameter(string name, bool value)
+    {
+      foreach (var shaderHandle in _shaderHandleDictionary.Values)
+      {
+        int location = GL.GetUniformLocation(shaderHandle, name);
+        if (location != -1)
+          GL.Uniform1(location, value ? 1 : 0);
+      }
+    }
+
     public void AddNumberParameter(string name, float number)
     {
       foreach (var shaderHandle in _shaderHandleDictionary.Values)
@@ -84,42 +111,59 @@ namespace Starter3D
       }
     }
 
-    public void SetVerticesData(List<Vector3> data)
+    public void SetVerticesData(string name, List<Vector3> data)
     {
+      if (_objectsVertexBufferDictionary.ContainsKey(name))
+        return;
+      //GL.BindVertexArray(_objectsHandleDictionary[name]);
       var verticesArray = data.ToArray();
       int vboHandle;
       GL.GenBuffers(1, out vboHandle);
       GL.BindBuffer(BufferTarget.ArrayBuffer, vboHandle);
       GL.BufferData(BufferTarget.ArrayBuffer, new IntPtr(verticesArray.Length * Vector3.SizeInBytes), verticesArray, BufferUsageHint.StaticDraw);
+      _objectsVertexBufferDictionary.Add(name, vboHandle);
+      //GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
+      //GL.BindVertexArray(0);
     }
-    
-    public void SetFacesData(List<int> data)
+
+    public void SetFacesData(string name, List<int> data)
     {
+      if (_objectsIndexBufferDictionary.ContainsKey(name))
+        return;
+      //GL.BindVertexArray(_objectsHandleDictionary[name]);
       var indicesArray = new uint[data.Count];
       for (int i = 0; i < data.Count; i++)
       {
-        indicesArray[i] = (uint) data[i];
+        indicesArray[i] = (uint)data[i];
       }
       int indicesVboHandle;
       GL.GenBuffers(1, out indicesVboHandle);
       GL.BindBuffer(BufferTarget.ElementArrayBuffer, indicesVboHandle);
       GL.BufferData(BufferTarget.ElementArrayBuffer, new IntPtr(indicesArray.Length * sizeof(uint)), indicesArray, BufferUsageHint.StaticDraw);
+      _objectsIndexBufferDictionary.Add(name, indicesVboHandle);
+      //GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
+      //GL.BindVertexArray(0);
     }
 
 
-    public void SetVertexAttribute(int index, string name, int stride, int offset)
+    public void SetVertexAttribute(string objectName, string shaderName, int index, string vertexPropertyName, int stride, int offset)
     {
-      foreach (var shaderHandle in _shaderHandleDictionary.Values)
+      if (!_objectsHandleDictionary.ContainsKey(objectName))
+        throw new ApplicationException("Object must be added before configuring it");
+      if (!_objectsVertexBufferDictionary.ContainsKey(objectName))
+        throw new ApplicationException("Object vetices must be added before configuring it");
+      if (!_shaderHandleDictionary.ContainsKey(shaderName))
+        throw new ApplicationException("Shader must be loaded before configuring it");
+      //GL.BindVertexArray(_objectsHandleDictionary[objectName]);
+      //GL.BindBuffer(BufferTarget.ArrayBuffer, _objectsVertexBufferDictionary[objectName]);
+      int location = GL.GetAttribLocation(_shaderHandleDictionary[shaderName], vertexPropertyName);
+      if (location != -1)
       {
-        int location = GL.GetAttribLocation(shaderHandle, name);
-        if (location != -1)
-        {
-          //GL.BindAttribLocation(_programHandle, index, name);
-          GL.EnableVertexAttribArray(location);
-          GL.VertexAttribPointer(location, 3, VertexAttribPointerType.Float, false, stride,
-            IntPtr.Add(IntPtr.Zero, offset));
-        }
+        GL.VertexAttribPointer(location, 3, VertexAttribPointerType.Float, false, stride, IntPtr.Add(IntPtr.Zero, offset));
+        GL.EnableVertexAttribArray(location);
       }
+      //GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
+      //GL.BindVertexArray(0);
     }
 
     private int CreateShader(string shaderSource, ShaderType type)
@@ -162,6 +206,6 @@ namespace Starter3D
       return shaderProgramHandle;
     }
 
-    
+
   }
 }

@@ -1,6 +1,7 @@
 using System.Globalization;
 using OpenTK;
 using OpenTK.Graphics;
+using Starter3D.API.renderer;
 using Starter3D.API.scene.persistence;
 
 namespace Starter3D.API.scene.nodes
@@ -28,6 +29,12 @@ namespace Starter3D.API.scene.nodes
     private void Init(Vector3 direction)
     {
       _direction = direction;
+    }
+
+    public override void Configure(IRenderer renderer)
+    {
+      renderer.AddVectorParameter("directionalLights[" + _index + "].Direction", _direction);
+      renderer.AddVectorParameter("directionalLights[" + _index + "].Color", new Vector3(_color.R, _color.G, _color.B));
     }
 
     public override void Load(ISceneDataNode sceneDataNode)

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Globalization;
 using System.Xml.Linq;
 using OpenTK;
@@ -41,5 +42,39 @@ namespace Starter3D.API.resources
       return new Vector3(float.Parse(splitParamters[0], CultureInfo.InvariantCulture),
         float.Parse(splitParamters[1], CultureInfo.InvariantCulture), float.Parse(splitParamters[2], CultureInfo.InvariantCulture));
     }
+
+    public void ReadAllParameters(Dictionary<string, Vector3> vectorParameters, Dictionary<string, float> numericParameters, Dictionary<string, bool> booleanParameters)
+    {
+      foreach (var attribute in _element.Attributes())
+      {
+        var name = attribute.Name.ToString();
+        var value = attribute.Value;
+        var splitParamters = value.Split(',');
+        float floatValue;
+        bool boolValue;
+        if (splitParamters.Length == 3)
+        {
+          float x,y,z;
+          if (!float.TryParse(splitParamters[0], out x))
+            continue;
+          if (!float.TryParse(splitParamters[1], out y))
+            continue;
+          if (!float.TryParse(splitParamters[2], out z))
+            continue;
+          vectorParameters.Add(name, new Vector3(x,y,z));
+
+        }
+        else if (float.TryParse(value, out floatValue))
+        {
+          numericParameters.Add(name, floatValue);
+        }
+        else if (bool.TryParse(value, out boolValue))
+        {
+          booleanParameters.Add(name, boolValue);
+        }
+      }
+    }
+
+    
   }
 }

@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<Scene>
+  <DirectionalLight x="0" y="-1" z="-1" r="0.2" g="0.2" b="0.2"/>
+  <Scale x="0.5" y="0.5" z="0.5">
+    <Shape shapeType='Mesh' shapeName='teapot1' filePath='meshes/teapot.obj' material='redSpecular' />
+  </Scale>
+  <Translate x='0' y='0.5' z='5'>
+    <PerspectiveCamera nearClip="0.1" farClip="100" fieldOfView="45" aspectRatio="1" order="0" />
+    <PointLight r="0.5" g="0.5" b="0.5"/>
+  </Translate>
+  
+</Scene>

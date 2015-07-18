@@ -74,7 +74,7 @@ namespace Starter3D.API.scene.nodes
       var transform = ComposeTransform();
       var viewMatrix = transform.Inverted();
       var projectionMatrix = CreateProjectionMatrix();
-      renderer.AddVectorParameter("eye", transform.Row3.Xyz);
+      renderer.AddVectorParameter("cameraPosition", transform.Row3.Xyz);
       renderer.AddMatrixParameter("viewMatrix", viewMatrix);
       renderer.AddMatrixParameter("projectionMatrix", projectionMatrix);
 

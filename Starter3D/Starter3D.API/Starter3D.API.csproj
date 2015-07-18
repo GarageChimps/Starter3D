@@ -37,7 +37,6 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="resources\BlinnPhongMaterial.cs" />
     <Compile Include="resources\IDataNode.cs" />
     <Compile Include="resources\IMaterial.cs" />
     <Compile Include="resources\IMaterialFactory.cs" />

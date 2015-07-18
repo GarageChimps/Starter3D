@@ -31,9 +31,23 @@ namespace Starter3D.API.resources
     public virtual void Configure(IRenderer renderer)
     {
       renderer.LoadShaders(_shaderName);
+      renderer.UseShader(_shaderName);
+      foreach (var numericParameter in _numericParameters)
+      {
+        renderer.AddNumberParameter(numericParameter.Key, numericParameter.Value);
+      }
+      foreach (var vectorParameter in _vectorParameters)
+      {
+        renderer.AddVectorParameter(vectorParameter.Key, vectorParameter.Value);
+      }
+      foreach (var booleanParameter in _booleanParameters)
+      {
+        renderer.AddBooleanParameter(booleanParameter.Key, booleanParameter.Value);
+      }
+      
     }
 
-    public void Update(IRenderer renderer)
+    public void UseMaterial(IRenderer renderer)
     {
       renderer.UseShader(_shaderName);
     }
@@ -41,6 +55,7 @@ namespace Starter3D.API.resources
     public virtual void Load(IDataNode dataNode)
     {
       _shaderName = dataNode.ReadParameter("shader");
+      dataNode.ReadAllParameters(_vectorParameters, _numericParameters, _booleanParameters);
     }
   }
 }

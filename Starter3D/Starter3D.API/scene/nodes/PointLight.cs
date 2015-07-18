@@ -6,7 +6,7 @@ namespace Starter3D.API.scene.nodes
 {
   public class PointLight : LightNode
   {
-    
+
     public PointLight(Color4 color)
       : base(color)
     {
@@ -14,7 +14,7 @@ namespace Starter3D.API.scene.nodes
 
     public PointLight()
     {
-      
+
     }
 
     public Vector3 GetPosition()
@@ -22,11 +22,11 @@ namespace Starter3D.API.scene.nodes
       var transform = ComposeTransform();
       return transform.Row3.Xyz;
     }
-    
+
     public override void Configure(IRenderer renderer)
     {
-      renderer.AddVectorParameter("lightPosition", GetPosition());
-      renderer.AddVectorParameter("lightColor", new Vector3(_color.R, _color.G, _color.B));
+      renderer.AddVectorParameter("pointLights[" + _index + "].Position", GetPosition());
+      renderer.AddVectorParameter("pointLights[" + _index + "].Color", new Vector3(_color.R, _color.G, _color.B));
     }
 
     public override void Update(IRenderer renderer)

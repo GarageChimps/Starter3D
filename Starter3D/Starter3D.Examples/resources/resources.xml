@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <Resources>
 	<Materials>
-    <BlinnPhongMaterial key='redSpecularV' shader='blinnPhongGouraud' ambientLight='0.2,0.2,0.2' diffuseColor='1,0,0' specularColor='1,1,1' shininess='100'/>
-    <BlinnPhongMaterial key='redSpecular' shader='blinnPhong' ambientLight='0.2,0.2,0.2' diffuseColor='1,0,0' specularColor='1,1,1' shininess='100'/>
-    <BlinnPhongMaterial key='blueDiffuse' shader='blinnPhong' ambientLight='0.2,0.2,0.2' diffuseColor='0,0,1' specularColor='0,0,0' shininess='0'/>
+    <BaseMaterial key='redSpecularV' shader='blinnPhongGouraud' ambientLight='0.2,0.2,0.2' diffuseColor='1,0,0' specularColor='1,1,1' shininess='100'/>
+    <BaseMaterial key='redSpecular' shader='blinnPhong' ambientLight='0.2,0.2,0.2' diffuseColor='1,0,0' specularColor='1,1,1' shininess='100'/>
+    <BaseMaterial key='blueDiffuse' shader='blinnPhong' ambientLight='0.2,0.2,0.2' diffuseColor='0,0,1' specularColor='0,0,0' shininess='0'/>
 	</Materials>                          
 </Resources>

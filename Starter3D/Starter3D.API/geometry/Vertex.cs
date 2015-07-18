@@ -57,11 +57,11 @@ namespace Starter3D.API.geometry
       vertexData.Add(_textureCoords);
     }
 
-    public void Configure(IRenderer renderer)
+    public void Configure(string objectName, string shaderName, IRenderer renderer)
     {
-      renderer.SetVertexAttribute(0, "inPosition", 3* Vector3.SizeInBytes, 0);
-      renderer.SetVertexAttribute(1, "inNormal", 3 * Vector3.SizeInBytes, Vector3.SizeInBytes);
-      renderer.SetVertexAttribute(2, "inTextureCoords", 3 * Vector3.SizeInBytes, 2 * Vector3.SizeInBytes);
+      renderer.SetVertexAttribute(objectName, shaderName, 0, "inPosition", 3 * Vector3.SizeInBytes, 0);
+      renderer.SetVertexAttribute(objectName, shaderName, 1, "inNormal", 3 * Vector3.SizeInBytes, Vector3.SizeInBytes);
+      renderer.SetVertexAttribute(objectName, shaderName, 2, "inTextureCoords", 3 * Vector3.SizeInBytes, 2 * Vector3.SizeInBytes);
     }
 
     public override bool Equals(object obj)

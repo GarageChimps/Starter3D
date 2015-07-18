@@ -33,6 +33,7 @@ namespace Starter3D.API.resources
         var material = _materialFactory.CreateMaterial(type);
         material.Load(new XmlDataNode(element));
         AddMaterial(key, material);
+        
       }
     }
 

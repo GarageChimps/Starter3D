@@ -1,4 +1,5 @@
-﻿using OpenTK;
+﻿using System.Collections.Generic;
+using OpenTK;
 
 namespace Starter3D.API.resources
 {
@@ -9,5 +10,7 @@ namespace Starter3D.API.resources
     string ReadParameter(string parameterName);
     float ReadFloatParameter(string parameterName);
     Vector3 ReadVectorParameter(string parameterName);
+    void ReadAllParameters(Dictionary<string, Vector3> vectorParameters, Dictionary<string, float> numericParameters,
+      Dictionary<string, bool> booleanParameters);
   }
 }

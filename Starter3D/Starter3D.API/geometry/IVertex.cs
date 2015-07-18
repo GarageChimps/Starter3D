@@ -11,6 +11,6 @@ namespace Starter3D.API.geometry
     Vector3 TextureCoords { get; }
     bool HasValidNormal();
     void AppendData(List<Vector3> vertexData);
-    void Configure(IRenderer renderer);
+    void Configure(string objectName, string shaderName, IRenderer renderer);
   }
 }

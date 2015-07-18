@@ -11,10 +11,6 @@ namespace Starter3D.API.resources
       {
         case MaterialType.BaseMaterial:
           return  new Material();
-        case MaterialType.BlinnPhongMaterial:
-          return new BlinnPhongMaterial();
-        case MaterialType.BlinnPhongColorTextureMaterial:
-          throw new NotImplementedException();
         default:
           throw new ArgumentOutOfRangeException("type");
       }

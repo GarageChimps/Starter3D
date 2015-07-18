@@ -3,8 +3,6 @@
   public enum MaterialType
   {
     BaseMaterial = 0,
-    BlinnPhongMaterial,
-    BlinnPhongColorTextureMaterial,
   }
 
   public enum SceneNodeType

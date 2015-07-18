@@ -68,10 +68,23 @@ namespace Starter3D.Examples
 
     protected override void OnLoad(EventArgs e)
     {
+      var pointLights = _sceneGraph.GetNodes<PointLight>().ToList();
+      for (int i = 0; i < pointLights.Count(); i++)
+      {
+        pointLights.ElementAt(i).Index = i;
+      }
+      var directionalLights = _sceneGraph.GetNodes<DirectionalLight>().ToList();
+      for (int i = 0; i < directionalLights.Count(); i++)
+      {
+        directionalLights.ElementAt(i).Index = i;
+      }
       foreach (var sceneElement in _sceneElements)
       {
         sceneElement.Configure(_renderer);
       }
+      _renderer.AddNumberParameter("activeNumberOfPointLights", pointLights.Count());
+      _renderer.AddNumberParameter("activeNumberOfDirectionalLights", directionalLights.Count());
+      
 
       GL.Enable(EnableCap.DepthTest);
       GL.ClearColor(Color.AliceBlue);

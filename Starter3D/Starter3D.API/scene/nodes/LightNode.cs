@@ -6,11 +6,18 @@ namespace Starter3D.API.scene.nodes
 {
   public abstract class LightNode : BaseSceneNode
   {
+    protected int _index;
     protected Color4 _color;
 
     public Color4 Color
     {
       get { return _color; }
+    }
+
+    public int Index
+    {
+      get { return _index; }
+      set { _index = value; }
     }
 
     protected LightNode(Color4 color)
