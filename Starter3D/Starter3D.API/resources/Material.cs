@@ -1,43 +1,46 @@
-﻿using Starter3D.API.renderer;
+﻿using System.Collections.Generic;
+using OpenTK;
+using Starter3D.API.renderer;
 
 namespace Starter3D.API.resources
 {
   public class Material : IMaterial
   {
-    private string _vertexShader;
-    private string _fragmentShader;
+    private string _shaderName;
+    private Dictionary<string, Vector3> _vectorParameters = new Dictionary<string, Vector3>();
+    private Dictionary<string, float> _numericParameters = new Dictionary<string, float>();
+    private Dictionary<string, bool> _booleanParameters = new Dictionary<string, bool>();
     
-    public string VertexShader
+    public string ShaderName
     {
-      get { return _vertexShader; }
+      get { return _shaderName; }
     }
 
-    public string FragmentShader
-    {
-      get { return _fragmentShader; }
-    }
-    
+   
     public Material()
     {
       
     }
 
-    public Material(string vertexShader, string fragmentShader)
+    public Material(string shaderName)
     {
-      _vertexShader = vertexShader;
-      _fragmentShader = fragmentShader;
+      _shaderName = shaderName;
     }
 
 
-    public virtual void ConfigureRenderer(IRenderer renderer)
+    public virtual void Configure(IRenderer renderer)
     {
-      renderer.SetShaders(_vertexShader, _fragmentShader);
+      renderer.LoadShaders(_shaderName);
+    }
+
+    public void Update(IRenderer renderer)
+    {
+      renderer.UseShader(_shaderName);
     }
 
     public virtual void Load(IDataNode dataNode)
     {
-      _vertexShader = dataNode.ReadParameter("vertexShader");
-      _fragmentShader = dataNode.ReadParameter("fragmentShader");
+      _shaderName = dataNode.ReadParameter("shader");
     }
   }
 }

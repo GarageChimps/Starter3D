@@ -114,13 +114,13 @@ namespace ThreeAPI.Test.scene
 
       var testResources = @"<Resources>
                               <Materials>
-                                <Material key='plain' vertexShader='vs' fragmentShader='fs'>                                                   
+                                <Material key='plain'>                                                   
                                 </Material>
                               </Materials>                          
                             </Resources>";
       File.WriteAllText("test.res", testResources);
-      File.WriteAllText("vs", "");
-      File.WriteAllText("fs", "");
+      File.WriteAllText("plainFragment.glsl", "");
+      File.WriteAllText("plainVertex.glsl", "");
 
       var resourceManager = new ResourceManager(new MaterialFactory());
       resourceManager.Load("test.res");
@@ -203,9 +203,9 @@ namespace ThreeAPI.Test.scene
       Assert.AreEqual(0.5f, lightNode.Color.R);
       Assert.AreEqual(0.2f, lightNode.Color.G);
       Assert.AreEqual(0.1f, lightNode.Color.B);
-      Assert.AreEqual(100, lightNode.Position.X);
-      Assert.AreEqual(200, lightNode.Position.Y);
-      Assert.AreEqual(300, lightNode.Position.Z);
+      Assert.AreEqual(100, lightNode.GetPosition().X);
+      Assert.AreEqual(200, lightNode.GetPosition().Y);
+      Assert.AreEqual(300, lightNode.GetPosition().Z);
     }
 
     [Test()]

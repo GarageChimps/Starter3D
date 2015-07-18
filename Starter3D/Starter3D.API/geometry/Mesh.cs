@@ -14,14 +14,12 @@ namespace Starter3D.API.geometry
     private readonly List<IVertex> _vertices = new List<IVertex>();
     private readonly List<IFace> _faces = new List<IFace>();
     private IMaterial _material;
+    private readonly string _name;
 
-    public Mesh()
-    {
-    }
-
-    public Mesh(IMeshLoader meshLoader)
+    public Mesh(IMeshLoader meshLoader, string name="default")
     {
       _meshLoader = meshLoader;
+      _name = name;
     }
 
     public IEnumerable<IVertex> Vertices
@@ -120,6 +118,8 @@ namespace Starter3D.API.geometry
     public void Load(string filePath)
     {
       _meshLoader.Load(this, filePath);
+      if (HasNoValidNormal())
+        GenerateMissingNormals();
     }
 
     public void Save(string filePath)
@@ -127,14 +127,20 @@ namespace Starter3D.API.geometry
       throw new NotImplementedException();
     }
 
-    public void ConfigureRenderer(IRenderer renderer)
+    public void Configure(IRenderer renderer)
     {
-      _material.ConfigureRenderer(renderer);
-      renderer.AddMesh(this);
+      _material.Configure(renderer);
+      renderer.AddObject(_name);
       renderer.SetVerticesData(GetVerticesData());
       renderer.SetFacesData(GetFaceData());
-      _vertices.First().ConfigureRenderer(renderer); //We use the first vertex as representatve to configure the vertex info of the renderer
+      _vertices.First().Configure(renderer); //We use the first vertex as representatve to configure the vertex info of the renderer
       
+    }
+
+    public void Render(IRenderer renderer)
+    {
+      _material.Update(renderer);
+      renderer.DrawTriangles(_name, GetTriangleCount());
     }
 
     public List<Vector3> GetVerticesData()
@@ -175,6 +181,11 @@ namespace Starter3D.API.geometry
       var cross = Vector3.Cross(v10, v20);
       cross.Normalize();
       return cross;
+    }
+
+    private int GetTriangleCount()
+    {
+      return FacesCount * 3;
     }
 
    

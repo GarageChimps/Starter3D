@@ -69,7 +69,7 @@ namespace Starter3D.API.scene.nodes
       return projectionMatrix * viewMatrix;
     }
 
-    public override void ConfigureRenderer(IRenderer renderer)
+    public override void Configure(IRenderer renderer)
     {
       var transform = ComposeTransform();
       var viewMatrix = transform.Inverted();
@@ -78,7 +78,11 @@ namespace Starter3D.API.scene.nodes
       renderer.AddMatrixParameter("viewMatrix", viewMatrix);
       renderer.AddMatrixParameter("projectionMatrix", projectionMatrix);
 
-      base.ConfigureRenderer(renderer);
+    }
+
+    public override void Update(IRenderer renderer)
+    {
+      Configure(renderer);
     }
 
     protected abstract Matrix4 CreateProjectionMatrix();

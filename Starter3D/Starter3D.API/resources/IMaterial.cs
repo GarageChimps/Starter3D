@@ -4,9 +4,9 @@ namespace Starter3D.API.resources
 {
   public interface IMaterial
   {
-    string VertexShader { get; }
-    string FragmentShader { get; }
-    void ConfigureRenderer(IRenderer renderer);
+    string ShaderName { get; }
+    void Configure(IRenderer renderer);
+    void Update(IRenderer renderer);
     void Load(IDataNode dataNode);
   }
 }

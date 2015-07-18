@@ -10,8 +10,8 @@ namespace Starter3D.API.resources
     private Vector3 _specularColor;
     private float _shininess;
 
-    public BlinnPhongMaterial(string vertexShader, string fragmentShader, Vector3 ambientLight, Vector3 diffuseColor, Vector3 specularColor, float shininess)
-      : base(vertexShader, fragmentShader)
+    public BlinnPhongMaterial(string shaderName, Vector3 ambientLight, Vector3 diffuseColor, Vector3 specularColor, float shininess)
+      : base(shaderName)
     {
       _ambientLight = ambientLight;
       _diffuseColor = diffuseColor;
@@ -24,9 +24,9 @@ namespace Starter3D.API.resources
 
     }
 
-    public override void ConfigureRenderer(IRenderer renderer)
+    public override void Configure(IRenderer renderer)
     {
-      base.ConfigureRenderer(renderer);
+      base.Configure(renderer);
       renderer.AddVectorParameter("ambientLight", _ambientLight);
       renderer.AddVectorParameter("diffuseColor", _diffuseColor);
       renderer.AddVectorParameter("specularColor", _specularColor);

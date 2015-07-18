@@ -1,8 +1,6 @@
-using System.Globalization;
 using OpenTK;
 using OpenTK.Graphics;
 using Starter3D.API.renderer;
-using Starter3D.API.scene.persistence;
 
 namespace Starter3D.API.scene.nodes
 {
@@ -18,13 +16,22 @@ namespace Starter3D.API.scene.nodes
     {
       
     }
-    
-    public override void ConfigureRenderer(IRenderer renderer)
+
+    public Vector3 GetPosition()
     {
       var transform = ComposeTransform();
-      renderer.AddVectorParameter("lightPosition", transform.Row3.Xyz);
+      return transform.Row3.Xyz;
+    }
+    
+    public override void Configure(IRenderer renderer)
+    {
+      renderer.AddVectorParameter("lightPosition", GetPosition());
       renderer.AddVectorParameter("lightColor", new Vector3(_color.R, _color.G, _color.B));
-      base.ConfigureRenderer(renderer);
+    }
+
+    public override void Update(IRenderer renderer)
+    {
+      //Configure(renderer);
     }
   }
 }

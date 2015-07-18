@@ -1,9 +1,8 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <Resources>
 	<Materials>
-    <BaseMaterial key='plain' vertexShader='Shaders/PositionVertexShader.glsl' fragmentShader='Shaders/PositionFragmentShader.glsl'/>
-    <BaseMaterial key='test' vertexShader='Shaders/TestVertexShader.glsl' fragmentShader='Shaders/TestFragmentShader.glsl'/>
-    <BlinnPhongMaterial key='blinnPhongVertex' vertexShader='Shaders/PerVertexLightingVertexShader.glsl' fragmentShader='Shaders/PerVertexLightingFragmentShader.glsl' ambientLight='0.2,0.2,0.2' diffuseColor='1,0,0' specularColor='1,1,1' shininess='100'/>
-    <BlinnPhongMaterial key='blinnPhongPixel' vertexShader='Shaders/PerPixelLightingVertexShader.glsl' fragmentShader='Shaders/PerPixelLightingFragmentShader.glsl' ambientLight='0.2,0.2,0.2' diffuseColor='1,0,0' specularColor='1,1,1' shininess='100'/>
+    <BlinnPhongMaterial key='redSpecularV' shader='blinnPhongGouraud' ambientLight='0.2,0.2,0.2' diffuseColor='1,0,0' specularColor='1,1,1' shininess='100'/>
+    <BlinnPhongMaterial key='redSpecular' shader='blinnPhong' ambientLight='0.2,0.2,0.2' diffuseColor='1,0,0' specularColor='1,1,1' shininess='100'/>
+    <BlinnPhongMaterial key='blueDiffuse' shader='blinnPhong' ambientLight='0.2,0.2,0.2' diffuseColor='0,0,1' specularColor='0,0,0' shininess='0'/>
 	</Materials>                          
 </Resources>

@@ -55,6 +55,7 @@
     <Compile Include="resources\XmlDataNode.cs" />
     <Compile Include="scene\nodes\BaseSceneNode.cs" />
     <Compile Include="scene\nodes\CameraNode.cs" />
+    <Compile Include="scene\nodes\IRenderElement.cs" />
     <Compile Include="scene\persistence\factories\SceneDataNodeFactory.cs" />
     <Compile Include="scene\nodes\DirectionalLight.cs" />
     <Compile Include="utils\Configuration.cs" />

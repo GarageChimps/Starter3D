@@ -12,12 +12,12 @@ namespace Starter3D.API.geometry.factories
       _meshFactory = meshFactory;
     }
 
-    public IShape CreateShape(ShapeType shapeType, FileType fileType)
+    public IShape CreateShape(ShapeType shapeType, FileType fileType, string name)
     {
       switch (shapeType)
       {
         case ShapeType.Mesh:
-          return _meshFactory.CreateMesh(fileType);
+          return _meshFactory.CreateMesh(fileType, name);
         case ShapeType.PointCloud:
           throw new NotImplementedException();
         case ShapeType.Curve:

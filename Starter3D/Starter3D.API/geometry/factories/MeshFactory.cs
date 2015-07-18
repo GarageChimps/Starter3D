@@ -11,9 +11,9 @@ namespace Starter3D.API.geometry.factories
       _meshLoaderFactory = meshLoaderFactory;
     }
 
-    public IMesh CreateMesh(FileType fileType)
+    public IMesh CreateMesh(FileType fileType, string name)
     {
-      return new Mesh(_meshLoaderFactory.CreateMeshLoader(fileType));
+      return new Mesh(_meshLoaderFactory.CreateMeshLoader(fileType), name);
     }
   }
 }

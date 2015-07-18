@@ -35,24 +35,29 @@ namespace Starter3D.API.scene.nodes
     public override void Load(ISceneDataNode sceneDataNode)
     {
       var shapeTypeString = sceneDataNode.ReadParameter("shapeType");
+      var name = sceneDataNode.ReadParameter("shapeName");
       var filePath = sceneDataNode.ReadParameter("filePath");
       var fileTypeString = Path.GetExtension(filePath).TrimStart('.');
 
       var shapeType = (ShapeType)Enum.Parse(typeof(ShapeType), shapeTypeString);
       var fileType = (FileType) Enum.Parse(typeof (FileType), fileTypeString);
-      _shape = _shapeFactory.CreateShape(shapeType, fileType);
+      _shape = _shapeFactory.CreateShape(shapeType, fileType, name);
       _shape.Load(filePath);
 
       var materialKey = sceneDataNode.ReadParameter("material");
       _shape.Material = _resourceManager.GetMaterial(materialKey);
     }
 
-    public override void ConfigureRenderer(IRenderer renderer)
+    public override void Configure(IRenderer renderer)
     {
-      _shape.ConfigureRenderer(renderer);
+      _shape.Configure(renderer);
       var modelTransform = ComposeTransform();
       renderer.AddMatrixParameter("modelMatrix", modelTransform);
-      base.ConfigureRenderer(renderer);
+    }
+
+    public override void Render(IRenderer renderer)
+    {
+      _shape.Render(renderer);
     }
   }
 }

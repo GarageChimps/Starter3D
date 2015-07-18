@@ -4,6 +4,6 @@ namespace Starter3D.API.geometry.factories
 {
   public interface IMeshFactory
   {
-    IMesh CreateMesh(FileType fileType);
+    IMesh CreateMesh(FileType fileType, string name);
   }
 }

@@ -71,12 +71,19 @@ namespace Starter3D.API.scene.nodes
       return elements;
     }
 
-    public virtual void ConfigureRenderer(IRenderer renderer)
+    public virtual void Configure(IRenderer renderer)
     {
-      foreach (var child in Children)
-      {
-        child.ConfigureRenderer(renderer);
-      }
+      
+    }
+
+    public virtual void Update(IRenderer renderer)
+    {
+      
+    }
+
+    public virtual void Render(IRenderer renderer)
+    {
+      
     }
   }
 }

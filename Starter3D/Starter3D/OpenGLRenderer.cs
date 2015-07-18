@@ -1,58 +1,88 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
-using Starter3D.API.geometry;
 using Starter3D.API.renderer;
 
 namespace Starter3D
 {
   public class OpenGLRenderer : IRenderer
   {
-    private int _programHandle;
-    private int _objHandle;
+    private const string ShaderBasePath = "Shaders";
+    private const string FragmentShaderExtension = "Fragment.glsl";
+    private const string VertexShaderExtension = "Vertex.glsl";
+    
+    private readonly Dictionary<string, int> _shaderHandleDictionary = new Dictionary<string, int>();
+    private readonly Dictionary<string, int> _objectsHandleDictionary = new Dictionary<string, int>();
 
-    public void Render(IMesh mesh)
+
+    public void DrawTriangles(string name, int triangleCount)
     {
-      GL.BindVertexArray(_objHandle);
-      GL.DrawElements(BeginMode.Triangles, GetTriangleCount(mesh), DrawElementsType.UnsignedInt, IntPtr.Zero);
+      if (!_objectsHandleDictionary.ContainsKey(name))
+        throw new ApplicationException("Object must be added to the renderer before drawing");
+      GL.BindVertexArray(_objectsHandleDictionary[name]);
+      GL.DrawElements(BeginMode.Triangles, triangleCount, DrawElementsType.UnsignedInt, IntPtr.Zero);
     }
 
     
-    public void SetShaders(string vertexShaderPath, string fragmentShaderPath)
+    public void LoadShaders(string shaderName)
     {
-      string fragmentShaderSource = File.ReadAllText(fragmentShaderPath);
-      string vertexShaderSource = File.ReadAllText(vertexShaderPath);
-      _programHandle = CreateProgram(vertexShaderSource, fragmentShaderSource);
-      GL.UseProgram(_programHandle);
+      if (_shaderHandleDictionary.ContainsKey(shaderName))
+        return;
+      var fragmentShaderSource = File.ReadAllText(Path.Combine(ShaderBasePath, shaderName + FragmentShaderExtension));
+      var vertexShaderSource = File.ReadAllText(Path.Combine(ShaderBasePath, shaderName + VertexShaderExtension));
+      var programHandle = CreateProgram(vertexShaderSource, fragmentShaderSource);
+      _shaderHandleDictionary.Add(shaderName, programHandle);
+      GL.UseProgram(_shaderHandleDictionary[shaderName]);
     }
 
-    public void AddMesh(IMesh mesh)
+    public void UseShader(string shaderName)
     {
-      GL.GenVertexArrays(1, out  _objHandle);
-      GL.BindVertexArray(_objHandle);
+      if (!_shaderHandleDictionary.ContainsKey(shaderName))
+        throw new ApplicationException("Shader must be loaded before using it");
+      GL.UseProgram(_shaderHandleDictionary[shaderName]);
+    }
+
+    public void AddObject(string objectName)
+    {
+      if (_objectsHandleDictionary.ContainsKey(objectName))
+        return;
+      int objHandle;
+      GL.GenVertexArrays(1, out  objHandle);
+      _objectsHandleDictionary.Add(objectName, objHandle);
+      GL.BindVertexArray(_objectsHandleDictionary[objectName]);
     }
 
     public void AddMatrixParameter(string name, Matrix4 matrix)
     {
-      int location = GL.GetUniformLocation(_programHandle, name);
-      GL.UniformMatrix4(location, false, ref matrix);
+      foreach (var shaderHandle in _shaderHandleDictionary.Values)
+      {
+        int location = GL.GetUniformLocation(shaderHandle, name);
+        if( location != -1)
+          GL.UniformMatrix4(location, false, ref matrix);
+      }
     }
 
     public void AddVectorParameter(string name, Vector3 vector)
     {
-      int location = GL.GetUniformLocation(_programHandle, name);
-      GL.Uniform3(location, vector);
+      foreach (var shaderHandle in _shaderHandleDictionary.Values)
+      {
+        int location = GL.GetUniformLocation(shaderHandle, name);
+        if (location != -1)
+          GL.Uniform3(location, vector);
+      }
     }
 
     public void AddNumberParameter(string name, float number)
     {
-      int location = GL.GetUniformLocation(_programHandle, name);
-      GL.Uniform1(location, number);
+      foreach (var shaderHandle in _shaderHandleDictionary.Values)
+      {
+        int location = GL.GetUniformLocation(shaderHandle, name);
+        if (location != -1)
+          GL.Uniform1(location, number);
+      }
     }
-
 
     public void SetVerticesData(List<Vector3> data)
     {
@@ -79,10 +109,17 @@ namespace Starter3D
 
     public void SetVertexAttribute(int index, string name, int stride, int offset)
     {
-      GL.EnableVertexAttribArray(index);
-      //int location = GL.GetAttribLocation(_programHandle, name);
-      GL.BindAttribLocation(_programHandle, index, name);
-      GL.VertexAttribPointer(index, 3, VertexAttribPointerType.Float, false, stride, IntPtr.Add(IntPtr.Zero, offset));
+      foreach (var shaderHandle in _shaderHandleDictionary.Values)
+      {
+        int location = GL.GetAttribLocation(shaderHandle, name);
+        if (location != -1)
+        {
+          //GL.BindAttribLocation(_programHandle, index, name);
+          GL.EnableVertexAttribArray(location);
+          GL.VertexAttribPointer(location, 3, VertexAttribPointerType.Float, false, stride,
+            IntPtr.Add(IntPtr.Zero, offset));
+        }
+      }
     }
 
     private int CreateShader(string shaderSource, ShaderType type)
@@ -125,9 +162,6 @@ namespace Starter3D
       return shaderProgramHandle;
     }
 
-    private int GetTriangleCount(IMesh mesh)
-    {
-      return mesh.FacesCount * 3;
-    }
+    
   }
 }

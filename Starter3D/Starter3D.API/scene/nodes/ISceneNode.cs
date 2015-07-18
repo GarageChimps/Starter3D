@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using OpenTK;
-using Starter3D.API.renderer;
 using Starter3D.API.scene.persistence;
 
 namespace Starter3D.API.scene.nodes
 {
-  public interface ISceneNode
+  public interface ISceneNode : IRenderElement
   {
     IEnumerable<ISceneNode> Children { get; }
     ISceneNode Parent { get; set; }
@@ -16,6 +15,6 @@ namespace Starter3D.API.scene.nodes
     void Load(ISceneDataNode sceneDataNode);
     void Save(ISceneDataNode sceneDataNode);
     IEnumerable<T> GetNodes<T>() where T : class, ISceneNode;
-    void ConfigureRenderer(IRenderer renderer);
+    
   }
 }

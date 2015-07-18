@@ -57,7 +57,7 @@ namespace Starter3D.API.geometry
       vertexData.Add(_textureCoords);
     }
 
-    public void ConfigureRenderer(IRenderer renderer)
+    public void Configure(IRenderer renderer)
     {
       renderer.SetVertexAttribute(0, "inPosition", 3* Vector3.SizeInBytes, 0);
       renderer.SetVertexAttribute(1, "inNormal", 3 * Vector3.SizeInBytes, Vector3.SizeInBytes);

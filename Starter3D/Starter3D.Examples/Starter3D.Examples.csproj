@@ -52,6 +52,9 @@
     <Content Include="resources\resources.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="scenes\testTwoMeshes.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="scenes\testOneMesh.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -69,42 +72,22 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="shaders\PerPixelLightingFragmentShader.glsl">
+    <Content Include="shaders\blinnPhongFragment.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="shaders\PerPixelLightingVertexShader.glsl">
+    <Content Include="shaders\blinnPhongVertex.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="shaders\PerVertexLightingFragmentShader.glsl">
+    <Content Include="shaders\blinnPhongGouraudFragment.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="shaders\PerVertexLightingVertexShader.glsl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="shaders\PositionFragmentShader.glsl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="shaders\PositionVertexShader.glsl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="shaders\TestFragmentShader.glsl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="shaders\TestVertexShader.glsl">
+    <Content Include="shaders\blinnPhongGouraudVertex.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

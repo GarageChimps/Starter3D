@@ -8,6 +8,7 @@ namespace Starter3D.API.geometry
     IMaterial Material { get; set; }
     void Load(string filePath);
     void Save(string filePath);
-    void ConfigureRenderer(IRenderer renderer);
+    void Configure(IRenderer renderer);
+    void Render(IRenderer renderer);
   }
 }
