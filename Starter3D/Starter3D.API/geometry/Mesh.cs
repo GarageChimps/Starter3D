@@ -131,20 +131,16 @@ namespace Starter3D.API.geometry
     {
       _material.Configure(renderer);
       renderer.AddObject(_name);
-      renderer.BeginUsingObject(_name);
       renderer.SetVerticesData(_name, GetVerticesData());
-      renderer.SetFacesData(_name, GetFaceData());
       _vertices.First().Configure(_name, _material.ShaderName, renderer); //We use the first vertex as representatve to configure the vertex info of the renderer
-      renderer.StopUsingObject();
+      renderer.SetFacesData(_name, GetFaceData());
     }
 
-    public void Render(IRenderer renderer)
+    public void Render(IRenderer renderer, Matrix4 transform)
     {
       _material.UseMaterial(renderer);
-      renderer.BeginUsingObject(_name);
-      //_vertices.First().Configure(_name, _material.ShaderName, renderer);
+      renderer.AddMatrixParameter("modelMatrix", transform);
       renderer.DrawTriangles(_name, GetTriangleCount());
-      renderer.StopUsingObject();
     }
 
     public List<Vector3> GetVerticesData()

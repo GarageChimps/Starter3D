@@ -9,8 +9,6 @@ namespace Starter3D.API.renderer
     void DrawTriangles(string objectName, int triangleCount);
     
     void AddObject(string objectName);
-    void BeginUsingObject(string objectName);
-    void StopUsingObject();
     void SetVerticesData(string objectName, List<Vector3> data);
     void SetFacesData(string objectName, List<int> data);
     void SetVertexAttribute(string objectName, string shaderName, int index, string vertexPropertyName, int stride, int offset);

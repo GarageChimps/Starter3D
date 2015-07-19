@@ -6,6 +6,8 @@
     <BaseMaterial key='blueDiffuse' shader='blinnPhong' ambientLight='0.2,0.2,0.2' diffuseColor='0,0,1' specularColor='0,0,0' shininess='0'/>
     <BaseMaterial key='redEdwards' shader='edwards' ambientLight='0.2,0.2,0.2' diffuseColor='1,0,0' n='20' R='1'/>
     <BaseMaterial key='redLambert' shader='blinnPhong' ambientLight='0.2,0.2,0.2' diffuseColor='1,0,0' specularColor='0,0,0' shininess='0'/>
-    <BaseMaterial key='earth' shader='blinnPhongTexture' ambientLight='0.2,0.2,0.2' diffuseTexture='images/earthmap.jpg' specularColor='0,0,0' shininess='0'/>
+    <BaseMaterial key='earth' shader='blinnPhongDiffuseTexture' ambientLight='0.2,0.2,0.2' diffuseTexture='images/earthmap.jpg' specularColor='0,0,0' shininess='0'/>
+    <BaseMaterial key='stonesD' shader='blinnPhongDiffuseTexture' ambientLight='0.2,0.2,0.2' diffuseTexture='images/stones.jpg' specularColor='1,1,1' shininess='100'/>
+    <BaseMaterial key='stones' shader='blinnPhongSpecularDiffuseTexture' ambientLight='0.2,0.2,0.2' diffuseTexture='images/stones.jpg' specularTexture='images/stones2.jpg' shininess='100'/>
 	</Materials>                          
 </Resources>

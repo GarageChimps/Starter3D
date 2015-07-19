@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<Scene>
+  <Translate x='1.5' y='0' z='0'>
+    <Scale x='0.7' y='0.7' z='0.7'>
+      <Shape shapeType='Mesh' shapeName='sphere1' filePath='meshes/sphere.obj' material='stones' />
+    </Scale>
+  </Translate>
+  <Translate x='-1.5' y='0' z='0'>
+    <Scale x='0.7' y='0.7' z='0.7'>
+      <Shape shapeType='Mesh' shapeName='sphere2' filePath='meshes/sphere.obj' material='stones' />
+    </Scale>
+  </Translate>
+  <Translate x='0' y='0' z='5'>
+    <Rotate x='0' y='0' z='1' angle='180'>
+      <PerspectiveCamera nearClip="0.1" farClip="100" fieldOfView="45" aspectRatio="1" order="0" />
+    </Rotate>  
+    <PointLight r="0.5" g="0.5" b="0.5"/>
+  </Translate>
+  
+</Scene>

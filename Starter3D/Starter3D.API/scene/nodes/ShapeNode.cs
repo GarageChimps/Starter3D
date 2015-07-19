@@ -51,13 +51,12 @@ namespace Starter3D.API.scene.nodes
     public override void Configure(IRenderer renderer)
     {
       _shape.Configure(renderer);
-      var modelTransform = ComposeTransform();
-      renderer.AddMatrixParameter("modelMatrix", modelTransform);
     }
-
+    
     public override void Render(IRenderer renderer)
     {
-      _shape.Render(renderer);
+      var modelTransform = ComposeTransform();
+      _shape.Render(renderer, modelTransform);
     }
   }
 }

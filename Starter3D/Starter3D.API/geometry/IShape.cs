@@ -1,4 +1,5 @@
-﻿using Starter3D.API.renderer;
+﻿using OpenTK;
+using Starter3D.API.renderer;
 using Starter3D.API.resources;
 
 namespace Starter3D.API.geometry
@@ -9,6 +10,6 @@ namespace Starter3D.API.geometry
     void Load(string filePath);
     void Save(string filePath);
     void Configure(IRenderer renderer);
-    void Render(IRenderer renderer);
+    void Render(IRenderer renderer, Matrix4 modelTransform);
   }
 }

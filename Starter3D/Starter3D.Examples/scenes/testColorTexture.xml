@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <Scene>
   <Scale x="1" y="1" z="1">
-    <Shape shapeType='Mesh' shapeName='sphere' filePath='meshes/sphere.obj' material='earth' />
+    <Shape shapeType='Mesh' shapeName='sphere' filePath='meshes/sphere.obj' material='stones' />
   </Scale>
   <Translate x='0' y='0' z='5'>
     <Rotate x='0' y='0' z='1' angle='180'>

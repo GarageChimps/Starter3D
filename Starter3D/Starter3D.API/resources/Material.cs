@@ -32,7 +32,6 @@ namespace Starter3D.API.resources
     public virtual void Configure(IRenderer renderer)
     {
       renderer.LoadShaders(_shaderName);
-      renderer.UseShader(_shaderName);
       foreach (var numericParameter in _numericParameters)
       {
         renderer.AddNumberParameter(numericParameter.Key, numericParameter.Value);
