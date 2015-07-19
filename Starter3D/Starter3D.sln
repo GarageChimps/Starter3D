@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Starter3D", "Starter3D\Starter3D.csproj", "{78127754-23C1-4D69-A528-AE46CAD6AEC0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Starter3D.OpenGL", "Starter3D\Starter3D.OpenGL.csproj", "{78127754-23C1-4D69-A528-AE46CAD6AEC0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Starter3D.API", "Starter3D.API\Starter3D.API.csproj", "{3567CAD0-DE95-4BA8-98DE-750B75DCB45A}"
 EndProject

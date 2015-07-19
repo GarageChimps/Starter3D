@@ -1,6 +1,6 @@
 ﻿using OpenTK.Platform;
 
-namespace Starter3D
+namespace Starter3D.OpenGL
 {
   public interface IGameWindowFactory
   {

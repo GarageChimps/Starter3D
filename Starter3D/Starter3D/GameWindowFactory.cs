@@ -1,35 +1,22 @@
 using System;
 using OpenTK.Platform;
-using Starter3D.API.renderer;
-using Starter3D.API.resources;
-using Starter3D.API.scene.persistence;
-using Starter3D.API.utils;
-using Starter3D.Examples;
+using Starter3D.API.controller;
 
-namespace Starter3D
+namespace Starter3D.OpenGL
 {
   public class GameWindowFactory : IGameWindowFactory
   {
-    private readonly IRenderer _renderer;
-    private readonly IResourceManager _resourceManager;
-    private readonly ISceneReader _reader;
-    private readonly IConfiguration _configuration;
+    private readonly IController _controller;
 
-    public GameWindowFactory(IRenderer renderer, IResourceManager resourceManager, ISceneReader reader, IConfiguration configuration)
+    public GameWindowFactory(IController controller)
     {
-      if (renderer == null) throw new ArgumentNullException("renderer");
-      if (resourceManager == null) throw new ArgumentNullException("resourceManager");
-      if (reader == null) throw new ArgumentNullException("reader");
-      if (configuration == null) throw new ArgumentNullException("configuration");
-      _renderer = renderer;
-      _resourceManager = resourceManager;
-      _reader = reader;
-      _configuration = configuration;
+      if (controller == null) throw new ArgumentNullException("controller");
+      _controller = controller;
     }
 
     public IGameWindow CreateGameWindow(int width, int height)
     {
-      return new SceneExampleWindow(width, height, _renderer, _reader, _resourceManager, _configuration);
+      return new GLWindow(width, height, _controller);
     }
   }
 }

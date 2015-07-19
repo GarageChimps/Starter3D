@@ -37,6 +37,8 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="controller\BaseController.cs" />
+    <Compile Include="controller\IController.cs" />
     <Compile Include="resources\IDataNode.cs" />
     <Compile Include="resources\IMaterial.cs" />
     <Compile Include="resources\IMaterialFactory.cs" />

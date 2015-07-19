@@ -5,7 +5,7 @@ using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using Starter3D.API.renderer;
 
-namespace Starter3D
+namespace Starter3D.OpenGL
 {
   public class OpenGLRenderer : IRenderer
   {
