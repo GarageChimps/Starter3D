@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using Starter3D.API.renderer;
+using PixelFormat = OpenTK.Graphics.OpenGL.PixelFormat;
 
 namespace Starter3D.OpenGL
 {
   public class OpenGLRenderer : IRenderer
   {
+    #region Fields
     private const string ShaderBasePath = "Shaders";
     private const string FragmentShaderExtension = "Fragment.glsl";
     private const string VertexShaderExtension = "Vertex.glsl";
@@ -17,8 +21,10 @@ namespace Starter3D.OpenGL
     private readonly Dictionary<string, int> _objectsHandleDictionary = new Dictionary<string, int>();
     private readonly Dictionary<string, int> _objectsVertexBufferDictionary = new Dictionary<string, int>();
     private readonly Dictionary<string, int> _objectsIndexBufferDictionary = new Dictionary<string, int>();
+    private readonly Dictionary<string, Tuple<int, TextureUnit>> _textureHandleDictionary = new Dictionary<string, Tuple<int, TextureUnit>>(); 
+    #endregion
 
-
+    #region Public Methods
     public void DrawTriangles(string name, int triangleCount)
     {
       if (!_objectsHandleDictionary.ContainsKey(name))
@@ -30,6 +36,25 @@ namespace Starter3D.OpenGL
       GL.DrawElements(BeginMode.Triangles, triangleCount, DrawElementsType.UnsignedInt, IntPtr.Zero);
     }
 
+    public void AddTexture(string name, int index, Bitmap texture)
+    {
+      if (_textureHandleDictionary.ContainsKey(name))
+        return;
+      var unit = TextureUnit.Texture0 + index;
+      var textureHandle = CreateTexture(texture, TextureUnit.Texture0 + index, TextureMinFilter.Linear,
+        TextureMagFilter.Linear);
+      _textureHandleDictionary.Add(name, new Tuple<int, TextureUnit>(textureHandle, unit));
+      AddNumberParameter(name, index);
+    }
+
+    public void UseTexture(string textureName)
+    {
+      if (!_textureHandleDictionary.ContainsKey(textureName))
+        throw new ApplicationException("Texture has to be added before using");
+      var textureInfo = _textureHandleDictionary[textureName];
+      GL.ActiveTexture(textureInfo.Item2);
+      GL.BindTexture(TextureTarget.Texture2D, textureInfo.Item1);
+    }
 
     public void LoadShaders(string shaderName)
     {
@@ -144,8 +169,7 @@ namespace Starter3D.OpenGL
       //GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
       //GL.BindVertexArray(0);
     }
-
-
+    
     public void SetVertexAttribute(string objectName, string shaderName, int index, string vertexPropertyName, int stride, int offset)
     {
       if (!_objectsHandleDictionary.ContainsKey(objectName))
@@ -166,6 +190,9 @@ namespace Starter3D.OpenGL
       //GL.BindVertexArray(0);
     }
 
+    #endregion
+
+    #region Private Methods
     private int CreateShader(string shaderSource, ShaderType type)
     {
       int shaderHandle = GL.CreateShader(type);
@@ -206,6 +233,31 @@ namespace Starter3D.OpenGL
       return shaderProgramHandle;
     }
 
+    private int CreateTexture(Bitmap texture, TextureUnit unit, TextureMinFilter minFilter, TextureMagFilter magFilter)
+    {
+      int textureId = GL.GenTexture();
+      GL.ActiveTexture(unit);
+      GL.BindTexture(TextureTarget.Texture2D, textureId);
+      GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)minFilter);
+      GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)magFilter);
+      GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat);
+      GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
+      GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, texture.Width, texture.Height, 0,
+        PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
+
+      var bmpData = texture.LockBits(new Rectangle(0, 0, texture.Width, texture.Height),
+        ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+      GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, texture.Width, texture.Height, PixelFormat.Bgra,
+        PixelType.UnsignedByte, bmpData.Scan0);
+
+      texture.UnlockBits(bmpData);
+
+      GL.BindTexture(TextureTarget.Texture2D, 0);
+
+      return textureId;
+    }
+    #endregion
 
   }
 }

@@ -1,3 +1,3 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
-<Configuration scene="scenes/testOneMesh.xml" resources="resources/resources.xml"/>
+<Configuration scene="scenes/testColorTexture.xml" resources="resources/resources.xml"/>
 

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Drawing;
 using OpenTK;
 using Starter3D.API.renderer;
 
@@ -7,9 +8,9 @@ namespace Starter3D.API.resources
   public class Material : IMaterial
   {
     private string _shaderName;
-    private Dictionary<string, Vector3> _vectorParameters = new Dictionary<string, Vector3>();
-    private Dictionary<string, float> _numericParameters = new Dictionary<string, float>();
-    private Dictionary<string, bool> _booleanParameters = new Dictionary<string, bool>();
+    private readonly Dictionary<string, Vector3> _vectorParameters = new Dictionary<string, Vector3>();
+    private readonly Dictionary<string, float> _numericParameters = new Dictionary<string, float>();
+    private readonly Dictionary<string, Bitmap> _textureParameters = new Dictionary<string, Bitmap>();
     
     public string ShaderName
     {
@@ -40,9 +41,11 @@ namespace Starter3D.API.resources
       {
         renderer.AddVectorParameter(vectorParameter.Key, vectorParameter.Value);
       }
-      foreach (var booleanParameter in _booleanParameters)
+      int index = 0;
+      foreach (var textureParameter in _textureParameters)
       {
-        renderer.AddBooleanParameter(booleanParameter.Key, booleanParameter.Value);
+        renderer.AddTexture(textureParameter.Key, index, textureParameter.Value);
+        index++;
       }
       
     }
@@ -50,12 +53,16 @@ namespace Starter3D.API.resources
     public void UseMaterial(IRenderer renderer)
     {
       renderer.UseShader(_shaderName);
+      foreach (var textureParameter in _textureParameters)
+      {
+        renderer.UseTexture(textureParameter.Key);
+      }
     }
 
     public virtual void Load(IDataNode dataNode)
     {
       _shaderName = dataNode.ReadParameter("shader");
-      dataNode.ReadAllParameters(_vectorParameters, _numericParameters, _booleanParameters);
+      dataNode.ReadAllParameters(_vectorParameters, _numericParameters, _textureParameters);
     }
   }
 }

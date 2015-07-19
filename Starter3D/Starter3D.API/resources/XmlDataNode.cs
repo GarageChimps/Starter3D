@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Drawing;
 using System.Globalization;
+using System.IO;
 using System.Xml.Linq;
 using OpenTK;
 
@@ -43,7 +45,8 @@ namespace Starter3D.API.resources
         float.Parse(splitParamters[1], CultureInfo.InvariantCulture), float.Parse(splitParamters[2], CultureInfo.InvariantCulture));
     }
 
-    public void ReadAllParameters(Dictionary<string, Vector3> vectorParameters, Dictionary<string, float> numericParameters, Dictionary<string, bool> booleanParameters)
+    public void ReadAllParameters(Dictionary<string, Vector3> vectorParameters, Dictionary<string, float> numericParameters, 
+      Dictionary<string, Bitmap> textureParameters)
     {
       foreach (var attribute in _element.Attributes())
       {
@@ -51,30 +54,29 @@ namespace Starter3D.API.resources
         var value = attribute.Value;
         var splitParamters = value.Split(',');
         float floatValue;
-        bool boolValue;
         if (splitParamters.Length == 3)
         {
-          float x,y,z;
+          float x, y, z;
           if (!float.TryParse(splitParamters[0], out x))
             continue;
           if (!float.TryParse(splitParamters[1], out y))
             continue;
           if (!float.TryParse(splitParamters[2], out z))
             continue;
-          vectorParameters.Add(name, new Vector3(x,y,z));
+          vectorParameters.Add(name, new Vector3(x, y, z));
 
         }
         else if (float.TryParse(value, out floatValue))
         {
           numericParameters.Add(name, floatValue);
         }
-        else if (bool.TryParse(value, out boolValue))
+        else if (File.Exists(value))
         {
-          booleanParameters.Add(name, boolValue);
+          textureParameters.Add(name, (Bitmap)Image.FromFile(value));
         }
       }
     }
 
-    
+
   }
 }
