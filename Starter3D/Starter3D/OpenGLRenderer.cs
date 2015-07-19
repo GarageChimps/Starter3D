@@ -21,7 +21,7 @@ namespace Starter3D.OpenGL
     private readonly Dictionary<string, int> _objectsHandleDictionary = new Dictionary<string, int>();
     private readonly Dictionary<string, int> _objectsVertexBufferDictionary = new Dictionary<string, int>();
     private readonly Dictionary<string, int> _objectsIndexBufferDictionary = new Dictionary<string, int>();
-    private readonly Dictionary<string, Tuple<int, TextureUnit>> _textureHandleDictionary = new Dictionary<string, Tuple<int, TextureUnit>>(); 
+    private readonly Dictionary<string, Tuple<int, int>> _textureHandleDictionary = new Dictionary<string, Tuple<int, int>>();
     #endregion
 
     #region Public Methods
@@ -37,24 +37,32 @@ namespace Starter3D.OpenGL
       GL.DrawElements(BeginMode.Triangles, triangleCount, DrawElementsType.UnsignedInt, IntPtr.Zero);
     }
 
-    public void AddTexture(string name, int index, Bitmap texture)
+
+    public void LoadTexture(string name, string shader, int index, Bitmap texture)
     {
-      if (_textureHandleDictionary.ContainsKey(name))
+      if (_textureHandleDictionary.ContainsKey(name + shader))
         return;
       var unit = TextureUnit.Texture0 + index;
       var textureHandle = CreateTexture(texture, TextureUnit.Texture0 + index, TextureMinFilter.Linear,
         TextureMagFilter.Linear);
-      _textureHandleDictionary.Add(name, new Tuple<int, TextureUnit>(textureHandle, unit));
-      AddNumberParameter(name, index);
+      _textureHandleDictionary.Add(name + shader, new Tuple<int, int>(textureHandle, index));
+      AddNumberParameter(name + shader, index);
     }
 
-    public void UseTexture(string textureName)
+    public void UseTexture(string textureName, string shader)
     {
-      if (!_textureHandleDictionary.ContainsKey(textureName))
+      if (!_textureHandleDictionary.ContainsKey(textureName + shader))
         throw new ApplicationException("Texture has to be added before using");
-      var textureInfo = _textureHandleDictionary[textureName];
-      GL.ActiveTexture(textureInfo.Item2);
+      GL.UseProgram(_shaderHandleDictionary[shader]);
+      var textureInfo = _textureHandleDictionary[textureName + shader];
+      GL.ActiveTexture(TextureUnit.Texture0 + textureInfo.Item2);
       GL.BindTexture(TextureTarget.Texture2D, textureInfo.Item1);
+      int location = GL.GetUniformLocation(_shaderHandleDictionary[shader], textureName);
+      if (location != -1)
+      {
+        int textureUnitIndex = textureInfo.Item2;
+        GL.Uniform1(location, textureUnitIndex);
+      }
     }
 
     public void LoadShaders(string shaderName)
@@ -65,7 +73,6 @@ namespace Starter3D.OpenGL
       var vertexShaderSource = File.ReadAllText(Path.Combine(ShaderBasePath, shaderName + VertexShaderExtension));
       var programHandle = CreateProgram(vertexShaderSource, fragmentShaderSource);
       _shaderHandleDictionary.Add(shaderName, programHandle);
-      GL.UseProgram(_shaderHandleDictionary[shaderName]);
     }
 
     public void UseShader(string shaderName)
@@ -89,40 +96,76 @@ namespace Starter3D.OpenGL
     {
       foreach (var shaderHandle in _shaderHandleDictionary.Values)
       {
+        GL.UseProgram(shaderHandle);
         int location = GL.GetUniformLocation(shaderHandle, name);
         if (location != -1)
           GL.UniformMatrix4(location, false, ref matrix);
       }
     }
 
+    public void AddMatrixParameter(string name, Matrix4 matrix, string shader)
+    {
+      GL.UseProgram(_shaderHandleDictionary[shader]);
+      int location = GL.GetUniformLocation(_shaderHandleDictionary[shader], name);
+      if (location != -1)
+        GL.UniformMatrix4(location, false, ref matrix);
+    }
+
     public void AddVectorParameter(string name, Vector3 vector)
     {
       foreach (var shaderHandle in _shaderHandleDictionary.Values)
       {
+        GL.UseProgram(shaderHandle);
         int location = GL.GetUniformLocation(shaderHandle, name);
         if (location != -1)
           GL.Uniform3(location, vector);
       }
     }
 
+    public void AddVectorParameter(string name, Vector3 vector, string shader)
+    {
+      GL.UseProgram(_shaderHandleDictionary[shader]);
+      int location = GL.GetUniformLocation(_shaderHandleDictionary[shader], name);
+      if (location != -1)
+        GL.Uniform3(location, vector);
+    }
+
     public void AddBooleanParameter(string name, bool value)
     {
       foreach (var shaderHandle in _shaderHandleDictionary.Values)
       {
+        GL.UseProgram(shaderHandle);
         int location = GL.GetUniformLocation(shaderHandle, name);
         if (location != -1)
           GL.Uniform1(location, value ? 1 : 0);
       }
     }
 
+    public void AddBooleanParameter(string name, bool value, string shader)
+    {
+      GL.UseProgram(_shaderHandleDictionary[shader]);
+      int location = GL.GetUniformLocation(_shaderHandleDictionary[shader], name);
+      if (location != -1)
+        GL.Uniform1(location, value ? 1 : 0);
+    }
+
     public void AddNumberParameter(string name, float number)
     {
       foreach (var shaderHandle in _shaderHandleDictionary.Values)
       {
+        GL.UseProgram(shaderHandle);
         int location = GL.GetUniformLocation(shaderHandle, name);
         if (location != -1)
           GL.Uniform1(location, number);
       }
+    }
+
+    public void AddNumberParameter(string name, float number, string shader)
+    {
+      GL.UseProgram(_shaderHandleDictionary[shader]);
+      int location = GL.GetUniformLocation(_shaderHandleDictionary[shader], name);
+      if (location != -1)
+        GL.Uniform1(location, number);
     }
 
     public void SetVerticesData(string name, List<Vector3> data)
@@ -152,7 +195,7 @@ namespace Starter3D.OpenGL
       GL.BufferData(BufferTarget.ElementArrayBuffer, new IntPtr(indicesArray.Length * sizeof(uint)), indicesArray, BufferUsageHint.StaticDraw);
       _objectsIndexBufferDictionary.Add(name, indicesVboHandle);
     }
-    
+
     public void SetVertexAttribute(string objectName, string shaderName, int index, string vertexPropertyName, int stride, int offset)
     {
       int location = GL.GetAttribLocation(_shaderHandleDictionary[shaderName], vertexPropertyName);

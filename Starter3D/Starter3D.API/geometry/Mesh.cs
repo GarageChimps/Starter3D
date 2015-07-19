@@ -138,8 +138,8 @@ namespace Starter3D.API.geometry
 
     public void Render(IRenderer renderer, Matrix4 transform)
     {
-      _material.UseMaterial(renderer);
-      renderer.AddMatrixParameter("modelMatrix", transform);
+      _material.Render(renderer);
+      renderer.AddMatrixParameter("modelMatrix", transform, _material.ShaderName);
       renderer.DrawTriangles(_name, GetTriangleCount());
     }
 

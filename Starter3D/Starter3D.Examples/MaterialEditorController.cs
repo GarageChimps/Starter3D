@@ -44,9 +44,17 @@ namespace Starter3D.Examples
       {
         directionalLights.ElementAt(i).Index = i;
       }
-      foreach (var sceneElement in _sceneElements)
+      foreach (var obj in _objects)
       {
-        sceneElement.Configure(_renderer);
+        obj.Configure(_renderer);
+      }
+      foreach (var camera in _cameras)
+      {
+        camera.Configure(_renderer);
+      }
+      foreach (var light in _lights)
+      {
+        light.Configure(_renderer);
       }
       _renderer.AddNumberParameter("activeNumberOfPointLights", pointLights.Count());
       _renderer.AddNumberParameter("activeNumberOfDirectionalLights", directionalLights.Count());
@@ -54,10 +62,17 @@ namespace Starter3D.Examples
 
     public override void Render(double time)
     {
-      foreach (var sceneElement in _sceneElements)
+      foreach (var camera in _cameras)
       {
-        sceneElement.Update(_renderer);
-        sceneElement.Render(_renderer);
+        camera.Render(_renderer);
+      }
+      foreach (var light in _lights)
+      {
+        light.Render(_renderer);
+      }
+      foreach (var obj in _objects)
+      {
+        obj.Render(_renderer);
       }
     }
   }

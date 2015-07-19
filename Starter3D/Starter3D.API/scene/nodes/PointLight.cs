@@ -29,9 +29,6 @@ namespace Starter3D.API.scene.nodes
       renderer.AddVectorParameter("pointLights[" + _index + "].Color", new Vector3(_color.R, _color.G, _color.B));
     }
 
-    public override void Update(IRenderer renderer)
-    {
-      //Configure(renderer);
-    }
+   
   }
 }

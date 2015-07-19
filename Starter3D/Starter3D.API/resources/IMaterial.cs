@@ -6,7 +6,7 @@ namespace Starter3D.API.resources
   {
     string ShaderName { get; }
     void Configure(IRenderer renderer);
-    void UseMaterial(IRenderer renderer);
+    void Render(IRenderer renderer);
     void Load(IDataNode dataNode);
   }
 }

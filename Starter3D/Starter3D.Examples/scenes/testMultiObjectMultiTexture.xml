@@ -7,7 +7,7 @@
   </Translate>
   <Translate x='-1.5' y='0' z='0'>
     <Scale x='0.7' y='0.7' z='0.7'>
-      <Shape shapeType='Mesh' shapeName='sphere2' filePath='meshes/sphere.obj' material='stones' />
+      <Shape shapeType='Mesh' shapeName='sphere2' filePath='meshes/sphere.obj' material='earth' />
     </Scale>
   </Translate>
   <Translate x='0' y='0' z='5'>
