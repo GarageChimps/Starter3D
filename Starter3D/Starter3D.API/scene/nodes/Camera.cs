@@ -1,10 +1,9 @@
 ﻿using System.Globalization;
 using OpenTK;
-using ThreeAPI.scene.persistence;
 
-namespace ThreeAPI.scene.nodes
+namespace Starter3D
 {
-  public abstract class CameraNode : BaseSceneNode
+  public abstract class Camera : BaseSceneNode
   {
     protected float _nearClip;
     protected float _farClip;
@@ -26,12 +25,12 @@ namespace ThreeAPI.scene.nodes
     }
 
 
-    protected CameraNode(float nearClip, float farClip, int order)
+    protected Camera(float nearClip, float farClip, int order)
     {
       Init(nearClip, farClip, order);
     }
 
-    protected CameraNode()
+    protected Camera()
     {
       
     }

@@ -1,6 +1,6 @@
 ﻿using OpenTK;
 
-namespace ThreeAPI.scene.nodes
+namespace Starter3D
 {
   public abstract class TransformNode : BaseSceneNode
   {

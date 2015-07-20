@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using OpenTK;
-using ThreeAPI.geometry.factories;
 
-namespace ThreeAPI.geometry.loaders
+using OpenTK;
+
+
+namespace Starter3D
 {
-  public class ObjMeshLoader : IMeshLoader
+  public class ObjMeshLoader : IGeometryLoader
   {
     private readonly char[] _splitCharacters = { ' ' };
     private readonly char[] _faceParamaterSplitter = { '/' };
@@ -20,7 +21,7 @@ namespace ThreeAPI.geometry.loaders
       _faceFactory = faceFactory;
     }
 
-    public void Load(IMesh mesh, string filePath)
+    public void Load(IGeometry mesh, string filePath)
     {
       using (var streamReader = new StreamReader(filePath))
       {
@@ -28,7 +29,7 @@ namespace ThreeAPI.geometry.loaders
       }
     }
 
-    private void Load(TextReader textReader, IMesh mesh)
+    private void Load(TextReader textReader, IGeometry mesh)
     {
       var vertices = new List<IVertex>();
       var faces = new List<IFace>();

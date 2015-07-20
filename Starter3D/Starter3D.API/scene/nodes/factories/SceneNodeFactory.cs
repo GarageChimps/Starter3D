@@ -1,8 +1,7 @@
 ﻿using System;
-using ThreeAPI.geometry.factories;
 using ThreeAPI.utils;
 
-namespace ThreeAPI.scene.nodes.factories
+namespace Starter3D
 {
   public class SceneNodeFactory : ISceneNodeFactory
   {

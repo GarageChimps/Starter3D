@@ -1,14 +1,16 @@
-﻿using System.Collections.Generic;
-using OpenTK;
-using ThreeAPI.scene.persistence;
+﻿using System;
+using System.Collections.Generic;
 
-namespace ThreeAPI.scene.nodes
+using OpenTK;
+
+namespace Starter3D
 {
   public interface ISceneNode
   {
     IEnumerable<ISceneNode> Children { get; }
     ISceneNode Parent { get; set; }
     Matrix4 Transform { get;  }
+    void Traverse(Action<ISceneNode> visit, Action<ISceneNode> finish);
     Matrix4 ComposeTransform();
     void AddChild(ISceneNode child);
     void RemoveChild(ISceneNode child);

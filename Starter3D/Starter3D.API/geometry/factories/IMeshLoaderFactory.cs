@@ -1,11 +1,10 @@
-﻿using ThreeAPI.geometry.loaders;
-using ThreeAPI.utils;
+﻿using ThreeAPI.utils;
 
-namespace ThreeAPI.geometry.factories
+namespace Starter3D
 {
  
   public interface IMeshLoaderFactory
   {
-    IMeshLoader CreateMeshLoader(FileType fileType);
+    IGeometryLoader CreateMeshLoader(FileType fileType);
   }
 }

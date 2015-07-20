@@ -1,9 +1,9 @@
 ﻿using ThreeAPI.utils;
 
-namespace ThreeAPI.geometry.factories
+namespace Starter3D
 {
   public interface IMeshFactory
   {
-    IMesh CreateMesh(FileType fileType);
+    IGeometry CreateMesh(FileType fileType);
   }
 }

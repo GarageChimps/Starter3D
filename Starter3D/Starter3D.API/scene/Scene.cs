@@ -1,11 +1,12 @@
 ﻿using System;
 
-namespace ThreeAPI
+namespace Starter3D
 {
-  public class Scene
+  public class Scene: BaseSceneNode
   {
     public Scene ()
     {
+      
     }
   }
 }

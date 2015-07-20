@@ -1,6 +1,6 @@
 ﻿using OpenTK;
 
-namespace ThreeAPI.geometry
+namespace Starter3D
 {
   public interface IVertex
   {

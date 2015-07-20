@@ -1,7 +1,7 @@
-namespace ThreeAPI.geometry.loaders
+namespace Starter3D
 {
-  public interface IMeshLoader
+  public interface IGeometryLoader
   {
-    void Load(IMesh mesh, string filePath);
+    void Load(IGeometry mesh, string filePath);
   }
 }

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace ThreeAPI.geometry.factories
+namespace Starter3D
 {
   public class FaceFactory : IFaceFactory
   {

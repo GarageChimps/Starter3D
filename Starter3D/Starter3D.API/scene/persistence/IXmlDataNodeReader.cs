@@ -1,6 +1,4 @@
-﻿using ThreeAPI.scene.nodes;
-
-namespace ThreeAPI.scene.persistence
+﻿namespace Starter3D
 {
   public interface IXmlDataNodeReader
   {

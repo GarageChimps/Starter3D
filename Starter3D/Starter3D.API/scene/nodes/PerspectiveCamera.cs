@@ -1,11 +1,10 @@
 ﻿using System.Globalization;
 using OpenTK;
-using ThreeAPI.scene.persistence;
 using ThreeAPI.utils;
 
-namespace ThreeAPI.scene.nodes
+namespace Starter3D
 {
-  public class PerspectiveCamera : CameraNode
+  public class PerspectiveCamera : Camera
   {
     private float _fieldOfView;
     private float _aspectRatio;

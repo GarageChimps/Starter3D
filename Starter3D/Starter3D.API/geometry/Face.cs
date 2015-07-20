@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace ThreeAPI.geometry
+namespace Starter3D
 {
   public class Face : IFace
   {

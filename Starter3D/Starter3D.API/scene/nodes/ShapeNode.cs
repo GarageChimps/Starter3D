@@ -1,11 +1,8 @@
 ﻿using System;
 using System.IO;
-using ThreeAPI.geometry;
-using ThreeAPI.geometry.factories;
-using ThreeAPI.scene.persistence;
 using ThreeAPI.utils;
 
-namespace ThreeAPI.scene.nodes
+namespace Starter3D
 {
   public class ShapeNode : BaseSceneNode
   {

@@ -1,11 +1,17 @@
 ﻿using System;
 
-namespace ThreeAPI
+namespace Starter3D
 {
-  public class Mesh
+  public class Mesh: BaseSceneNode, IMesh
   {
-    public Mesh ()
+    protected IGeometry _geometry;
+    public Mesh (IGeometry geometry)
     {
+      _geometry = geometry;
+    }
+
+    public IGeometry Geometry {
+      get { return _geometry; }
     }
   }
 }

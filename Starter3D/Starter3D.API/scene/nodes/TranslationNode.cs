@@ -1,8 +1,7 @@
 ﻿using System.Globalization;
 using OpenTK;
-using ThreeAPI.scene.persistence;
 
-namespace ThreeAPI.scene.nodes
+namespace Starter3D
 {
   public class TranslationNode : TransformNode
   {

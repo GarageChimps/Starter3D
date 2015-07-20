@@ -8,11 +8,8 @@ using OpenTK.Input;
 using GL = OpenTK.Graphics.OpenGL.GL;
 using EnableCap = OpenTK.Graphics.OpenGL.EnableCap;
 using OpenTK.Graphics.OpenGL;
-
-using ThreeAPI.geometry;
+using Starter3D;
 using ThreeAPI.renderer;
-using ThreeAPI.scene.nodes;
-using ThreeAPI.scene.persistence;
 
 namespace ThreeAPI.examples
 {
@@ -27,7 +24,7 @@ namespace ThreeAPI.examples
     private int _programHandle;
     private int objHandle;
 
-    private IMesh mesh;
+    private IGeometry mesh;
 
     public PlainWindow (int width, int height)
       : base(width, height,
@@ -37,7 +34,7 @@ namespace ThreeAPI.examples
     {
       var xmlReader = XMLDataNodeReader.CreateReader();
       var scene = xmlReader.Read("scenes/testMeshScene.xml");
-      mesh = (IMesh)((ShapeNode)scene.Children.First ()).Shape;
+      mesh = (IGeometry)((ShapeNode)scene.Children.First ()).Shape;
     }
 
     protected override void OnRenderFrame(FrameEventArgs e)

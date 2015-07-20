@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Xml.Linq;
-using ThreeAPI.scene.nodes;
-using ThreeAPI.scene.nodes.factories;
-using ThreeAPI.scene.persistence.factories;
 using ThreeAPI.utils;
 
-namespace ThreeAPI.scene.persistence
+namespace Starter3D
 {
   public class XMLDataNode : IDataNode
   {

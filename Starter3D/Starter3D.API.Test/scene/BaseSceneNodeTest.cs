@@ -4,8 +4,7 @@ using System.Linq;
 using Moq;
 using NUnit.Framework;
 using OpenTK;
-using ThreeAPI.scene;
-using ThreeAPI.scene.nodes;
+using Starter3D;
 using ThreeAPI.utils;
 
 namespace ThreeAPI.Test.scene
@@ -87,7 +86,7 @@ namespace ThreeAPI.Test.scene
     public void GetElements_NoElementsOfType_ReturnsEmptyList()
     {
       var baseSceneNode = new BaseSceneNode();
-      var elements = baseSceneNode.GetNodes<CameraNode>();
+      var elements = baseSceneNode.GetNodes<Camera>();
       Assert.AreEqual(0, elements.Count());
     }
 
@@ -99,7 +98,7 @@ namespace ThreeAPI.Test.scene
       var child2 = new OrtographicCamera();
       baseSceneNode.AddChild(child1);
       baseSceneNode.AddChild(child2);
-      var elements = baseSceneNode.GetNodes<CameraNode>();
+      var elements = baseSceneNode.GetNodes<Camera>();
       Assert.AreEqual(2, elements.Count());
     }
 
@@ -116,7 +115,7 @@ namespace ThreeAPI.Test.scene
       baseSceneNode.AddChild(child2);
       child1.AddChild(child1ofChild1);
       child1.AddChild(child2ofChild1);
-      var elements = baseSceneNode.GetNodes<CameraNode>();
+      var elements = baseSceneNode.GetNodes<Camera>();
       Assert.AreEqual(2, elements.Count());
     }
 

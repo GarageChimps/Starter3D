@@ -1,15 +1,11 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+
 using NUnit.Framework;
 using OpenTK;
-using ThreeAPI.geometry;
-using ThreeAPI.geometry.factories;
-using ThreeAPI.scene;
-using ThreeAPI.scene.nodes;
-using ThreeAPI.scene.nodes.factories;
-using ThreeAPI.scene.persistence;
-using ThreeAPI.scene.persistence.factories;
+
+using Starter3D;
 using ThreeAPI.utils;
 
 namespace ThreeAPI.Test.scene
@@ -115,8 +111,8 @@ namespace ThreeAPI.Test.scene
       var xmlReader = CreateXMLReader();
       var scene = xmlReader.Read("test.xml");
       var shapeNode = (ShapeNode)scene.Children.First();
-      Assert.IsInstanceOf(typeof(Mesh), shapeNode.Shape);
-      Assert.AreEqual(4, (shapeNode.Shape as Mesh).Vertices.Count());
+      Assert.IsInstanceOf(typeof(Geometry), shapeNode.Shape);
+      Assert.AreEqual(4, (shapeNode.Shape as Geometry).Vertices.Count());
     }
 
     [Test()]

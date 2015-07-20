@@ -1,9 +1,8 @@
 using System.Globalization;
 using OpenTK;
 using OpenTK.Graphics;
-using ThreeAPI.scene.persistence;
 
-namespace ThreeAPI.scene.nodes
+namespace Starter3D
 {
   public class DirectionalLight : LightNode
   {

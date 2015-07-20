@@ -1,6 +1,6 @@
-﻿namespace ThreeAPI.geometry
+﻿namespace Starter3D
 {
-  public interface ICurve : IShape
+  public interface Starter3D : IShape
   {
      
   }

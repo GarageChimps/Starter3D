@@ -1,10 +1,9 @@
 ﻿using System.Globalization;
 using OpenTK;
-using ThreeAPI.scene.persistence;
 
-namespace ThreeAPI.scene.nodes
+namespace Starter3D
 {
-  public class OrtographicCamera : CameraNode
+  public class OrtographicCamera : Camera
   {
     private float _width;
     private float _height;

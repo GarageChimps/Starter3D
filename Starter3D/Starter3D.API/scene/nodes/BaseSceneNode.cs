@@ -1,13 +1,24 @@
-﻿using System.Collections.Generic;
-using OpenTK;
-using ThreeAPI.scene.persistence;
+﻿using System;
+using System.Collections.Generic;
 
-namespace ThreeAPI.scene.nodes
+using OpenTK;
+
+namespace Starter3D
 {
   public class BaseSceneNode : ISceneNode
   {
     protected List<ISceneNode> _children = new List<ISceneNode>();
     protected ISceneNode _parent;
+    protected Vector3 _position;
+    protected Vector3 _rotation;
+
+    public Vector3 Position {
+      get { return _position; }
+    }
+
+    public Vector3 Rotation {
+      get { return _rotation; }
+    }
 
     public virtual Matrix4 Transform
     {
@@ -23,6 +34,15 @@ namespace ThreeAPI.scene.nodes
     {
       get { return _parent; }
       set { _parent = value; }
+    }
+
+    public void Traverse(Action<ISceneNode> visit, Action<ISceneNode> finish = null){
+      visit (this);
+      foreach (ISceneNode node in Children) {
+        node.Traverse (visit, finish);
+      }
+      if (finish != null)
+        finish (this);
     }
 
     public Matrix4 ComposeTransform()

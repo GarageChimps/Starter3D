@@ -59,7 +59,17 @@ namespace ThreeAPI.renderer
       GL.VertexAttribPointer( 0, 3, VertexAttribPointerType.Float, false, Vector3.SizeInBytes, 0 );            
     }
 
-    public static void LoadIndexer(int shaderProgramHandle, uint [] indicesVboData)
+    public static void CreateBuffer(Vector3[] positionVboData)
+    {
+      int positionVboHandle;
+      GL.GenBuffers( 1, out positionVboHandle );
+      GL.BindBuffer( BufferTarget.ArrayBuffer, positionVboHandle );
+      GL.BufferData<Vector3>( BufferTarget.ArrayBuffer,
+        new IntPtr( positionVboData.Length * Vector3.SizeInBytes ),
+        positionVboData, BufferUsageHint.StaticDraw );
+    }
+
+    public static void CreateIndexer(uint [] indicesVboData)
     {
       int indicesVboHandle;
       GL.GenBuffers( 1, out indicesVboHandle );

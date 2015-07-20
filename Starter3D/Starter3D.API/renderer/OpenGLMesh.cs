@@ -1,12 +1,11 @@
 ﻿using System;
 using OpenTK;
-using ThreeAPI.geometry;
 
-namespace ThreeAPI
+namespace Starter3D
 {
   public static class OpenGLMesh
   {
-    public static Vector3[] vertexPositions(IMesh mesh){
+    public static Vector3[] vertexPositions(IGeometry mesh){
 
       Vector3[] positions = new Vector3[mesh.VerticesCount];
       int i = 0;
@@ -17,7 +16,7 @@ namespace ThreeAPI
       return positions;
     }
 
-    public static uint[] faceIndices(IMesh mesh){
+    public static uint[] faceIndices(IGeometry mesh){
 
       uint[] faces = new uint[mesh.FacesCount * 3];
       int i = 0;
@@ -29,7 +28,7 @@ namespace ThreeAPI
       }
       return faces;
     }
-    public static int triangleCount(IMesh mesh){
+    public static int triangleCount(IGeometry mesh){
       return mesh.FacesCount * 3;
     }
   }

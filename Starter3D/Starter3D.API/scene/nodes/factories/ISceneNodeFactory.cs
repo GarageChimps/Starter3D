@@ -1,6 +1,6 @@
 ﻿using ThreeAPI.utils;
 
-namespace ThreeAPI.scene.nodes.factories
+namespace Starter3D
 {
   public interface ISceneNodeFactory
   {

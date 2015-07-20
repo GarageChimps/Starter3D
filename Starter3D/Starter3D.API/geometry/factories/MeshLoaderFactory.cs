@@ -1,8 +1,7 @@
 ﻿using System;
-using ThreeAPI.geometry.loaders;
 using ThreeAPI.utils;
 
-namespace ThreeAPI.geometry.factories
+namespace Starter3D
 {
   public class MeshLoaderFactory : IMeshLoaderFactory
   {
@@ -15,7 +14,7 @@ namespace ThreeAPI.geometry.factories
       _faceFactory = faceFactory;
     }
 
-    public IMeshLoader CreateMeshLoader(FileType fileType)
+    public IGeometryLoader CreateMeshLoader(FileType fileType)
     {
       switch (fileType)
       {

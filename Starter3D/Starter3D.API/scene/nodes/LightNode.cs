@@ -1,8 +1,7 @@
 using System.Globalization;
 using OpenTK.Graphics;
-using ThreeAPI.scene.persistence;
 
-namespace ThreeAPI.scene.nodes
+namespace Starter3D
 {
   public abstract class LightNode : BaseSceneNode
   {

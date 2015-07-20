@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ThreeAPI.geometry.factories
+namespace Starter3D
 {
   public interface IFaceFactory
   {

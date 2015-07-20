@@ -1,7 +1,6 @@
-﻿using ThreeAPI.scene.nodes;
+﻿
+namespace Starter3D{
 
-namespace ThreeAPI.scene.persistence
-{
   public interface IDataNode
   {
     ISceneNode Load();

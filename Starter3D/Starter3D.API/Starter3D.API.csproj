@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{3567CAD0-DE95-4BA8-98DE-750B75DCB45A}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>ThreeAPI</RootNamespace>
+    <RootNamespace>Starter3D</RootNamespace>
     <AssemblyName>ThreeAPI</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
@@ -44,7 +44,6 @@
     <Compile Include="math\Ray.cs" />
     <Compile Include="geometry\factories\MeshLoaderFactory.cs" />
     <Compile Include="scene\nodes\BaseSceneNode.cs" />
-    <Compile Include="scene\nodes\CameraNode.cs" />
     <Compile Include="scene\persistence\factories\DataNodeFactory.cs" />
     <Compile Include="scene\nodes\DirectionalLight.cs" />
     <Compile Include="utils\Extensions.cs" />
@@ -54,7 +53,6 @@
     <Compile Include="scene\persistence\IDataNode.cs" />
     <Compile Include="geometry\IFace.cs" />
     <Compile Include="geometry\factories\IFaceFactory.cs" />
-    <Compile Include="geometry\IMesh.cs" />
     <Compile Include="geometry\factories\IMeshFactory.cs" />
     <Compile Include="geometry\loaders\IMeshLoader.cs" />
     <Compile Include="geometry\factories\IMeshLoaderFactory.cs" />
@@ -70,7 +68,6 @@
     <Compile Include="geometry\factories\IVertexFactory.cs" />
     <Compile Include="scene\persistence\IXmlDataNodeReader.cs" />
     <Compile Include="scene\nodes\LightNode.cs" />
-    <Compile Include="geometry\Mesh.cs" />
     <Compile Include="geometry\factories\MeshFactory.cs" />
     <Compile Include="geometry\loaders\ObjMeshLoader.cs" />
     <Compile Include="scene\nodes\OrtographicCamera.cs" />
@@ -91,10 +88,19 @@
     <Compile Include="scene\persistence\XMLDataNodeReader.cs" />
     <Compile Include="renderer\OpenGLMesh.cs" />
     <Compile Include="renderer\OpenGLHelper.cs" />
+    <Compile Include="scene\Scene.cs" />
+    <Compile Include="scene\nodes\Camera.cs" />
+    <Compile Include="geometry\Geometry.cs" />
+    <Compile Include="geometry\IGeometry.cs" />
+    <Compile Include="geometry\extras\BoxGeometry.cs" />
+    <Compile Include="scene\nodes\Mesh.cs" />
+    <Compile Include="renderer\GLRenderer.cs" />
+    <Compile Include="scene\nodes\IMesh.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />
   <ItemGroup>
     <Folder Include="renderer\" />
+    <Folder Include="geometry\extras\" />
   </ItemGroup>
 </Project>

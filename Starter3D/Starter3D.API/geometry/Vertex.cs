@@ -1,6 +1,6 @@
 ﻿using OpenTK;
 
-namespace ThreeAPI.geometry
+namespace Starter3D
 {
   public class Vertex : IVertex
   {
@@ -38,8 +38,12 @@ namespace ThreeAPI.geometry
       _textureCoords = textureCoords;
     }
 
-    public Vertex()
+    public Vertex(float x, float y, float z)
     {
+      _position = new Vector3 (x, y, z);
+    }
+
+    public Vertex(){
       
     }
 

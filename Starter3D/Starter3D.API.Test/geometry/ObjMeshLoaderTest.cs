@@ -2,9 +2,7 @@
 using System.Linq;
 using NUnit.Framework;
 using OpenTK;
-using ThreeAPI.geometry;
-using ThreeAPI.geometry.factories;
-using ThreeAPI.geometry.loaders;
+using Starter3D;
 
 namespace ThreeAPI.Test.geometry
 {
@@ -17,7 +15,7 @@ namespace ThreeAPI.Test.geometry
       var testObj = @"";
       File.WriteAllText("test.obj", testObj);
 
-      var mesh = new Mesh(CreateObjMeshLoader());
+      var mesh = new Geometry(CreateObjMeshLoader());
       mesh.Load("test.obj");
 
       Assert.AreEqual(0, mesh.Vertices.Count());
@@ -29,7 +27,7 @@ namespace ThreeAPI.Test.geometry
     {
       WriteSquareWithOnlyPositionsMadeOfTrianglesObj();
 
-      var mesh = new Mesh(CreateObjMeshLoader());
+      var mesh = new Geometry(CreateObjMeshLoader());
       mesh.Load("test.obj");
 
       Assert.AreEqual(4, mesh.Vertices.Count());
@@ -41,7 +39,7 @@ namespace ThreeAPI.Test.geometry
     {
       WriteSquareWithOnlyPositionsMadeOfTrianglesObj();
 
-      var mesh = new Mesh(CreateObjMeshLoader());
+      var mesh = new Geometry(CreateObjMeshLoader());
       mesh.Load("test.obj");
       var triangles = mesh.GetTriangles();
 
@@ -53,7 +51,7 @@ namespace ThreeAPI.Test.geometry
     {
       WriteSquareWithOnlyPositionsMadeOfTrianglesObj();
 
-      var mesh = new Mesh(CreateObjMeshLoader());
+      var mesh = new Geometry(CreateObjMeshLoader());
       mesh.Load("test.obj");
 
       Assert.AreEqual(new Vertex(new Vector3(1, 1, 0), new Vector3(), new Vector2()), mesh.Vertices.ElementAt(0));
@@ -67,7 +65,7 @@ namespace ThreeAPI.Test.geometry
     {
       WriteSquareWithOnlyPositionsMadeOfTrianglesObj();
 
-      var mesh = new Mesh(CreateObjMeshLoader());
+      var mesh = new Geometry(CreateObjMeshLoader());
       mesh.Load("test.obj");
 
       Assert.AreEqual(new Face(0,1,2), mesh.Faces.ElementAt(0));
@@ -79,7 +77,7 @@ namespace ThreeAPI.Test.geometry
     {
       WriteSquareWithOnlyPositionsMadeOfTrianglesObj();
 
-      var mesh = new Mesh(CreateObjMeshLoader());
+      var mesh = new Geometry(CreateObjMeshLoader());
       mesh.Load("test.obj");
       var triangles = mesh.GetTriangles();
 
@@ -97,7 +95,7 @@ namespace ThreeAPI.Test.geometry
     {
       WriteSquareWithOnlyPositionsMadeOfQuadsObj();
 
-      var mesh = new Mesh(CreateObjMeshLoader());
+      var mesh = new Geometry(CreateObjMeshLoader());
       mesh.Load("test.obj");
 
       Assert.AreEqual(4, mesh.Vertices.Count());
@@ -109,7 +107,7 @@ namespace ThreeAPI.Test.geometry
     {
       WriteSquareWithOnlyPositionsMadeOfQuadsObj();
 
-      var mesh = new Mesh(CreateObjMeshLoader());
+      var mesh = new Geometry(CreateObjMeshLoader());
       mesh.Load("test.obj");
       var triangles = mesh.GetTriangles();
 
@@ -121,7 +119,7 @@ namespace ThreeAPI.Test.geometry
     {
       WriteSquareWithOnlyPositionsMadeOfQuadsObj();
 
-      var mesh = new Mesh(CreateObjMeshLoader());
+      var mesh = new Geometry(CreateObjMeshLoader());
       mesh.Load("test.obj");
 
       Assert.AreEqual(new Vertex(new Vector3(1, 1, 0), new Vector3(), new Vector2()), mesh.Vertices.ElementAt(0));
@@ -135,7 +133,7 @@ namespace ThreeAPI.Test.geometry
     {
       WriteSquareWithOnlyPositionsMadeOfQuadsObj();
 
-      var mesh = new Mesh(CreateObjMeshLoader());
+      var mesh = new Geometry(CreateObjMeshLoader());
       mesh.Load("test.obj");
 
       Assert.AreEqual(new Face(0, 1, 2, 3), mesh.Faces.ElementAt(0));
@@ -146,7 +144,7 @@ namespace ThreeAPI.Test.geometry
     {
       WriteSquareWithOnlyPositionsMadeOfQuadsObj();
 
-      var mesh = new Mesh(CreateObjMeshLoader());
+      var mesh = new Geometry(CreateObjMeshLoader());
       mesh.Load("test.obj");
       var triangles = mesh.GetTriangles();
 
@@ -164,7 +162,7 @@ namespace ThreeAPI.Test.geometry
     {
       WriteSquareWithPositionsAndTextureCoordinatesMadeOfTrianglesObj();
 
-      var mesh = new Mesh(CreateObjMeshLoader());
+      var mesh = new Geometry(CreateObjMeshLoader());
       mesh.Load("test.obj");
 
       Assert.AreEqual(4, mesh.Vertices.Count());
@@ -176,7 +174,7 @@ namespace ThreeAPI.Test.geometry
     {
       WriteSquareWithPositionsAndTextureCoordinatesMadeOfTrianglesObj();
 
-      var mesh = new Mesh(CreateObjMeshLoader());
+      var mesh = new Geometry(CreateObjMeshLoader());
       mesh.Load("test.obj");
 
       Assert.AreEqual(new Vertex(new Vector3(1, 1, 0), new Vector3(), new Vector2(0,0)), mesh.Vertices.ElementAt(0));
@@ -190,7 +188,7 @@ namespace ThreeAPI.Test.geometry
     {
       WriteSquareWithPositionsTextureCoordinatesAndNormalsMadeOfTrianglesObj();
 
-      var mesh = new Mesh(CreateObjMeshLoader());
+      var mesh = new Geometry(CreateObjMeshLoader());
       mesh.Load("test.obj");
 
       Assert.AreEqual(4, mesh.Vertices.Count());
@@ -202,7 +200,7 @@ namespace ThreeAPI.Test.geometry
     {
       WriteSquareWithPositionsTextureCoordinatesAndNormalsMadeOfTrianglesObj();
 
-      var mesh = new Mesh(CreateObjMeshLoader());
+      var mesh = new Geometry(CreateObjMeshLoader());
       mesh.Load("test.obj");
 
       Assert.AreEqual(new Vertex(new Vector3(1, 1, 0), new Vector3(1,1,1).Normalized(), new Vector2(0, 0)), mesh.Vertices.ElementAt(0));
@@ -216,7 +214,7 @@ namespace ThreeAPI.Test.geometry
     {
       WriteSquareWithPositionsAndNormalsMadeOfTrianglesObj();
 
-      var mesh = new Mesh(CreateObjMeshLoader());
+      var mesh = new Geometry(CreateObjMeshLoader());
       mesh.Load("test.obj");
 
       Assert.AreEqual(4, mesh.Vertices.Count());
@@ -228,7 +226,7 @@ namespace ThreeAPI.Test.geometry
     {
       WriteSquareWithPositionsAndNormalsMadeOfTrianglesObj();
 
-      var mesh = new Mesh(CreateObjMeshLoader());
+      var mesh = new Geometry(CreateObjMeshLoader());
       mesh.Load("test.obj");
 
       Assert.AreEqual(new Vertex(new Vector3(1, 1, 0), new Vector3(1, 1, 1).Normalized(), new Vector2()), mesh.Vertices.ElementAt(0));

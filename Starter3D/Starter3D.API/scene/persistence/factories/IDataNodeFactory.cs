@@ -1,6 +1,6 @@
 ﻿using System.Xml.Linq;
 
-namespace ThreeAPI.scene.persistence.factories
+namespace Starter3D
 {
   public interface IDataNodeFactory
   {

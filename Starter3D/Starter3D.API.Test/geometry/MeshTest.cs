@@ -2,8 +2,7 @@
 using Moq;
 using NUnit.Framework;
 using OpenTK;
-using ThreeAPI.geometry;
-using ThreeAPI.geometry.loaders;
+using Starter3D;
 
 namespace ThreeAPI.Test.geometry
 {
@@ -138,10 +137,10 @@ namespace ThreeAPI.Test.geometry
       Assert.AreEqual(new Vector3(1, 0, 0).Normalized(), mesh.Vertices.ElementAt(3).Normal);
     }
 
-    private static Mesh CreateMesh()
+    private static Geometry CreateMesh()
     {
-      var meshLoaderMock = new Mock<IMeshLoader>();
-      var mesh = new Mesh(meshLoaderMock.Object);
+      var meshLoaderMock = new Mock<IGeometryLoader>();
+      var mesh = new Geometry(meshLoaderMock.Object);
       return mesh;
     }
   }

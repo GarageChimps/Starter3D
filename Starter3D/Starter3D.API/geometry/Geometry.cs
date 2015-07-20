@@ -2,22 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using OpenTK;
-using ThreeAPI.geometry.loaders;
 
-namespace ThreeAPI.geometry
+namespace Starter3D
 {
-  public class Mesh : IMesh
+  public class Geometry : IGeometry
   {
-    private readonly IMeshLoader _meshLoader;
-    private readonly List<IVertex> _vertices = new List<IVertex>();
-    private readonly List<IFace> _faces = new List<IFace>();
+    protected readonly IGeometryLoader _loader;
+    protected readonly List<IVertex> _vertices = new List<IVertex>();
+    protected readonly List<IFace> _faces = new List<IFace>();
 
-    public Mesh(){
+    public Geometry(){
     }
 
-    public Mesh(IMeshLoader meshLoader)
+    public Geometry(IGeometryLoader loader)
     {
-      _meshLoader = meshLoader;
+      _loader = loader;
     }
 
     public IEnumerable<IVertex> Vertices
@@ -99,7 +98,7 @@ namespace ThreeAPI.geometry
 
     public void Load(string filePath)
     {
-      _meshLoader.Load(this, filePath);
+      _loader.Load(this, filePath);
     }
 
     public void Save(string filePath)

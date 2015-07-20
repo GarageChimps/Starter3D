@@ -1,6 +1,6 @@
 ﻿using ThreeAPI.utils;
 
-namespace ThreeAPI.geometry.factories
+namespace Starter3D
 {
   public class MeshFactory : IMeshFactory
   {
@@ -11,9 +11,9 @@ namespace ThreeAPI.geometry.factories
       _meshLoaderFactory = meshLoaderFactory;
     }
 
-    public IMesh CreateMesh(FileType fileType)
+    public IGeometry CreateMesh(FileType fileType)
     {
-      return new Mesh(_meshLoaderFactory.CreateMeshLoader(fileType));
+      return new Geometry(_meshLoaderFactory.CreateMeshLoader(fileType));
     }
   }
 }
