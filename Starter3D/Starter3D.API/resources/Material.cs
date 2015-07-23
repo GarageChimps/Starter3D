@@ -46,11 +46,11 @@ namespace Starter3D.API.resources
       renderer.UseShader(_shaderName);
       foreach (var numericParameter in _numericParameters)
       {
-        renderer.AddNumberParameter(numericParameter.Key, numericParameter.Value, _shaderName);
+        renderer.SetNumberParameter(numericParameter.Key, numericParameter.Value, _shaderName);
       }
       foreach (var vectorParameter in _vectorParameters)
       {
-        renderer.AddVectorParameter(vectorParameter.Key, vectorParameter.Value, _shaderName);
+        renderer.SetVectorParameter(vectorParameter.Key, vectorParameter.Value, _shaderName);
       }
       foreach (var textureParameter in _textureParameters)
       {

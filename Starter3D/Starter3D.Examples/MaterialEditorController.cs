@@ -56,8 +56,8 @@ namespace Starter3D.Examples
       {
         light.Configure(_renderer);
       }
-      _renderer.AddNumberParameter("activeNumberOfPointLights", pointLights.Count());
-      _renderer.AddNumberParameter("activeNumberOfDirectionalLights", directionalLights.Count());
+      _renderer.SetNumberParameter("activeNumberOfPointLights", pointLights.Count());
+      _renderer.SetNumberParameter("activeNumberOfDirectionalLights", directionalLights.Count());
     }
 
     public override void Render(double time)

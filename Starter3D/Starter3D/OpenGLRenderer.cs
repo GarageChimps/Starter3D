@@ -19,8 +19,6 @@ namespace Starter3D.OpenGL
 
     private readonly Dictionary<string, int> _shaderHandleDictionary = new Dictionary<string, int>();
     private readonly Dictionary<string, int> _objectsHandleDictionary = new Dictionary<string, int>();
-    private readonly Dictionary<string, int> _objectsVertexBufferDictionary = new Dictionary<string, int>();
-    private readonly Dictionary<string, int> _objectsIndexBufferDictionary = new Dictionary<string, int>();
     private readonly Dictionary<string, Tuple<int, int>> _textureHandleDictionary = new Dictionary<string, Tuple<int, int>>();
     #endregion
 
@@ -29,10 +27,6 @@ namespace Starter3D.OpenGL
     {
       if (!_objectsHandleDictionary.ContainsKey(name))
         throw new ApplicationException("Object must be added to the renderer before drawing");
-      if (!_objectsVertexBufferDictionary.ContainsKey(name))
-        throw new ApplicationException("Vertices of object must be added to the renderer before drawing");
-      if (!_objectsIndexBufferDictionary.ContainsKey(name))
-        throw new ApplicationException("Faces of object must be added to the renderer before drawing");
       GL.BindVertexArray(_objectsHandleDictionary[name]);
       GL.DrawElements(BeginMode.Triangles, triangleCount, DrawElementsType.UnsignedInt, IntPtr.Zero);
     }
@@ -43,10 +37,10 @@ namespace Starter3D.OpenGL
       if (_textureHandleDictionary.ContainsKey(name + shader))
         return;
       var unit = TextureUnit.Texture0 + index;
-      var textureHandle = CreateTexture(texture, TextureUnit.Texture0 + index, TextureMinFilter.Linear,
+      var textureHandle = CreateTexture(texture, unit, TextureMinFilter.Linear,
         TextureMagFilter.Linear);
       _textureHandleDictionary.Add(name + shader, new Tuple<int, int>(textureHandle, index));
-      AddNumberParameter(name + shader, index);
+      SetNumberParameter(name + shader, index);
     }
 
     public void UseTexture(string textureName, string shader)
@@ -82,7 +76,7 @@ namespace Starter3D.OpenGL
       GL.UseProgram(_shaderHandleDictionary[shaderName]);
     }
 
-    public void AddObject(string objectName)
+    public void LoadObject(string objectName)
     {
       if (_objectsHandleDictionary.ContainsKey(objectName))
         return;
@@ -92,7 +86,7 @@ namespace Starter3D.OpenGL
       GL.BindVertexArray(_objectsHandleDictionary[objectName]);
     }
 
-    public void AddMatrixParameter(string name, Matrix4 matrix)
+    public void SetMatrixParameter(string name, Matrix4 matrix)
     {
       foreach (var shaderHandle in _shaderHandleDictionary.Values)
       {
@@ -103,7 +97,7 @@ namespace Starter3D.OpenGL
       }
     }
 
-    public void AddMatrixParameter(string name, Matrix4 matrix, string shader)
+    public void SetMatrixParameter(string name, Matrix4 matrix, string shader)
     {
       GL.UseProgram(_shaderHandleDictionary[shader]);
       int location = GL.GetUniformLocation(_shaderHandleDictionary[shader], name);
@@ -111,7 +105,7 @@ namespace Starter3D.OpenGL
         GL.UniformMatrix4(location, false, ref matrix);
     }
 
-    public void AddVectorParameter(string name, Vector3 vector)
+    public void SetVectorParameter(string name, Vector3 vector)
     {
       foreach (var shaderHandle in _shaderHandleDictionary.Values)
       {
@@ -122,7 +116,7 @@ namespace Starter3D.OpenGL
       }
     }
 
-    public void AddVectorParameter(string name, Vector3 vector, string shader)
+    public void SetVectorParameter(string name, Vector3 vector, string shader)
     {
       GL.UseProgram(_shaderHandleDictionary[shader]);
       int location = GL.GetUniformLocation(_shaderHandleDictionary[shader], name);
@@ -130,7 +124,7 @@ namespace Starter3D.OpenGL
         GL.Uniform3(location, vector);
     }
 
-    public void AddBooleanParameter(string name, bool value)
+    public void SetBooleanParameter(string name, bool value)
     {
       foreach (var shaderHandle in _shaderHandleDictionary.Values)
       {
@@ -141,7 +135,7 @@ namespace Starter3D.OpenGL
       }
     }
 
-    public void AddBooleanParameter(string name, bool value, string shader)
+    public void SetBooleanParameter(string name, bool value, string shader)
     {
       GL.UseProgram(_shaderHandleDictionary[shader]);
       int location = GL.GetUniformLocation(_shaderHandleDictionary[shader], name);
@@ -149,7 +143,7 @@ namespace Starter3D.OpenGL
         GL.Uniform1(location, value ? 1 : 0);
     }
 
-    public void AddNumberParameter(string name, float number)
+    public void SetNumberParameter(string name, float number)
     {
       foreach (var shaderHandle in _shaderHandleDictionary.Values)
       {
@@ -160,7 +154,7 @@ namespace Starter3D.OpenGL
       }
     }
 
-    public void AddNumberParameter(string name, float number, string shader)
+    public void SetNumberParameter(string name, float number, string shader)
     {
       GL.UseProgram(_shaderHandleDictionary[shader]);
       int location = GL.GetUniformLocation(_shaderHandleDictionary[shader], name);
@@ -170,20 +164,15 @@ namespace Starter3D.OpenGL
 
     public void SetVerticesData(string name, List<Vector3> data)
     {
-      if (_objectsVertexBufferDictionary.ContainsKey(name))
-        return;
       var verticesArray = data.ToArray();
       int vboHandle;
       GL.GenBuffers(1, out vboHandle);
       GL.BindBuffer(BufferTarget.ArrayBuffer, vboHandle);
       GL.BufferData(BufferTarget.ArrayBuffer, new IntPtr(verticesArray.Length * Vector3.SizeInBytes), verticesArray, BufferUsageHint.StaticDraw);
-      _objectsVertexBufferDictionary.Add(name, vboHandle);
     }
 
     public void SetFacesData(string name, List<int> data)
     {
-      if (_objectsIndexBufferDictionary.ContainsKey(name))
-        return;
       var indicesArray = new uint[data.Count];
       for (int i = 0; i < data.Count; i++)
       {
@@ -192,8 +181,8 @@ namespace Starter3D.OpenGL
       int indicesVboHandle;
       GL.GenBuffers(1, out indicesVboHandle);
       GL.BindBuffer(BufferTarget.ElementArrayBuffer, indicesVboHandle);
-      GL.BufferData(BufferTarget.ElementArrayBuffer, new IntPtr(indicesArray.Length * sizeof(uint)), indicesArray, BufferUsageHint.StaticDraw);
-      _objectsIndexBufferDictionary.Add(name, indicesVboHandle);
+      GL.BufferData(BufferTarget.ElementArrayBuffer, new IntPtr(indicesArray.Length * sizeof(uint)), indicesArray,
+        BufferUsageHint.StaticDraw);
     }
 
     public void SetVertexAttribute(string objectName, string shaderName, int index, string vertexPropertyName, int stride, int offset)

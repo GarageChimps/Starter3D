@@ -33,8 +33,8 @@ namespace Starter3D.API.scene.nodes
 
     public override void Configure(IRenderer renderer)
     {
-      renderer.AddVectorParameter("directionalLights[" + _index + "].Direction", _direction);
-      renderer.AddVectorParameter("directionalLights[" + _index + "].Color", new Vector3(_color.R, _color.G, _color.B));
+      renderer.SetVectorParameter("directionalLights[" + _index + "].Direction", _direction);
+      renderer.SetVectorParameter("directionalLights[" + _index + "].Color", new Vector3(_color.R, _color.G, _color.B));
     }
 
     public override void Load(ISceneDataNode sceneDataNode)
