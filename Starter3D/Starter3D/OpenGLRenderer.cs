@@ -23,6 +23,16 @@ namespace Starter3D.OpenGL
     #endregion
 
     #region Public Methods
+    public void LoadObject(string objectName)
+    {
+      if (_objectsHandleDictionary.ContainsKey(objectName))
+        return;
+      int objHandle;
+      GL.GenVertexArrays(1, out  objHandle);
+      _objectsHandleDictionary.Add(objectName, objHandle);
+      GL.BindVertexArray(_objectsHandleDictionary[objectName]);
+    }
+    
     public void DrawTriangles(string name, int triangleCount)
     {
       if (!_objectsHandleDictionary.ContainsKey(name))
@@ -31,6 +41,38 @@ namespace Starter3D.OpenGL
       GL.DrawElements(BeginMode.Triangles, triangleCount, DrawElementsType.UnsignedInt, IntPtr.Zero);
     }
 
+    public void SetVerticesData(string name, List<Vector3> data)
+    {
+      var verticesArray = data.ToArray();
+      int vboHandle;
+      GL.GenBuffers(1, out vboHandle);
+      GL.BindBuffer(BufferTarget.ArrayBuffer, vboHandle);
+      GL.BufferData(BufferTarget.ArrayBuffer, new IntPtr(verticesArray.Length * Vector3.SizeInBytes), verticesArray, BufferUsageHint.StaticDraw);
+    }
+
+    public void SetFacesData(string name, List<int> data)
+    {
+      var indicesArray = new uint[data.Count];
+      for (int i = 0; i < data.Count; i++)
+      {
+        indicesArray[i] = (uint)data[i];
+      }
+      int indicesVboHandle;
+      GL.GenBuffers(1, out indicesVboHandle);
+      GL.BindBuffer(BufferTarget.ElementArrayBuffer, indicesVboHandle);
+      GL.BufferData(BufferTarget.ElementArrayBuffer, new IntPtr(indicesArray.Length * sizeof(uint)), indicesArray,
+        BufferUsageHint.StaticDraw);
+    }
+
+    public void SetVertexAttribute(string objectName, string shaderName, int index, string vertexPropertyName, int stride, int offset)
+    {
+      int location = GL.GetAttribLocation(_shaderHandleDictionary[shaderName], vertexPropertyName);
+      if (location != -1)
+      {
+        GL.EnableVertexAttribArray(index);
+        GL.VertexAttribPointer(index, 3, VertexAttribPointerType.Float, false, stride, IntPtr.Add(IntPtr.Zero, offset));
+      }
+    }
 
     public void LoadTexture(string name, string shader, int index, Bitmap texture)
     {
@@ -75,17 +117,7 @@ namespace Starter3D.OpenGL
         throw new ApplicationException("Shader must be loaded before using it");
       GL.UseProgram(_shaderHandleDictionary[shaderName]);
     }
-
-    public void LoadObject(string objectName)
-    {
-      if (_objectsHandleDictionary.ContainsKey(objectName))
-        return;
-      int objHandle;
-      GL.GenVertexArrays(1, out  objHandle);
-      _objectsHandleDictionary.Add(objectName, objHandle);
-      GL.BindVertexArray(_objectsHandleDictionary[objectName]);
-    }
-
+    
     public void SetMatrixParameter(string name, Matrix4 matrix)
     {
       foreach (var shaderHandle in _shaderHandleDictionary.Values)
@@ -161,40 +193,7 @@ namespace Starter3D.OpenGL
       if (location != -1)
         GL.Uniform1(location, number);
     }
-
-    public void SetVerticesData(string name, List<Vector3> data)
-    {
-      var verticesArray = data.ToArray();
-      int vboHandle;
-      GL.GenBuffers(1, out vboHandle);
-      GL.BindBuffer(BufferTarget.ArrayBuffer, vboHandle);
-      GL.BufferData(BufferTarget.ArrayBuffer, new IntPtr(verticesArray.Length * Vector3.SizeInBytes), verticesArray, BufferUsageHint.StaticDraw);
-    }
-
-    public void SetFacesData(string name, List<int> data)
-    {
-      var indicesArray = new uint[data.Count];
-      for (int i = 0; i < data.Count; i++)
-      {
-        indicesArray[i] = (uint)data[i];
-      }
-      int indicesVboHandle;
-      GL.GenBuffers(1, out indicesVboHandle);
-      GL.BindBuffer(BufferTarget.ElementArrayBuffer, indicesVboHandle);
-      GL.BufferData(BufferTarget.ElementArrayBuffer, new IntPtr(indicesArray.Length * sizeof(uint)), indicesArray,
-        BufferUsageHint.StaticDraw);
-    }
-
-    public void SetVertexAttribute(string objectName, string shaderName, int index, string vertexPropertyName, int stride, int offset)
-    {
-      int location = GL.GetAttribLocation(_shaderHandleDictionary[shaderName], vertexPropertyName);
-      if (location != -1)
-      {
-        GL.EnableVertexAttribArray(index);
-        GL.VertexAttribPointer(index, 3, VertexAttribPointerType.Float, false, stride, IntPtr.Add(IntPtr.Zero, offset));
-      }
-    }
-
+    
     #endregion
 
     #region Private Methods

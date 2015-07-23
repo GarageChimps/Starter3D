@@ -98,7 +98,7 @@ namespace ThreeAPI.Test.scene
     public void ReadFile_OneShapeNode_CorrectParametersOfShapeNode()
     {
       var testXml = @"<Scene>
-                        <Shape shapeType='Mesh' filePath='test.obj' material='plain'>                                                   
+                        <Shape shapeType='Mesh' shapeName='test' filePath='test.obj' material='plain'>                                                   
                         </Shape>                          
                       </Scene>";
       File.WriteAllText("test.xml", testXml);
@@ -114,8 +114,8 @@ namespace ThreeAPI.Test.scene
 
       var testResources = @"<Resources>
                               <Materials>
-                                <Material key='plain'>                                                   
-                                </Material>
+                                <BaseMaterial key='plain' shader='plain'>                                                   
+                                </BaseMaterial>
                               </Materials>                          
                             </Resources>";
       File.WriteAllText("test.res", testResources);

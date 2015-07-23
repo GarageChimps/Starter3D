@@ -132,8 +132,8 @@ namespace Starter3D.API.geometry
       _material.Configure(renderer);
       renderer.LoadObject(_name);
       renderer.SetVerticesData(_name, GetVerticesData());
-      _vertices.First().Configure(_name, _material.ShaderName, renderer); //We use the first vertex as representatve to configure the vertex info of the renderer
       renderer.SetFacesData(_name, GetFaceData());
+      _vertices.First().Configure(_name, _material.ShaderName, renderer); //We use the first vertex as representatve to configure the vertex info of the renderer
     }
 
     public void Render(IRenderer renderer, Matrix4 transform)

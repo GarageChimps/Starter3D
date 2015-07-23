@@ -56,10 +56,10 @@ namespace ThreeAPI.Test.geometry
       var mesh = new Mesh(CreateObjMeshLoader());
       mesh.Load("test.obj");
 
-      Assert.AreEqual(new Vertex(new Vector3(1, 1, 0), new Vector3(), new Vector2()), mesh.Vertices.ElementAt(0));
-      Assert.AreEqual(new Vertex(new Vector3(1, -1, 0), new Vector3(), new Vector2()), mesh.Vertices.ElementAt(1));
-      Assert.AreEqual(new Vertex(new Vector3(-1, -1, 0), new Vector3(), new Vector2()), mesh.Vertices.ElementAt(2));
-      Assert.AreEqual(new Vertex(new Vector3(-1, 1, 0), new Vector3(), new Vector2()), mesh.Vertices.ElementAt(3));
+      Assert.AreEqual(new Vertex(new Vector3(1, 1, 0), new Vector3(0, 0, -1), new Vector2()), mesh.Vertices.ElementAt(0));
+      Assert.AreEqual(new Vertex(new Vector3(1, -1, 0), new Vector3(0, 0, -1), new Vector2()), mesh.Vertices.ElementAt(1));
+      Assert.AreEqual(new Vertex(new Vector3(-1, -1, 0), new Vector3(0, 0, -1), new Vector2()), mesh.Vertices.ElementAt(2));
+      Assert.AreEqual(new Vertex(new Vector3(-1, 1, 0), new Vector3(0, 0, -1), new Vector2()), mesh.Vertices.ElementAt(3));
     }
 
     [Test()]
@@ -70,8 +70,8 @@ namespace ThreeAPI.Test.geometry
       var mesh = new Mesh(CreateObjMeshLoader());
       mesh.Load("test.obj");
 
-      Assert.AreEqual(new Face(0,1,2), mesh.Faces.ElementAt(0));
-      Assert.AreEqual(new Face(2,3,0), mesh.Faces.ElementAt(1));
+      Assert.AreEqual(new Face(0, 1, 2), mesh.Faces.ElementAt(0));
+      Assert.AreEqual(new Face(2, 3, 0), mesh.Faces.ElementAt(1));
     }
 
     [Test()]
@@ -83,13 +83,13 @@ namespace ThreeAPI.Test.geometry
       mesh.Load("test.obj");
       var triangles = mesh.GetTriangles();
 
-      Assert.AreEqual(new Vertex(new Vector3(1, 1, 0), new Vector3(), new Vector2()), triangles.ElementAt(0).Vertices.ElementAt(0));
-      Assert.AreEqual(new Vertex(new Vector3(1, -1, 0), new Vector3(), new Vector2()), triangles.ElementAt(0).Vertices.ElementAt(1));
-      Assert.AreEqual(new Vertex(new Vector3(-1, -1, 0), new Vector3(), new Vector2()), triangles.ElementAt(0).Vertices.ElementAt(2));
+      Assert.AreEqual(new Vertex(new Vector3(1, 1, 0), new Vector3(0, 0, -1), new Vector2()), triangles.ElementAt(0).Vertices.ElementAt(0));
+      Assert.AreEqual(new Vertex(new Vector3(1, -1, 0), new Vector3(0, 0, -1), new Vector2()), triangles.ElementAt(0).Vertices.ElementAt(1));
+      Assert.AreEqual(new Vertex(new Vector3(-1, -1, 0), new Vector3(0, 0, -1), new Vector2()), triangles.ElementAt(0).Vertices.ElementAt(2));
 
-      Assert.AreEqual(new Vertex(new Vector3(-1, -1, 0), new Vector3(), new Vector2()), triangles.ElementAt(1).Vertices.ElementAt(0));
-      Assert.AreEqual(new Vertex(new Vector3(-1, 1, 0), new Vector3(), new Vector2()), triangles.ElementAt(1).Vertices.ElementAt(1));
-      Assert.AreEqual(new Vertex(new Vector3(1, 1, 0), new Vector3(), new Vector2()), triangles.ElementAt(1).Vertices.ElementAt(2));
+      Assert.AreEqual(new Vertex(new Vector3(-1, -1, 0), new Vector3(0, 0, -1), new Vector2()), triangles.ElementAt(1).Vertices.ElementAt(0));
+      Assert.AreEqual(new Vertex(new Vector3(-1, 1, 0), new Vector3(0, 0, -1), new Vector2()), triangles.ElementAt(1).Vertices.ElementAt(1));
+      Assert.AreEqual(new Vertex(new Vector3(1, 1, 0), new Vector3(0, 0, -1), new Vector2()), triangles.ElementAt(1).Vertices.ElementAt(2));
     }
 
     [Test()]
@@ -124,10 +124,10 @@ namespace ThreeAPI.Test.geometry
       var mesh = new Mesh(CreateObjMeshLoader());
       mesh.Load("test.obj");
 
-      Assert.AreEqual(new Vertex(new Vector3(1, 1, 0), new Vector3(), new Vector2()), mesh.Vertices.ElementAt(0));
-      Assert.AreEqual(new Vertex(new Vector3(1, -1, 0), new Vector3(), new Vector2()), mesh.Vertices.ElementAt(1));
-      Assert.AreEqual(new Vertex(new Vector3(-1, -1, 0), new Vector3(), new Vector2()), mesh.Vertices.ElementAt(2));
-      Assert.AreEqual(new Vertex(new Vector3(-1, 1, 0), new Vector3(), new Vector2()), mesh.Vertices.ElementAt(3));
+      Assert.AreEqual(new Vertex(new Vector3(1, 1, 0), new Vector3(0, 0, -1), new Vector2()), mesh.Vertices.ElementAt(0));
+      Assert.AreEqual(new Vertex(new Vector3(1, -1, 0), new Vector3(0, 0, -1), new Vector2()), mesh.Vertices.ElementAt(1));
+      Assert.AreEqual(new Vertex(new Vector3(-1, -1, 0), new Vector3(0, 0, -1), new Vector2()), mesh.Vertices.ElementAt(2));
+      Assert.AreEqual(new Vertex(new Vector3(-1, 1, 0), new Vector3(0, 0, -1), new Vector2()), mesh.Vertices.ElementAt(3));
     }
 
     [Test()]
@@ -150,13 +150,13 @@ namespace ThreeAPI.Test.geometry
       mesh.Load("test.obj");
       var triangles = mesh.GetTriangles();
 
-      Assert.AreEqual(new Vertex(new Vector3(1, 1, 0), new Vector3(), new Vector2()), triangles.ElementAt(0).Vertices.ElementAt(0));
-      Assert.AreEqual(new Vertex(new Vector3(1, -1, 0), new Vector3(), new Vector2()), triangles.ElementAt(0).Vertices.ElementAt(1));
-      Assert.AreEqual(new Vertex(new Vector3(-1, -1, 0), new Vector3(), new Vector2()), triangles.ElementAt(0).Vertices.ElementAt(2));
+      Assert.AreEqual(new Vertex(new Vector3(1, 1, 0), new Vector3(0, 0, -1), new Vector2()), triangles.ElementAt(0).Vertices.ElementAt(0));
+      Assert.AreEqual(new Vertex(new Vector3(1, -1, 0), new Vector3(0, 0, -1), new Vector2()), triangles.ElementAt(0).Vertices.ElementAt(1));
+      Assert.AreEqual(new Vertex(new Vector3(-1, -1, 0), new Vector3(0, 0, -1), new Vector2()), triangles.ElementAt(0).Vertices.ElementAt(2));
 
-      Assert.AreEqual(new Vertex(new Vector3(-1, -1, 0), new Vector3(), new Vector2()), triangles.ElementAt(1).Vertices.ElementAt(0));
-      Assert.AreEqual(new Vertex(new Vector3(-1, 1, 0), new Vector3(), new Vector2()), triangles.ElementAt(1).Vertices.ElementAt(1));
-      Assert.AreEqual(new Vertex(new Vector3(1, 1, 0), new Vector3(), new Vector2()), triangles.ElementAt(1).Vertices.ElementAt(2));
+      Assert.AreEqual(new Vertex(new Vector3(-1, -1, 0), new Vector3(0, 0, -1), new Vector2()), triangles.ElementAt(1).Vertices.ElementAt(0));
+      Assert.AreEqual(new Vertex(new Vector3(-1, 1, 0), new Vector3(0, 0, -1), new Vector2()), triangles.ElementAt(1).Vertices.ElementAt(1));
+      Assert.AreEqual(new Vertex(new Vector3(1, 1, 0), new Vector3(0, 0, -1), new Vector2()), triangles.ElementAt(1).Vertices.ElementAt(2));
     }
 
     [Test()]
@@ -179,10 +179,10 @@ namespace ThreeAPI.Test.geometry
       var mesh = new Mesh(CreateObjMeshLoader());
       mesh.Load("test.obj");
 
-      Assert.AreEqual(new Vertex(new Vector3(1, 1, 0), new Vector3(), new Vector2(0,0)), mesh.Vertices.ElementAt(0));
-      Assert.AreEqual(new Vertex(new Vector3(1, -1, 0), new Vector3(), new Vector2(0,1)), mesh.Vertices.ElementAt(1));
-      Assert.AreEqual(new Vertex(new Vector3(-1, -1, 0), new Vector3(), new Vector2(1,1)), mesh.Vertices.ElementAt(2));
-      Assert.AreEqual(new Vertex(new Vector3(-1, 1, 0), new Vector3(), new Vector2(1,0)), mesh.Vertices.ElementAt(3));
+      Assert.AreEqual(new Vertex(new Vector3(1, 1, 0), new Vector3(0, 0, -1), new Vector2(0, 0)), mesh.Vertices.ElementAt(0));
+      Assert.AreEqual(new Vertex(new Vector3(1, -1, 0), new Vector3(0, 0, -1), new Vector2(0, 1)), mesh.Vertices.ElementAt(1));
+      Assert.AreEqual(new Vertex(new Vector3(-1, -1, 0), new Vector3(0, 0, -1), new Vector2(1, 1)), mesh.Vertices.ElementAt(2));
+      Assert.AreEqual(new Vertex(new Vector3(-1, 1, 0), new Vector3(0, 0, -1), new Vector2(1, 0)), mesh.Vertices.ElementAt(3));
     }
 
     [Test()]
@@ -205,10 +205,10 @@ namespace ThreeAPI.Test.geometry
       var mesh = new Mesh(CreateObjMeshLoader());
       mesh.Load("test.obj");
 
-      Assert.AreEqual(new Vertex(new Vector3(1, 1, 0), new Vector3(1,1,1).Normalized(), new Vector2(0, 0)), mesh.Vertices.ElementAt(0));
-      Assert.AreEqual(new Vertex(new Vector3(1, -1, 0), new Vector3(1,1,1).Normalized(), new Vector2(0, 1)), mesh.Vertices.ElementAt(1));
-      Assert.AreEqual(new Vertex(new Vector3(-1, -1, 0), new Vector3(1,1,1).Normalized(), new Vector2(1, 1)), mesh.Vertices.ElementAt(2));
-      Assert.AreEqual(new Vertex(new Vector3(-1, 1, 0), new Vector3(1,1,1).Normalized(), new Vector2(1, 0)), mesh.Vertices.ElementAt(3));
+      Assert.AreEqual(new Vertex(new Vector3(1, 1, 0), new Vector3(1, 1, 1).Normalized(), new Vector2(0, 0)), mesh.Vertices.ElementAt(0));
+      Assert.AreEqual(new Vertex(new Vector3(1, -1, 0), new Vector3(1, 1, 1).Normalized(), new Vector2(0, 1)), mesh.Vertices.ElementAt(1));
+      Assert.AreEqual(new Vertex(new Vector3(-1, -1, 0), new Vector3(1, 1, 1).Normalized(), new Vector2(1, 1)), mesh.Vertices.ElementAt(2));
+      Assert.AreEqual(new Vertex(new Vector3(-1, 1, 0), new Vector3(1, 1, 1).Normalized(), new Vector2(1, 0)), mesh.Vertices.ElementAt(3));
     }
 
     [Test()]
