@@ -191,7 +191,7 @@ namespace ThreeAPI.Test.scene
     public void ReadFile_OnePointLightNode_CorrectParametersOfLightNode()
     {
       var testXml = @"<Scene>
-                        <PointLight r='0.5' g='0.2' b='0.1' x='100' y='200' z='300'>                                                   
+                        <PointLight r='0.5' g='0.2' b='0.1' tx='100' ty='200' tz='300'>                                                   
                         </PointLight>                          
                       </Scene>";
       File.WriteAllText("test.xml", testXml);

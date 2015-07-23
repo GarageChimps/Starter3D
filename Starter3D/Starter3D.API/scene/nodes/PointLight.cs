@@ -7,13 +7,13 @@ namespace Starter3D.API.scene.nodes
 {
   public class PointLight : LightNode
   {
-    private bool _hasPosition;
+    private bool _hasTransform;
     private Vector3 _position;
 
-    public PointLight(Color4 color, Vector3 position)
+    public PointLight(Color4 color, Vector3 position=default(Vector3))
       : base(color)
     {
-      _position = position;
+      Init(position);
     }
 
     public PointLight()
@@ -24,12 +24,12 @@ namespace Starter3D.API.scene.nodes
     private void Init(Vector3 position)
     {
       _position = position;
-      _hasPosition = true;
+      _hasTransform = true;
     }
 
     public Vector3 GetPosition()
     {
-      if(_hasPosition)
+      if(_hasTransform)
         return _position;
       var transform = ComposeTransform();
       return transform.Row3.Xyz;
@@ -39,11 +39,11 @@ namespace Starter3D.API.scene.nodes
     {
       base.Load(sceneDataNode);
       //Light position can be confgured through the scene graph or directly as a parameter of the node
-      if (sceneDataNode.HasParameter("x"))
+      if (sceneDataNode.HasParameter("tx"))
       {
-        float x = float.Parse(sceneDataNode.ReadParameter("x"));
-        float y = float.Parse(sceneDataNode.ReadParameter("y"));
-        float z = float.Parse(sceneDataNode.ReadParameter("z"));
+        float x = float.Parse(sceneDataNode.ReadParameter("tx"));
+        float y = float.Parse(sceneDataNode.ReadParameter("ty"));
+        float z = float.Parse(sceneDataNode.ReadParameter("tz"));
         Init(new Vector3(x, y, z));
       }
     }
