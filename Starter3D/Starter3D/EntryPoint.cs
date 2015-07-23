@@ -8,7 +8,7 @@ using Starter3D.API.scene.nodes.factories;
 using Starter3D.API.scene.persistence;
 using Starter3D.API.scene.persistence.factories;
 using Starter3D.API.utils;
-using Starter3D.Examples;
+using Starter3D.Controllers;
 
 namespace Starter3D.OpenGL
 {

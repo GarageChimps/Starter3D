@@ -7,7 +7,7 @@ using Starter3D.API.scene.nodes;
 using Starter3D.API.scene.persistence;
 using Starter3D.API.utils;
 
-namespace Starter3D.Examples
+namespace Starter3D.Controllers
 {
   public class MaterialEditorController : BaseController
   {

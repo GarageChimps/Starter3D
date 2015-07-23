@@ -148,9 +148,9 @@
       <Project>{3567CAD0-DE95-4BA8-98DE-750B75DCB45A}</Project>
       <Name>Starter3D.API</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Starter3D.Examples\Starter3D.Examples.csproj">
+    <ProjectReference Include="..\Starter3D.Controllers\Starter3D.Controllers.csproj">
       <Project>{B3CAC997-4EE0-4846-949F-5FB173269F74}</Project>
-      <Name>Starter3D.Examples</Name>
+      <Name>Starter3D.Controllers</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
