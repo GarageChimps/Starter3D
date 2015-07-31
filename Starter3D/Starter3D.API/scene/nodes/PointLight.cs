@@ -21,6 +21,12 @@ namespace Starter3D.API.scene.nodes
       
     }
 
+    public Vector3 Position
+    {
+      get { return _position; }
+      set { _position = value; }
+    }
+
     private void Init(Vector3 position)
     {
       _position = position;
@@ -52,6 +58,9 @@ namespace Starter3D.API.scene.nodes
       renderer.SetVectorParameter("pointLights[" + _index + "].Color", new Vector3(_color.R, _color.G, _color.B));
     }
 
-   
+    public override void Render(IRenderer renderer)
+    {
+      Configure(renderer);
+    }
   }
 }

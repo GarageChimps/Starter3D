@@ -1,13 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <Scene>
-  <Scale x="1" y="1" z="1">
-    <Shape shapeType='Mesh' shapeName='sphere' filePath='meshes/sphere.obj' material='stones' />
-  </Scale>
-  <Translate x='0' y='0' z='5'>
-    <Rotate x='0' y='0' z='1' angle='180'>
-      <PerspectiveCamera nearClip="0.1" farClip="100" fieldOfView="45" aspectRatio="1" order="0" />
-    </Rotate>  
-    <PointLight r="0.5" g="0.5" b="0.5"/>
-  </Translate>
+  <Shape shapeType='Mesh' shapeName='sphere' filePath='meshes/sphere.obj' material='stones' />
+  <PerspectiveCamera nearClip="0.1" farClip="100" fieldOfView="45" aspectRatio="1" order="0" position="0,0,1" target="0,0,0" up="0,1,0"/>
+  <PointLight color="0.5,0.5,0.5" position="0,0,10"/>
   
 </Scene>

@@ -92,26 +92,21 @@ namespace Starter3D.API.geometry
     {
       var vertexToFacesMap = new Dictionary<IVertex, List<IFace>>();
       int index = 0;
-      foreach (var vertex in _vertices)
+      foreach (var face in _faces)
       {
-        if (!vertex.HasValidNormal())
+        foreach (var vertexIndex in face.VertexIndices)
         {
-          foreach (var face in _faces)
-          {
-            if (face.HasVertex(index))
-            {
-              if(!vertexToFacesMap.ContainsKey(vertex))
-                vertexToFacesMap.Add(vertex, new List<IFace>());
-              vertexToFacesMap[vertex].Add(face);
-            }
-          }
+          var vertex = _vertices[vertexIndex];
+          if (!vertexToFacesMap.ContainsKey(vertex))
+            vertexToFacesMap.Add(vertex, new List<IFace>());
+          vertexToFacesMap[vertex].Add(face);
         }
-        index++;
       }
 
       foreach (var keyPair in vertexToFacesMap)
       {
-        GenerateNormal(keyPair.Key, keyPair.Value);
+        if(!keyPair.Key.HasValidNormal())
+          GenerateNormal(keyPair.Key, keyPair.Value);
       }
     }
 
@@ -133,13 +128,13 @@ namespace Starter3D.API.geometry
       renderer.LoadObject(_name);
       renderer.SetVerticesData(_name, GetVerticesData());
       renderer.SetFacesData(_name, GetFaceData());
-      _vertices.First().Configure(_name, _material.ShaderName, renderer); //We use the first vertex as representatve to configure the vertex info of the renderer
+      _vertices.First().Configure(_name, _material.Shader.Name, renderer); //We use the first vertex as representatve to configure the vertex info of the renderer
     }
 
     public void Render(IRenderer renderer, Matrix4 transform)
     {
       _material.Render(renderer);
-      renderer.SetMatrixParameter("modelMatrix", transform, _material.ShaderName);
+      renderer.SetMatrixParameter("modelMatrix", transform, _material.Shader.Name);
       renderer.DrawTriangles(_name, GetTriangleCount());
     }
 

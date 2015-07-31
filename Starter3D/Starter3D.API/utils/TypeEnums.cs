@@ -5,6 +5,11 @@
     BaseMaterial = 0,
   }
 
+  public enum ShaderResourceType
+  {
+    BaseShader = 0,
+  }
+
   public enum SceneNodeType
   {
     Scene = 0,

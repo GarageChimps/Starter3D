@@ -2,11 +2,11 @@
 
 namespace Starter3D.API.resources
 {
-  public interface IMaterial
+  public interface IShader
   {
-    IShader Shader { get; }
+    string Name { get; }
     void Configure(IRenderer renderer);
     void Render(IRenderer renderer);
-    void Load(IDataNode dataNode, IResourceManager resourceManager);
+    void Load(IDataNode dataNode); 
   }
 }

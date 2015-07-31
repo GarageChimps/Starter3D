@@ -122,7 +122,7 @@ namespace ThreeAPI.Test.scene
       File.WriteAllText("plainFragment.glsl", "");
       File.WriteAllText("plainVertex.glsl", "");
 
-      var resourceManager = new ResourceManager(new MaterialFactory());
+      var resourceManager = new ResourceManager(new MaterialFactory(), new ShaderFactory());
       resourceManager.Load("test.res");
       var xmlReader = CreateXMLReader(resourceManager);
       var scene = xmlReader.Read("test.xml");
@@ -245,7 +245,8 @@ namespace ThreeAPI.Test.scene
     private static XmlSceneReader CreateXMLReader()
     {
       var materialFactory = new MaterialFactory();
-      var resourceManager = new ResourceManager(materialFactory);
+      var shaderFactory = new ShaderFactory();
+      var resourceManager = new ResourceManager(materialFactory, shaderFactory);
       return CreateXMLReader(resourceManager);
     }
   }

@@ -14,8 +14,7 @@ namespace Starter3D.OpenGL
   {
     #region Fields
     private const string ShaderBasePath = "Shaders";
-    private const string FragmentShaderExtension = "Fragment.glsl";
-    private const string VertexShaderExtension = "Vertex.glsl";
+    private const string ShaderExtension = ".glsl";
 
     private readonly Dictionary<string, int> _shaderHandleDictionary = new Dictionary<string, int>();
     private readonly Dictionary<string, int> _objectsHandleDictionary = new Dictionary<string, int>();
@@ -101,12 +100,12 @@ namespace Starter3D.OpenGL
       }
     }
 
-    public void LoadShaders(string shaderName)
+    public void LoadShaders(string shaderName, string vertexShader, string fragmentShader)
     {
       if (_shaderHandleDictionary.ContainsKey(shaderName))
         return;
-      var fragmentShaderSource = File.ReadAllText(Path.Combine(ShaderBasePath, shaderName + FragmentShaderExtension));
-      var vertexShaderSource = File.ReadAllText(Path.Combine(ShaderBasePath, shaderName + VertexShaderExtension));
+      var fragmentShaderSource = File.ReadAllText(Path.Combine(ShaderBasePath, fragmentShader + ShaderExtension));
+      var vertexShaderSource = File.ReadAllText(Path.Combine(ShaderBasePath, vertexShader + ShaderExtension));
       var programHandle = CreateProgram(vertexShaderSource, fragmentShaderSource);
       _shaderHandleDictionary.Add(shaderName, programHandle);
     }

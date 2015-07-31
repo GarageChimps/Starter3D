@@ -7,14 +7,14 @@ namespace Starter3D.API.resources
 {
   public class Material : IMaterial
   {
-    private string _shaderName;
+    private IShader _shader;
     private readonly Dictionary<string, Vector3> _vectorParameters = new Dictionary<string, Vector3>();
     private readonly Dictionary<string, float> _numericParameters = new Dictionary<string, float>();
     private readonly Dictionary<string, Bitmap> _textureParameters = new Dictionary<string, Bitmap>();
-    
-    public string ShaderName
+
+    public IShader Shader
     {
-      get { return _shaderName; }
+      get { return _shader; }
     }
 
    
@@ -23,19 +23,19 @@ namespace Starter3D.API.resources
       
     }
 
-    public Material(string shaderName)
+    public Material(IShader shader)
     {
-      _shaderName = shaderName;
+      _shader = shader;
     }
 
 
     public virtual void Configure(IRenderer renderer)
     {
-      renderer.LoadShaders(_shaderName);
+      _shader.Configure(renderer);
       int index = 0;
       foreach (var textureParameter in _textureParameters)
       {
-        renderer.LoadTexture(textureParameter.Key, _shaderName, index, textureParameter.Value);
+        renderer.LoadTexture(textureParameter.Key, _shader.Name, index, textureParameter.Value);
         index++;
       }
       
@@ -43,24 +43,25 @@ namespace Starter3D.API.resources
 
     public void Render(IRenderer renderer)
     {
-      renderer.UseShader(_shaderName);
+      _shader.Render(renderer);
       foreach (var numericParameter in _numericParameters)
       {
-        renderer.SetNumberParameter(numericParameter.Key, numericParameter.Value, _shaderName);
+        renderer.SetNumberParameter(numericParameter.Key, numericParameter.Value, _shader.Name);
       }
       foreach (var vectorParameter in _vectorParameters)
       {
-        renderer.SetVectorParameter(vectorParameter.Key, vectorParameter.Value, _shaderName);
+        renderer.SetVectorParameter(vectorParameter.Key, vectorParameter.Value, _shader.Name);
       }
       foreach (var textureParameter in _textureParameters)
       {
-        renderer.UseTexture(textureParameter.Key, _shaderName);
+        renderer.UseTexture(textureParameter.Key, _shader.Name);
       }
     }
 
-    public virtual void Load(IDataNode dataNode)
+    public virtual void Load(IDataNode dataNode, IResourceManager resourceManager)
     {
-      _shaderName = dataNode.ReadParameter("shader");
+      var shaderName = dataNode.ReadParameter("shader");
+      _shader = resourceManager.GetShader(shaderName);
       dataNode.ReadAllParameters(_vectorParameters, _numericParameters, _textureParameters);
     }
   }

@@ -18,7 +18,7 @@ namespace Starter3D.API.renderer
     void UseTexture(string textureName, string shader);
 
     //Shader related methods
-    void LoadShaders(string shaderName);
+    void LoadShaders(string shaderName, string vertexShader, string fragmentShader);
     void UseShader(string shaderName);
     void SetMatrixParameter(string name, Matrix4 matrix);
     void SetMatrixParameter(string name, Matrix4 matrix, string shader);

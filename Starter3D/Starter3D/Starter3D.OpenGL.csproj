@@ -162,28 +162,19 @@
     <Content Include="shaders\blinnPhongFragment.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="shaders\blinnPhongGouraudFragment.glsl">
+    <Content Include="shaders\passThroughFragment.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="shaders\blinnPhongGouraudVertex.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="shaders\blinnPhongVertex.glsl">
+    <Content Include="shaders\genericVertex.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="shaders\edwardsFragment.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="shaders\edwardsVertex.glsl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="shaders\blinnPhongDiffuseTextureVertex.glsl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="shaders\blinnPhongDiffuseTextureFragment.glsl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="shaders\blinnPhongSpecularDiffuseTextureVertex.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="shaders\blinnPhongSpecularDiffuseTextureFragment.glsl">

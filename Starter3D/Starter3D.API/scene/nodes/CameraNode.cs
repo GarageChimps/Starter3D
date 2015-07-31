@@ -2,7 +2,6 @@
 using OpenTK;
 using Starter3D.API.renderer;
 using Starter3D.API.scene.persistence;
-using Starter3D.API.utils;
 
 namespace Starter3D.API.scene.nodes
 {
@@ -32,6 +31,12 @@ namespace Starter3D.API.scene.nodes
     public int Order
     {
       get { return _order; }
+    }
+
+    public Vector3 Position
+    {
+      get { return _position; }
+      set { _position = value; }
     }
 
 
@@ -140,10 +145,10 @@ namespace Starter3D.API.scene.nodes
       deltaY = deltaY * 0.01f;
 
       var vectorToRotate = -movementDirection;
-      var pitchMatrix = Matrix4.CreateFromAxisAngle(leftVector, deltaY);
-      var pitchRotatedVector = Vector3.Transform(vectorToRotate, pitchMatrix);
-      var yawMatrix = Matrix4.CreateFromAxisAngle(upMovementDirection, deltaX);
-      var yawRotatedVector = Vector3.Transform(pitchRotatedVector, yawMatrix);
+      var pitchQuat = Quaternion.FromAxisAngle(leftVector, deltaY);
+      var pitchRotatedVector = Vector3.Transform(vectorToRotate, pitchQuat);
+      var yawQuat = Quaternion.FromAxisAngle(upMovementDirection, deltaX);
+      var yawRotatedVector = Vector3.Transform(pitchRotatedVector, yawQuat);
       _position = _target + yawRotatedVector;
 
     }

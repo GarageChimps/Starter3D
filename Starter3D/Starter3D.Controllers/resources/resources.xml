@@ -1,5 +1,12 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <Resources>
+  <Shaders>
+    <BaseShader key="blinnPhongGouraud" vertex="blinnPhongGouraudVertex" fragment="passThroughFragment"/>
+    <BaseShader key="blinnPhong" vertex="genericVertex" fragment="blinnPhongFragment"/>
+    <BaseShader key="edwards" vertex="genericVertex" fragment="edwardsFragment"/>
+    <BaseShader key="blinnPhongDiffuseTexture" vertex="genericVertex" fragment="blinnPhongDiffuseTextureFragment"/>
+    <BaseShader key="blinnPhongSpecularDiffuseTexture" vertex="genericVertex" fragment="blinnPhongSpecularDiffuseTextureFragment"/>
+  </Shaders>
 	<Materials>
     <BaseMaterial key='redSpecularV' shader='blinnPhongGouraud' ambientLight='0.2,0.2,0.2' diffuseColor='1,0,0' specularColor='1,1,1' shininess='100'/>
     <BaseMaterial key='redSpecular' shader='blinnPhong' ambientLight='0.2,0.2,0.2' diffuseColor='1,0,0' specularColor='1,1,1' shininess='100'/>
