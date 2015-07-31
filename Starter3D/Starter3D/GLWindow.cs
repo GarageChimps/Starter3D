@@ -67,7 +67,19 @@ namespace Starter3D.OpenGL
 
     protected override void OnMouseMove(MouseMoveEventArgs e)
     {
-      _controller.MouseMove(e.X, e.Y);
+      _controller.MouseMove(e.X, e.Y, e.XDelta, e.YDelta);
+    }
+
+    protected override void OnMouseUp(MouseButtonEventArgs e)
+    {
+      var button = ControllerMouseButton.Left;
+      if (e.Button == MouseButton.Left)
+        button = ControllerMouseButton.Left;
+      else if (e.Button == MouseButton.Middle)
+        button = ControllerMouseButton.Middle;
+      else if (e.Button == MouseButton.Right)
+        button = ControllerMouseButton.Right;
+      _controller.MouseUp(button, e.X, e.Y);
     }
 
     protected override void OnKeyDown(KeyboardKeyEventArgs e)

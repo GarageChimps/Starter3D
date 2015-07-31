@@ -40,10 +40,8 @@ namespace Starter3D.API.scene.nodes
     public override void Load(ISceneDataNode sceneDataNode)
     {
       base.Load(sceneDataNode);
-      float x = float.Parse(sceneDataNode.ReadParameter("x"));
-      float y = float.Parse(sceneDataNode.ReadParameter("y"));
-      float z = float.Parse(sceneDataNode.ReadParameter("z"));
-      Init(new Vector3(x,y,z).Normalized());
+      var direction = sceneDataNode.ReadVectorParameter("direction");
+      Init(direction.Normalized());
     }
 
     public override void Save(ISceneDataNode sceneDataNode)

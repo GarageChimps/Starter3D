@@ -18,6 +18,9 @@ namespace Starter3D.Controllers
     private readonly CameraNode _camera;
     private readonly List<ISceneNode> _sceneElements = new List<ISceneNode>();
 
+    private bool _isDragging;
+    private bool _isOrbiting;
+
     public MaterialEditorController(IRenderer renderer, ISceneReader sceneReader, IResourceManager resourceManager, IConfiguration configuration)
       : base(renderer, sceneReader, resourceManager, configuration)
     {
@@ -74,6 +77,35 @@ namespace Starter3D.Controllers
       {
         obj.Render(_renderer);
       }
+    }
+
+    public override void MouseWheel(int delta, int x, int y)
+    {
+      _camera.Zoom(delta);
+    }
+
+    public override void MouseDown(ControllerMouseButton button, int x, int y)
+    {
+      if (button == ControllerMouseButton.Right)
+        _isDragging = true;
+      else if (button == ControllerMouseButton.Left)
+        _isOrbiting = true;
+    }
+
+    public override void MouseUp(ControllerMouseButton button, int x, int y)
+    {
+      if (button == ControllerMouseButton.Right)
+        _isDragging = false;
+      else if (button == ControllerMouseButton.Left)
+        _isOrbiting = false;
+    }
+
+    public override void MouseMove(int x, int y, int deltaX, int deltaY)
+    {
+      if (_isDragging)
+        _camera.Drag(deltaX, deltaY);
+      else if(_isOrbiting)
+        _camera.Orbit(deltaX, deltaY);
     }
   }
 }

@@ -39,12 +39,10 @@ namespace Starter3D.API.scene.nodes
     {
       base.Load(sceneDataNode);
       //Light position can be confgured through the scene graph or directly as a parameter of the node
-      if (sceneDataNode.HasParameter("tx"))
+      if (sceneDataNode.HasParameter("position"))
       {
-        float x = float.Parse(sceneDataNode.ReadParameter("tx"));
-        float y = float.Parse(sceneDataNode.ReadParameter("ty"));
-        float z = float.Parse(sceneDataNode.ReadParameter("tz"));
-        Init(new Vector3(x, y, z));
+        var position = sceneDataNode.ReadVectorParameter("position");
+        Init(position);
       }
     }
 

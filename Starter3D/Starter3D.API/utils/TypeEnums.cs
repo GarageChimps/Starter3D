@@ -28,6 +28,7 @@
   public enum FileType
   {
     obj = 0,
+    dxf
 
   }
 }

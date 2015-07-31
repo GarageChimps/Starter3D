@@ -10,8 +10,10 @@ namespace Starter3D.API.scene.nodes
   {
     private bool _hasTransform;
     private Vector3 _position;
-    private Vector3 _orientationAxis;
-    private float _orientationAngle;
+    private Vector3 _target;
+    private Vector3 _up;
+
+    private float _zoom = 1;
 
     protected float _nearClip;
     protected float _farClip;
@@ -33,10 +35,10 @@ namespace Starter3D.API.scene.nodes
     }
 
 
-    protected CameraNode(float nearClip, float farClip, int order, Vector3 position = default(Vector3), 
-      Vector3 orientationAxis = default(Vector3), float orientationAngle = 0)
+    protected CameraNode(float nearClip, float farClip, int order, Vector3 position = default(Vector3),
+      Vector3 target = default(Vector3), Vector3 up = default(Vector3))
     {
-      Init(nearClip, farClip, order, position, orientationAxis, orientationAngle);
+      Init(nearClip, farClip, order, position, target, up);
     }
 
     protected CameraNode()
@@ -45,15 +47,15 @@ namespace Starter3D.API.scene.nodes
     }
 
 
-    private void Init(float nearClip, float farClip, int order, Vector3 position = default(Vector3), 
-      Vector3 orientationAxis = default(Vector3), float orientationAngle = 0)
+    private void Init(float nearClip, float farClip, int order, Vector3 position = default(Vector3),
+      Vector3 target = default(Vector3), Vector3 up = default(Vector3))
     {
       _nearClip = nearClip;
       _farClip = farClip;
       _order = order;
       _position = position;
-      _orientationAxis = orientationAxis;
-      _orientationAngle = orientationAngle;
+      _target = target;
+      _up = up;
 
     }
 
@@ -65,27 +67,17 @@ namespace Starter3D.API.scene.nodes
       if (sceneDataNode.HasParameter("order"))
         order = int.Parse(sceneDataNode.ReadParameter("order"));
       var position = new Vector3();
-      var orientationAxis = new Vector3();
-      var orientationAngle = 0.0f;
-      if (sceneDataNode.HasParameter("tx"))
+      var target = new Vector3();
+      var up = new Vector3();
+      if (sceneDataNode.HasParameter("position") && sceneDataNode.HasParameter("target") && sceneDataNode.HasParameter("up"))
       {
         _hasTransform = true;
-        float tx = float.Parse(sceneDataNode.ReadParameter("tx"));
-        float ty = float.Parse(sceneDataNode.ReadParameter("ty"));
-        float tz = float.Parse(sceneDataNode.ReadParameter("tz"));
-        position = new Vector3(tx, ty, tz);
-      }
-      if (sceneDataNode.HasParameter("rx"))
-      {
-        _hasTransform = true;
-        float rx = float.Parse(sceneDataNode.ReadParameter("rx"));
-        float ry = float.Parse(sceneDataNode.ReadParameter("ry"));
-        float rz = float.Parse(sceneDataNode.ReadParameter("rz"));
-        orientationAxis = new Vector3(rx, ry, rz);
-        orientationAngle = float.Parse(sceneDataNode.ReadParameter("angle"));
+        position = sceneDataNode.ReadVectorParameter("position");
+        target = sceneDataNode.ReadVectorParameter("target");
+        up = sceneDataNode.ReadVectorParameter("up");
       }
 
-      Init(nearClip, farClip, order, position, orientationAxis, orientationAngle);
+      Init(nearClip, farClip, order, position, target, up);
     }
 
     public override void Save(ISceneDataNode sceneDataNode)
@@ -106,9 +98,54 @@ namespace Starter3D.API.scene.nodes
 
     }
 
-    public override void Update(IRenderer renderer)
+    public override void Render(IRenderer renderer)
     {
       Configure(renderer);
+    }
+
+    public void Zoom(float delta)
+    {
+      var movementDirection = _target - _position;
+      var zoom = delta * 0.05f * movementDirection.Length;
+      _position += zoom * movementDirection.Normalized();
+    }
+
+    public void Drag(float deltaX, float deltaY)
+    {
+      var movementDirection = _target - _position;
+      var leftVector = Vector3.Cross(_up, movementDirection);
+      leftVector = leftVector.Normalized();
+      var upMovementDirection = Vector3.Cross(movementDirection, leftVector);
+      upMovementDirection = upMovementDirection.Normalized();
+
+      deltaX = deltaX * 0.001f * movementDirection.Length;
+      deltaY = deltaY * 0.001f * movementDirection.Length;
+
+      _position += leftVector * deltaX;
+      _target += leftVector * deltaX;
+
+      _position += upMovementDirection * deltaY;
+      _target += upMovementDirection * deltaY;
+    }
+
+    public void Orbit(float deltaX, float deltaY)
+    {
+      var movementDirection = _target - _position;
+      var leftVector = Vector3.Cross(_up, movementDirection);
+      leftVector = leftVector.Normalized();
+      var upMovementDirection = Vector3.Cross(movementDirection, leftVector);
+      upMovementDirection = upMovementDirection.Normalized();
+
+      deltaX = -deltaX * 0.01f;
+      deltaY = deltaY * 0.01f;
+
+      var vectorToRotate = -movementDirection;
+      var pitchMatrix = Matrix4.CreateFromAxisAngle(leftVector, deltaY);
+      var pitchRotatedVector = Vector3.Transform(vectorToRotate, pitchMatrix);
+      var yawMatrix = Matrix4.CreateFromAxisAngle(upMovementDirection, deltaX);
+      var yawRotatedVector = Vector3.Transform(pitchRotatedVector, yawMatrix);
+      _position = _target + yawRotatedVector;
+
     }
 
     private Vector3 GetPosition()
@@ -123,12 +160,12 @@ namespace Starter3D.API.scene.nodes
     {
       if (_hasTransform)
       {
-        var translation = Matrix4.CreateTranslation(_position);
-        var rotation = Matrix4.CreateFromAxisAngle(_orientationAxis, _orientationAngle.ToRadians());
-        var matrix = translation * rotation;
-        return matrix.Inverted();
+        return Matrix4.LookAt(_position, _target, _up);
       }
       var transform = ComposeTransform();
+      var translationFromTransform = transform.Row3.Xyz;
+      translationFromTransform *= _zoom;
+      transform.Row3.Xyz = translationFromTransform;
       return transform.Inverted();
     }
 

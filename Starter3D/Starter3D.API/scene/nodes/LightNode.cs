@@ -36,10 +36,7 @@ namespace Starter3D.API.scene.nodes
 
     public override void Load(ISceneDataNode sceneDataNode)
     {
-      float r = float.Parse(sceneDataNode.ReadParameter("r"));
-      float g = float.Parse(sceneDataNode.ReadParameter("g"));
-      float b = float.Parse(sceneDataNode.ReadParameter("b"));
-      Init(new Color4(r,g,b,1));
+      Init(sceneDataNode.ReadColorParameter("color"));
     }
 
     public override void Save(ISceneDataNode sceneDataNode)

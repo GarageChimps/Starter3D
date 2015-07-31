@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Globalization;
 using System.Xml.Linq;
+using OpenTK;
+using OpenTK.Graphics;
 using Starter3D.API.scene.nodes;
 using Starter3D.API.scene.nodes.factories;
 using Starter3D.API.scene.persistence.factories;
@@ -47,6 +50,22 @@ namespace Starter3D.API.scene.persistence
     public string ReadParameter(string parameterName)
     {
       return _element.Attribute(parameterName).Value;
+    }
+
+    public Vector3 ReadVectorParameter(string parameterName)
+    {
+      var parameter = ReadParameter(parameterName);
+      var splitParamters = parameter.Split(',');
+      return new Vector3(float.Parse(splitParamters[0], CultureInfo.InvariantCulture),
+        float.Parse(splitParamters[1], CultureInfo.InvariantCulture), float.Parse(splitParamters[2], CultureInfo.InvariantCulture));
+    }
+
+    public Color4 ReadColorParameter(string parameterName)
+    {
+      var parameter = ReadParameter(parameterName);
+      var splitParamters = parameter.Split(',');
+      return new Color4(float.Parse(splitParamters[0], CultureInfo.InvariantCulture),
+        float.Parse(splitParamters[1], CultureInfo.InvariantCulture), float.Parse(splitParamters[2], CultureInfo.InvariantCulture), 1);
     }
   }
 }

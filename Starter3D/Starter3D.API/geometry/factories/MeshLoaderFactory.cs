@@ -21,6 +21,8 @@ namespace Starter3D.API.geometry.factories
       {
         case FileType.obj:
           return new ObjMeshLoader(_vertexFactory, _faceFactory);
+        case FileType.dxf:
+          return new DxfMeshLoader(_vertexFactory, _faceFactory);
         default:
           throw new ArgumentOutOfRangeException("fileType");
       }

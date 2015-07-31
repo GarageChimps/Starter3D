@@ -55,29 +55,20 @@ namespace Starter3D.API.scene.nodes
       var position = new Vector3();
       var orientationAxis = new Vector3();
       var orientationAngle = 0.0f;
-      if (sceneDataNode.HasParameter("sx"))
+      if (sceneDataNode.HasParameter("scale"))
       {
         _hasTransform = true;
-        float sx = float.Parse(sceneDataNode.ReadParameter("sx"));
-        float sy = float.Parse(sceneDataNode.ReadParameter("sy"));
-        float sz = float.Parse(sceneDataNode.ReadParameter("sz"));
-        scale = new Vector3(sx, sy, sz);
+        scale = sceneDataNode.ReadVectorParameter("scale");
       } 
-      if (sceneDataNode.HasParameter("tx"))
+      if (sceneDataNode.HasParameter("position"))
       {
         _hasTransform = true;
-        float tx = float.Parse(sceneDataNode.ReadParameter("tx"));
-        float ty = float.Parse(sceneDataNode.ReadParameter("ty"));
-        float tz = float.Parse(sceneDataNode.ReadParameter("tz"));
-        position = new Vector3(tx, ty, tz);
+        position = sceneDataNode.ReadVectorParameter("position");
       }
-      if (sceneDataNode.HasParameter("rx"))
+      if (sceneDataNode.HasParameter("orientationAxis"))
       {
         _hasTransform = true;
-        float rx = float.Parse(sceneDataNode.ReadParameter("rx"));
-        float ry = float.Parse(sceneDataNode.ReadParameter("ry"));
-        float rz = float.Parse(sceneDataNode.ReadParameter("rz"));
-        orientationAxis = new Vector3(rx, ry, rz);
+        orientationAxis = sceneDataNode.ReadVectorParameter("orientationAxis");
         orientationAngle = float.Parse(sceneDataNode.ReadParameter("angle"));
       }
       Init(scale, position, orientationAxis, orientationAngle);

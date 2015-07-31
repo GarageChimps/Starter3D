@@ -6,8 +6,8 @@
     <ProjectGuid>{78127754-23C1-4D69-A528-AE46CAD6AEC0}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Starter3D.OpenGL</RootNamespace>
-    <AssemblyName>Starter3D.OpenGL</AssemblyName>
+    <RootNamespace>Starter3D.Renderers</RootNamespace>
+    <AssemblyName>Starter3D.Renderers</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
@@ -95,10 +95,6 @@
   <ItemGroup>
     <Reference Include="Autofac">
       <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
-    </Reference>
-    <Reference Include="netDxf">
-      <HintPath>..\packages\netDXF.0.9.3\lib\netDxf.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

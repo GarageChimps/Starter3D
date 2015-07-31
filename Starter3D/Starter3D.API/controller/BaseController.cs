@@ -43,12 +43,17 @@ namespace Starter3D.API.controller
      
     }
 
+    public virtual void MouseUp(ControllerMouseButton button, int x, int y)
+    {
+      
+    }
+
     public virtual void MouseWheel(int delta, int x, int y)
     {
       
     }
 
-    public virtual void MouseMove(int x, int y)
+    public virtual void MouseMove(int x, int y, int deltaX, int deltaY)
     {
       
     }

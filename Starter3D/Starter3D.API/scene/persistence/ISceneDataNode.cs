@@ -1,4 +1,6 @@
-﻿using Starter3D.API.scene.nodes;
+﻿using OpenTK;
+using OpenTK.Graphics;
+using Starter3D.API.scene.nodes;
 
 namespace Starter3D.API.scene.persistence
 {
@@ -8,5 +10,7 @@ namespace Starter3D.API.scene.persistence
     void WriteParameter(string parameterName, string parameterValue);
     bool HasParameter(string parameterName);
     string ReadParameter(string parameterName);
+    Vector3 ReadVectorParameter(string parameterName);
+    Color4 ReadColorParameter(string parameterName);
   }
 }

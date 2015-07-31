@@ -36,6 +36,10 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="netDxf, Version=0.9.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\netDXF.0.9.3\lib\netDxf.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="OpenTK">
       <HintPath>..\Starter3D\Libraries\OpenTK.dll</HintPath>
@@ -47,6 +51,7 @@
   <ItemGroup>
     <Compile Include="controller\BaseController.cs" />
     <Compile Include="controller\IController.cs" />
+    <Compile Include="geometry\loaders\DxfMeshLoader.cs" />
     <Compile Include="resources\IDataNode.cs" />
     <Compile Include="resources\IMaterial.cs" />
     <Compile Include="resources\IMaterialFactory.cs" />
@@ -113,6 +118,8 @@
     <Compile Include="scene\persistence\XmlSceneReader.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <ItemGroup />
 </Project>
