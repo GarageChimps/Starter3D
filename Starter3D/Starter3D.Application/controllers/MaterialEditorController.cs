@@ -7,7 +7,7 @@ using Starter3D.API.scene.nodes;
 using Starter3D.API.scene.persistence;
 using Starter3D.API.utils;
 
-namespace Starter3D.Application.apps.materialeditor
+namespace Starter3D.Application.controllers
 {
   public class MaterialEditorController : BaseController
   {
@@ -31,9 +31,9 @@ namespace Starter3D.Application.apps.materialeditor
     public MaterialEditorController(IRenderer renderer, ISceneReader sceneReader, IResourceManager resourceManager, IConfiguration configuration)
       : base(renderer, sceneReader, resourceManager, configuration)
     {
-      _resourceManager.Load(configuration.ResourcesPath);
+      _resourceManager.Load(configuration.GetParameter("resources"));
       _materials = _resourceManager.GetMaterials();
-      _sceneGraph = _sceneReader.Read(configuration.ScenePath);
+      _sceneGraph = _sceneReader.Read(configuration.GetParameter("scene"));
       _objects = _sceneGraph.GetNodes<ShapeNode>().ToList();
       _lights = _sceneGraph.GetNodes<LightNode>().ToList();
       _light = _sceneGraph.GetNodes<PointLight>().First();

@@ -1,3 +1,3 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
-<Configuration scene="files/scenes/testCamera.xml" resources="files/resources/resources.xml"/>
+<Configuration controller="MaterialEditor" window="GlWindow" renderer="OpenGL" scene="files/scenes/testCamera.xml" resources="files/resources/resources.xml"/>
 

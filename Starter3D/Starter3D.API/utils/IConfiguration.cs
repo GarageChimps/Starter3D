@@ -2,7 +2,7 @@
 {
   public interface IConfiguration
   {
-    string ScenePath { get; }
-    string ResourcesPath { get; }
+    bool HasParameter(string parameterName);
+    string GetParameter(string parameterName);
   }
 }

@@ -54,11 +54,16 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="apps\materialeditor\MaterialEditorController.cs" />
+    <Compile Include="controllers\ControllerFactory.cs" />
+    <Compile Include="controllers\ControllerTypes.cs" />
+    <Compile Include="controllers\IControllerFactory.cs" />
+    <Compile Include="controllers\MaterialEditorController.cs" />
     <Compile Include="EntryPoint.cs" />
-    <Compile Include="GameWindowFactory.cs" />
-    <Compile Include="GLWindow.cs" />
-    <Compile Include="IGameWindowFactory.cs" />
+    <Compile Include="windows\IWindow.cs" />
+    <Compile Include="windows\WindowFactory.cs" />
+    <Compile Include="windows\GLWindow.cs" />
+    <Compile Include="windows\IWindowFactory.cs" />
+    <Compile Include="windows\WindowType.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Autofac">
@@ -67,6 +72,7 @@
     <Reference Include="OpenTK">
       <HintPath>..\Starter3D\Libraries\OpenTK.dll</HintPath>
     </Reference>
+    <Reference Include="System" />
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>

@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 
@@ -7,18 +8,8 @@ namespace Starter3D.API.utils
   public class Configuration : IConfiguration
   {
     private const string ConfigurationPath = "config.xml";
-    private string _scenePath;
-    private string _resourcesPath;
-
-    public string ScenePath
-    {
-      get { return _scenePath; }
-    }
-
-    public string ResourcesPath
-    {
-      get { return _resourcesPath; }
-    }
+    private readonly Dictionary<string, string> _parameters = new Dictionary<string, string>(); 
+    
 
     public Configuration()
     {
@@ -32,9 +23,21 @@ namespace Starter3D.API.utils
 
       var xmlDoc = XDocument.Load(ConfigurationPath);
       var xmlConfig = xmlDoc.Elements("Configuration").First();
+      foreach (var xAttribute in xmlConfig.Attributes())
+      {
+        _parameters.Add(xAttribute.Name.ToString(), xAttribute.Value);
+      }
 
-      _scenePath = xmlConfig.Attribute("scene").Value;
-      _resourcesPath = xmlConfig.Attribute("resources").Value;
+    }
+
+    public bool HasParameter(string parameterName)
+    {
+      return _parameters.ContainsKey(parameterName);
+    }
+
+    public string GetParameter(string parameterName)
+    {
+      return _parameters[parameterName];
     }
   }
 }

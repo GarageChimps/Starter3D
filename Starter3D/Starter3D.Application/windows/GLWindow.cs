@@ -8,11 +8,11 @@ using ClearBufferMask = OpenTK.Graphics.OpenGL.ClearBufferMask;
 using EnableCap = OpenTK.Graphics.OpenGL.EnableCap;
 using GL = OpenTK.Graphics.OpenGL.GL;
 
-namespace Starter3D.Application
+namespace Starter3D.Application.windows
 {
-  public class GLWindow : GameWindow
+  public class GLWindow : GameWindow, IWindow
   {
-    private IController _controller;
+    private readonly IController _controller;
 
     public GLWindow(int width, int height, IController controller)
       : base(width, height,
