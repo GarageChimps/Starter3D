@@ -1,12 +1,7 @@
-﻿using Starter3D.API.renderer;
-
-namespace Starter3D.API.resources
+﻿namespace Starter3D.API.resources
 {
-  public interface IMaterial
+  public interface IMaterial : IResource
   {
     IShader Shader { get; }
-    void Configure(IRenderer renderer);
-    void Render(IRenderer renderer);
-    void Load(IDataNode dataNode, IResourceManager resourceManager);
   }
 }

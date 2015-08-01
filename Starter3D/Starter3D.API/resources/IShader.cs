@@ -1,17 +1,12 @@
-﻿using System.Drawing;
-using OpenTK;
-using Starter3D.API.renderer;
+﻿using OpenTK;
 
 namespace Starter3D.API.resources
 {
-  public interface IShader
+  public interface IShader : IResource
   {
     string Name { get; }
-    void Configure(IRenderer renderer);
-    void Render(IRenderer renderer);
-    void Load(IDataNode dataNode);
     void SetVectorParameter(string name, Vector3 vector);
     void SetNumericParameter(string name, float number);
-    void SetTextureParameter(string name, Bitmap texture);
+    void SetTextureParameter(string name, ITexture texture);
   }
 }

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using OpenTK;
 using Starter3D.API.renderer;
 
@@ -14,7 +13,7 @@ namespace Starter3D.API.resources
 
     private readonly Dictionary<string, Vector3> _vectorParameters = new Dictionary<string, Vector3>();
     private readonly Dictionary<string, float> _numericParameters = new Dictionary<string, float>();
-    private readonly Dictionary<string, Bitmap> _textureParameters = new Dictionary<string, Bitmap>();
+    private readonly Dictionary<string, ITexture> _textureParameters = new Dictionary<string, ITexture>();
 
     public string Name
     {
@@ -35,7 +34,7 @@ namespace Starter3D.API.resources
       _numericParameters[name] = number;
     }
 
-    public void SetTextureParameter(string name, Bitmap texture)
+    public void SetTextureParameter(string name, ITexture texture)
     {
       if (!_textureParameters.ContainsKey(name))
         throw new ApplicationException("Texture doesnt exist in this shader");
@@ -48,7 +47,7 @@ namespace Starter3D.API.resources
       int index = 0;
       foreach (var textureParameter in _textureParameters)
       {
-        renderer.LoadTexture(textureParameter.Key, _shaderName, index, textureParameter.Value);
+        textureParameter.Value.Configure(renderer, _shaderName, textureParameter.Key, index);
         index++;
       }
     }
@@ -66,11 +65,11 @@ namespace Starter3D.API.resources
       }
       foreach (var textureParameter in _textureParameters)
       {
-        renderer.UseTexture(textureParameter.Key, _shaderName);
+        renderer.UseTexture(textureParameter.Value.Name, _shaderName);
       }
     }
 
-    public void Load(IDataNode dataNode)
+    public void Load(IDataNode dataNode, IResourceManager resourceManager)
     {
       _shaderName = dataNode.ReadParameter("key");
       _vertexShader = dataNode.ReadParameter("vertex");
@@ -100,7 +99,7 @@ namespace Starter3D.API.resources
         var textures = dataNode.ReadParameterList("textures");
         foreach (var t in textures)
         {
-          _textureParameters.Add(t, default(Bitmap));
+          _textureParameters.Add(t, null);
         }
       }
 

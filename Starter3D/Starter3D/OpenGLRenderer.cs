@@ -12,13 +12,22 @@ namespace Starter3D.OpenGL
 {
   public class OpenGLRenderer : IRenderer
   {
+    #region Structs
+
+    struct TextureInfo
+    {
+      public int Handle { get; set; }
+      public int Unit { get; set; }
+      public string UniformName { get; set; }
+    }
+    #endregion
     #region Fields
     private const string ShaderBasePath = "Shaders";
     private const string ShaderExtension = ".glsl";
 
     private readonly Dictionary<string, int> _shaderHandleDictionary = new Dictionary<string, int>();
     private readonly Dictionary<string, int> _objectsHandleDictionary = new Dictionary<string, int>();
-    private readonly Dictionary<string, Tuple<int, int>> _textureHandleDictionary = new Dictionary<string, Tuple<int, int>>();
+    private readonly Dictionary<string, TextureInfo> _textureHandleDictionary = new Dictionary<string, TextureInfo>();
     #endregion
 
     #region Public Methods
@@ -73,15 +82,13 @@ namespace Starter3D.OpenGL
       }
     }
 
-    public void LoadTexture(string name, string shader, int index, Bitmap texture)
+    public void LoadTexture(string uniformName, string shader, int index, string textureName, Bitmap texture, TextureMinFilter minFilter, TextureMagFilter magFilter)
     {
-      if (_textureHandleDictionary.ContainsKey(name + shader))
+      if (_textureHandleDictionary.ContainsKey(textureName + shader))
         return;
       var unit = TextureUnit.Texture0 + index;
-      var textureHandle = CreateTexture(texture, unit, TextureMinFilter.Linear,
-        TextureMagFilter.Linear);
-      _textureHandleDictionary.Add(name + shader, new Tuple<int, int>(textureHandle, index));
-      SetNumberParameter(name + shader, index);
+      var textureHandle = CreateTexture(texture, unit, minFilter, magFilter);
+      _textureHandleDictionary.Add(textureName + shader, new TextureInfo{Handle = textureHandle, Unit = index, UniformName = uniformName});
     }
 
     public void UseTexture(string textureName, string shader)
@@ -90,12 +97,12 @@ namespace Starter3D.OpenGL
         throw new ApplicationException("Texture has to be added before using");
       GL.UseProgram(_shaderHandleDictionary[shader]);
       var textureInfo = _textureHandleDictionary[textureName + shader];
-      GL.ActiveTexture(TextureUnit.Texture0 + textureInfo.Item2);
-      GL.BindTexture(TextureTarget.Texture2D, textureInfo.Item1);
-      int location = GL.GetUniformLocation(_shaderHandleDictionary[shader], textureName);
+      GL.ActiveTexture(TextureUnit.Texture0 + textureInfo.Unit);
+      GL.BindTexture(TextureTarget.Texture2D, textureInfo.Handle);
+      int location = GL.GetUniformLocation(_shaderHandleDictionary[shader], textureInfo.UniformName);
       if (location != -1)
       {
-        int textureUnitIndex = textureInfo.Item2;
+        int textureUnitIndex = textureInfo.Unit;
         GL.Uniform1(location, textureUnitIndex);
       }
     }

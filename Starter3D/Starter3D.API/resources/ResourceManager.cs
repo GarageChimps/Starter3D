@@ -10,15 +10,19 @@ namespace Starter3D.API.resources
   {
     private readonly Dictionary<string, IShader> _shaders = new Dictionary<string, IShader>();
     private readonly Dictionary<string, IMaterial> _materials = new Dictionary<string, IMaterial>();
+    private readonly Dictionary<string, ITexture> _textures = new Dictionary<string, ITexture>();
     private readonly IMaterialFactory _materialFactory;
     private readonly IShaderFactory _shaderFactory;
+    private readonly ITextureFactory _textureFactory;
 
-    public ResourceManager(IMaterialFactory materialFactory, IShaderFactory shaderFactory)
+    public ResourceManager(IMaterialFactory materialFactory, IShaderFactory shaderFactory, ITextureFactory textureFactory)
     {
       if (materialFactory == null) throw new ArgumentNullException("materialFactory");
       if (shaderFactory == null) throw new ArgumentNullException("shaderFactory");
+      if (textureFactory == null) throw new ArgumentNullException("textureFactory");
       _materialFactory = new MaterialFactory();
       _shaderFactory = shaderFactory;
+      _textureFactory = textureFactory;
     }
 
     public void Load(string resourceFile)
@@ -26,7 +30,20 @@ namespace Starter3D.API.resources
       var xmlDoc = XDocument.Load(resourceFile);
       var element = xmlDoc.Elements("Resources").First();
       LoadShaders(element.Elements("Shaders").First());
+      LoadTextures(element.Elements("Textures").First());
       LoadMaterials(element.Elements("Materials").First());
+    }
+
+    private void LoadTextures(XElement texturesRoot)
+    {
+      foreach (var element in texturesRoot.Elements())
+      {
+        var type = (TextureType)Enum.Parse(typeof(TextureType), element.Name.ToString());
+        var key = element.Attribute("key").Value;
+        var texture = _textureFactory.CreateTexture(type);
+        texture.Load(new XmlDataNode(element), this);
+        AddTexture(key, texture);
+      }
     }
 
     private void LoadShaders(XElement shadersRoot)
@@ -36,7 +53,7 @@ namespace Starter3D.API.resources
         var type = (ShaderResourceType)Enum.Parse(typeof(ShaderResourceType), element.Name.ToString());
         var key = element.Attribute("key").Value;
         var shader = _shaderFactory.CreateShader(type);
-        shader.Load(new XmlDataNode(element));
+        shader.Load(new XmlDataNode(element), this);
         AddShader(key, shader);
       }
     }
@@ -72,6 +89,11 @@ namespace Starter3D.API.resources
       _materials.Add(key, material);
     }
 
+    public bool HasMaterial(string key)
+    {
+      return _materials.ContainsKey(key);
+    }
+
     public IShader GetShader(string key)
     {
       if(!_shaders.ContainsKey(key))
@@ -82,6 +104,38 @@ namespace Starter3D.API.resources
     public void AddShader(string key, IShader shader)
     {
       _shaders.Add(key, shader);
+    }
+
+    public IEnumerable<IShader> GetShaders()
+    {
+      return _shaders.Values;
+    }
+
+    public bool HasShader(string key)
+    {
+      return _shaders.ContainsKey(key);
+    }
+
+    public ITexture GetTexture(string key)
+    {
+      if (!_textures.ContainsKey(key))
+        throw new ApplicationException("Texture key not found");
+      return _textures[key];
+    }
+
+    public void AddTexture(string key, ITexture texture)
+    {
+      _textures.Add(key, texture);
+    }
+
+    public IEnumerable<ITexture> GetTextures()
+    {
+      return _textures.Values;
+    }
+
+    public bool HasTexture(string key)
+    {
+      return _textures.ContainsKey(key);
     }
   }
 }

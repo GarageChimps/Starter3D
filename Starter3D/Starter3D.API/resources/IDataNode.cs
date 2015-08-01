@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Drawing;
 using OpenTK;
 
 namespace Starter3D.API.resources
@@ -12,7 +11,7 @@ namespace Starter3D.API.resources
     float ReadFloatParameter(string parameterName);
     Vector3 ReadVectorParameter(string parameterName);
     void ReadAllParameters(Dictionary<string, Vector3> vectorParameters, Dictionary<string, float> numericParameters,
-      Dictionary<string, Bitmap> textureParameters);
+      Dictionary<string, string> textureParameters);
     IEnumerable<string> ReadParameterList(string parameterName);
   }
 }

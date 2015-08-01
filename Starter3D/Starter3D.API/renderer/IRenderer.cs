@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using OpenTK;
+using OpenTK.Graphics.OpenGL;
 
 namespace Starter3D.API.renderer
 {
@@ -14,7 +15,7 @@ namespace Starter3D.API.renderer
     void SetVertexAttribute(string objectName, string shaderName, int index, string vertexPropertyName, int stride, int offset);
     
     //Texture related methods
-    void LoadTexture(string textureName, string shader, int index, Bitmap texture);
+    void LoadTexture(string uniformName, string shader, int index, string textureName, Bitmap texture, TextureMinFilter minFilter, TextureMagFilter magFilter);
     void UseTexture(string textureName, string shader);
 
     //Shader related methods

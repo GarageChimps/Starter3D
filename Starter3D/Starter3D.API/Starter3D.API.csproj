@@ -55,9 +55,12 @@
     <Compile Include="resources\IDataNode.cs" />
     <Compile Include="resources\IMaterial.cs" />
     <Compile Include="resources\IMaterialFactory.cs" />
+    <Compile Include="resources\IResource.cs" />
     <Compile Include="resources\IResourceManager.cs" />
     <Compile Include="resources\IShader.cs" />
     <Compile Include="resources\IShaderFactory.cs" />
+    <Compile Include="resources\ITexture.cs" />
+    <Compile Include="resources\ITextureFactory.cs" />
     <Compile Include="resources\Material.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="math\BoundingBox.cs" />
@@ -70,6 +73,8 @@
     <Compile Include="resources\ResourceManager.cs" />
     <Compile Include="resources\Shader.cs" />
     <Compile Include="resources\ShaderFactory.cs" />
+    <Compile Include="resources\Texture.cs" />
+    <Compile Include="resources\TextureFactory.cs" />
     <Compile Include="resources\XmlDataNode.cs" />
     <Compile Include="scene\nodes\AmbientLight.cs" />
     <Compile Include="scene\nodes\BaseSceneNode.cs" />

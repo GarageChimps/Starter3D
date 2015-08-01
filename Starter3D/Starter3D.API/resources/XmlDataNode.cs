@@ -47,7 +47,7 @@ namespace Starter3D.API.resources
     }
 
     public void ReadAllParameters(Dictionary<string, Vector3> vectorParameters, Dictionary<string, float> numericParameters, 
-      Dictionary<string, Bitmap> textureParameters)
+      Dictionary<string, string> textureParameters)
     {
       foreach (var attribute in _element.Attributes())
       {
@@ -71,9 +71,9 @@ namespace Starter3D.API.resources
         {
           numericParameters.Add(name, floatValue);
         }
-        else if (File.Exists(value))
+        else
         {
-          textureParameters.Add(name, (Bitmap)Image.FromFile(value));
+          textureParameters.Add(name, value);
         }
       }
     }

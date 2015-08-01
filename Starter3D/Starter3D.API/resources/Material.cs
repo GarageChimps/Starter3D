@@ -10,7 +10,7 @@ namespace Starter3D.API.resources
     private IShader _shader;
     private readonly Dictionary<string, Vector3> _vectorParameters = new Dictionary<string, Vector3>();
     private readonly Dictionary<string, float> _numericParameters = new Dictionary<string, float>();
-    private readonly Dictionary<string, Bitmap> _textureParameters = new Dictionary<string, Bitmap>();
+    private readonly Dictionary<string, ITexture> _textureParameters = new Dictionary<string, ITexture>();
 
     public IShader Shader
     {
@@ -48,6 +48,10 @@ namespace Starter3D.API.resources
       {
         _shader.SetVectorParameter(vectorParameter.Key, vectorParameter.Value);
       }
+      foreach (var textureParameter in _textureParameters)
+      {
+        _shader.SetTextureParameter(textureParameter.Key, textureParameter.Value);
+      } 
       _shader.Render(renderer);
     }
 
@@ -55,7 +59,13 @@ namespace Starter3D.API.resources
     {
       var shaderName = dataNode.ReadParameter("shader");
       _shader = resourceManager.GetShader(shaderName);
-      dataNode.ReadAllParameters(_vectorParameters, _numericParameters, _textureParameters);
+      var textureParameters = new Dictionary<string, string>();
+      dataNode.ReadAllParameters(_vectorParameters, _numericParameters, textureParameters);
+      foreach (var textureParameter in textureParameters)
+      {
+        if(resourceManager.HasTexture(textureParameter.Value))
+          _textureParameters.Add(textureParameter.Key, resourceManager.GetTexture(textureParameter.Value));
+      }
     }
   }
 }

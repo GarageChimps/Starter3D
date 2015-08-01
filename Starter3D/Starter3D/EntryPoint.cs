@@ -37,6 +37,7 @@ namespace Starter3D.OpenGL
       builder.RegisterType<GameWindowFactory>().As<IGameWindowFactory>().SingleInstance();
       builder.RegisterType<Configuration>().As<IConfiguration>().SingleInstance();
       builder.RegisterType<ShaderFactory>().As<IShaderFactory>().SingleInstance();
+      builder.RegisterType<TextureFactory>().As<ITextureFactory>().SingleInstance();
 
 
       //AE July 2015: Current controller is registered here. This could be extended by using a factory or reading current controller from config file

@@ -10,6 +10,11 @@
     BaseShader = 0,
   }
 
+  public enum TextureType
+  {
+    BaseTexture = 0,
+  }
+
   public enum SceneNodeType
   {
     Scene = 0,
