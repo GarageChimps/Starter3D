@@ -71,6 +71,7 @@
     <Compile Include="resources\Shader.cs" />
     <Compile Include="resources\ShaderFactory.cs" />
     <Compile Include="resources\XmlDataNode.cs" />
+    <Compile Include="scene\nodes\AmbientLight.cs" />
     <Compile Include="scene\nodes\BaseSceneNode.cs" />
     <Compile Include="scene\nodes\CameraNode.cs" />
     <Compile Include="scene\nodes\IRenderElement.cs" />

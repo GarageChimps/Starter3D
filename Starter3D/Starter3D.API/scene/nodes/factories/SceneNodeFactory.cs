@@ -40,6 +40,8 @@ namespace Starter3D.API.scene.nodes.factories
           return new PointLight();
         case SceneNodeType.DirectionalLight:
           return new DirectionalLight();
+        case SceneNodeType.AmbientLight:
+          return new AmbientLight();
         default:
           throw new ArgumentOutOfRangeException("type");
       }

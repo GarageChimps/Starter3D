@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Xml.Linq;
 using OpenTK;
 
@@ -77,6 +78,12 @@ namespace Starter3D.API.resources
       }
     }
 
-
+    public IEnumerable<string> ReadParameterList(string parameterName)
+    {
+      var parameter = ReadParameter(parameterName);
+      var splitParameters = parameter.Split(',').ToList();
+      splitParameters.ForEach(s => s.Trim());
+      return splitParameters;
+    }
   }
 }

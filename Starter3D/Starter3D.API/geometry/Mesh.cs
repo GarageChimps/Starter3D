@@ -91,7 +91,6 @@ namespace Starter3D.API.geometry
     public void GenerateMissingNormals()
     {
       var vertexToFacesMap = new Dictionary<IVertex, List<IFace>>();
-      int index = 0;
       foreach (var face in _faces)
       {
         foreach (var vertexIndex in face.VertexIndices)

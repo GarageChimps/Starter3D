@@ -13,5 +13,6 @@ namespace Starter3D.API.resources
     Vector3 ReadVectorParameter(string parameterName);
     void ReadAllParameters(Dictionary<string, Vector3> vectorParameters, Dictionary<string, float> numericParameters,
       Dictionary<string, Bitmap> textureParameters);
+    IEnumerable<string> ReadParameterList(string parameterName);
   }
 }

@@ -20,7 +20,8 @@
     PerspectiveCamera,
     OrthographicCamera,
     PointLight,
-    DirectionalLight
+    DirectionalLight,
+    AmbientLight
   }
 
   public enum ShapeType

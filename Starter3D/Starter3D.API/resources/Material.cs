@@ -31,31 +31,24 @@ namespace Starter3D.API.resources
 
     public virtual void Configure(IRenderer renderer)
     {
-      _shader.Configure(renderer);
-      int index = 0;
       foreach (var textureParameter in _textureParameters)
       {
-        renderer.LoadTexture(textureParameter.Key, _shader.Name, index, textureParameter.Value);
-        index++;
-      }
-      
+        _shader.SetTextureParameter(textureParameter.Key, textureParameter.Value);
+      } 
+      _shader.Configure(renderer);
     }
 
     public void Render(IRenderer renderer)
     {
-      _shader.Render(renderer);
       foreach (var numericParameter in _numericParameters)
       {
-        renderer.SetNumberParameter(numericParameter.Key, numericParameter.Value, _shader.Name);
+        _shader.SetNumericParameter(numericParameter.Key, numericParameter.Value);
       }
       foreach (var vectorParameter in _vectorParameters)
       {
-        renderer.SetVectorParameter(vectorParameter.Key, vectorParameter.Value, _shader.Name);
+        _shader.SetVectorParameter(vectorParameter.Key, vectorParameter.Value);
       }
-      foreach (var textureParameter in _textureParameters)
-      {
-        renderer.UseTexture(textureParameter.Key, _shader.Name);
-      }
+      _shader.Render(renderer);
     }
 
     public virtual void Load(IDataNode dataNode, IResourceManager resourceManager)

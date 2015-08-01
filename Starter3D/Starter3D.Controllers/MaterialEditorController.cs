@@ -21,6 +21,7 @@ namespace Starter3D.Controllers
     private CameraNode _camera;
     private ShapeNode _shape;
     private PointLight _light;
+    private AmbientLight _ambientLight;
     private int _currentShape = 0;
 
     private readonly IEnumerable<IMaterial> _materials;
@@ -62,6 +63,7 @@ namespace Starter3D.Controllers
       {
         directionalLights.ElementAt(i).Index = i;
       }
+      _ambientLight = _sceneGraph.GetNodes<AmbientLight>().First();
       foreach (var obj in _objects)
       {
         obj.Configure(_renderer);
@@ -89,6 +91,7 @@ namespace Starter3D.Controllers
       {
         light.Render(_renderer);
       }
+      _ambientLight.Render(_renderer);
       _shape.Render(_renderer);
     }
 
