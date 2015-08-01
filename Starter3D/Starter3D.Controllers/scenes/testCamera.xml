@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <Scene>
-  <Shape shapeType='Mesh' shapeName='sphere' filePath='meshes/sphere.obj' material='stones' position='0, 0, 0' scale='1, 1, 1'/>
   <Shape shapeType='Mesh' shapeName='bunny' filePath='meshes/bunny.obj' material='stones' position='0, 0, 0' scale='1, 1, 1'/>
+  <Shape shapeType='Mesh' shapeName='sphere' filePath='meshes/sphere.obj' material='stones' position='0, 0, 0' scale='1, 1, 1'/>
   <Shape shapeType='Mesh' shapeName='teapot' filePath='meshes/teapot.obj' material='redEdwards' position='0, 0, 0' scale='1, 1, 1'/>
   <Shape shapeType='Mesh' shapeName='dragon' filePath='meshes/dragon.obj' material='redEdwards' position='0, 0, 0' scale='1, 1, 1'/>
   <Shape shapeType='Mesh' shapeName='klein' filePath='meshes/klein.dxf' material='redEdwards' position='0, 0, 0' scale='1, 1, 1'/>
