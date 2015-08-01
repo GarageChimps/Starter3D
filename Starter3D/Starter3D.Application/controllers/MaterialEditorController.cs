@@ -11,18 +11,11 @@ namespace Starter3D.Application.controllers
 {
   public class MaterialEditorController : BaseController
   {
-    private readonly ISceneNode _sceneGraph;
-    private readonly List<ISceneNode> _sceneElements = new List<ISceneNode>();
-    private readonly IEnumerable<ShapeNode> _objects;
-    private readonly IEnumerable<LightNode> _lights;
-    private readonly IEnumerable<CameraNode> _cameras;
-    private CameraNode _camera;
+    private readonly CameraNode _camera;
     private ShapeNode _shape;
-    private PointLight _light;
+    private readonly PointLight _light;
     private AmbientLight _ambientLight;
     private int _currentShape = 0;
-
-    private readonly IEnumerable<IMaterial> _materials;
     private int _currentMaterial = 0;
 
     private bool _isDragging;
@@ -31,18 +24,8 @@ namespace Starter3D.Application.controllers
     public MaterialEditorController(IRenderer renderer, ISceneReader sceneReader, IResourceManager resourceManager, IConfiguration configuration)
       : base(renderer, sceneReader, resourceManager, configuration)
     {
-      _resourceManager.Load(configuration.GetParameter("resources"));
-      _materials = _resourceManager.GetMaterials();
-      _sceneGraph = _sceneReader.Read(configuration.GetParameter("scene"));
-      _objects = _sceneGraph.GetNodes<ShapeNode>().ToList();
-      _lights = _sceneGraph.GetNodes<LightNode>().ToList();
       _light = _sceneGraph.GetNodes<PointLight>().First();
-      _cameras = _sceneGraph.GetNodes<CameraNode>().ToList();
       _camera = _cameras.First();
-      _sceneElements.AddRange(_objects);
-      _sceneElements.AddRange(_lights);
-      _sceneElements.Add(_camera);
-      
     }
 
     public override void Load()

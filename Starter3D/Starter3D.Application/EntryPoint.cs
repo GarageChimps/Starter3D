@@ -16,10 +16,6 @@ namespace Starter3D.Application
 {
   public class EntryPoint
   {
-    private static readonly int WindowWidth = 512;
-    private static readonly int WindowHeight = 512;
-    private static readonly float FrameRate = 60;
-
     private static IContainer Container { get; set; }
 
     private static void InitDependencyContainer ()
@@ -49,14 +45,24 @@ namespace Starter3D.Application
     [STAThread]
     public static void Main()
     {
+      int width = 256;
+      int height = 256;
+      double frameRate = 30;
       InitDependencyContainer();
       using (var scope = Container.BeginLifetimeScope())
       {
         var gameWindowFactory = scope.Resolve<IWindowFactory>();
         var configuration = scope.Resolve<IConfiguration>();
-        using (var window = gameWindowFactory.CreateWindow(WindowWidth, WindowHeight, configuration))
+        if (configuration.HasParameter("width"))
+          width = int.Parse(configuration.GetParameter("width"));
+        if (configuration.HasParameter("height"))
+          height = int.Parse(configuration.GetParameter("height"));
+        if (configuration.HasParameter("frameRate"))
+          frameRate = int.Parse(configuration.GetParameter("frameRate"));
+
+        using (var window = gameWindowFactory.CreateWindow(width, height, configuration))
         {
-          window.Run(FrameRate);
+          window.Run(frameRate);
         }
       }
     }

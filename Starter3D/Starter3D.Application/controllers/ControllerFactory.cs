@@ -30,7 +30,7 @@ namespace Starter3D.Application.controllers
         case ControllerType.MaterialEditor:
           return new MaterialEditorController(renderer, _sceneReader, _resourceManager, _configuration);
         case ControllerType.PixelShader:
-          throw new NotImplementedException();
+          return new PixelShaderController(renderer, _sceneReader, _resourceManager, _configuration);
         default:
           throw new ArgumentOutOfRangeException("type");
       }

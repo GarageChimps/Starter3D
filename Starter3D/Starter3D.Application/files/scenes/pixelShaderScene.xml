@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<Scene>
+  <Shape shapeType='Mesh' shapeName='canvas' filePath='meshes/plane.obj' material='mandelbrotMaterial' position='0, 0, 0' scale='1, 1, 1'/>
+</Scene>

@@ -58,6 +58,7 @@
     <Compile Include="controllers\ControllerTypes.cs" />
     <Compile Include="controllers\IControllerFactory.cs" />
     <Compile Include="controllers\MaterialEditorController.cs" />
+    <Compile Include="controllers\PixelShaderController.cs" />
     <Compile Include="EntryPoint.cs" />
     <Compile Include="windows\IWindow.cs" />
     <Compile Include="windows\WindowFactory.cs" />
@@ -94,7 +95,14 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="files\resources\pixelShaderResources.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="files\resources\resources.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="files\scenes\pixelShaderScene.xml">
+      <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="files\scenes\testMultiObjectMultiTextureNoSceneGraph.xml">

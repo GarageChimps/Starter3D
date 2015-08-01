@@ -29,9 +29,12 @@ namespace Starter3D.API.resources
     {
       var xmlDoc = XDocument.Load(resourceFile);
       var element = xmlDoc.Elements("Resources").First();
-      LoadShaders(element.Elements("Shaders").First());
-      LoadTextures(element.Elements("Textures").First());
-      LoadMaterials(element.Elements("Materials").First());
+      if (element.Elements("Shaders").Any())
+        LoadShaders(element.Elements("Shaders").First());
+      if (element.Elements("Textures").Any())
+        LoadTextures(element.Elements("Textures").First());
+      if (element.Elements("Materials").Any())
+        LoadMaterials(element.Elements("Materials").First());
     }
 
     private void LoadTextures(XElement texturesRoot)

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<Resources>
+  <Shaders>
+    <BaseShader key="mandelbrotShader" vertex="pixelShaderVertex" fragment="mandelbrotFragment"/>
+    <BaseShader key="raytracerShader" vertex="pixelShaderVertex" fragment="raytracerFragment"/>
+  </Shaders>
+  <Materials>
+    <BaseMaterial key='mandelbrotMaterial' shader='mandelbrotShader'/>
+    <BaseMaterial key='raytracerMaterial' shader='raytracerShader'/>
+	</Materials>                          
+</Resources>
