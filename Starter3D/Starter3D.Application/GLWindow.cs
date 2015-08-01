@@ -8,7 +8,7 @@ using ClearBufferMask = OpenTK.Graphics.OpenGL.ClearBufferMask;
 using EnableCap = OpenTK.Graphics.OpenGL.EnableCap;
 using GL = OpenTK.Graphics.OpenGL.GL;
 
-namespace Starter3D.OpenGL
+namespace Starter3D.Application
 {
   public class GLWindow : GameWindow
   {

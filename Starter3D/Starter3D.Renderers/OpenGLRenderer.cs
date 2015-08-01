@@ -8,7 +8,7 @@ using OpenTK.Graphics.OpenGL;
 using Starter3D.API.renderer;
 using PixelFormat = OpenTK.Graphics.OpenGL.PixelFormat;
 
-namespace Starter3D.OpenGL
+namespace Starter3D.Renderers
 {
   public class OpenGLRenderer : IRenderer
   {
@@ -22,7 +22,7 @@ namespace Starter3D.OpenGL
     }
     #endregion
     #region Fields
-    private const string ShaderBasePath = "Shaders";
+    private const string ShaderBasePath = "shaders";
     private const string ShaderExtension = ".glsl";
 
     private readonly Dictionary<string, int> _shaderHandleDictionary = new Dictionary<string, int>();

@@ -1,15 +1,13 @@
 ﻿using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using Starter3D.API.controller;
-using Starter3D.API.geometry;
 using Starter3D.API.renderer;
 using Starter3D.API.resources;
 using Starter3D.API.scene.nodes;
 using Starter3D.API.scene.persistence;
 using Starter3D.API.utils;
 
-namespace Starter3D.Controllers
+namespace Starter3D.Application.apps.materialeditor
 {
   public class MaterialEditorController : BaseController
   {

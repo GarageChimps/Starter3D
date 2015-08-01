@@ -4,9 +4,9 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{B3CAC997-4EE0-4846-949F-5FB173269F74}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <RootNamespace>Starter3D.Controllers</RootNamespace>
-    <AssemblyName>Starter3D.Controllers</AssemblyName>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Starter3D.Application</RootNamespace>
+    <AssemblyName>Starter3D.Application</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -35,96 +35,121 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Starter3D.Application.EntryPoint</StartupObject>
+  </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <ProjectReference Include="..\Starter3D.API\Starter3D.API.csproj">
       <Project>{3567CAD0-DE95-4BA8-98DE-750B75DCB45A}</Project>
       <Name>Starter3D.API</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Starter3D.Renderers\Starter3D.Renderers.csproj">
+      <Project>{78127754-23c1-4d69-a528-ae46cad6aec0}</Project>
+      <Name>Starter3D.Renderers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Starter3D.UI\Starter3D.UI.csproj">
+      <Project>{7daffcb2-d20b-491e-9e7f-4b2b5406d1ef}</Project>
+      <Name>Starter3D.UI</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MaterialEditorController.cs" />
+    <Compile Include="apps\materialeditor\MaterialEditorController.cs" />
+    <Compile Include="EntryPoint.cs" />
+    <Compile Include="GameWindowFactory.cs" />
+    <Compile Include="GLWindow.cs" />
+    <Compile Include="IGameWindowFactory.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Autofac">
+      <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
+    </Reference>
     <Reference Include="OpenTK">
       <HintPath>..\Starter3D\Libraries\OpenTK.dll</HintPath>
     </Reference>
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="images\earthmap.jpg">
+    <Content Include="config.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="files\images\earthmap.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="images\stones.jpg">
+    <Content Include="files\images\stones.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="images\stones2.jpg">
+    <Content Include="files\images\stones2.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="meshes\planeNormals.obj">
+    <Content Include="files\meshes\planeNormals.obj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="resources\resources.xml">
+    <Content Include="files\resources\resources.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="scenes\testMultiObjectMultiTextureNoSceneGraph.xml">
+    <Content Include="files\scenes\testMultiObjectMultiTextureNoSceneGraph.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="scenes\testMultiObjectMultiTexture.xml">
+    <Content Include="files\scenes\testMultiObjectMultiTexture.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="scenes\testColorTexture.xml">
+    <Content Include="files\scenes\testColorTexture.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="scenes\testDxf.xml">
+    <Content Include="files\scenes\testDxf.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="scenes\testOneMeshMultiLight.xml">
+    <Content Include="files\scenes\testOneMeshMultiLight.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="scenes\testTwoMeshes.xml">
+    <Content Include="files\scenes\testTwoMeshes.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="scenes\testOneMesh.xml">
+    <Content Include="files\scenes\testOneMesh.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="scenes\testCamera.xml">
+    <Content Include="files\scenes\testCamera.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="scenes\testMeshSceneNormals.xml">
+    <Content Include="files\scenes\testMeshSceneNormals.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="scenes\testMeshScene.xml">
+    <Content Include="files\scenes\testMeshScene.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="meshes\plane.obj">
+    <Content Include="files\meshes\plane.obj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="meshes\teapot.obj">
+    <Content Include="files\meshes\teapot.obj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="meshes\sphere.obj">
+    <Content Include="files\meshes\sphere.obj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="meshes\klein.dxf">
+    <Content Include="files\meshes\klein.dxf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="meshes\bunny.obj">
+    <Content Include="files\meshes\bunny.obj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="meshes\dragon.obj">
+    <Content Include="files\meshes\dragon.obj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

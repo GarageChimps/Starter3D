@@ -1,5 +1,6 @@
 ﻿using System;
 using Autofac;
+using Starter3D.Application.apps.materialeditor;
 using Starter3D.API.controller;
 using Starter3D.API.geometry.factories;
 using Starter3D.API.renderer;
@@ -8,9 +9,9 @@ using Starter3D.API.scene.nodes.factories;
 using Starter3D.API.scene.persistence;
 using Starter3D.API.scene.persistence.factories;
 using Starter3D.API.utils;
-using Starter3D.Controllers;
+using Starter3D.Renderers;
 
-namespace Starter3D.OpenGL
+namespace Starter3D.Application
 {
   public class EntryPoint
   {

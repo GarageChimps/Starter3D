@@ -2,7 +2,7 @@ using System;
 using OpenTK.Platform;
 using Starter3D.API.controller;
 
-namespace Starter3D.OpenGL
+namespace Starter3D.Application
 {
   public class GameWindowFactory : IGameWindowFactory
   {
