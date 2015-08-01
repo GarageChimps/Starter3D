@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using OpenTK;
 using Starter3D.API.controller;
 using Starter3D.API.renderer;
 using Starter3D.API.resources;
@@ -12,6 +13,9 @@ namespace Starter3D.Application.controllers
   {
     private readonly ShapeNode _shape;
     private int _currentMaterial = 0;
+    private Vector3 _currentMousePosition;
+
+    private double _accumulatedTime = 0;
 
     public PixelShaderController(IRenderer renderer, ISceneReader sceneReader, IResourceManager resourceManager, IConfiguration configuration)
       : base(renderer, sceneReader, resourceManager, configuration)
@@ -29,9 +33,19 @@ namespace Starter3D.Application.controllers
       NextMaterial();
     }
 
+
     public override void Render(double time)
     {
+      _accumulatedTime += time;
+      _renderer.SetNumberParameter("time", (float)_accumulatedTime);
+      _renderer.SetVectorParameter("mouse", _currentMousePosition);
       _shape.Render(_renderer);
+    }
+
+    public override void MouseMove(int x, int y, int deltaX, int deltaY)
+    {
+      //AE August 2015: Hardcoded sizes for now. Controller should have acces to image size apparently...
+      _currentMousePosition = new Vector3(x/512.0f, 1.0f - y/512.0f, 0);
     }
 
     public override void KeyDown(int key)

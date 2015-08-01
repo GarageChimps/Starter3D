@@ -5,6 +5,9 @@ precision highp float;
 in vec2 pixelCoords;
 out vec4 pixelColor;
 
+uniform vec3 mouse;
+uniform float time;
+
 const float infinity = 1. / 0.;
 
 
@@ -191,6 +194,15 @@ void main(void)
 {
   //Initialize elements
   init();
+
+  //Light movement 
+  lights[0].position = vec3(mouse.x, mouse.y, 0.0); 
+		  		  
+  //Object movement
+  float speed = 1;
+  spheres[0].position = vec3(0.5, 0.24, -0.5) + 0.3 * vec3(sin(speed*(time)),0,cos(speed*(time)));
+  spheres[1].position = vec3(0.5, 0.2, -0.5) + 0.23 * vec3(sin(speed*(time) + 10),0,cos(speed*(time)+ 10));
+  spheres[7].position = vec3(0.5, 0.7, -0.5) + 0.2 * vec3(0, sin(speed*(time)), 0);
 	   	
   //Raytrace objects
   vec3 pixel = vec3(pixelCoords, 0);
