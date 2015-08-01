@@ -109,11 +109,11 @@ namespace Starter3D.Application.controllers
 
     public override void KeyDown(int key)
     {
-      if (key == 51) //Space
+      if (key == 'm') 
       {
         NextMaterial();
       }
-      else if (key == 49) //Enter
+      else if (key == 's') 
       {
         NextShape();
       }

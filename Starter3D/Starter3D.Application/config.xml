@@ -1,5 +1,13 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
-<Configuration controller="PixelShader" window="WPFWindow" renderer="OpenGL" 
+<!-- MaterialEditor Config-->
+<Configuration controller="MaterialEditor" window="GlWindow" renderer="OpenGL" 
+               scene="files/scenes/testCamera.xml" resources="files/resources/resources.xml"
+               width="512" height="512" frameRate="60"/>
+
+<!-- PixelShader Config-->
+<!--
+<Configuration controller="PixelShader" window="WPFWindow" renderer="OpenGL"
                scene="files/scenes/pixelShaderScene.xml" resources="files/resources/pixelShaderResources.xml"
                width="512" height="512" frameRate="60"/>
+-->
 

@@ -10,6 +10,7 @@ using OpenTK.Graphics.OpenGL;
 using Starter3D.API.controller;
 using Color = System.Drawing.Color;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
+using KeyPressEventArgs = System.Windows.Forms.KeyPressEventArgs;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 
 namespace Starter3D.Application.ui
@@ -42,6 +43,7 @@ namespace Starter3D.Application.ui
       _glControl.MouseUp += OnMouseUp;
       _glControl.MouseMove += OnMouseMove;
       _glControl.MouseWheel += OnMouseWheel;
+      _glControl.KeyPress += OnKeyPress;
       _glControl.Dock = DockStyle.Fill;
       (sender as WindowsFormsHost).Child = _glControl;
 
@@ -52,7 +54,6 @@ namespace Starter3D.Application.ui
       CompositionTarget.Rendering += Render;
     }
 
-    
     private void Render(object sender, EventArgs e)
     {
       RenderingEventArgs args = (RenderingEventArgs)e;
@@ -101,16 +102,19 @@ namespace Starter3D.Application.ui
       int deltaX = (int) (e.X - _lastMousePositionX);
       int deltaY = (int)(e.Y - _lastMousePositionY);
       _controller.MouseMove(e.X, e.Y, deltaX, deltaY);
+      _lastMousePositionX = e.X;
+      _lastMousePositionY = e.Y;
     }
 
     private void OnMouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
     {
-      _controller.MouseWheel(e.Delta, e.X, e.Y);
+      _controller.MouseWheel(e.Delta/100, e.X, e.Y);
     }
 
-    protected override void OnKeyDown(KeyEventArgs e)
+    private void OnKeyPress(object sender, KeyPressEventArgs e)
     {
-      _controller.KeyDown((int)e.Key);
+      _controller.KeyDown(e.KeyChar);
     }
+
   }
 }

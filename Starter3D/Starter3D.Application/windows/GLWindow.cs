@@ -28,8 +28,10 @@ namespace Starter3D.Application.windows
       _controller.Load();
       GL.Enable(EnableCap.DepthTest);
       GL.ClearColor(Color.AliceBlue);
-    }
 
+      this.KeyPress += OnKeyPress;
+    }
+    
     protected override void OnRenderFrame(FrameEventArgs e)
     {
       GL.Viewport(0, 0, this.Width, this.Height);
@@ -82,10 +84,11 @@ namespace Starter3D.Application.windows
       
     }
 
-    protected override void OnKeyDown(KeyboardKeyEventArgs e)
+     private void OnKeyPress(object sender, KeyPressEventArgs e)
     {
-      _controller.KeyDown((int)e.Key);
+      _controller.KeyDown(e.KeyChar);
     }
+
   }
 }
 
