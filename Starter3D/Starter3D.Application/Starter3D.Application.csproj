@@ -48,10 +48,6 @@
       <Project>{78127754-23c1-4d69-a528-ae46cad6aec0}</Project>
       <Name>Starter3D.Renderers</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Starter3D.UI\Starter3D.UI.csproj">
-      <Project>{7daffcb2-d20b-491e-9e7f-4b2b5406d1ef}</Project>
-      <Name>Starter3D.UI</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="controllers\ControllerFactory.cs" />
@@ -60,11 +56,15 @@
     <Compile Include="controllers\MaterialEditorController.cs" />
     <Compile Include="controllers\PixelShaderController.cs" />
     <Compile Include="EntryPoint.cs" />
+    <Compile Include="ui\OpenGLWindow.xaml.cs">
+      <DependentUpon>OpenGLWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="windows\IWindow.cs" />
     <Compile Include="windows\WindowFactory.cs" />
     <Compile Include="windows\GLWindow.cs" />
     <Compile Include="windows\IWindowFactory.cs" />
     <Compile Include="windows\WindowType.cs" />
+    <Compile Include="windows\WPFWindow.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Autofac">
@@ -73,8 +73,15 @@
     <Reference Include="OpenTK">
       <HintPath>..\Starter3D\Libraries\OpenTK.dll</HintPath>
     </Reference>
+    <Reference Include="OpenTK.GLControl, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="config.xml">
@@ -165,5 +172,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="ui\OpenGLWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 </Project>

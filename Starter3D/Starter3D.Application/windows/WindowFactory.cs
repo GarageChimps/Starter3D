@@ -32,8 +32,8 @@ namespace Starter3D.Application.windows
       {
         case WindowType.GlWindow:
           return new GLWindow(width, height, controller);
-        case WindowType.WpfWindow:
-          throw new NotImplementedException();
+        case WindowType.WPFWindow:
+          return new WPFWindow(width, height, controller);
         default:
           throw new ArgumentOutOfRangeException("windowType");
       }

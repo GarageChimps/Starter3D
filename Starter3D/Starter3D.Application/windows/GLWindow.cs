@@ -59,17 +59,6 @@ namespace Starter3D.Application.windows
       _controller.MouseDown(button, e.X, e.Y);
     }
 
-    protected override void OnMouseWheel(MouseWheelEventArgs e)
-    {
-      _controller.MouseWheel(e.Delta, e.X, e.Y);
-      
-    }
-
-    protected override void OnMouseMove(MouseMoveEventArgs e)
-    {
-      _controller.MouseMove(e.X, e.Y, e.XDelta, e.YDelta);
-    }
-
     protected override void OnMouseUp(MouseButtonEventArgs e)
     {
       var button = ControllerMouseButton.Left;
@@ -80,6 +69,17 @@ namespace Starter3D.Application.windows
       else if (e.Button == MouseButton.Right)
         button = ControllerMouseButton.Right;
       _controller.MouseUp(button, e.X, e.Y);
+    }
+
+    protected override void OnMouseMove(MouseMoveEventArgs e)
+    {
+      _controller.MouseMove(e.X, e.Y, e.XDelta, e.YDelta);
+    }
+
+    protected override void OnMouseWheel(MouseWheelEventArgs e)
+    {
+      _controller.MouseWheel(e.Delta, e.X, e.Y);
+      
     }
 
     protected override void OnKeyDown(KeyboardKeyEventArgs e)

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
-<Configuration controller="PixelShader" window="GlWindow" renderer="OpenGL" 
+<Configuration controller="PixelShader" window="WPFWindow" renderer="OpenGL" 
                scene="files/scenes/pixelShaderScene.xml" resources="files/resources/pixelShaderResources.xml"
                width="512" height="512" frameRate="60"/>
 

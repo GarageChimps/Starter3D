@@ -50,10 +50,7 @@ namespace Starter3D.Application.controllers
 
     public override void KeyDown(int key)
     {
-      if (key == 51) //Space
-      {
-        NextMaterial();
-      }
+      NextMaterial();
     }
 
     private void NextMaterial()

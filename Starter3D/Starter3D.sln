@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Starter3D.Application", "St
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Starter3D.Renderers", "Starter3D.Renderers\Starter3D.Renderers.csproj", "{78127754-23C1-4D69-A528-AE46CAD6AEC0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Starter3D.UI", "Starter3D.UI\Starter3D.UI.csproj", "{7DAFFCB2-D20B-491E-9E7F-4B2B5406D1EF}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -68,15 +66,6 @@ Global
 		{78127754-23C1-4D69-A528-AE46CAD6AEC0}.Release2|Any CPU.Build.0 = Release2|Any CPU
 		{78127754-23C1-4D69-A528-AE46CAD6AEC0}.Release2|x86.ActiveCfg = Release2|x86
 		{78127754-23C1-4D69-A528-AE46CAD6AEC0}.Release2|x86.Build.0 = Release2|x86
-		{7DAFFCB2-D20B-491E-9E7F-4B2B5406D1EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7DAFFCB2-D20B-491E-9E7F-4B2B5406D1EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7DAFFCB2-D20B-491E-9E7F-4B2B5406D1EF}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{7DAFFCB2-D20B-491E-9E7F-4B2B5406D1EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7DAFFCB2-D20B-491E-9E7F-4B2B5406D1EF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7DAFFCB2-D20B-491E-9E7F-4B2B5406D1EF}.Release|x86.ActiveCfg = Release|Any CPU
-		{7DAFFCB2-D20B-491E-9E7F-4B2B5406D1EF}.Release2|Any CPU.ActiveCfg = Release|Any CPU
-		{7DAFFCB2-D20B-491E-9E7F-4B2B5406D1EF}.Release2|Any CPU.Build.0 = Release|Any CPU
-		{7DAFFCB2-D20B-491E-9E7F-4B2B5406D1EF}.Release2|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
