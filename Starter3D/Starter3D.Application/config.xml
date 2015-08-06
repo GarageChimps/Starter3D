@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <!-- MaterialEditor Config-->
-<Configuration plugin="Starter3D.Plugin.MaterialEditor" window="WPFWindow" renderer="OpenGL" 
+<Configuration plugin="Starter3D.Plugin.PixelShader" window="WPFWindow" renderer="OpenGL" 
                width="800" height="600" frameRate="60"/>
 
 

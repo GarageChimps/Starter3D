@@ -4,9 +4,25 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using OpenTK;
-using OpenTK.Graphics.OpenGL;
+using OpenTK.Graphics;
 using Starter3D.API.renderer;
+using BeginMode = OpenTK.Graphics.OpenGL.BeginMode;
+using BufferTarget = OpenTK.Graphics.OpenGL.BufferTarget;
+using BufferUsageHint = OpenTK.Graphics.OpenGL.BufferUsageHint;
+using DrawElementsType = OpenTK.Graphics.OpenGL.DrawElementsType;
+using EnableCap = OpenTK.Graphics.OpenGL.EnableCap;
+using GL = OpenTK.Graphics.OpenGL.GL;
 using PixelFormat = OpenTK.Graphics.OpenGL.PixelFormat;
+using PixelInternalFormat = OpenTK.Graphics.OpenGL.PixelInternalFormat;
+using PixelType = OpenTK.Graphics.OpenGL.PixelType;
+using ShaderType = OpenTK.Graphics.OpenGL.ShaderType;
+using TextureMagFilter = OpenTK.Graphics.OpenGL.TextureMagFilter;
+using TextureMinFilter = OpenTK.Graphics.OpenGL.TextureMinFilter;
+using TextureParameterName = OpenTK.Graphics.OpenGL.TextureParameterName;
+using TextureTarget = OpenTK.Graphics.OpenGL.TextureTarget;
+using TextureUnit = OpenTK.Graphics.OpenGL.TextureUnit;
+using TextureWrapMode = OpenTK.Graphics.OpenGL.TextureWrapMode;
+using VertexAttribPointerType = OpenTK.Graphics.OpenGL.VertexAttribPointerType;
 
 namespace Starter3D.Renderers
 {
@@ -199,7 +215,20 @@ namespace Starter3D.Renderers
       if (location != -1)
         GL.Uniform1(location, number);
     }
-    
+
+    public void SetBackgroundColor(Color4 color)
+    {
+      GL.ClearColor(color);
+    }
+
+    public void EnableZBuffer(bool enable)
+    {
+      if(enable)
+        GL.Enable(EnableCap.DepthTest);
+      else
+        GL.Disable(EnableCap.DepthTest);
+    }
+
     #endregion
 
     #region Private Methods

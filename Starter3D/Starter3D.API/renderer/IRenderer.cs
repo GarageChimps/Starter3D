@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using OpenTK;
+using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 
 namespace Starter3D.API.renderer
@@ -30,6 +31,10 @@ namespace Starter3D.API.renderer
     void SetNumberParameter(string name, float number);
     void SetNumberParameter(string name, float number, string shader);
 
-    
+    //General rendering properties
+    void SetBackgroundColor(Color4 color);
+    void EnableZBuffer(bool enable);
+
+
   }
 }

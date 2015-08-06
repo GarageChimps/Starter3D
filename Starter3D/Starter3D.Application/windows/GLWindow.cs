@@ -26,8 +26,6 @@ namespace Starter3D.Application.windows
     protected override void OnLoad(EventArgs e)
     {
       _controller.Load();
-      GL.Enable(EnableCap.DepthTest);
-      GL.ClearColor(Color.AliceBlue);
 
       this.KeyPress += OnKeyPress;
     }

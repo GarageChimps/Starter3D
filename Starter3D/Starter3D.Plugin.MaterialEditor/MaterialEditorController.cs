@@ -1,4 +1,6 @@
 ﻿using System.Linq;
+using System.Windows.Media;
+using OpenTK.Graphics;
 using Starter3D.API.controller;
 using Starter3D.API.renderer;
 using Starter3D.API.resources;
@@ -12,9 +14,9 @@ namespace Starter3D.Plugin.MaterialEditor
     private const string Scene = @"scenes/testCamera.xml";
     private const string Resources = @"resources/resources.xml";
 
-    private readonly PerspectiveCamera _camera;
+    private PerspectiveCamera _camera;
     private ShapeNode _shape;
-    private readonly PointLight _light;
+    private PointLight _light;
     private AmbientLight _ambientLight;
     private int _currentShape = 0;
     private int _currentMaterial = 0;
@@ -25,18 +27,16 @@ namespace Starter3D.Plugin.MaterialEditor
     public MaterialEditorController(IRenderer renderer, ISceneReader sceneReader, IResourceManager resourceManager)
       : base(renderer, sceneReader, resourceManager)
     {
-      Init(Scene, Resources);
-      _light = _sceneGraph.GetNodes<PointLight>().First();
-      _camera = _sceneGraph.GetNodes<PerspectiveCamera>().First();
+      
     }
-
-    public override void UpdateSize(double width, double height)
-    {
-      _camera.AspectRatio = (float)(width/height);
-    }
-
+    
     public override void Load()
     {
+      Init(Scene, Resources);
+      InitRenderer();
+
+      _light = _sceneGraph.GetNodes<PointLight>().First();
+      _camera = _sceneGraph.GetNodes<PerspectiveCamera>().First();
       foreach (var material in _materials)
       {
         material.Configure(_renderer);
@@ -69,7 +69,12 @@ namespace Starter3D.Plugin.MaterialEditor
 
       NextMaterial();
       NextShape();
-      
+    }
+
+    private void InitRenderer()
+    {
+      _renderer.SetBackgroundColor(Color4.White);
+      _renderer.EnableZBuffer(true);
     }
 
     public override void Render(double time)
@@ -81,6 +86,11 @@ namespace Starter3D.Plugin.MaterialEditor
       }
       _ambientLight.Render(_renderer);
       _shape.Render(_renderer);
+    }
+
+    public override void UpdateSize(double width, double height)
+    {
+      _camera.AspectRatio = (float)(width / height);
     }
 
     public override void MouseWheel(int delta, int x, int y)

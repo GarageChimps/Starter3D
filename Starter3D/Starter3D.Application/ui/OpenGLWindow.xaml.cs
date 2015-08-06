@@ -57,9 +57,7 @@ namespace Starter3D.Application.ui
       (sender as WindowsFormsHost).Child = _glControl;
 
       _controller.Load();
-      GL.Enable(EnableCap.DepthTest);
-      GL.ClearColor(Color.AliceBlue);
-
+      
       CompositionTarget.Rendering += Render;
     }
 
