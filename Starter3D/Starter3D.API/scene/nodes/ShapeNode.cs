@@ -84,7 +84,8 @@ namespace Starter3D.API.scene.nodes
       _shape.Load(filePath);
 
       var materialKey = sceneDataNode.ReadParameter("material");
-      _shape.Material = _resourceManager.GetMaterial(materialKey);
+      if (_resourceManager.HasMaterial(materialKey))
+        _shape.Material = _resourceManager.GetMaterial(materialKey);
     }
 
     public override void Configure(IRenderer renderer)

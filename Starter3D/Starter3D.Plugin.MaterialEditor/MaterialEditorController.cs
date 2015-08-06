@@ -11,9 +11,6 @@ namespace Starter3D.Plugin.MaterialEditor
 {
   public class MaterialEditorController : BaseController
   {
-    private const string Scene = @"scenes/testCamera.xml";
-    private const string Resources = @"resources/resources.xml";
-
     private PerspectiveCamera _camera;
     private ShapeNode _shape;
     private PointLight _light;
@@ -24,6 +21,16 @@ namespace Starter3D.Plugin.MaterialEditor
     private bool _isDragging;
     private bool _isOrbiting;
 
+    protected override string ScenePath
+    {
+      get { return @"scenes/testCamera.xml"; }
+    }
+
+    protected override string ResourcePath
+    {
+      get { return @"resources/resources.xml"; }
+    }
+
     public MaterialEditorController(IRenderer renderer, ISceneReader sceneReader, IResourceManager resourceManager)
       : base(renderer, sceneReader, resourceManager)
     {
@@ -32,7 +39,6 @@ namespace Starter3D.Plugin.MaterialEditor
     
     public override void Load()
     {
-      Init(Scene, Resources);
       InitRenderer();
 
       _light = _sceneGraph.GetNodes<PointLight>().First();

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Drawing;
 using OpenTK;
 using Starter3D.API.renderer;
 
@@ -15,6 +14,7 @@ namespace Starter3D.API.resources
     public IShader Shader
     {
       get { return _shader; }
+      set { _shader = value; }
     }
 
    

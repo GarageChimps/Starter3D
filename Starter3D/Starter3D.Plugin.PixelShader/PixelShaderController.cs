@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using OpenTK;
 using Starter3D.API.controller;
 using Starter3D.API.renderer;
@@ -10,22 +11,29 @@ namespace Starter3D.Plugin.PixelShader
 {
   public class PixelShaderController : BaseController
   {
-    private const string Scene = @"scenes/pixelShaderScene.xml";
-    private const string Resources = @"resources/pixelShaderResources.xml";
 
-    private readonly ShapeNode _shape;
-    private int _currentMaterial = 0;
+    private ShapeNode _shape;
+    private IMaterial _currentMaterial;
     private Vector3 _currentMousePosition;
 
     private double _accumulatedTime = 0;
     private double _width = 1;
     private double _height = 1;
 
+    protected override string ScenePath
+    {
+      get { return @"scenes/pixelShaderScene.xml"; }
+    }
+
+    protected override string ResourcePath
+    {
+      get { return @"resources/pixelShaderResources.xml"; }
+    }
+
     public PixelShaderController(IRenderer renderer, ISceneReader sceneReader, IResourceManager resourceManager)
       : base(renderer, sceneReader, resourceManager)
     {
-      Init(Scene, Resources);
-      _shape = _objects.First();
+      
     }
 
     public override void UpdateSize(double width, double height)
@@ -34,14 +42,21 @@ namespace Starter3D.Plugin.PixelShader
       _height = height;
     }
 
+  
+
     public override void Load()
     {
-      foreach (var material in _materials)
+      var shaders = _resourceManager.GetShaders().ToList();
+      foreach (var shader in shaders)
       {
-        material.Configure(_renderer);
+        shader.Configure(_renderer);
       }
+      _currentMaterial = new Material(shaders.First());
+      _currentMaterial.Configure(_renderer);
+      
+      _shape = _objects.First();
+      _shape.Shape.Material = _currentMaterial;
       _shape.Configure(_renderer);
-      NextMaterial();
     }
 
 
@@ -57,17 +72,19 @@ namespace Starter3D.Plugin.PixelShader
     {
       _currentMousePosition = new Vector3(x/(float)_width, 1.0f - y/(float)_height, 0);
     }
-
-    public override void KeyDown(int key)
+    
+    public IEnumerable<IShader> GetShaders()
     {
-      NextMaterial();
+      return _resourceManager.GetShaders();
     }
 
-    private void NextMaterial()
+    public void SetCurrentShader(IShader shader)
     {
-      var material = _materials.ElementAt(_currentMaterial);
-      _currentMaterial = (_currentMaterial + 1) % _materials.Count();
-      _shape.Shape.Material = material;
+      if (_currentMaterial != null)
+      {
+        _currentMaterial.Shader = shader;
+      }
     }
+
   }
 }

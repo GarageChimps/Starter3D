@@ -53,6 +53,8 @@
     <Compile Include="PixelShaderView.xaml.cs">
       <DependentUpon>PixelShaderView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ShaderViewModel.cs" />
+    <Compile Include="ViewModelBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Starter3D.API\Starter3D.API.csproj">

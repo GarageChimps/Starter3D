@@ -20,24 +20,29 @@ namespace Starter3D.API.controller
     protected IEnumerable<LightNode> _lights;
     protected IEnumerable<CameraNode> _cameras;
     protected IEnumerable<IMaterial> _materials;
-    
+
+    protected abstract string ScenePath { get; }
+    protected abstract string ResourcePath { get; } 
+
 
     protected BaseController(IRenderer renderer, ISceneReader sceneReader, IResourceManager resourceManager)
     {
       _renderer = renderer;
       _sceneReader = sceneReader;
       _resourceManager = resourceManager;
-    }
 
-    protected void Init(string scenePath = "", string resourcesPath = "")
-    {
-      _resourceManager.Load(resourcesPath);
+      _resourceManager.Load(ResourcePath);
       _materials = _resourceManager.GetMaterials();
-      _sceneGraph = _sceneReader.Read(scenePath);
+      _sceneGraph = _sceneReader.Read(ScenePath);
       _sceneElements = _sceneGraph.GetNodes<ISceneNode>().ToList();
       _objects = _sceneGraph.GetNodes<ShapeNode>().ToList();
       _lights = _sceneGraph.GetNodes<LightNode>().ToList();
       _cameras = _sceneGraph.GetNodes<CameraNode>().ToList();
+    }
+
+    protected void Init(string scenePath = "", string resourcesPath = "")
+    {
+      
     }
 
     public virtual void Load()

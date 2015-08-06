@@ -2,6 +2,6 @@
 {
   public interface IMaterial : IResource
   {
-    IShader Shader { get; }
+    IShader Shader { get; set;  }
   }
 }
