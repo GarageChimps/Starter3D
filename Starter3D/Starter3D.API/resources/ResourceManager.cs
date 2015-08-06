@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using Starter3D.API.utils;
@@ -27,6 +28,8 @@ namespace Starter3D.API.resources
 
     public void Load(string resourceFile)
     {
+      if (!File.Exists(resourceFile))
+        return;
       var xmlDoc = XDocument.Load(resourceFile);
       var element = xmlDoc.Elements("Resources").First();
       if (element.Elements("Shaders").Any())

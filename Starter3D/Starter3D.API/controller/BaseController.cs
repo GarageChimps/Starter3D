@@ -13,31 +13,31 @@ namespace Starter3D.API.controller
     protected readonly IRenderer _renderer;
     protected readonly ISceneReader _sceneReader;
     protected readonly IResourceManager _resourceManager;
-    protected readonly IConfiguration _configuration;
 
-    protected readonly ISceneNode _sceneGraph;
-    protected readonly IEnumerable<ISceneNode> _sceneElements;
-    protected readonly IEnumerable<ShapeNode> _objects;
-    protected readonly IEnumerable<LightNode> _lights;
-    protected readonly IEnumerable<CameraNode> _cameras;
-    protected readonly IEnumerable<IMaterial> _materials;
+    protected ISceneNode _sceneGraph;
+    protected IEnumerable<ISceneNode> _sceneElements;
+    protected IEnumerable<ShapeNode> _objects;
+    protected IEnumerable<LightNode> _lights;
+    protected IEnumerable<CameraNode> _cameras;
+    protected IEnumerable<IMaterial> _materials;
     
 
-    protected BaseController(IRenderer renderer, ISceneReader sceneReader, IResourceManager resourceManager, IConfiguration configuration)
+    protected BaseController(IRenderer renderer, ISceneReader sceneReader, IResourceManager resourceManager)
     {
       _renderer = renderer;
       _sceneReader = sceneReader;
       _resourceManager = resourceManager;
-      _configuration = configuration;
+    }
 
-      _resourceManager.Load(configuration.GetParameter("resources"));
+    protected void Init(string scenePath = "", string resourcesPath = "")
+    {
+      _resourceManager.Load(resourcesPath);
       _materials = _resourceManager.GetMaterials();
-      _sceneGraph = _sceneReader.Read(configuration.GetParameter("scene"));
+      _sceneGraph = _sceneReader.Read(scenePath);
       _sceneElements = _sceneGraph.GetNodes<ISceneNode>().ToList();
       _objects = _sceneGraph.GetNodes<ShapeNode>().ToList();
       _lights = _sceneGraph.GetNodes<LightNode>().ToList();
       _cameras = _sceneGraph.GetNodes<CameraNode>().ToList();
-      
     }
 
     public virtual void Load()

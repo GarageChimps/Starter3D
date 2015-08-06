@@ -16,18 +16,15 @@ namespace Starter3D.Application.windows
     private readonly IRendererFactory _rendererFactory;
     private readonly IResourceManager _resourceManager;
     private readonly ISceneReader _sceneReader;
-    private readonly IConfiguration _configuration;
 
-    public WindowFactory(IRendererFactory rendererFactory, IResourceManager resourceManager, ISceneReader sceneReader, IConfiguration configuration)
+    public WindowFactory(IRendererFactory rendererFactory, IResourceManager resourceManager, ISceneReader sceneReader)
     {
       if (rendererFactory == null) throw new ArgumentNullException("rendererFactory");
       if (resourceManager == null) throw new ArgumentNullException("resourceManager");
       if (sceneReader == null) throw new ArgumentNullException("sceneReader");
-      if (configuration == null) throw new ArgumentNullException("configuration");
       _rendererFactory = rendererFactory;
       _resourceManager = resourceManager;
       _sceneReader = sceneReader;
-      _configuration = configuration;
     }
 
     public IWindow CreateWindow(int width, int height, IConfiguration configuration)
@@ -43,11 +40,10 @@ namespace Starter3D.Application.windows
       var controllerType = assembly.GetTypes().First(m => m.IsClass && m.GetInterface("IController") != null);
       var userInterfaceType = assembly.GetTypes().First(m => m.IsClass && m.GetInterface("IUserInterface") != null);
 
-      var parameter = new object[4];
+      var parameter = new object[3];
       parameter[0] = renderer;
       parameter[1] = _sceneReader;
       parameter[2] = _resourceManager;
-      parameter[3] = _configuration;
 
       var controller = (IController)Activator.CreateInstance(controllerType, parameter);
       var userInterface = (IUserInterface) Activator.CreateInstance(userInterfaceType);

@@ -4,12 +4,14 @@ using Starter3D.API.renderer;
 using Starter3D.API.resources;
 using Starter3D.API.scene.nodes;
 using Starter3D.API.scene.persistence;
-using Starter3D.API.utils;
 
 namespace Starter3D.Plugin.MaterialEditor
 {
   public class MaterialEditorController : BaseController
   {
+    private const string Scene = @"scenes/testCamera.xml";
+    private const string Resources = @"resources/resources.xml";
+
     private readonly CameraNode _camera;
     private ShapeNode _shape;
     private readonly PointLight _light;
@@ -20,9 +22,10 @@ namespace Starter3D.Plugin.MaterialEditor
     private bool _isDragging;
     private bool _isOrbiting;
 
-    public MaterialEditorController(IRenderer renderer, ISceneReader sceneReader, IResourceManager resourceManager, IConfiguration configuration)
-      : base(renderer, sceneReader, resourceManager, configuration)
+    public MaterialEditorController(IRenderer renderer, ISceneReader sceneReader, IResourceManager resourceManager)
+      : base(renderer, sceneReader, resourceManager)
     {
+      Init(Scene, Resources);
       _light = _sceneGraph.GetNodes<PointLight>().First();
       _camera = _cameras.First();
     }

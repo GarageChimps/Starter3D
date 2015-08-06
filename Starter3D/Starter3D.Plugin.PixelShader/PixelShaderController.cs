@@ -5,21 +5,24 @@ using Starter3D.API.renderer;
 using Starter3D.API.resources;
 using Starter3D.API.scene.nodes;
 using Starter3D.API.scene.persistence;
-using Starter3D.API.utils;
 
 namespace Starter3D.Plugin.PixelShader
 {
   public class PixelShaderController : BaseController
   {
+    private const string Scene = @"scenes/pixelShaderScene.xml";
+    private const string Resources = @"resources/pixelShaderResources.xml";
+
     private readonly ShapeNode _shape;
     private int _currentMaterial = 0;
     private Vector3 _currentMousePosition;
 
     private double _accumulatedTime = 0;
 
-    public PixelShaderController(IRenderer renderer, ISceneReader sceneReader, IResourceManager resourceManager, IConfiguration configuration)
-      : base(renderer, sceneReader, resourceManager, configuration)
+    public PixelShaderController(IRenderer renderer, ISceneReader sceneReader, IResourceManager resourceManager)
+      : base(renderer, sceneReader, resourceManager)
     {
+      Init(Scene, Resources);
       _shape = _objects.First();
     }
 
