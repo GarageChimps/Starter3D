@@ -48,7 +48,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MaterialEditorController.cs" />
-    <Compile Include="MaterialEditorUserInterface.cs" />
     <Compile Include="MaterialEditorView.xaml.cs">
       <DependentUpon>MaterialEditorView.xaml</DependentUpon>
     </Compile>

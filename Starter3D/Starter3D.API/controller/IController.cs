@@ -9,6 +9,12 @@
 
   public interface IController
   {
+    int Width { get; }
+    int Height { get; }
+    bool IsFullScreen { get; }
+    object View { get; }
+    bool HasUserInterface { get; }
+
     void Load();
     void Render(double time);
     void Update(double time);

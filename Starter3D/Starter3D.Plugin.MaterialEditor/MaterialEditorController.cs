@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Media;
 using OpenTK.Graphics;
 using Starter3D.API.controller;
@@ -9,8 +11,21 @@ using Starter3D.API.scene.persistence;
 
 namespace Starter3D.Plugin.MaterialEditor
 {
-  public class MaterialEditorController : BaseController
+  public class MaterialEditorController : IController
   {
+    private const string ScenePath = @"scenes/testCamera.xml";
+    private const string ResourcePath = @"resources/resources.xml";
+
+    private readonly IRenderer _renderer;
+    private readonly ISceneReader _sceneReader;
+    private readonly IResourceManager _resourceManager;
+
+    private readonly ISceneNode _sceneGraph;
+    private readonly IEnumerable<ShapeNode> _objects;
+    private readonly IEnumerable<LightNode> _lights;
+    private readonly IEnumerable<CameraNode> _cameras;
+    private readonly IEnumerable<IMaterial> _materials;
+    
     private PerspectiveCamera _camera;
     private ShapeNode _shape;
     private PointLight _light;
@@ -18,26 +33,59 @@ namespace Starter3D.Plugin.MaterialEditor
     private int _currentShape = 0;
     private int _currentMaterial = 0;
 
+    private readonly MaterialEditorView _view;
+
     private bool _isDragging;
     private bool _isOrbiting;
 
-    protected override string ScenePath
+
+    public int Width
     {
-      get { return @"scenes/testCamera.xml"; }
+      get { return 800; }
     }
 
-    protected override string ResourcePath
+    public int Height
     {
-      get { return @"resources/resources.xml"; }
+      get { return 600; }
+    }
+
+    public bool IsFullScreen
+    {
+      get { return true; }
+    }
+
+    public object View
+    {
+      get { return _view; }
+    }
+
+    public bool HasUserInterface
+    {
+      get { return true; }
     }
 
     public MaterialEditorController(IRenderer renderer, ISceneReader sceneReader, IResourceManager resourceManager)
-      : base(renderer, sceneReader, resourceManager)
     {
-      
+      if (renderer == null) throw new ArgumentNullException("renderer");
+      if (sceneReader == null) throw new ArgumentNullException("sceneReader");
+      if (resourceManager == null) throw new ArgumentNullException("resourceManager");
+      _renderer = renderer;
+      _sceneReader = sceneReader;
+      _resourceManager = resourceManager;
+
+      _resourceManager.Load(ResourcePath);
+      _materials = _resourceManager.GetMaterials();
+      _sceneGraph = _sceneReader.Read(ScenePath);
+      _sceneGraph.GetNodes<ISceneNode>().ToList();
+      _objects = _sceneGraph.GetNodes<ShapeNode>().ToList();
+      _lights = _sceneGraph.GetNodes<LightNode>().ToList();
+      _cameras = _sceneGraph.GetNodes<CameraNode>().ToList();
+
+      _view = new MaterialEditorView();
+      _view.DataContext = this;
     }
     
-    public override void Load()
+    public void Load()
     {
       InitRenderer();
 
@@ -83,7 +131,7 @@ namespace Starter3D.Plugin.MaterialEditor
       _renderer.EnableZBuffer(true);
     }
 
-    public override void Render(double time)
+    public void Render(double time)
     {
       _camera.Render(_renderer);
       foreach (var light in _lights)
@@ -94,18 +142,23 @@ namespace Starter3D.Plugin.MaterialEditor
       _shape.Render(_renderer);
     }
 
-    public override void UpdateSize(double width, double height)
+    public void Update(double time)
+    {
+      
+    }
+
+    public void UpdateSize(double width, double height)
     {
       _camera.AspectRatio = (float)(width / height);
     }
 
-    public override void MouseWheel(int delta, int x, int y)
+    public void MouseWheel(int delta, int x, int y)
     {
       _camera.Zoom(delta);
       _light.Position = _camera.Position;
     }
 
-    public override void MouseDown(ControllerMouseButton button, int x, int y)
+    public void MouseDown(ControllerMouseButton button, int x, int y)
     {
       if (button == ControllerMouseButton.Right)
         _isDragging = true;
@@ -113,7 +166,7 @@ namespace Starter3D.Plugin.MaterialEditor
         _isOrbiting = true;
     }
 
-    public override void MouseUp(ControllerMouseButton button, int x, int y)
+    public void MouseUp(ControllerMouseButton button, int x, int y)
     {
       if (button == ControllerMouseButton.Right)
         _isDragging = false;
@@ -121,7 +174,7 @@ namespace Starter3D.Plugin.MaterialEditor
         _isOrbiting = false;
     }
 
-    public override void MouseMove(int x, int y, int deltaX, int deltaY)
+    public void MouseMove(int x, int y, int deltaX, int deltaY)
     {
       if (_isDragging)
         _camera.Drag(deltaX, deltaY);
@@ -130,7 +183,7 @@ namespace Starter3D.Plugin.MaterialEditor
       _light.Position = _camera.Position;
     }
 
-    public override void KeyDown(int key)
+    public void KeyDown(int key)
     {
       if (key == 'm') 
       {

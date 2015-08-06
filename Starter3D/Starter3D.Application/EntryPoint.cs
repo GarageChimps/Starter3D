@@ -41,22 +41,16 @@ namespace Starter3D.Application
     [STAThread]
     public static void Main()
     {
-      int width = 256;
-      int height = 256;
       double frameRate = 30;
       InitDependencyContainer();
       using (var scope = Container.BeginLifetimeScope())
       {
         var gameWindowFactory = scope.Resolve<IWindowFactory>();
         var configuration = scope.Resolve<IConfiguration>();
-        if (configuration.HasParameter("width"))
-          width = int.Parse(configuration.GetParameter("width"));
-        if (configuration.HasParameter("height"))
-          height = int.Parse(configuration.GetParameter("height"));
         if (configuration.HasParameter("frameRate"))
           frameRate = int.Parse(configuration.GetParameter("frameRate"));
 
-        using (var window = gameWindowFactory.CreateWindow(width, height, configuration))
+        using (var window = gameWindowFactory.CreateWindow(configuration))
         {
           window.Run(frameRate);
         }

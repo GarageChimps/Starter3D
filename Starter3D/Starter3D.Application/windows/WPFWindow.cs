@@ -2,7 +2,6 @@ using System;
 using System.Windows;
 using Starter3D.Application.ui;
 using Starter3D.API.controller;
-using Starter3D.API.ui;
 
 namespace Starter3D.Application.windows
 {
@@ -10,14 +9,12 @@ namespace Starter3D.Application.windows
   {
     private readonly OpenGLWindow _window;
     private readonly IController _controller;
-    private readonly IUserInterface _userInterface;
 
-    public WPFWindow(int width, int height, IController controller, IUserInterface userInterface)
+    public WPFWindow(IController controller)
     {
       if (controller == null) throw new ArgumentNullException("controller");
       _controller = controller;
-      _userInterface = userInterface;
-      _window = new OpenGLWindow(width, height, _controller, _userInterface);
+      _window = new OpenGLWindow(_controller);
 
     }
 

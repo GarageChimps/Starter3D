@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Drawing;
 using OpenTK;
 using OpenTK.Graphics;
+using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
 using Starter3D.API.controller;
-using ClearBufferMask = OpenTK.Graphics.OpenGL.ClearBufferMask;
-using EnableCap = OpenTK.Graphics.OpenGL.EnableCap;
-using GL = OpenTK.Graphics.OpenGL.GL;
 
 namespace Starter3D.Application.windows
 {
@@ -14,13 +11,21 @@ namespace Starter3D.Application.windows
   {
     private readonly IController _controller;
 
-    public GLWindow(int width, int height, IController controller)
-      : base(width, height,
+    public GLWindow(IController controller)
+      : base(controller.Width, controller.Height,
         new GraphicsMode(), "Starter3D.OpenGL", GameWindowFlags.Default,
         DisplayDevice.Default, 3, 0,
         GraphicsContextFlags.ForwardCompatible | GraphicsContextFlags.Debug)
     {
       _controller = controller;
+      if(_controller.IsFullScreen)
+        WindowState = WindowState.Maximized;
+      
+    }
+
+    protected override void OnResize(EventArgs e)
+    {
+      _controller.UpdateSize(Width, Height);
     }
 
     protected override void OnLoad(EventArgs e)

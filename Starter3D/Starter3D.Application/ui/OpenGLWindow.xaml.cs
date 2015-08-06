@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Forms.Integration;
 using System.Windows.Media;
@@ -8,9 +7,8 @@ using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using Starter3D.API.controller;
-using Starter3D.API.ui;
-using Color = System.Drawing.Color;
 using KeyPressEventArgs = System.Windows.Forms.KeyPressEventArgs;
+using WindowState = System.Windows.WindowState;
 
 namespace Starter3D.Application.ui
 {
@@ -18,28 +16,29 @@ namespace Starter3D.Application.ui
   {
     private GLControl _glControl;
     private readonly IController _controller;
-    private readonly IUserInterface _userInterface;
 
     private TimeSpan _lastTime = TimeSpan.Zero;
     private int _lastMousePositionX;
     private int _lastMousePositionY;
 
-    public OpenGLWindow(int width, int height, IController controller, IUserInterface userInterface)
+    public OpenGLWindow(IController controller)
     {
       if (controller == null) throw new ArgumentNullException("controller");
       _controller = controller;
-      _userInterface = userInterface;
-      Width = width;
-      Height = height;
+      Width = controller.Width;
+      Height = controller.Height;
       SizeChanged += OnSizeChanged;
       InitializeComponent();
-      if(_userInterface != null)
-        MainGrid.Children.Add((UIElement)_userInterface.View);
+      if (_controller.HasUserInterface)
+        MainGrid.Children.Add((UIElement)_controller.View);
+      
+      if (_controller.IsFullScreen)
+        WindowState = WindowState.Maximized;
     }
 
     private void OnSizeChanged(object sender, SizeChangedEventArgs e)
     {
-      _controller.UpdateSize(Width, Height);
+      _controller.UpdateSize(ActualWidth, ActualHeight);
     }
 
     private void WindowsFormsHostInitialized(object sender, EventArgs e)
@@ -67,7 +66,7 @@ namespace Starter3D.Application.ui
       if (args.RenderingTime == _lastTime)
         return;
       
-      GL.Viewport(0, 0, (int)this.Width, (int)this.Height);
+      GL.Viewport(0, 0, (int)this.ActualWidth, (int)this.ActualHeight);
       GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
       _controller.Render((args.RenderingTime - _lastTime).TotalSeconds);
