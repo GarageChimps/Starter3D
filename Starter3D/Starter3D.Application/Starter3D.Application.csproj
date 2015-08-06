@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EntryPoint.cs" />
+    <Compile Include="ui\AirspacePopup.cs" />
     <Compile Include="ui\OpenGLWindow.xaml.cs">
       <DependentUpon>OpenGLWindow.xaml</DependentUpon>
     </Compile>

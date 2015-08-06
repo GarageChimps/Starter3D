@@ -6,6 +6,14 @@
              mc:Ignorable="d" Width="100"
              d:DesignHeight="300" d:DesignWidth="300">
   <Grid>
-    <Button>fhdfhsdhfhdskh</Button>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"></RowDefinition>
+      <RowDefinition Height="*"></RowDefinition>
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto"></ColumnDefinition>
+      <ColumnDefinition Width="*"></ColumnDefinition>
+    </Grid.ColumnDefinitions>
+    <Button>Test</Button>
   </Grid>
 </UserControl>

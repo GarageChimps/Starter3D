@@ -34,7 +34,6 @@ namespace Starter3D.Application.ui
       Height = height;
       InitializeComponent();
       MainGrid.Children.Add((UIElement)_userInterface.View);
-      Grid.SetColumn((UIElement)_userInterface.View, 1);
     }
     
     private void WindowsFormsHostInitialized(object sender, EventArgs e)
