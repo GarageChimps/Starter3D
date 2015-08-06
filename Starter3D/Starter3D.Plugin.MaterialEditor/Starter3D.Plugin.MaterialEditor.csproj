@@ -52,8 +52,10 @@
       <DependentUpon>MaterialEditorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="MaterialViewModel.cs" />
+    <Compile Include="NumericParameterViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ShapeViewModel.cs" />
+    <Compile Include="VectorParameterViewModel.cs" />
     <Compile Include="ViewModelBase.cs" />
   </ItemGroup>
   <ItemGroup>

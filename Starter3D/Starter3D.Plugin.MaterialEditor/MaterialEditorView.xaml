@@ -7,8 +7,39 @@
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
   <UserControl.Resources>
+    <DataTemplate DataType="{x:Type materialEditor:NumericParameterViewModel}">
+      <Grid Margin="2">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"></RowDefinition>
+          <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBlock Text="{Binding Name}"></TextBlock>
+        <Slider Grid.Row="1" Value="{Binding Value}" Minimum="0" Maximum="100"></Slider>
+      </Grid>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type materialEditor:VectorParameterViewModel}">
+      <Grid Margin="2">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"></RowDefinition>
+          <RowDefinition Height="Auto"></RowDefinition>
+          <RowDefinition Height="Auto"></RowDefinition>
+          <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBlock Text="{Binding Name}"></TextBlock>
+        <Slider Grid.Row="1" Value="{Binding X}" Minimum="0" Maximum="1"></Slider>
+        <Slider Grid.Row="2" Value="{Binding Y}" Minimum="0" Maximum="1"></Slider>
+        <Slider Grid.Row="3" Value="{Binding Z}" Minimum="0" Maximum="1"></Slider>
+      </Grid>
+    </DataTemplate>
     <DataTemplate DataType="{x:Type materialEditor:MaterialViewModel}">
-      <TextBlock Text="{Binding Material.Name}"></TextBlock>
+      <Grid Margin="2">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"></RowDefinition>
+          <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <ItemsControl ItemsSource="{Binding NumericParameters}"></ItemsControl>
+        <ItemsControl Grid.Row="1" ItemsSource="{Binding VectorParameters}"></ItemsControl>
+      </Grid>
     </DataTemplate>
     <DataTemplate DataType="{x:Type materialEditor:ShapeViewModel}">
       <TextBlock Text="{Binding Shape.Shape.Name}"></TextBlock>
@@ -45,11 +76,19 @@
         <Grid.RowDefinitions>
           <RowDefinition Height="Auto"></RowDefinition>
           <RowDefinition Height="Auto"></RowDefinition>
+          <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <TextBlock Text="Select a material:"></TextBlock>
-        <ComboBox Grid.Row="1" ItemsSource="{Binding Materials}" SelectedItem="{Binding CurrentMaterial}"></ComboBox>
+        <ComboBox Grid.Row="1" ItemsSource="{Binding Materials}" SelectedItem="{Binding CurrentMaterial}">
+          <ComboBox.Resources>
+            <DataTemplate DataType="{x:Type materialEditor:MaterialViewModel}">
+              <TextBlock Text="{Binding Material.Name}"></TextBlock>
+            </DataTemplate>
+          </ComboBox.Resources>
+        </ComboBox>
+        <ContentPresenter Grid.Row="2" Content="{Binding CurrentMaterial}"></ContentPresenter>
       </Grid>
     </Border>
-    
+
   </Grid>
 </UserControl>

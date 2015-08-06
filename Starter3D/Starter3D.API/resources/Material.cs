@@ -23,6 +23,21 @@ namespace Starter3D.API.resources
       set { _shader = value; }
     }
 
+    public IEnumerable<KeyValuePair<string, float>> NumericParameters
+    {
+      get { return _numericParameters; }
+    }
+
+    public IEnumerable<KeyValuePair<string, Vector3>> VectorParameters
+    {
+      get { return _vectorParameters; }
+    }
+
+    public IEnumerable<KeyValuePair<string, ITexture>> Textures
+    {
+      get { return _textureParameters; }
+    }
+
    
     public Material()
     {
@@ -74,5 +89,25 @@ namespace Starter3D.API.resources
           _textureParameters.Add(textureParameter.Key, resourceManager.GetTexture(textureParameter.Value));
       }
     }
+
+    public void SetParameter(string name, float value)
+    {
+      if (_numericParameters.ContainsKey(name))
+        _numericParameters[name] = value;
+    }
+
+    public void SetParameter(string name, Vector3 value)
+    {
+      if (_vectorParameters.ContainsKey(name))
+        _vectorParameters[name] = value;
+    }
+
+    public void SetTexture(string name, ITexture texture)
+    {
+      if (_textureParameters.ContainsKey(name))
+        _textureParameters[name] = texture;
+    }
+
+   
   }
 }

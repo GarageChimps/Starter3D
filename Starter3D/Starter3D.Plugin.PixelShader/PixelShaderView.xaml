@@ -8,7 +8,9 @@
              d:DesignHeight="300" d:DesignWidth="300">
   <UserControl.Resources>
     <DataTemplate DataType="{x:Type pixelShader:ShaderViewModel}">
-      <TextBlock Text="{Binding Shader.Name}"></TextBlock>
+      <Grid>
+        <TextBlock Text="{Binding Shader.Name}"></TextBlock>
+      </Grid>
     </DataTemplate>
   </UserControl.Resources>
   <Grid>
