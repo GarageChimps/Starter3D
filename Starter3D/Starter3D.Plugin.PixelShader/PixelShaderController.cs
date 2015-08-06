@@ -15,7 +15,7 @@ namespace Starter3D.Plugin.PixelShader
   {
     private const string ScenePath = @"scenes/pixelShaderScene.xml";
     private const string ResourcePath = @"resources/pixelShaderResources.xml";
-    
+
     private readonly IRenderer _renderer;
     private readonly ISceneReader _sceneReader;
     private readonly IResourceManager _resourceManager;
@@ -58,6 +58,11 @@ namespace Starter3D.Plugin.PixelShader
     public bool HasUserInterface
     {
       get { return true; }
+    }
+
+    public string Name
+    {
+      get { return "Pixel Shader"; }
     }
 
     public ObservableCollection<ShaderViewModel> Shaders
@@ -105,7 +110,7 @@ namespace Starter3D.Plugin.PixelShader
       _width = width;
       _height = height;
     }
-    
+
     public void Load()
     {
       var shaders = _resourceManager.GetShaders().ToList();
@@ -121,7 +126,7 @@ namespace Starter3D.Plugin.PixelShader
 
       _currentMaterial = new Material(shaders.First());
       _currentMaterial.Configure(_renderer);
-      
+
       _shape = _objects.First();
       _shape.Shape.Material = _currentMaterial;
       _shape.Configure(_renderer);
@@ -138,32 +143,32 @@ namespace Starter3D.Plugin.PixelShader
 
     public void Update(double time)
     {
-      
+
     }
 
     public void MouseDown(ControllerMouseButton button, int x, int y)
     {
-      
+
     }
 
     public void MouseUp(ControllerMouseButton button, int x, int y)
     {
-      
+
     }
 
     public void MouseWheel(int delta, int x, int y)
     {
-      
+
     }
 
     public void MouseMove(int x, int y, int deltaX, int deltaY)
     {
-      _currentMousePosition = new Vector3(x/(float)_width, 1.0f - y/(float)_height, 0);
+      _currentMousePosition = new Vector3(x / (float)_width, 1.0f - y / (float)_height, 0);
     }
 
     public void KeyDown(int key)
     {
-     
+
     }
 
     private void SetCurrentShader(IShader shader)

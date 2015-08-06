@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows.Media;
 using OpenTK.Graphics;
 using Starter3D.API.controller;
 using Starter3D.API.renderer;
@@ -11,7 +11,7 @@ using Starter3D.API.scene.persistence;
 
 namespace Starter3D.Plugin.MaterialEditor
 {
-  public class MaterialEditorController : IController
+  public class MaterialEditorController : ViewModelBase, IController
   {
     private const string ScenePath = @"scenes/testCamera.xml";
     private const string ResourcePath = @"resources/resources.xml";
@@ -24,16 +24,16 @@ namespace Starter3D.Plugin.MaterialEditor
     private readonly IEnumerable<ShapeNode> _objects;
     private readonly IEnumerable<LightNode> _lights;
     private readonly IEnumerable<CameraNode> _cameras;
-    private readonly IEnumerable<IMaterial> _materials;
     
     private PerspectiveCamera _camera;
-    private ShapeNode _shape;
     private PointLight _light;
     private AmbientLight _ambientLight;
-    private int _currentShape = 0;
-    private int _currentMaterial = 0;
 
     private readonly MaterialEditorView _view;
+    private readonly ObservableCollection<MaterialViewModel> _materials = new ObservableCollection<MaterialViewModel>();
+    private MaterialViewModel _currentMaterial;
+    private readonly ObservableCollection<ShapeViewModel> _shapes = new ObservableCollection<ShapeViewModel>();
+    private ShapeViewModel _currentShape;
 
     private bool _isDragging;
     private bool _isOrbiting;
@@ -64,6 +64,49 @@ namespace Starter3D.Plugin.MaterialEditor
       get { return true; }
     }
 
+    public string Name
+    {
+      get { return "Material Editor"; }
+    }
+
+    public ObservableCollection<MaterialViewModel> Materials
+    {
+      get { return _materials; }
+    }
+
+    public ObservableCollection<ShapeViewModel> Shapes
+    {
+      get { return _shapes; }
+    }
+
+    public MaterialViewModel CurrentMaterial
+    {
+      get { return _currentMaterial; }
+      set
+      {
+        if (_currentMaterial != value)
+        {
+          _currentMaterial = value;
+          OnCurrentMaterialChanged();
+          OnPropertyChanged(() => CurrentMaterial);
+        }
+      }
+    }
+    
+    public ShapeViewModel CurrentShape
+    {
+      get { return _currentShape; }
+      set
+      {
+        if (_currentShape != value)
+        {
+          _currentShape = value;
+          OnCurrentShapeChanged();
+          OnPropertyChanged(() => CurrentShape);
+        }
+      }
+    }
+
     public MaterialEditorController(IRenderer renderer, ISceneReader sceneReader, IResourceManager resourceManager)
     {
       if (renderer == null) throw new ArgumentNullException("renderer");
@@ -74,7 +117,6 @@ namespace Starter3D.Plugin.MaterialEditor
       _resourceManager = resourceManager;
 
       _resourceManager.Load(ResourcePath);
-      _materials = _resourceManager.GetMaterials();
       _sceneGraph = _sceneReader.Read(ScenePath);
       _sceneGraph.GetNodes<ISceneNode>().ToList();
       _objects = _sceneGraph.GetNodes<ShapeNode>().ToList();
@@ -91,10 +133,13 @@ namespace Starter3D.Plugin.MaterialEditor
 
       _light = _sceneGraph.GetNodes<PointLight>().First();
       _camera = _sceneGraph.GetNodes<PerspectiveCamera>().First();
-      foreach (var material in _materials)
+      var materials = _resourceManager.GetMaterials();
+      foreach (var material in materials)
       {
         material.Configure(_renderer);
+        _materials.Add(new MaterialViewModel(material));
       }
+      CurrentMaterial = _materials.First();
       var pointLights = _sceneGraph.GetNodes<PointLight>().ToList();
       for (int i = 0; i < pointLights.Count(); i++)
       {
@@ -109,7 +154,9 @@ namespace Starter3D.Plugin.MaterialEditor
       foreach (var obj in _objects)
       {
         obj.Configure(_renderer);
+        _shapes.Add(new ShapeViewModel(obj));
       }
+      CurrentShape = Shapes.First();
       foreach (var camera in _cameras)
       {
         camera.Configure(_renderer);
@@ -121,13 +168,11 @@ namespace Starter3D.Plugin.MaterialEditor
       _renderer.SetNumberParameter("activeNumberOfPointLights", pointLights.Count());
       _renderer.SetNumberParameter("activeNumberOfDirectionalLights", directionalLights.Count());
 
-      NextMaterial();
-      NextShape();
     }
 
     private void InitRenderer()
     {
-      _renderer.SetBackgroundColor(Color4.White);
+      _renderer.SetBackgroundColor(Color4.AliceBlue);
       _renderer.EnableZBuffer(true);
     }
 
@@ -139,7 +184,7 @@ namespace Starter3D.Plugin.MaterialEditor
         light.Render(_renderer);
       }
       _ambientLight.Render(_renderer);
-      _shape.Render(_renderer);
+      _currentShape.Shape.Render(_renderer);
     }
 
     public void Update(double time)
@@ -185,30 +230,21 @@ namespace Starter3D.Plugin.MaterialEditor
 
     public void KeyDown(int key)
     {
-      if (key == 'm') 
-      {
-        NextMaterial();
-      }
-      else if (key == 's') 
-      {
-        NextShape();
-      }
+     
     }
 
-    private void NextShape()
+
+    private void OnCurrentMaterialChanged()
     {
-      _shape = _objects.ElementAt(_currentShape);
-      _currentShape = (_currentShape + 1)%_objects.Count();
+      if (_currentShape != null && _currentMaterial != null)
+        _currentShape.Shape.Shape.Material = _currentMaterial.Material;
     }
 
-    private void NextMaterial()
+    private void OnCurrentShapeChanged()
     {
-      var material = _materials.ElementAt(_currentMaterial);
-      _currentMaterial = (_currentMaterial + 1)%_materials.Count();
-      foreach (var shapeNode in _objects)
-      {
-        shapeNode.Shape.Material = material;
-      }
+      if (_currentShape != null && _currentMaterial != null)
+        _currentShape.Shape.Shape.Material = _currentMaterial.Material;
     }
+
   }
 }

@@ -46,6 +46,11 @@ namespace Starter3D.API.geometry
       set { _material = value; }
     }
 
+    public string Name
+    {
+      get { return _name; }
+    }
+
     public IEnumerable<IPolygon> GetTriangles()
     {
       var triangles = new List<IPolygon>();

@@ -14,6 +14,7 @@
     bool IsFullScreen { get; }
     object View { get; }
     bool HasUserInterface { get; }
+    string Name { get; }
 
     void Load();
     void Render(double time);

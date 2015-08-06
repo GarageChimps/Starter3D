@@ -7,9 +7,15 @@ namespace Starter3D.API.resources
   public class Material : IMaterial
   {
     private IShader _shader;
+    private string _name;
     private readonly Dictionary<string, Vector3> _vectorParameters = new Dictionary<string, Vector3>();
     private readonly Dictionary<string, float> _numericParameters = new Dictionary<string, float>();
     private readonly Dictionary<string, ITexture> _textureParameters = new Dictionary<string, ITexture>();
+
+    public string Name
+    {
+      get { return _name; }
+    }
 
     public IShader Shader
     {
@@ -59,6 +65,7 @@ namespace Starter3D.API.resources
     {
       var shaderName = dataNode.ReadParameter("shader");
       _shader = resourceManager.GetShader(shaderName);
+      _name = dataNode.ReadParameter("key");
       var textureParameters = new Dictionary<string, string>();
       dataNode.ReadAllParameters(_vectorParameters, _numericParameters, textureParameters);
       foreach (var textureParameter in textureParameters)

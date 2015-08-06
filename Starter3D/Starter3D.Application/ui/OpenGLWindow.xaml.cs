@@ -27,13 +27,15 @@ namespace Starter3D.Application.ui
       _controller = controller;
       Width = controller.Width;
       Height = controller.Height;
-      SizeChanged += OnSizeChanged;
+      if (_controller.IsFullScreen)
+        WindowState = WindowState.Maximized;
+      Title = controller.Name;
+
       InitializeComponent();
       if (_controller.HasUserInterface)
         MainGrid.Children.Add((UIElement)_controller.View);
+      SizeChanged += OnSizeChanged;
       
-      if (_controller.IsFullScreen)
-        WindowState = WindowState.Maximized;
     }
 
     private void OnSizeChanged(object sender, SizeChangedEventArgs e)
@@ -56,7 +58,7 @@ namespace Starter3D.Application.ui
       (sender as WindowsFormsHost).Child = _glControl;
 
       _controller.Load();
-      
+
       CompositionTarget.Rendering += Render;
     }
 
@@ -65,7 +67,7 @@ namespace Starter3D.Application.ui
       RenderingEventArgs args = (RenderingEventArgs)e;
       if (args.RenderingTime == _lastTime)
         return;
-      
+
       GL.Viewport(0, 0, (int)this.ActualWidth, (int)this.ActualHeight);
       GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
@@ -105,7 +107,7 @@ namespace Starter3D.Application.ui
 
     private void OnMouseMove(object sender, MouseEventArgs e)
     {
-      int deltaX = (int) (e.X - _lastMousePositionX);
+      int deltaX = (int)(e.X - _lastMousePositionX);
       int deltaY = (int)(e.Y - _lastMousePositionY);
       _controller.MouseMove(e.X, e.Y, deltaX, deltaY);
       _lastMousePositionX = e.X;
@@ -114,7 +116,7 @@ namespace Starter3D.Application.ui
 
     private void OnMouseWheel(object sender, MouseEventArgs e)
     {
-      _controller.MouseWheel(e.Delta/100, e.X, e.Y);
+      _controller.MouseWheel(e.Delta / 100, e.X, e.Y);
     }
 
     private void OnKeyPress(object sender, KeyPressEventArgs e)

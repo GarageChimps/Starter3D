@@ -6,7 +6,6 @@ precision highp float;
 in vec2 pixelCoords;
 out vec4 pixelColor;
 
-
 const int number_of_iterations = 100;
 const vec3 colorIn = vec3(1,0.75,0.5);
 const vec3 colorOut = vec3(0,0.5,1);
@@ -23,7 +22,7 @@ vec2 iteration(vec2 z, vec2 c)
 
 void main(void)
 { 
-  vec2 c = 4 * pixelCoords  - 2;
+  vec2 c = 4 * (pixelCoords)  - 2;
   float zoom = 1;
   
   vec2 z = vec2(0);

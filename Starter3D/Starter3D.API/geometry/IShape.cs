@@ -6,6 +6,7 @@ namespace Starter3D.API.geometry
 {
   public interface IShape
   {
+    string Name { get; }
     IMaterial Material { get; set; }
     void Load(string filePath);
     void Save(string filePath);
