@@ -82,6 +82,7 @@
     <Compile Include="scene\nodes\IRenderElement.cs" />
     <Compile Include="scene\persistence\factories\SceneDataNodeFactory.cs" />
     <Compile Include="scene\nodes\DirectionalLight.cs" />
+    <Compile Include="ui\IUserInterface.cs" />
     <Compile Include="utils\Configuration.cs" />
     <Compile Include="utils\Extensions.cs" />
     <Compile Include="geometry\Face.cs" />

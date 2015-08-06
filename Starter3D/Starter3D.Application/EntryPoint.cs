@@ -1,10 +1,7 @@
 ﻿using System;
 using Autofac;
-using Starter3D.Application.controllers;
 using Starter3D.Application.windows;
-using Starter3D.API.controller;
 using Starter3D.API.geometry.factories;
-using Starter3D.API.renderer;
 using Starter3D.API.resources;
 using Starter3D.API.scene.nodes.factories;
 using Starter3D.API.scene.persistence;
@@ -36,7 +33,6 @@ namespace Starter3D.Application
       builder.RegisterType<ShaderFactory>().As<IShaderFactory>().SingleInstance();
       builder.RegisterType<TextureFactory>().As<ITextureFactory>().SingleInstance();
       builder.RegisterType<RendererFactory>().As<IRendererFactory>().SingleInstance();
-      builder.RegisterType<ControllerFactory>().As<IControllerFactory>().SingleInstance();
       
       Container = builder.Build();
       

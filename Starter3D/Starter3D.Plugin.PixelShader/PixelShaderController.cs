@@ -7,7 +7,7 @@ using Starter3D.API.scene.nodes;
 using Starter3D.API.scene.persistence;
 using Starter3D.API.utils;
 
-namespace Starter3D.Application.controllers
+namespace Starter3D.Plugin.PixelShader
 {
   public class PixelShaderController : BaseController
   {

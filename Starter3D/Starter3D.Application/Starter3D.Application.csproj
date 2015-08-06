@@ -50,11 +50,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="controllers\ControllerFactory.cs" />
-    <Compile Include="controllers\ControllerTypes.cs" />
-    <Compile Include="controllers\IControllerFactory.cs" />
-    <Compile Include="controllers\MaterialEditorController.cs" />
-    <Compile Include="controllers\PixelShaderController.cs" />
     <Compile Include="EntryPoint.cs" />
     <Compile Include="ui\OpenGLWindow.xaml.cs">
       <DependentUpon>OpenGLWindow.xaml</DependentUpon>

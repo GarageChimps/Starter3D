@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Starter3D.API.controller;
 using Starter3D.API.renderer;
 using Starter3D.API.resources;
@@ -7,7 +6,7 @@ using Starter3D.API.scene.nodes;
 using Starter3D.API.scene.persistence;
 using Starter3D.API.utils;
 
-namespace Starter3D.Application.controllers
+namespace Starter3D.Plugin.MaterialEditor
 {
   public class MaterialEditorController : BaseController
   {

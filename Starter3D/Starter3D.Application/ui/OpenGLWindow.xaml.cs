@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Forms.Integration;
-using System.Windows.Input;
 using System.Windows.Media;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using Starter3D.API.controller;
+using Starter3D.API.ui;
 using Color = System.Drawing.Color;
-using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 using KeyPressEventArgs = System.Windows.Forms.KeyPressEventArgs;
-using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 
 namespace Starter3D.Application.ui
 {
@@ -19,20 +18,25 @@ namespace Starter3D.Application.ui
   {
     private GLControl _glControl;
     private readonly IController _controller;
+    private readonly IUserInterface _userInterface;
 
     private TimeSpan _lastTime = TimeSpan.Zero;
     private int _lastMousePositionX;
     private int _lastMousePositionY;
 
-    public OpenGLWindow(int width, int height, IController controller)
+    public OpenGLWindow(int width, int height, IController controller, IUserInterface userInterface)
     {
       if (controller == null) throw new ArgumentNullException("controller");
+      if (userInterface == null) throw new ArgumentNullException("userInterface");
       _controller = controller;
+      _userInterface = userInterface;
       Width = width;
       Height = height;
       InitializeComponent();
+      MainGrid.Children.Add((UIElement)_userInterface.View);
+      Grid.SetColumn((UIElement)_userInterface.View, 1);
     }
-
+    
     private void WindowsFormsHostInitialized(object sender, EventArgs e)
     {
       var flags = GraphicsContextFlags.Default;
@@ -73,7 +77,7 @@ namespace Starter3D.Application.ui
 
     }
 
-    private void OnMouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
+    private void OnMouseDown(object sender, MouseEventArgs e)
     {
       var button = ControllerMouseButton.Left;
       if (e.Button == MouseButtons.Left)
@@ -85,7 +89,7 @@ namespace Starter3D.Application.ui
       _controller.MouseDown(button, e.X, e.Y);
     }
 
-    private void OnMouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
+    private void OnMouseUp(object sender, MouseEventArgs e)
     {
       var button = ControllerMouseButton.Left;
       if (e.Button == MouseButtons.Left)
@@ -97,7 +101,7 @@ namespace Starter3D.Application.ui
       _controller.MouseUp(button, e.X, e.Y);
     }
 
-    private void OnMouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
+    private void OnMouseMove(object sender, MouseEventArgs e)
     {
       int deltaX = (int) (e.X - _lastMousePositionX);
       int deltaY = (int)(e.Y - _lastMousePositionY);
@@ -106,7 +110,7 @@ namespace Starter3D.Application.ui
       _lastMousePositionY = e.Y;
     }
 
-    private void OnMouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
+    private void OnMouseWheel(object sender, MouseEventArgs e)
     {
       _controller.MouseWheel(e.Delta/100, e.X, e.Y);
     }
