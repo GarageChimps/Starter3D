@@ -4,6 +4,7 @@ namespace Starter3D.Plugin.PixelShader
 {
   public class PixelShaderUserInterface : IUserInterface
   {
+    private readonly PixelShaderController _controller;
     private readonly PixelShaderView _view;
 
     public object View
@@ -11,10 +12,11 @@ namespace Starter3D.Plugin.PixelShader
       get { return _view; }
     }
 
-    public PixelShaderUserInterface()
+    public PixelShaderUserInterface(PixelShaderController controller)
     {
-      _view = new PixelShaderView(); 
+      _controller = controller;
+      _view = new PixelShaderView();
+      _view.DataContext = this;
     }
-
   }
 }

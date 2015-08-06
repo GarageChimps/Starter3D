@@ -12,7 +12,7 @@ namespace Starter3D.Plugin.MaterialEditor
     private const string Scene = @"scenes/testCamera.xml";
     private const string Resources = @"resources/resources.xml";
 
-    private readonly CameraNode _camera;
+    private readonly PerspectiveCamera _camera;
     private ShapeNode _shape;
     private readonly PointLight _light;
     private AmbientLight _ambientLight;
@@ -27,7 +27,12 @@ namespace Starter3D.Plugin.MaterialEditor
     {
       Init(Scene, Resources);
       _light = _sceneGraph.GetNodes<PointLight>().First();
-      _camera = _cameras.First();
+      _camera = _sceneGraph.GetNodes<PerspectiveCamera>().First();
+    }
+
+    public override void UpdateSize(double width, double height)
+    {
+      _camera.AspectRatio = (float)(width/height);
     }
 
     public override void Load()

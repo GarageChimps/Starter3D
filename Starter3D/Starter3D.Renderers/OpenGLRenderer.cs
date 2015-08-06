@@ -22,7 +22,7 @@ namespace Starter3D.Renderers
     }
     #endregion
     #region Fields
-    private const string ShaderBasePath = "shaders";
+    private const string ShaderBasePath = @"shaders/opengl";
     private const string ShaderExtension = ".glsl";
 
     private readonly Dictionary<string, int> _shaderHandleDictionary = new Dictionary<string, int>();

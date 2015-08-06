@@ -18,6 +18,7 @@ namespace Starter3D.API.scene.nodes
     public float AspectRatio
     {
       get { return _aspectRatio; }
+      set { _aspectRatio = value; }
     }
 
 

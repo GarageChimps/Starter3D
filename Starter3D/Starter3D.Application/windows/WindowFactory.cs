@@ -38,15 +38,20 @@ namespace Starter3D.Application.windows
       var pluginPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, pluginFile);
       var assembly = Assembly.LoadFile(pluginPath);
       var controllerType = assembly.GetTypes().First(m => m.IsClass && m.GetInterface("IController") != null);
-      var userInterfaceType = assembly.GetTypes().First(m => m.IsClass && m.GetInterface("IUserInterface") != null);
+      var userInterfaceType = assembly.GetTypes().FirstOrDefault(m => m.IsClass && m.GetInterface("IUserInterface") != null);
 
-      var parameter = new object[3];
-      parameter[0] = renderer;
-      parameter[1] = _sceneReader;
-      parameter[2] = _resourceManager;
+      var controllerParameters = new object[3];
+      controllerParameters[0] = renderer;
+      controllerParameters[1] = _sceneReader;
+      controllerParameters[2] = _resourceManager;
 
-      var controller = (IController)Activator.CreateInstance(controllerType, parameter);
-      var userInterface = (IUserInterface) Activator.CreateInstance(userInterfaceType);
+      var controller = (IController)Activator.CreateInstance(controllerType, controllerParameters);
+
+      var userInterfaceParameters = new object[1];
+      userInterfaceParameters[0] = controller;
+      IUserInterface userInterface = null;
+      if(userInterfaceType != null)
+        userInterface = (IUserInterface)Activator.CreateInstance(userInterfaceType, userInterfaceParameters);
 
       switch (windowType)
       {

@@ -18,12 +18,20 @@ namespace Starter3D.Plugin.PixelShader
     private Vector3 _currentMousePosition;
 
     private double _accumulatedTime = 0;
+    private double _width = 1;
+    private double _height = 1;
 
     public PixelShaderController(IRenderer renderer, ISceneReader sceneReader, IResourceManager resourceManager)
       : base(renderer, sceneReader, resourceManager)
     {
       Init(Scene, Resources);
       _shape = _objects.First();
+    }
+
+    public override void UpdateSize(double width, double height)
+    {
+      _width = width;
+      _height = height;
     }
 
     public override void Load()
@@ -47,8 +55,7 @@ namespace Starter3D.Plugin.PixelShader
 
     public override void MouseMove(int x, int y, int deltaX, int deltaY)
     {
-      //AE August 2015: Hardcoded sizes for now. Controller should have acces to image size apparently...
-      _currentMousePosition = new Vector3(x/512.0f, 1.0f - y/512.0f, 0);
+      _currentMousePosition = new Vector3(x/(float)_width, 1.0f - y/(float)_height, 0);
     }
 
     public override void KeyDown(int key)

@@ -17,5 +17,6 @@
     void MouseWheel(int delta, int x, int y);
     void MouseMove(int x, int y, int deltaX, int deltaY);
     void KeyDown(int key);
+    void UpdateSize(double width, double height);
   }
 }

@@ -79,5 +79,10 @@ namespace Starter3D.API.controller
     {
       
     }
+
+    public virtual void UpdateSize(double width, double height)
+    {
+      
+    }
   }
 }

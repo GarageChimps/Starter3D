@@ -4,6 +4,7 @@ namespace Starter3D.Plugin.MaterialEditor
 {
   public class MaterialEditorUserInterface : IUserInterface
   {
+    private readonly MaterialEditorController _controller;
     private readonly MaterialEditorView _view;
 
     public object View
@@ -12,9 +13,11 @@ namespace Starter3D.Plugin.MaterialEditor
     }
 
 
-    public MaterialEditorUserInterface()
+    public MaterialEditorUserInterface(MaterialEditorController controller)
     {
+      _controller = controller;
       _view = new MaterialEditorView();
+      _view.DataContext = this;
     }
   }
 }

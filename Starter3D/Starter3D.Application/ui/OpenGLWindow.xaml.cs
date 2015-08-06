@@ -27,15 +27,21 @@ namespace Starter3D.Application.ui
     public OpenGLWindow(int width, int height, IController controller, IUserInterface userInterface)
     {
       if (controller == null) throw new ArgumentNullException("controller");
-      if (userInterface == null) throw new ArgumentNullException("userInterface");
       _controller = controller;
       _userInterface = userInterface;
       Width = width;
       Height = height;
+      SizeChanged += OnSizeChanged;
       InitializeComponent();
-      MainGrid.Children.Add((UIElement)_userInterface.View);
+      if(_userInterface != null)
+        MainGrid.Children.Add((UIElement)_userInterface.View);
     }
-    
+
+    private void OnSizeChanged(object sender, SizeChangedEventArgs e)
+    {
+      _controller.UpdateSize(Width, Height);
+    }
+
     private void WindowsFormsHostInitialized(object sender, EventArgs e)
     {
       var flags = GraphicsContextFlags.Default;
