@@ -15,8 +15,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Starter3D.Plugin.MaterialEd
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Starter3D.Plugin.PixelShader", "Starter3D.Plugin.PixelShader\Starter3D.Plugin.PixelShader.csproj", "{5407E771-EF7F-4B2C-8C75-A34720B2732F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlimDXControlLib", "..\..\..\..\..\Work\BOAMine\Code\libs\SlimDXControlLib\SlimDXControlLib.csproj", "{DBEBB228-9B42-4B9A-B658-8588977A159E}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -129,21 +127,6 @@ Global
 		{5407E771-EF7F-4B2C-8C75-A34720B2732F}.Release2|x64.ActiveCfg = Release|x64
 		{5407E771-EF7F-4B2C-8C75-A34720B2732F}.Release2|x64.Build.0 = Release|x64
 		{5407E771-EF7F-4B2C-8C75-A34720B2732F}.Release2|x86.ActiveCfg = Release|Any CPU
-		{DBEBB228-9B42-4B9A-B658-8588977A159E}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{DBEBB228-9B42-4B9A-B658-8588977A159E}.Debug|x64.ActiveCfg = Debug|x64
-		{DBEBB228-9B42-4B9A-B658-8588977A159E}.Debug|x64.Build.0 = Debug|x64
-		{DBEBB228-9B42-4B9A-B658-8588977A159E}.Debug|x86.ActiveCfg = Debug|x86
-		{DBEBB228-9B42-4B9A-B658-8588977A159E}.Debug|x86.Build.0 = Debug|x86
-		{DBEBB228-9B42-4B9A-B658-8588977A159E}.Release|Any CPU.ActiveCfg = Release|x86
-		{DBEBB228-9B42-4B9A-B658-8588977A159E}.Release|x64.ActiveCfg = Release|x64
-		{DBEBB228-9B42-4B9A-B658-8588977A159E}.Release|x64.Build.0 = Release|x64
-		{DBEBB228-9B42-4B9A-B658-8588977A159E}.Release|x86.ActiveCfg = Release|x86
-		{DBEBB228-9B42-4B9A-B658-8588977A159E}.Release|x86.Build.0 = Release|x86
-		{DBEBB228-9B42-4B9A-B658-8588977A159E}.Release2|Any CPU.ActiveCfg = Release|x86
-		{DBEBB228-9B42-4B9A-B658-8588977A159E}.Release2|x64.ActiveCfg = Release|x64
-		{DBEBB228-9B42-4B9A-B658-8588977A159E}.Release2|x64.Build.0 = Release|x64
-		{DBEBB228-9B42-4B9A-B658-8588977A159E}.Release2|x86.ActiveCfg = Release|x86
-		{DBEBB228-9B42-4B9A-B658-8588977A159E}.Release2|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

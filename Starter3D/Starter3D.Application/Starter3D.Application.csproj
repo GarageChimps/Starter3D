@@ -68,10 +68,6 @@
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\..\Work\BOAMine\Code\libs\SlimDXControlLib\SlimDXControlLib.csproj">
-      <Project>{dbebb228-9b42-4b9a-b658-8588977a159e}</Project>
-      <Name>SlimDXControlLib</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Starter3D.API\Starter3D.API.csproj">
       <Project>{3567CAD0-DE95-4BA8-98DE-750B75DCB45A}</Project>
       <Name>Starter3D.API</Name>
@@ -109,6 +105,10 @@
   <ItemGroup>
     <Reference Include="Autofac">
       <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Flaxen.SlimDXControlLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\libraries\Flaxen.SlimDXControlLib.dll</HintPath>
     </Reference>
     <Reference Include="OpenTK">
       <HintPath>..\libraries\OpenTK.dll</HintPath>
