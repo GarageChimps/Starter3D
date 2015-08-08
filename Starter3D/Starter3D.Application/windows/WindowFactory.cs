@@ -44,7 +44,7 @@ namespace Starter3D.Application.windows
 
       var controller = (IController)Activator.CreateInstance(controllerType, controllerParameters);
       if(controller.HasUserInterface)
-        return new WPFWindow(controller);
+        return new WPFWindow(controller, renderer, rendererType);
       else
         return new GLWindow(controller);
       

@@ -37,6 +37,7 @@ namespace Starter3D.Renderers
       public string UniformName { get; set; }
     }
     #endregion
+
     #region Fields
     private const string ShaderBasePath = @"shaders/opengl";
     private const string ShaderExtension = ".glsl";
@@ -74,12 +75,12 @@ namespace Starter3D.Renderers
       GL.BufferData(BufferTarget.ArrayBuffer, new IntPtr(verticesArray.Length * Vector3.SizeInBytes), verticesArray, BufferUsageHint.StaticDraw);
     }
 
-    public void SetFacesData(string name, List<int> data)
+    public void SetFacesData(string name, List<int> indices)
     {
-      var indicesArray = new uint[data.Count];
-      for (int i = 0; i < data.Count; i++)
+      var indicesArray = new uint[indices.Count];
+      for (int i = 0; i < indices.Count; i++)
       {
-        indicesArray[i] = (uint)data[i];
+        indicesArray[i] = (uint)indices[i];
       }
       int indicesVboHandle;
       GL.GenBuffers(1, out indicesVboHandle);

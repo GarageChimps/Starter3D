@@ -12,7 +12,7 @@ namespace Starter3D.Renderers
         case RendererType.OpenGL:
           return new OpenGLRenderer();
         case RendererType.Direct3D:
-          throw new NotImplementedException();
+          return new Direct3DRenderer();
         default:
           throw new ArgumentOutOfRangeException("type");
       }

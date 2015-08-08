@@ -12,7 +12,7 @@ namespace Starter3D.API.renderer
     void LoadObject(string objectName);
     void DrawTriangles(string objectName, int triangleCount);
     void SetVerticesData(string objectName, List<Vector3> data);
-    void SetFacesData(string objectName, List<int> data);
+    void SetFacesData(string objectName, List<int> indices);
     void SetVertexAttribute(string objectName, string shaderName, int index, string vertexPropertyName, int stride, int offset);
     
     //Texture related methods

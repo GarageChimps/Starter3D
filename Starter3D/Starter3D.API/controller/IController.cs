@@ -1,4 +1,6 @@
-﻿namespace Starter3D.API.controller
+﻿using Starter3D.API.renderer;
+
+namespace Starter3D.API.controller
 {
   public enum ControllerMouseButton
   {

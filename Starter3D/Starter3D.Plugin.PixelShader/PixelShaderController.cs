@@ -156,8 +156,8 @@ namespace Starter3D.Plugin.PixelShader
     public void Render(double time)
     {
       _accumulatedTime += time;
-      _renderer.SetNumberParameter("time", (float)_accumulatedTime);
-      _renderer.SetVectorParameter("mouse", _currentMousePosition);
+      //_renderer.SetNumberParameter("time", (float)_accumulatedTime);
+      //_renderer.SetVectorParameter("mouse", _currentMousePosition);
       _shape.Render(_renderer);
     }
 

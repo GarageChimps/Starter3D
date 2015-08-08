@@ -1,8 +1,9 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <Resources>
   <Shaders>
-    <BaseShader key="mandelbrotShader" vertex="pixelShaderVertex" fragment="mandelbrotFragment"/>
+    <!--<BaseShader key="mandelbrotShader" vertex="pixelShaderVertex" fragment="mandelbrotFragment"/>
     <BaseShader key="raytracerShader" vertex="pixelShaderVertex" fragment="raytracerFragment"/>
-    <BaseShader key="voronoiShader" vertex="pixelShaderVertex" fragment="voronoiFragment"/>
+    <BaseShader key="voronoiShader" vertex="pixelShaderVertex" fragment="voronoiFragment"/>-->
+    <BaseShader key="red" vertex="pixelShaderVertex" fragment="redFragment"/>
   </Shaders>              
 </Resources>
