@@ -12,7 +12,11 @@
     int Width { get; }
     int Height { get; }
     bool IsFullScreen { get; }
-    object View { get; }
+    object CentralView { get; }
+    object LeftView { get; }
+    object RightView { get; }
+    object TopView { get; }
+    object BottomView { get; }
     bool HasUserInterface { get; }
     string Name { get; }
 

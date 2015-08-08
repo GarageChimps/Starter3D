@@ -29,7 +29,7 @@ namespace Starter3D.Plugin.MaterialEditor
     private PointLight _light;
     private AmbientLight _ambientLight;
 
-    private readonly MaterialEditorView _view;
+    private readonly MaterialEditorView _centralView;
     private readonly ObservableCollection<MaterialViewModel> _materials = new ObservableCollection<MaterialViewModel>();
     private MaterialViewModel _currentMaterial;
     private readonly ObservableCollection<ShapeViewModel> _shapes = new ObservableCollection<ShapeViewModel>();
@@ -54,9 +54,29 @@ namespace Starter3D.Plugin.MaterialEditor
       get { return true; }
     }
 
-    public object View
+    public object CentralView
     {
-      get { return _view; }
+      get { return _centralView; }
+    }
+
+    public object LeftView
+    {
+      get { return null; }
+    }
+
+    public object RightView
+    {
+      get { return null; }
+    }
+
+    public object TopView
+    {
+      get { return null; }
+    }
+
+    public object BottomView
+    {
+      get { return null; }
     }
 
     public bool HasUserInterface
@@ -123,8 +143,8 @@ namespace Starter3D.Plugin.MaterialEditor
       _lights = _sceneGraph.GetNodes<LightNode>().ToList();
       _cameras = _sceneGraph.GetNodes<CameraNode>().ToList();
 
-      _view = new MaterialEditorView();
-      _view.DataContext = this;
+      _centralView = new MaterialEditorView();
+      _centralView.DataContext = this;
     }
     
     public void Load()

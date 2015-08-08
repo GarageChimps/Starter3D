@@ -30,7 +30,7 @@ namespace Starter3D.Plugin.PixelShader
     private double _width = 1;
     private double _height = 1;
 
-    private readonly PixelShaderView _view;
+    private readonly PixelShaderView _centralView;
     private readonly ObservableCollection<ShaderViewModel> _shaders = new ObservableCollection<ShaderViewModel>();
     private ShaderViewModel _currentShader;
 
@@ -50,9 +50,29 @@ namespace Starter3D.Plugin.PixelShader
       get { return false; }
     }
 
-    public object View
+    public object CentralView
     {
-      get { return _view; }
+      get { return _centralView; }
+    }
+
+    public object LeftView
+    {
+      get { return null; }
+    }
+
+    public object RightView
+    {
+      get { return null; }
+    }
+
+    public object TopView
+    {
+      get { return null; }
+    }
+
+    public object BottomView
+    {
+      get { return null; }
     }
 
     public bool HasUserInterface
@@ -101,8 +121,8 @@ namespace Starter3D.Plugin.PixelShader
       _sceneGraph.GetNodes<LightNode>().ToList();
       _sceneGraph.GetNodes<CameraNode>().ToList();
 
-      _view = new PixelShaderView();
-      _view.DataContext = this;
+      _centralView = new PixelShaderView();
+      _centralView.DataContext = this;
     }
 
     public void UpdateSize(double width, double height)

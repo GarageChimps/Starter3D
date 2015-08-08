@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Forms.Integration;
 using System.Windows.Media;
@@ -33,14 +34,26 @@ namespace Starter3D.Application.ui
 
       InitializeComponent();
       if (_controller.HasUserInterface)
-        MainGrid.Children.Add((UIElement)_controller.View);
+      {
+        if(_controller.CentralView != null)
+          MainGrid.Children.Add((UIElement)_controller.CentralView);
+        if (_controller.LeftView != null)
+          LeftGrid.Children.Add((UIElement)_controller.LeftView);
+        if (_controller.RightView != null)
+          RightGrid.Children.Add((UIElement)_controller.RightView);
+        if (_controller.TopView != null)
+          TopGrid.Children.Add((UIElement)_controller.TopView);
+        if (_controller.BottomView != null)
+          BottomGrid.Children.Add((UIElement)_controller.BottomView);
+        
+      }
       SizeChanged += OnSizeChanged;
       
     }
 
     private void OnSizeChanged(object sender, SizeChangedEventArgs e)
     {
-      _controller.UpdateSize(ActualWidth, ActualHeight);
+      _controller.UpdateSize(_glControl.Width, _glControl.Height);
     }
 
     private void WindowsFormsHostInitialized(object sender, EventArgs e)
@@ -68,7 +81,7 @@ namespace Starter3D.Application.ui
       if (args.RenderingTime == _lastTime)
         return;
 
-      GL.Viewport(0, 0, (int)this.ActualWidth, (int)this.ActualHeight);
+      GL.Viewport(0, 0, (int)_glControl.Width, (int)_glControl.Height);
       GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
       _controller.Render((args.RenderingTime - _lastTime).TotalSeconds);
