@@ -1,5 +1,6 @@
 using System.Globalization;
 using OpenTK.Graphics;
+using Starter3D.API.renderer;
 using Starter3D.API.scene.persistence;
 
 namespace Starter3D.API.scene.nodes
@@ -32,6 +33,11 @@ namespace Starter3D.API.scene.nodes
     private void Init(Color4 color)
     {
       _color = color;
+    }
+
+    public override void Render(IRenderer renderer)
+    {
+      Configure(renderer);
     }
 
     public override void Load(ISceneDataNode sceneDataNode)

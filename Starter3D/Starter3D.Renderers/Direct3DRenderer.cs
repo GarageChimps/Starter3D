@@ -236,10 +236,7 @@ namespace Starter3D.Renderers
     {
       if (!_vectorArrayShaderParameterDictionary.ContainsKey(name))
         _vectorArrayShaderParameterDictionary[name] = new List<Vector4>();
-      if (index <= _vectorArrayShaderParameterDictionary[name].Count)
-        _vectorArrayShaderParameterDictionary[name].Add(vector.ToSlimDXVector4());
-      else
-        _vectorArrayShaderParameterDictionary[name][index] = vector.ToSlimDXVector4();
+      _vectorArrayShaderParameterDictionary[name].Insert(index, vector.ToSlimDXVector4());
       var effect = _shaderHandleDictionary[shader].Effect;
       effect.GetVariableByName(name).AsVector().Set(_vectorArrayShaderParameterDictionary[name].ToArray());
     }
@@ -249,10 +246,8 @@ namespace Starter3D.Renderers
     {
       if(!_vectorArrayShaderParameterDictionary.ContainsKey(name))
         _vectorArrayShaderParameterDictionary[name] = new List<Vector4>();
-      if (index <= _vectorArrayShaderParameterDictionary[name].Count)
-        _vectorArrayShaderParameterDictionary[name].Add(vector.ToSlimDXVector4());
-      else
-        _vectorArrayShaderParameterDictionary[name][index] = vector.ToSlimDXVector4();
+      _vectorArrayShaderParameterDictionary[name].Insert(index, vector.ToSlimDXVector4());
+        
       foreach (var shaderProgram in _shaderHandleDictionary)
       {
         var effect = shaderProgram.Value.Effect;

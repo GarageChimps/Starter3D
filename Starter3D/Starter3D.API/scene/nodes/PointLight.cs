@@ -57,10 +57,5 @@ namespace Starter3D.API.scene.nodes
       renderer.SetVectorArrayParameter("pointLightPositions", _index, GetPosition());
       renderer.SetVectorArrayParameter("pointLightColors", _index, new Vector3(_color.R, _color.G, _color.B));
     }
-
-    public override void Render(IRenderer renderer)
-    {
-      Configure(renderer);
-    }
   }
 }
