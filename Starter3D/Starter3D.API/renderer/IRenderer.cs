@@ -26,6 +26,8 @@ namespace Starter3D.API.renderer
     void SetMatrixParameter(string name, Matrix4 matrix, string shader);
     void SetVectorParameter(string name, Vector3 vector);
     void SetVectorParameter(string name, Vector3 vector, string shader);
+    void SetVectorArrayParameter(string name, int index, Vector3 vector);
+    void SetVectorArrayParameter(string name, int index, Vector3 vector, string shader);
     void SetNumberParameter(string name, float number);
     void SetNumberParameter(string name, float number, string shader);
 

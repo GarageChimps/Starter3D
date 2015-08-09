@@ -54,47 +54,52 @@ namespace Starter3D.Application.ui
     private void OnLoaded(object sender, RoutedEventArgs e)
     {
       direct3DControl.RegisterRenderer(_renderingAdapter, (int)ActualWidth, (int)ActualHeight);
-
+      direct3DControl.Loaded += OnDirect3DControlLoaded;
       direct3DControl.SizeChanged += OnSizeChanged;
-      direct3DControl.MouseDown += OnMouseDown;
-      direct3DControl.MouseUp += OnMouseUp;
+      direct3DControl.MouseLeftButtonDown += OnMouseLeftButtonDown;
+      direct3DControl.MouseRightButtonDown += OnMouseRightButtonDown;
+      direct3DControl.MouseLeftButtonUp += OnMouseLeftButtonUp;
+      direct3DControl.MouseRightButtonUp += OnMouseRightButtonUp;
       direct3DControl.MouseMove += OnMouseMove;
       direct3DControl.MouseWheel += OnMouseWheel;
       direct3DControl.KeyDown += OnKeyPress;
 
       _controller.Load();
     }
+    
+    private void OnDirect3DControlLoaded(object sender, RoutedEventArgs e)
+    {
+      _renderingAdapter.Reinitialize((int)direct3DControl.ActualWidth, (int)direct3DControl.ActualHeight);
+      _controller.UpdateSize(direct3DControl.ActualWidth, direct3DControl.ActualHeight);
+    }
 
     private void OnSizeChanged(object sender, SizeChangedEventArgs e)
     {
-      _controller.UpdateSize(direct3DControl.Width, direct3DControl.Height);
+      _renderingAdapter.Reinitialize((int)direct3DControl.ActualWidth, (int)direct3DControl.ActualHeight);
+      _controller.UpdateSize(direct3DControl.ActualWidth, direct3DControl.ActualHeight);
     }
-    
 
-    private void OnMouseDown(object sender, MouseButtonEventArgs e)
+    private void OnMouseRightButtonUp(object sender, MouseButtonEventArgs e)
     {
-      var button = GetButton(e);
-      _controller.MouseDown(button, (int)e.GetPosition(this).X, (int)e.GetPosition(this).X);
+      _controller.MouseUp(ControllerMouseButton.Right, (int)e.GetPosition(this).X, (int)e.GetPosition(this).X);
     }
 
-    private static ControllerMouseButton GetButton(MouseButtonEventArgs e)
+    private void OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
     {
-      var button = ControllerMouseButton.Left;
-      if (e.LeftButton == MouseButtonState.Pressed)
-        button = ControllerMouseButton.Left;
-      else if (e.MiddleButton == MouseButtonState.Pressed)
-        button = ControllerMouseButton.Middle;
-      else if (e.RightButton == MouseButtonState.Pressed)
-        button = ControllerMouseButton.Right;
-      return button;
+      _controller.MouseUp(ControllerMouseButton.Left, (int)e.GetPosition(this).X, (int)e.GetPosition(this).X);
     }
 
-    private void OnMouseUp(object sender, MouseButtonEventArgs e)
+    private void OnMouseRightButtonDown(object sender, MouseButtonEventArgs e)
     {
-      var button = GetButton(e);
-      _controller.MouseUp(button, (int)e.GetPosition(this).X, (int)e.GetPosition(this).X);
+      _controller.MouseDown(ControllerMouseButton.Right, (int)e.GetPosition(this).X, (int)e.GetPosition(this).X);
     }
 
+    private void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+      _controller.MouseDown(ControllerMouseButton.Left, (int)e.GetPosition(this).X, (int)e.GetPosition(this).X);
+    }
+
+   
     private void OnMouseMove(object sender, MouseEventArgs e)
     {
       int deltaX = (int)((int)e.GetPosition(this).X - _lastMousePositionX);

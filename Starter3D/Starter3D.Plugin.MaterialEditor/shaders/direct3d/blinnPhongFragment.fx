@@ -1,7 +1,7 @@
 ﻿RasterizerState RSFillBackCull
 {
   FillMode = SOLID;
-  CullMode = Back;
+  CullMode = None;
   DepthBias = false;
 };
 
@@ -18,27 +18,20 @@ struct fragmentAttributes {
   float3 fragTextureCoords : TEXCOORD1;
 };
 
+static const int maxNumberOfLights = 10;
+
 float4x4 projectionMatrix;
 float4x4 viewMatrix;
 float4x4 modelMatrix;
 
-struct PointLight
-{
-  float3 Position;
-  float3 Color;
-};
+float3 pointLightPositions[maxNumberOfLights];
+float3 pointLightColors[maxNumberOfLights];
 
-struct DirectionalLight
-{
-  float3 Direction;
-  float3 Color;
-};
+float3 directionalLightDirections[maxNumberOfLights];  
+float3 directionalLightColors[maxNumberOfLights];
 
-static const int maxNumberOfLights = 10;
 float activeNumberOfPointLights;
 float activeNumberOfDirectionalLights;
-PointLight pointLights[maxNumberOfLights];
-DirectionalLight directionalLights[maxNumberOfLights];
 
 float3 cameraPosition;
 
@@ -46,6 +39,48 @@ float3 ambientLight;
 float3 diffuseColor;
 float3 specularColor;
 float shininess;
+
+float3 lambertBRDF(float3 normal, float3 lightDirection, float3 color)
+{
+  return color * max(dot(normal, lightDirection), 0.0);
+}
+
+float3 blinnPhongBRDF(float3 normal, float3 halfVector, float3 color, float shininess)
+{
+  return color * pow(max(dot(normal, halfVector), 0.0), shininess);
+}
+
+float3 BRDF(float3 normal, float3 lightDirection, float3 halfVector, float3 diffuse, float3 specular, float shininess)
+{
+  return lambertBRDF(normal, lightDirection, diffuse) + blinnPhongBRDF(normal, halfVector, specular, shininess);
+}
+
+float3 shade(float3 p, float3 n, float3 diffuse, float3 specular, float shininess)
+{
+  n = normalize(n);
+  float3 v = cameraPosition - p;
+  v = normalize(v);
+
+  float3 color = ambientLight * diffuse;
+  for (int pointLightIndex = 0; pointLightIndex < activeNumberOfPointLights; pointLightIndex++)
+  {
+    float3 l = pointLightPositions[pointLightIndex] - p;
+    l = normalize(l);
+    float3 h = v + l;
+    h = normalize(h);
+    color += pointLightColors[pointLightIndex] * BRDF(n, l, h, diffuse, specular, shininess);
+  }
+  for (int directionalLightIndex = 0; directionalLightIndex < activeNumberOfDirectionalLights; directionalLightIndex++)
+  {
+    float3 l = -directionalLightDirections[directionalLightIndex];
+    l = normalize(l);
+    float3 h = v + l;
+    h = normalize(h);
+    color += directionalLightColors[directionalLightIndex] * BRDF(n, l, h, diffuse, specular, shininess);
+  }
+  return color;
+}
+
 
 fragmentAttributes VShader(vertexAttributes input)
 {
@@ -62,7 +97,7 @@ fragmentAttributes VShader(vertexAttributes input)
 
 float4 FShader(fragmentAttributes input) : SV_Target
 {  
-  return float4(1,0,0, 1);
+  return float4(shade(input.fragPosition, input.fragNormal, diffuseColor, specularColor, shininess), 1.0);
 }
 
 

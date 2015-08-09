@@ -151,7 +151,7 @@ namespace Starter3D.Plugin.MaterialEditor
     {
       InitRenderer();
 
-      //_light = _sceneGraph.GetNodes<PointLight>().First();
+      _light = _sceneGraph.GetNodes<PointLight>().First();
       _camera = _sceneGraph.GetNodes<PerspectiveCamera>().First();
       var materials = _resourceManager.GetMaterials();
       foreach (var material in materials)
@@ -220,7 +220,7 @@ namespace Starter3D.Plugin.MaterialEditor
     public void MouseWheel(int delta, int x, int y)
     {
       _camera.Zoom(delta);
-      //_light.Position = _camera.Position;
+      _light.Position = _camera.Position;
     }
 
     public void MouseDown(ControllerMouseButton button, int x, int y)
@@ -245,7 +245,7 @@ namespace Starter3D.Plugin.MaterialEditor
         _camera.Drag(deltaX, deltaY);
       else if (_isOrbiting)
         _camera.Orbit(deltaX, deltaY);
-      //_light.Position = _camera.Position;
+      _light.Position = _camera.Position;
     }
 
     public void KeyDown(int key)

@@ -178,7 +178,26 @@ namespace Starter3D.Renderers
       if (location != -1)
         GL.Uniform3(location, vector);
     }
-   
+
+    public void SetVectorArrayParameter(string name, int index, Vector3 vector)
+    {
+      foreach (var shaderHandle in _shaderHandleDictionary.Values)
+      {
+        GL.UseProgram(shaderHandle);
+        int location = GL.GetUniformLocation(shaderHandle, name + "[" + index + "]");
+        if (location != -1)
+          GL.Uniform3(location, vector);
+      }
+    }
+
+    public void SetVectorArrayParameter(string name, int index, Vector3 vector, string shader)
+    {
+      GL.UseProgram(_shaderHandleDictionary[shader]);
+      int location = GL.GetUniformLocation(_shaderHandleDictionary[shader], name + "[" + index + "]");
+      if (location != -1)
+        GL.Uniform3(location, vector);
+    }
+
     public void SetNumberParameter(string name, float number)
     {
       foreach (var shaderHandle in _shaderHandleDictionary.Values)

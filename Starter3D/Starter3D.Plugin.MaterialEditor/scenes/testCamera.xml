@@ -6,7 +6,7 @@
   <Shape shapeType='Mesh' shapeName='dragon' filePath='meshes/dragon.obj' material='redSpecular' position='0, 0, 0' scale='1, 1, 1'/>
   <Shape shapeType='Mesh' shapeName='klein' filePath='meshes/klein.dxf' material='redSpecular' position='0, 0, 0' scale='1, 1, 1'/>
   <PerspectiveCamera nearClip="0.1" farClip="100" fieldOfView="45" aspectRatio="1" order="0" position="0,0,1" target="0,0,0" up="0,1,0"/>
-  <!--<PointLight color="0.5, 0.5, 0.5" position='0, 0, 1'/>-->
+  <PointLight color="0.5, 0.5, 0.5" position='0, 0, 1'/>
   <AmbientLight color="0.2, 0.2, 0.2"/>
 
 </Scene>

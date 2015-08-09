@@ -15,6 +15,7 @@ using TextureMinFilter = OpenTK.Graphics.OpenGL.TextureMinFilter;
 
 using Device = SlimDX.Direct3D10_1.Device1;
 using Vector3 = OpenTK.Vector3;
+using Vector4 = SlimDX.Vector4;
 
 namespace Starter3D.Renderers
 {
@@ -57,6 +58,7 @@ namespace Starter3D.Renderers
     private readonly Dictionary<string, ShaderProgram> _shaderHandleDictionary = new Dictionary<string, ShaderProgram>();
     private readonly Dictionary<string, RenderObject> _objectsHandleDictionary = new Dictionary<string, RenderObject>();
     private readonly Dictionary<string, ShaderResourceView> _textureHandleDictionary = new Dictionary<string, ShaderResourceView>();
+    private readonly Dictionary<string, List<SlimDX.Vector4>> _vectorArrayShaderParameterDictionary = new Dictionary<string, List<SlimDX.Vector4>>();
 
     private readonly Dictionary<string, string> _semanticsTable = new Dictionary<string, string>();
 
@@ -208,6 +210,7 @@ namespace Starter3D.Renderers
       //throw new NotImplementedException();
     }
 
+    
     public void SetNumberParameter(string name, float number)
     {
       foreach (var shaderProgram in _shaderHandleDictionary)
@@ -227,6 +230,34 @@ namespace Starter3D.Renderers
     {
       var effect = _shaderHandleDictionary[shader].Effect;
       effect.GetVariableByName(name).AsVector().Set(vector.ToSlimDXVector3());
+    }
+
+    public void SetVectorArrayParameter(string name, int index, Vector3 vector, string shader)
+    {
+      if (!_vectorArrayShaderParameterDictionary.ContainsKey(name))
+        _vectorArrayShaderParameterDictionary[name] = new List<Vector4>();
+      if (index <= _vectorArrayShaderParameterDictionary[name].Count)
+        _vectorArrayShaderParameterDictionary[name].Add(vector.ToSlimDXVector4());
+      else
+        _vectorArrayShaderParameterDictionary[name][index] = vector.ToSlimDXVector4();
+      var effect = _shaderHandleDictionary[shader].Effect;
+      effect.GetVariableByName(name).AsVector().Set(_vectorArrayShaderParameterDictionary[name].ToArray());
+    }
+
+
+    public void SetVectorArrayParameter(string name, int index, Vector3 vector)
+    {
+      if(!_vectorArrayShaderParameterDictionary.ContainsKey(name))
+        _vectorArrayShaderParameterDictionary[name] = new List<Vector4>();
+      if (index <= _vectorArrayShaderParameterDictionary[name].Count)
+        _vectorArrayShaderParameterDictionary[name].Add(vector.ToSlimDXVector4());
+      else
+        _vectorArrayShaderParameterDictionary[name][index] = vector.ToSlimDXVector4();
+      foreach (var shaderProgram in _shaderHandleDictionary)
+      {
+        var effect = shaderProgram.Value.Effect;
+        effect.GetVariableByName(name).AsVector().Set(_vectorArrayShaderParameterDictionary[name].ToArray());
+      }
     }
 
     public void SetVectorParameter(string name, Vector3 vector)
