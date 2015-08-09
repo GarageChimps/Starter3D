@@ -192,7 +192,7 @@ namespace Starter3D.Plugin.MaterialEditor
 
     private void InitRenderer()
     {
-      _renderer.SetBackgroundColor(Color4.AliceBlue);
+      _renderer.SetBackgroundColor(new Color4(0.9f,0.9f,1.0f,1));
       _renderer.EnableZBuffer(true);
     }
 

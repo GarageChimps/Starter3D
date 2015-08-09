@@ -88,8 +88,12 @@
   <ItemGroup>
     <Compile Include="EntryPoint.cs" />
     <Compile Include="ui\AirspacePopup.cs" />
+    <Compile Include="ui\CompositeRenderingAdapter.cs" />
     <Compile Include="ui\Direct3DWindow.xaml.cs">
       <DependentUpon>Direct3DWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ui\CompositeWindow.xaml.cs">
+      <DependentUpon>CompositeWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ui\OpenGLWindow.xaml.cs">
       <DependentUpon>OpenGLWindow.xaml</DependentUpon>
@@ -139,6 +143,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="ui\Direct3DWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ui\CompositeWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

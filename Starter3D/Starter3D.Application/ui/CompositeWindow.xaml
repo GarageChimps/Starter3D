@@ -1,0 +1,39 @@
+﻿<Window x:Class="Starter3D.Application.ui.CompositeWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:ui="clr-namespace:Starter3D.Application.ui"
+             xmlns:slimDxControlLib="clr-namespace:Flaxen.SlimDXControlLib;assembly=Flaxen.SlimDXControlLib"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+
+  <DockPanel Name="MainDock">
+    <Grid Name="LeftGrid" DockPanel.Dock="Left"></Grid>
+    <Grid Name="RightGrid" DockPanel.Dock="Right"></Grid>
+    <Grid Name="TopGrid" DockPanel.Dock="Top"></Grid>
+    <Grid Name="BottomGrid" DockPanel.Dock="Bottom"></Grid>
+    <Grid >
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*"></ColumnDefinition>
+        <ColumnDefinition Width="*"></ColumnDefinition>
+      </Grid.ColumnDefinitions>
+      <WindowsFormsHost Grid.Column="0"  Name="OpenGlControl" Initialized="WindowsFormsHostInitialized"/>
+      <slimDxControlLib:SlimDXControl Grid.Column="1" x:Name="direct3DControl" />
+      <ui:AirspacePopup Grid.ColumnSpan="2" PlacementTarget="{Binding ElementName=OpenGlControl}"
+                         FollowPlacementTarget="True"
+                         AllowOutsideScreenPlacement="True"
+                         ParentWindow="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+                         IsOpen="True"
+                         AllowsTransparency="True"
+                         Placement="Center"
+                         Width="{Binding ElementName=OpenGlControl, Path=ActualWidth}"
+                         Height="{Binding ElementName=OpenGlControl, Path=ActualHeight}">
+
+        <Grid Name="MainGrid">
+
+        </Grid>
+      </ui:AirspacePopup>
+    </Grid>
+  </DockPanel>
+</Window>

@@ -13,9 +13,9 @@
     <Grid Name="TopGrid" DockPanel.Dock="Top"></Grid>
     <Grid Name="BottomGrid" DockPanel.Dock="Bottom"></Grid>
     <Grid >
-
+      <d3d:SlimDXControl x:Name="direct3DControl" />
       <Grid Name="MainGrid">
-        <d3d:SlimDXControl x:Name="direct3DControl" />
+        
       </Grid>
     </Grid>
   </DockPanel>

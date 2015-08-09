@@ -141,6 +141,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CompositeRenderer.cs" />
     <Compile Include="Direct3DRenderer.cs" />
     <Compile Include="MatrixExtensions.cs" />
     <Compile Include="RendererFactory.cs" />

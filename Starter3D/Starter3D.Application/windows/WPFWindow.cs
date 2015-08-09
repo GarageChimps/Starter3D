@@ -16,10 +16,21 @@ namespace Starter3D.Application.windows
     {
       if (controller == null) throw new ArgumentNullException("controller");
       _controller = controller;
-      if(rendererType == RendererType.OpenGL)
-        _window = new OpenGLWindow(_controller);
-      if (rendererType == RendererType.Direct3D)
-        _window = new Direct3DWindow(_controller, renderer);
+      switch (rendererType)
+      {
+        case RendererType.OpenGL:
+          _window = new OpenGLWindow(_controller);
+          break;
+        case RendererType.Direct3D:
+          _window = new Direct3DWindow(_controller, renderer);
+          break;
+        case RendererType.Composite:
+          _window = new CompositeWindow(_controller, renderer);
+          break;
+        default:
+          throw new ArgumentOutOfRangeException("rendererType");
+      }
+      
 
     }
 

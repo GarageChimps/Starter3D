@@ -13,6 +13,8 @@ namespace Starter3D.Renderers
           return new OpenGLRenderer();
         case RendererType.Direct3D:
           return new Direct3DRenderer();
+        case RendererType.Composite:
+          return new CompositeRenderer();
         default:
           throw new ArgumentOutOfRangeException("type");
       }

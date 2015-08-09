@@ -3,6 +3,7 @@
   public enum RendererType
   {
     OpenGL = 0,
-    Direct3D
+    Direct3D,
+    Composite
   }
 }
