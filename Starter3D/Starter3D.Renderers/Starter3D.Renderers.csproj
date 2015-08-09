@@ -142,8 +142,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Direct3DRenderer.cs" />
+    <Compile Include="MatrixExtensions.cs" />
     <Compile Include="RendererFactory.cs" />
     <Compile Include="RendererType.cs" />
+    <Compile Include="VectorExtensions.cs" />
     <Content Include="libSDL2.dylib">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

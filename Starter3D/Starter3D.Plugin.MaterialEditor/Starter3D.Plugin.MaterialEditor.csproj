@@ -164,6 +164,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="shaders\direct3d\blinnPhongFragment.fx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="shaders\opengl\blinnPhongDiffuseTextureFragment.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -193,9 +196,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="shaders\direct3d\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="shaders\opengl\shlickFragment.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

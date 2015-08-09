@@ -103,6 +103,9 @@
     <Folder Include="images\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="shaders\direct3d\mandelbrotFragment.fx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="shaders\opengl\mandelbrotFragment.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -124,16 +127,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="shaders\direct3d\pixelShaderVertex.hlsl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="shaders\opengl\redFragment.glsl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="shaders\direct3d\redFragment.hlsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

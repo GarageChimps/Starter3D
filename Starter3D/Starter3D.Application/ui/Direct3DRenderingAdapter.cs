@@ -1,5 +1,6 @@
 ﻿using System;
 using Flaxen.SlimDXControlLib;
+using SlimDX;
 using Starter3D.API.controller;
 using SlimDX.Direct3D10;
 using Device = SlimDX.Direct3D10_1.Device1;
@@ -28,6 +29,7 @@ namespace Starter3D.Application.ui
       Device.Rasterizer.SetViewports(ViewPort);
 
       Device.ClearDepthStencilView(SampleDepthView, DepthStencilClearFlags.Depth | DepthStencilClearFlags.Stencil, 1.0f, 0);
+      Device.ClearRenderTargetView(SampleRenderView, new SlimDX.Color4(new Vector3(0.9f,0.9f,1)));
 
       _controller.Render(elapsedTime.Ticks);
 

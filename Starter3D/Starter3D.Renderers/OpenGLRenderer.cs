@@ -178,26 +178,7 @@ namespace Starter3D.Renderers
       if (location != -1)
         GL.Uniform3(location, vector);
     }
-
-    public void SetBooleanParameter(string name, bool value)
-    {
-      foreach (var shaderHandle in _shaderHandleDictionary.Values)
-      {
-        GL.UseProgram(shaderHandle);
-        int location = GL.GetUniformLocation(shaderHandle, name);
-        if (location != -1)
-          GL.Uniform1(location, value ? 1 : 0);
-      }
-    }
-
-    public void SetBooleanParameter(string name, bool value, string shader)
-    {
-      GL.UseProgram(_shaderHandleDictionary[shader]);
-      int location = GL.GetUniformLocation(_shaderHandleDictionary[shader], name);
-      if (location != -1)
-        GL.Uniform1(location, value ? 1 : 0);
-    }
-
+   
     public void SetNumberParameter(string name, float number)
     {
       foreach (var shaderHandle in _shaderHandleDictionary.Values)
