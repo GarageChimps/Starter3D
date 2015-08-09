@@ -211,25 +211,42 @@ namespace Starter3D.Renderers
     }
 
     
-    public void SetNumberParameter(string name, float number)
+    public void SetNumericParameter(string name, float number)
     {
       foreach (var shaderProgram in _shaderHandleDictionary)
       {
         var effect = shaderProgram.Value.Effect;
-        effect.GetVariableByName(name).AsScalar().Set(number);
+        var variable = effect.GetVariableByName(name).AsScalar();
+        if (variable != null)
+          variable.Set(number);
       }
     }
 
-    public void SetNumberParameter(string name, float number, string shader)
+    public void SetNumericParameter(string name, float number, string shader)
     {
       var effect = _shaderHandleDictionary[shader].Effect;
-      effect.GetVariableByName(name).AsScalar().Set(number);
+      var variable = effect.GetVariableByName(name).AsScalar();
+      if (variable != null)
+        variable.Set(number);
     }
 
     public void SetVectorParameter(string name, Vector3 vector, string shader)
     {
       var effect = _shaderHandleDictionary[shader].Effect;
-      effect.GetVariableByName(name).AsVector().Set(vector.ToSlimDXVector3());
+      var variable = effect.GetVariableByName(name).AsVector();
+      if (variable != null)
+        variable.Set(vector.ToSlimDXVector3());
+    }
+
+    public void SetVectorParameter(string name, Vector3 vector)
+    {
+      foreach (var shaderProgram in _shaderHandleDictionary)
+      {
+        var effect = shaderProgram.Value.Effect;
+        var variable = effect.GetVariableByName(name).AsVector();
+        if (variable != null)
+          variable.Set(vector.ToSlimDXVector3());
+      }
     }
 
     public void SetVectorArrayParameter(string name, int index, Vector3 vector, string shader)
@@ -238,7 +255,9 @@ namespace Starter3D.Renderers
         _vectorArrayShaderParameterDictionary[name] = new List<Vector4>();
       _vectorArrayShaderParameterDictionary[name].Insert(index, vector.ToSlimDXVector4());
       var effect = _shaderHandleDictionary[shader].Effect;
-      effect.GetVariableByName(name).AsVector().Set(_vectorArrayShaderParameterDictionary[name].ToArray());
+      var variable = effect.GetVariableByName(name).AsVector();
+      if (variable != null)
+        variable.Set(_vectorArrayShaderParameterDictionary[name].ToArray());
     }
 
 
@@ -251,23 +270,20 @@ namespace Starter3D.Renderers
       foreach (var shaderProgram in _shaderHandleDictionary)
       {
         var effect = shaderProgram.Value.Effect;
-        effect.GetVariableByName(name).AsVector().Set(_vectorArrayShaderParameterDictionary[name].ToArray());
+        var variable = effect.GetVariableByName(name).AsVector();
+        if (variable != null)
+          variable.Set(_vectorArrayShaderParameterDictionary[name].ToArray());
       }
     }
 
-    public void SetVectorParameter(string name, Vector3 vector)
-    {
-      foreach (var shaderProgram in _shaderHandleDictionary)
-      {
-        var effect = shaderProgram.Value.Effect;
-        effect.GetVariableByName(name).AsVector().Set(vector.ToSlimDXVector3());
-      }
-    }
+   
 
     public void SetMatrixParameter(string name, Matrix4 matrix, string shader)
     {
       var effect = _shaderHandleDictionary[shader].Effect;
-      effect.GetVariableByName(name).AsMatrix().SetMatrix(matrix.ToSlimDXMatrix());
+      var variable = effect.GetVariableByName(name).AsMatrix();
+      if(variable != null)
+        variable.SetMatrix(matrix.ToSlimDXMatrix());
     }
 
     public void SetMatrixParameter(string name, Matrix4 matrix)
@@ -275,7 +291,9 @@ namespace Starter3D.Renderers
       foreach (var shaderProgram in _shaderHandleDictionary)
       {
         var effect = shaderProgram.Value.Effect;
-        effect.GetVariableByName(name).AsMatrix().SetMatrix(matrix.ToSlimDXMatrix());
+        var variable = effect.GetVariableByName(name).AsMatrix();
+        if (variable != null)
+          variable.SetMatrix(matrix.ToSlimDXMatrix());
       }
     }
 
@@ -295,7 +313,9 @@ namespace Starter3D.Renderers
       if (!_textureHandleDictionary.ContainsKey(textureName))
         throw new ApplicationException("Texture has to be added before using");
       var effect = _shaderHandleDictionary[shader].Effect;
-      effect.GetVariableByName("Texture").AsResource().SetResource(_textureHandleDictionary[textureName]);
+      var variable = effect.GetVariableByName(textureName).AsResource();
+      if (variable != null)
+        variable.SetResource(_textureHandleDictionary[textureName]);
     }
 
     private Texture2D CreateTexture(int width, int height)

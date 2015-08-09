@@ -1,7 +1,7 @@
 ﻿RasterizerState RSFillBackCull
 {
   FillMode = SOLID;
-  CullMode = Back;
+  CullMode = None;
   DepthBias = false;
 };
 
@@ -20,6 +20,9 @@ struct fragmentAttributes {
 static const int number_of_iterations = 100;
 static const float3 colorIn = float3(1, 0.75, 0.5);
 static const float3 colorOut = float3(0, 0.5, 1);
+
+uniform float3 mouse;
+uniform float time;
 
 float3 palette(float t, float3 a, float3 b, float3 c, float3 d)
 {

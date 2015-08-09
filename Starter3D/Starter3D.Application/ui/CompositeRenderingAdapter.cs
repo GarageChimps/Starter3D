@@ -13,6 +13,7 @@ namespace Starter3D.Application.ui
   {
     private readonly IController _controller;
     private readonly GLControl _glControl;
+    private TimeSpan _timeZero = new TimeSpan(0);
 
     public CompositeRenderingAdapter(IController controller, Device device, GLControl glControl)
     {
@@ -23,6 +24,7 @@ namespace Starter3D.Application.ui
 
     public override void Render(TimeSpan elapsedTime)
     {
+      _timeZero += elapsedTime;
       Device.OutputMerger.SetTargets(SampleDepthView, SampleRenderView);
       Device.Rasterizer.SetViewports(ViewPort);
 
@@ -32,7 +34,7 @@ namespace Starter3D.Application.ui
       GL.Viewport(0, 0, (int)_glControl.Width, (int)_glControl.Height);
       GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-      _controller.Render(elapsedTime.Ticks);
+      _controller.Render(_timeZero.TotalSeconds / 100000);
 
       GL.Flush();
       _glControl.SwapBuffers();

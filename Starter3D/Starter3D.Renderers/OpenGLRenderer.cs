@@ -198,7 +198,7 @@ namespace Starter3D.Renderers
         GL.Uniform3(location, vector);
     }
 
-    public void SetNumberParameter(string name, float number)
+    public void SetNumericParameter(string name, float number)
     {
       foreach (var shaderHandle in _shaderHandleDictionary.Values)
       {
@@ -209,7 +209,7 @@ namespace Starter3D.Renderers
       }
     }
 
-    public void SetNumberParameter(string name, float number, string shader)
+    public void SetNumericParameter(string name, float number, string shader)
     {
       GL.UseProgram(_shaderHandleDictionary[shader]);
       int location = GL.GetUniformLocation(_shaderHandleDictionary[shader], name);

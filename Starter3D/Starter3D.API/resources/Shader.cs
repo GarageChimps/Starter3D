@@ -57,7 +57,7 @@ namespace Starter3D.API.resources
       renderer.UseShader(_shaderName);
       foreach (var numericParameter in _numericParameters)
       {
-        renderer.SetNumberParameter(numericParameter.Key, numericParameter.Value, _shaderName);
+        renderer.SetNumericParameter(numericParameter.Key, numericParameter.Value, _shaderName);
       }
       foreach (var vectorParameter in _vectorParameters)
       {

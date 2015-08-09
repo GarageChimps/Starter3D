@@ -47,7 +47,7 @@ namespace Starter3D.Plugin.PixelShader
 
     public bool IsFullScreen
     {
-      get { return false; }
+      get { return true; }
     }
 
     public object CentralView
@@ -156,8 +156,8 @@ namespace Starter3D.Plugin.PixelShader
     public void Render(double time)
     {
       _accumulatedTime += time;
-      //_renderer.SetNumberParameter("time", (float)_accumulatedTime);
-      //_renderer.SetVectorParameter("mouse", _currentMousePosition);
+      _renderer.SetNumericParameter("time", (float)_accumulatedTime);
+      _renderer.SetVectorParameter("mouse", _currentMousePosition);
       _shape.Render(_renderer);
     }
 

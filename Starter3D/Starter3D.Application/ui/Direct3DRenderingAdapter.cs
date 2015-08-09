@@ -16,6 +16,7 @@ namespace Starter3D.Application.ui
   public class Direct3DRenderingAdapter : SimpleRenderEngine
   {
     private readonly IController _controller;
+    private TimeSpan _timeZero = new TimeSpan(0);
 
     public Direct3DRenderingAdapter(IController controller, Device device)
     {
@@ -25,13 +26,14 @@ namespace Starter3D.Application.ui
 
     public override void Render(TimeSpan elapsedTime)
     {
+      _timeZero += elapsedTime;
       Device.OutputMerger.SetTargets(SampleDepthView, SampleRenderView);
       Device.Rasterizer.SetViewports(ViewPort);
 
       Device.ClearDepthStencilView(SampleDepthView, DepthStencilClearFlags.Depth | DepthStencilClearFlags.Stencil, 1.0f, 0);
       Device.ClearRenderTargetView(SampleRenderView, new SlimDX.Color4(new Vector3(0.9f,0.9f,1)));
 
-      _controller.Render(elapsedTime.Ticks);
+      _controller.Render(_timeZero.TotalSeconds/100000);
       
       Device.Flush();
     }

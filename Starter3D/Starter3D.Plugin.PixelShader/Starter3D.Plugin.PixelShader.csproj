@@ -126,12 +126,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="shaders\direct3d\pixelShaderVertex.hlsl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="shaders\direct3d\mandelbrotFragment.hlsl">
+    <Content Include="shaders\direct3d\raytracerFragment.fx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

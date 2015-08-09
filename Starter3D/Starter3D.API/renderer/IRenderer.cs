@@ -28,8 +28,8 @@ namespace Starter3D.API.renderer
     void SetVectorParameter(string name, Vector3 vector, string shader);
     void SetVectorArrayParameter(string name, int index, Vector3 vector);
     void SetVectorArrayParameter(string name, int index, Vector3 vector, string shader);
-    void SetNumberParameter(string name, float number);
-    void SetNumberParameter(string name, float number, string shader);
+    void SetNumericParameter(string name, float number);
+    void SetNumericParameter(string name, float number, string shader);
 
     //General rendering properties
     void SetBackgroundColor(Color4 color);

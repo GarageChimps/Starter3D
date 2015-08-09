@@ -2,7 +2,7 @@
 <Resources>
   <Shaders>
     <BaseShader key="mandelbrotShader" vertex="pixelShaderVertex" fragment="mandelbrotFragment"/>
-    <!--<BaseShader key="raytracerShader" vertex="pixelShaderVertex" fragment="raytracerFragment"/>
-    <BaseShader key="voronoiShader" vertex="pixelShaderVertex" fragment="voronoiFragment"/>-->
+    <BaseShader key="raytracerShader" vertex="pixelShaderVertex" fragment="raytracerFragment"/>
+    <!--<BaseShader key="voronoiShader" vertex="pixelShaderVertex" fragment="voronoiFragment"/>-->
   </Shaders>              
 </Resources>

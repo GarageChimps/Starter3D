@@ -89,19 +89,19 @@ namespace Starter3D.Renderers
       }
     }
 
-    public void SetNumberParameter(string name, float number)
+    public void SetNumericParameter(string name, float number)
     {
       foreach (var renderer in _renderers)
       {
-        renderer.SetNumberParameter(name, number);
+        renderer.SetNumericParameter(name, number);
       }
     }
 
-    public void SetNumberParameter(string name, float number, string shader)
+    public void SetNumericParameter(string name, float number, string shader)
     {
       foreach (var renderer in _renderers)
       {
-        renderer.SetNumberParameter(name, number, shader);
+        renderer.SetNumericParameter(name, number, shader);
       }
     }
 

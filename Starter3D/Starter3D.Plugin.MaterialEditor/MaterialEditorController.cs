@@ -185,8 +185,8 @@ namespace Starter3D.Plugin.MaterialEditor
       {
         light.Configure(_renderer);
       }
-      _renderer.SetNumberParameter("activeNumberOfPointLights", pointLights.Count());
-      _renderer.SetNumberParameter("activeNumberOfDirectionalLights", directionalLights.Count());
+      _renderer.SetNumericParameter("activeNumberOfPointLights", pointLights.Count());
+      _renderer.SetNumericParameter("activeNumberOfDirectionalLights", directionalLights.Count());
 
     }
 
