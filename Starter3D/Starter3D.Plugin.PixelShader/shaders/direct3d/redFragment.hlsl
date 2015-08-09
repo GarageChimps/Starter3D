@@ -1,4 +1,10 @@
-﻿struct fragmentAttributes {
+﻿cbuffer ConstantBuffer : register(b0)
+{
+  float time;
+  float2 mouse;
+}
+
+struct fragmentAttributes {
   float4 position : SV_POSITION;
   float2 pixelCoords : TEXCOORD0;
 };
