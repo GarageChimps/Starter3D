@@ -37,45 +37,58 @@ uniform float3 cameraPosition;
 
 uniform float3 ambientLight;
 uniform float3 diffuseColor;
-uniform float3 specularColor;
-uniform float shininess;
+uniform float n;
+uniform float R;
 
-float3 lambertBRDF(float3 normal, float3 lightDirection, float3 color)
+static const float PI = 3.14159265358979323846;
+
+float lump(float3 h, float R, float n)
 {
-  return color * max(dot(normal, lightDirection), 0.0);
+  return (n + 1) / (PI*R*R) * pow(1 - dot(h, h) / (R*R), n);
 }
 
-float3 blinnPhongBRDF(float3 normal, float3 halfVector, float3 color, float shininess)
+float3 BRDF(float3 N, float3 L, float3 V, float3 H, float3 diffuse)
 {
-  return color * pow(max(dot(normal, halfVector), 0.0), shininess);
-}
+  float NdotV = dot(N, V);
+  float NdotL = dot(N, L);
 
-float3 BRDF(float3 normal, float3 lightDirection, float3 viewDirection, float3 halfVector, float3 diffuse)
-{
-  return lambertBRDF(normal, lightDirection, diffuse) + blinnPhongBRDF(normal, halfVector, specularColor, shininess);
+  if (NdotL < 0 || NdotV < 0) return float3(0,0,0);
+
+  float NdotH = dot(N, H);
+  float LdotH = dot(L, H);
+
+  // scaling projection
+  float3 uH = L + V; // unnormalized H
+  float3 h = NdotV / dot(N, uH) * uH;
+  float3 huv = h - NdotV * N;
+
+  // specular term (D and G)
+  float p = lump(huv, R, n);
+  float val = p * pow(NdotV, 2) / (4 * NdotL * LdotH * pow(NdotH, 3));
+  return diffuse * float3(val, val, val);
 }
 
 float3 shade(float3 p, float3 n, float3 diffuse)
 {
   n = normalize(n);
   float3 v = cameraPosition - p;
-  v = normalize(v);
+    v = normalize(v);
 
   float3 color = ambientLight * diffuse;
-  for (int pointLightIndex = 0; pointLightIndex < activeNumberOfPointLights; pointLightIndex++)
-  {
-    float3 l = pointLightPositions[pointLightIndex] - p;
-    l = normalize(l);
-    float3 h = v + l;
-    h = normalize(h);
-    color += pointLightColors[pointLightIndex] * BRDF(n, l, v, h, diffuse);
-  }
+    for (int pointLightIndex = 0; pointLightIndex < activeNumberOfPointLights; pointLightIndex++)
+    {
+      float3 l = pointLightPositions[pointLightIndex] - p;
+        l = normalize(l);
+      float3 h = v + l;
+        h = normalize(h);
+      color += pointLightColors[pointLightIndex] * BRDF(n, l, v, h, diffuse);
+    }
   for (int directionalLightIndex = 0; directionalLightIndex < activeNumberOfDirectionalLights; directionalLightIndex++)
   {
     float3 l = -directionalLightDirections[directionalLightIndex];
-    l = normalize(l);
+      l = normalize(l);
     float3 h = v + l;
-    h = normalize(h);
+      h = normalize(h);
     color += directionalLightColors[directionalLightIndex] * BRDF(n, l, v, h, diffuse);
   }
   return color;
@@ -86,8 +99,8 @@ fragmentAttributes VShader(vertexAttributes input)
 {
   fragmentAttributes output = (fragmentAttributes)0;
   float4 worldPosition = mul(float4(input.inPosition, 1), modelMatrix);
-  float4 worldNormal = mul(float4(input.inNormal, 0), modelMatrix);
-  output.fragPosition = worldPosition.xyz;
+    float4 worldNormal = mul(float4(input.inNormal, 0), modelMatrix);
+    output.fragPosition = worldPosition.xyz;
   output.fragNormal = worldNormal.xyz;
   output.fragTextureCoords = input.inTextureCoords;
   output.position = mul(mul(worldPosition, viewMatrix), projectionMatrix);
@@ -96,7 +109,7 @@ fragmentAttributes VShader(vertexAttributes input)
 
 
 float4 FShader(fragmentAttributes input) : SV_Target
-{  
+{
   return float4(shade(input.fragPosition, input.fragNormal, diffuseColor), 1.0);
 }
 

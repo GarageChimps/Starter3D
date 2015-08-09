@@ -2,23 +2,13 @@
 
 precision highp float;
 
-struct PointLight
-{
-	vec3 Position;
-	vec3 Color;
-};
-
-struct DirectionalLight
-{
-	vec3 Direction;
-	vec3 Color;
-};
-
 const int maxNumberOfLights = 10;
 uniform float activeNumberOfPointLights;
 uniform float activeNumberOfDirectionalLights;
-uniform PointLight pointLights[maxNumberOfLights];
-uniform DirectionalLight directionalLights[maxNumberOfLights];
+uniform vec3 pointLightPositions[maxNumberOfLights];
+uniform vec3 pointLightColors[maxNumberOfLights];
+uniform vec3 directionalLightDirections[maxNumberOfLights];
+uniform vec3 directionalLightColors[maxNumberOfLights];
 
 uniform vec3 cameraPosition;
 
@@ -42,14 +32,13 @@ float lump(vec3 h, float R, float n)
 }
 
 
-vec3 BRDF( vec3 N, vec3 V, vec3 L, vec3 diffuse)
+vec3 BRDF( vec3 N, vec3 L, vec3 V, vec3 H, vec3 diffuse)
 {
     float NdotV = dot(N,V);
     float NdotL = dot(N,L);
 
     if (NdotL < 0 || NdotV < 0) return vec3(0);
 
-    vec3 H = normalize(L+V);
     float NdotH = dot(N,H);
     float LdotH = dot(L,H);
 
@@ -72,15 +61,19 @@ vec3 shade(vec3 p, vec3 n, vec3 diffuse)
   vec3 color = ambientLight * diffuse;
   for(int pointLightIndex = 0; pointLightIndex < activeNumberOfPointLights; pointLightIndex++)
   {
-	  vec3 l = pointLights[pointLightIndex].Position - p;
+	  vec3 l = pointLightPositions[pointLightIndex] - p;
 	  l = normalize(l);
-	  color += pointLights[pointLightIndex].Color * BRDF(n, v, l, diffuse);
+	  vec3 h = v + l;
+	  h = normalize(h); 
+	  color += pointLightColors[pointLightIndex] * BRDF(n, l, v, h, diffuse);
   }
   for(int directionalLightIndex = 0; directionalLightIndex < activeNumberOfDirectionalLights; directionalLightIndex++)
   {
-	  vec3 l = -directionalLights[directionalLightIndex].Direction;
+	  vec3 l = -directionalLightDirections[directionalLightIndex];
 	  l = normalize(l);
-	  color += directionalLights[directionalLightIndex].Color * BRDF(n, v, l, diffuse);
+	  vec3 h = v + l;
+	  h = normalize(h); 
+	  color += directionalLightColors[directionalLightIndex] * BRDF(n, l, v, h, diffuse);
   }
   return color;
 }  

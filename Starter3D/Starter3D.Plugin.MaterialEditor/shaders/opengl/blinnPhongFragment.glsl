@@ -17,7 +17,6 @@ uniform vec3 diffuseColor;
 uniform vec3 specularColor;
 uniform float shininess;
 
-
 in vec3 fragPosition;
 in vec3 fragNormal;
 in vec3 fragTextureCoords;
@@ -34,12 +33,12 @@ vec3 blinnPhongBRDF(vec3 normal, vec3 halfVector, vec3 color, float shininess)
 	return color * pow(max(dot(normal,halfVector),0.0), shininess);
 }
 
-vec3 BRDF(vec3 normal, vec3 lightDirection, vec3 halfVector, vec3 diffuse, vec3 specular, float shininess)
+vec3 BRDF(vec3 normal, vec3 lightDirection, vec3 viewDirection, vec3 halfVector, vec3 diffuse)
 {
-	return lambertBRDF(normal, lightDirection, diffuse) + blinnPhongBRDF(normal, halfVector, specular, shininess);
+	return lambertBRDF(normal, lightDirection, diffuse) + blinnPhongBRDF(normal, halfVector, specularColor, shininess);
 }
 
-vec3 shade(vec3 p, vec3 n, vec3 diffuse, vec3 specular, float shininess)
+vec3 shade(vec3 p, vec3 n, vec3 diffuse)
 {
   n = normalize(n);
   vec3 v = cameraPosition - p;
@@ -52,7 +51,7 @@ vec3 shade(vec3 p, vec3 n, vec3 diffuse, vec3 specular, float shininess)
 	  l = normalize(l);
 	  vec3 h = v + l;
 	  h = normalize(h); 
-	  color += pointLightColors[pointLightIndex] * BRDF(n, l, h, diffuse, specular, shininess);
+	  color += pointLightColors[pointLightIndex] * BRDF(n, l, v, h, diffuse);
   }
   for(int directionalLightIndex = 0; directionalLightIndex < activeNumberOfDirectionalLights; directionalLightIndex++)
   {
@@ -60,7 +59,7 @@ vec3 shade(vec3 p, vec3 n, vec3 diffuse, vec3 specular, float shininess)
 	  l = normalize(l);
 	  vec3 h = v + l;
 	  h = normalize(h); 
-	  color += directionalLightColors[directionalLightIndex] * BRDF(n, l, h, diffuse, specular, shininess);
+	  color += directionalLightColors[directionalLightIndex] * BRDF(n, l, v, h, diffuse);
   }
   return color;
 }  
@@ -68,5 +67,5 @@ vec3 shade(vec3 p, vec3 n, vec3 diffuse, vec3 specular, float shininess)
 
 void main(void)
 {
-  outFragColor = vec4(shade(fragPosition, fragNormal, diffuseColor, specularColor, shininess), 1.0);
+  outFragColor = vec4(shade(fragPosition, fragNormal, diffuseColor), 1.0);
 }

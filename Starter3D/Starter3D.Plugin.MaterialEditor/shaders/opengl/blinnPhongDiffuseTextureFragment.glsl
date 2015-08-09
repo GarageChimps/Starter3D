@@ -2,23 +2,13 @@
 
 precision highp float;
 
-struct PointLight
-{
-	vec3 Position;
-	vec3 Color;
-};
-
-struct DirectionalLight
-{
-	vec3 Direction;
-	vec3 Color;
-};
-
 const int maxNumberOfLights = 10;
 uniform float activeNumberOfPointLights;
 uniform float activeNumberOfDirectionalLights;
-uniform PointLight pointLights[maxNumberOfLights];
-uniform DirectionalLight directionalLights[maxNumberOfLights];
+uniform vec3 pointLightPositions[maxNumberOfLights];
+uniform vec3 pointLightColors[maxNumberOfLights];
+uniform vec3 directionalLightDirections[maxNumberOfLights];
+uniform vec3 directionalLightColors[maxNumberOfLights];
 
 uniform vec3 cameraPosition;
 
@@ -44,12 +34,12 @@ vec3 blinnPhongBRDF(vec3 normal, vec3 halfVector, vec3 color, float shininess)
 	return color * pow(max(dot(normal,halfVector),0.0), shininess);
 }
 
-vec3 BRDF(vec3 normal, vec3 lightDirection, vec3 halfVector, vec3 diffuse, vec3 specular, float shininess)
+vec3 BRDF(vec3 normal, vec3 lightDirection, vec3 viewDirection, vec3 halfVector, vec3 diffuse)
 {
-	return lambertBRDF(normal, lightDirection, diffuse) + blinnPhongBRDF(normal, halfVector, specular, shininess);
+	return lambertBRDF(normal, lightDirection, diffuse) + blinnPhongBRDF(normal, halfVector, specularColor, shininess);
 }
 
-vec3 shade(vec3 p, vec3 n, vec3 diffuse, vec3 specular, float shininess)
+vec3 shade(vec3 p, vec3 n, vec3 diffuse)
 {
   n = normalize(n);
   vec3 v = cameraPosition - p;
@@ -58,19 +48,19 @@ vec3 shade(vec3 p, vec3 n, vec3 diffuse, vec3 specular, float shininess)
   vec3 color = ambientLight * diffuse;
   for(int pointLightIndex = 0; pointLightIndex < activeNumberOfPointLights; pointLightIndex++)
   {
-	  vec3 l = pointLights[pointLightIndex].Position - p;
+	  vec3 l = pointLightPositions[pointLightIndex] - p;
 	  l = normalize(l);
 	  vec3 h = v + l;
 	  h = normalize(h); 
-	  color += pointLights[pointLightIndex].Color * BRDF(n, l, h, diffuse, specular, shininess);
+	  color += pointLightColors[pointLightIndex] * BRDF(n, l, v, h, diffuse);
   }
   for(int directionalLightIndex = 0; directionalLightIndex < activeNumberOfDirectionalLights; directionalLightIndex++)
   {
-	  vec3 l = -directionalLights[directionalLightIndex].Direction;
+	  vec3 l = -directionalLightDirections[directionalLightIndex];
 	  l = normalize(l);
 	  vec3 h = v + l;
 	  h = normalize(h); 
-	  color += directionalLights[directionalLightIndex].Color * BRDF(n, l, h, diffuse, specular, shininess);
+	  color += directionalLightColors[directionalLightIndex] * BRDF(n, l, v, h, diffuse);
   }
   return color;
 }  
@@ -79,5 +69,5 @@ vec3 shade(vec3 p, vec3 n, vec3 diffuse, vec3 specular, float shininess)
 void main(void)
 {
   vec4 texColor = texture(diffuseTexture, fragTextureCoords.xy);
-  outFragColor = vec4(shade(fragPosition, fragNormal, texColor.rgb, specularColor, shininess), 1.0);
+  outFragColor = vec4(shade(fragPosition, fragNormal, texColor.rgb), 1.0);
 }

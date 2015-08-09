@@ -196,7 +196,11 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="shaders\direct3d\edwardsFragment.fx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <ItemGroup>
     <Content Include="shaders\opengl\shlickFragment.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -209,6 +213,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="shaders\opengl\passThroughFragment.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="shaders\direct3d\minnaertFragment.fx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
