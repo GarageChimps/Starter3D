@@ -49,6 +49,18 @@ namespace Starter3D.Renderers
       }
     }
 
+    class TextureInfo
+    {
+      public ShaderResourceView ShaderResource;
+      public string UniformName;
+
+      public TextureInfo(ShaderResourceView shaderResource, string uniformName)
+      {
+        ShaderResource = shaderResource;
+        UniformName = uniformName;
+      }
+    }
+
     private const string ShaderBasePath = @"shaders/direct3d";
     private const string ShaderExtension = ".hlsl";
     private const string EffectExtension = ".fx";
@@ -57,7 +69,7 @@ namespace Starter3D.Renderers
     private string _currentShader;
     private readonly Dictionary<string, ShaderProgram> _shaderHandleDictionary = new Dictionary<string, ShaderProgram>();
     private readonly Dictionary<string, RenderObject> _objectsHandleDictionary = new Dictionary<string, RenderObject>();
-    private readonly Dictionary<string, ShaderResourceView> _textureHandleDictionary = new Dictionary<string, ShaderResourceView>();
+    private readonly Dictionary<string, TextureInfo> _textureHandleDictionary = new Dictionary<string, TextureInfo>();
     private readonly Dictionary<string, List<SlimDX.Vector4>> _vectorArrayShaderParameterDictionary = new Dictionary<string, List<SlimDX.Vector4>>();
 
     private readonly Dictionary<string, string> _semanticsTable = new Dictionary<string, string>();
@@ -305,7 +317,7 @@ namespace Starter3D.Renderers
       var texture2D = CreateTexture(texture.Width, texture.Height);
       LoadBitmapInTexture(texture, texture2D);
       var textureResource = CreateTextureResource(texture2D);
-      _textureHandleDictionary.Add(textureName, textureResource);
+      _textureHandleDictionary.Add(textureName, new TextureInfo(textureResource, uniformName));
     }
 
     public void UseTexture(string textureName, string shader)
@@ -313,9 +325,9 @@ namespace Starter3D.Renderers
       if (!_textureHandleDictionary.ContainsKey(textureName))
         throw new ApplicationException("Texture has to be added before using");
       var effect = _shaderHandleDictionary[shader].Effect;
-      var variable = effect.GetVariableByName(textureName).AsResource();
+      var variable = effect.GetVariableByName(_textureHandleDictionary[textureName].UniformName).AsResource();
       if (variable != null)
-        variable.SetResource(_textureHandleDictionary[textureName]);
+        variable.SetResource(_textureHandleDictionary[textureName].ShaderResource);
     }
 
     private Texture2D CreateTexture(int width, int height)
