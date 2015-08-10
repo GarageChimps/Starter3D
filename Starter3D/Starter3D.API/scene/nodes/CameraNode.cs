@@ -36,7 +36,11 @@ namespace Starter3D.API.scene.nodes
     public Vector3 Position
     {
       get { return _position; }
-      set { _position = value; }
+      set
+      {
+        _position = value;
+        _isDirty = true;
+      }
     }
 
 
@@ -105,7 +109,11 @@ namespace Starter3D.API.scene.nodes
 
     public override void Render(IRenderer renderer)
     {
-      Configure(renderer);
+      if (_isDirty)
+      {
+        Configure(renderer);
+        _isDirty = false;
+      }
     }
 
     public void Zoom(float delta)
@@ -113,6 +121,7 @@ namespace Starter3D.API.scene.nodes
       var movementDirection = _target - _position;
       var zoom = delta * 0.05f * movementDirection.Length;
       _position += zoom * movementDirection.Normalized();
+      _isDirty = true;
     }
 
     public void Drag(float deltaX, float deltaY)
@@ -131,6 +140,7 @@ namespace Starter3D.API.scene.nodes
 
       _position += upMovementDirection * deltaY;
       _target += upMovementDirection * deltaY;
+      _isDirty = true;
     }
 
     public void Orbit(float deltaX, float deltaY)
@@ -150,7 +160,7 @@ namespace Starter3D.API.scene.nodes
       var yawQuat = Quaternion.FromAxisAngle(upMovementDirection, deltaX);
       var yawRotatedVector = Vector3.Transform(pitchRotatedVector, yawQuat);
       _position = _target + yawRotatedVector;
-
+      _isDirty = true;
     }
 
     private Vector3 GetPosition()

@@ -9,6 +9,7 @@ namespace Starter3D.API.scene.nodes
   {
     protected List<ISceneNode> _children = new List<ISceneNode>();
     protected ISceneNode _parent;
+    protected bool _isDirty = true;
 
     public virtual Matrix4 Transform
     {

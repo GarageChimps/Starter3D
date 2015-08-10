@@ -12,6 +12,8 @@ namespace Starter3D.API.resources
     private readonly Dictionary<string, float> _numericParameters = new Dictionary<string, float>();
     private readonly Dictionary<string, ITexture> _textureParameters = new Dictionary<string, ITexture>();
 
+    private bool _isDirty = true; 
+
     public string Name
     {
       get { return _name; }
@@ -20,7 +22,11 @@ namespace Starter3D.API.resources
     public IShader Shader
     {
       get { return _shader; }
-      set { _shader = value; }
+      set
+      {
+        _shader = value;
+        _isDirty = true;
+      }
     }
 
     public IEnumerable<KeyValuePair<string, float>> NumericParameters
@@ -61,19 +67,23 @@ namespace Starter3D.API.resources
 
     public void Render(IRenderer renderer)
     {
-      foreach (var numericParameter in _numericParameters)
+      if (_isDirty)
       {
-        _shader.SetNumericParameter(numericParameter.Key, numericParameter.Value);
+        foreach (var numericParameter in _numericParameters)
+        {
+          _shader.SetNumericParameter(numericParameter.Key, numericParameter.Value);
+        }
+        foreach (var vectorParameter in _vectorParameters)
+        {
+          _shader.SetVectorParameter(vectorParameter.Key, vectorParameter.Value);
+        }
+        foreach (var textureParameter in _textureParameters)
+        {
+          _shader.SetTextureParameter(textureParameter.Key, textureParameter.Value);
+        }
+        _shader.Render(renderer);
+        _isDirty = false;
       }
-      foreach (var vectorParameter in _vectorParameters)
-      {
-        _shader.SetVectorParameter(vectorParameter.Key, vectorParameter.Value);
-      }
-      foreach (var textureParameter in _textureParameters)
-      {
-        _shader.SetTextureParameter(textureParameter.Key, textureParameter.Value);
-      } 
-      _shader.Render(renderer);
     }
 
     public virtual void Load(IDataNode dataNode, IResourceManager resourceManager)
@@ -93,21 +103,30 @@ namespace Starter3D.API.resources
     public void SetParameter(string name, float value)
     {
       if (_numericParameters.ContainsKey(name))
+      {
         _numericParameters[name] = value;
+        _isDirty = true;
+      }
     }
 
     public void SetParameter(string name, Vector3 value)
     {
       if (_vectorParameters.ContainsKey(name))
+      {
         _vectorParameters[name] = value;
+        _isDirty = true;
+      }
     }
 
     public void SetTexture(string name, ITexture texture)
     {
       if (_textureParameters.ContainsKey(name))
+      {
         _textureParameters[name] = texture;
+        _isDirty = true;
+      }
     }
 
-   
+
   }
 }

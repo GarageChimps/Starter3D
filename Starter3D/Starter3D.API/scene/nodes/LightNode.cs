@@ -13,6 +13,11 @@ namespace Starter3D.API.scene.nodes
     public Color4 Color
     {
       get { return _color; }
+      set
+      {
+        _color = value;
+        _isDirty = true;
+      }
     }
 
     public int Index
@@ -37,7 +42,11 @@ namespace Starter3D.API.scene.nodes
 
     public override void Render(IRenderer renderer)
     {
-      Configure(renderer);
+      if (_isDirty)
+      {
+        Configure(renderer);
+        _isDirty = false;
+      }
     }
 
     public override void Load(ISceneDataNode sceneDataNode)

@@ -1,3 +1,4 @@
+using System;
 using System.Globalization;
 using OpenTK;
 using OpenTK.Graphics;
@@ -13,6 +14,11 @@ namespace Starter3D.API.scene.nodes
     public Vector3 Direction
     {
       get { return _direction; }
+      set
+      {
+        _direction = value;
+        _isDirty = true;
+      }
     }
 
     public DirectionalLight(Color4 color, Vector3 direction)
@@ -23,7 +29,7 @@ namespace Starter3D.API.scene.nodes
 
     public DirectionalLight()
     {
-      
+
     }
 
     private void Init(Vector3 direction)

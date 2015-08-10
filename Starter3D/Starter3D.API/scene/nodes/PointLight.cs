@@ -24,7 +24,11 @@ namespace Starter3D.API.scene.nodes
     public Vector3 Position
     {
       get { return _position; }
-      set { _position = value; }
+      set
+      {
+        _position = value;
+        _isDirty = true;
+      }
     }
 
     private void Init(Vector3 position)

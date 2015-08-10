@@ -15,6 +15,5 @@ namespace Starter3D.API.scene.nodes
     void Load(ISceneDataNode sceneDataNode);
     void Save(ISceneDataNode sceneDataNode);
     IEnumerable<T> GetNodes<T>() where T : class, ISceneNode;
-    
   }
 }
