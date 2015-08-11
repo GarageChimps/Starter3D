@@ -18,14 +18,17 @@ namespace Starter3D.Application.ui
     private GLControl _glControl;
     private readonly IController _controller;
 
-    private TimeSpan _lastTime = TimeSpan.Zero;
+    private readonly double _frameRate; 
+    private TimeSpan _lastRenderingTime = TimeSpan.Zero;
+    private TimeSpan _lastUpdateTime = TimeSpan.Zero;
     private int _lastMousePositionX;
     private int _lastMousePositionY;
 
-    public OpenGLWindow(IController controller)
+    public OpenGLWindow(IController controller, double frameRate)
     {
       if (controller == null) throw new ArgumentNullException("controller");
       _controller = controller;
+      _frameRate = frameRate;
       Width = controller.Width;
       Height = controller.Height;
       if (_controller.IsFullScreen)
@@ -78,19 +81,27 @@ namespace Starter3D.Application.ui
     private void Render(object sender, EventArgs e)
     {
       RenderingEventArgs args = (RenderingEventArgs)e;
-      if (args.RenderingTime == _lastTime)
+      if (args.RenderingTime == _lastUpdateTime)
         return;
 
-      GL.Viewport(0, 0, (int)_glControl.Width, (int)_glControl.Height);
-      GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+      var deltaUpdateSeconds = (args.RenderingTime - _lastUpdateTime).TotalSeconds;
+      var deltaRenderingSeconds = (args.RenderingTime - _lastRenderingTime).TotalSeconds;
+      _controller.Update(deltaUpdateSeconds);
 
-      _controller.Render((args.RenderingTime - _lastTime).TotalSeconds);
+      if (deltaRenderingSeconds > 1.0/_frameRate)
+      {
 
+        GL.Viewport(0, 0, (int) _glControl.Width, (int) _glControl.Height);
+        GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-      GL.Flush();
-      _glControl.SwapBuffers();
+        _controller.Render(deltaRenderingSeconds);
 
-      _lastTime = args.RenderingTime;
+        GL.Flush();
+        _glControl.SwapBuffers();
+
+        _lastRenderingTime = args.RenderingTime;
+      }
+      _lastUpdateTime = args.RenderingTime;
 
     }
 

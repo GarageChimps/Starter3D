@@ -41,7 +41,6 @@ namespace Starter3D.Application.windows
       GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
       _controller.Render(e.Time);
-      
 
       GL.Flush();
       SwapBuffers();

@@ -14,17 +14,16 @@ namespace Starter3D.Application.ui
     private readonly Direct3DRenderingAdapter _renderingAdapter;
     private readonly Direct3DRenderer _renderer;
     private readonly IController _controller;
-
-    private TimeSpan _lastTime = TimeSpan.Zero;
     private int _lastMousePositionX;
     private int _lastMousePositionY;
 
-    public Direct3DWindow(IController controller, IRenderer renderer)
+    public Direct3DWindow(IController controller, IRenderer renderer, double frameRate)
     {
       if (controller == null) throw new ArgumentNullException("controller");
+      if (renderer == null) throw new ArgumentNullException("renderer");
       _controller = controller;
       _renderer = (Direct3DRenderer) renderer;
-      _renderingAdapter = new Direct3DRenderingAdapter(_controller, _renderer.Direct3DDevice);
+      _renderingAdapter = new Direct3DRenderingAdapter(_controller, _renderer.Direct3DDevice, frameRate);
 
       Width = controller.Width;
       Height = controller.Height;

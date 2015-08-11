@@ -7,35 +7,46 @@ using Device = SlimDX.Direct3D10_1.Device1;
 
 namespace Starter3D.Application.ui
 {
-  /// <summary>
-  /// Class description
-  /// </summary>
-  /// <history>
-  /// 11/21/2012 8:43:17 AM - Alejandro : Class creation
-  /// </history>
   public class Direct3DRenderingAdapter : SimpleRenderEngine
   {
     private readonly IController _controller;
-    private TimeSpan _timeZero = new TimeSpan(0);
-
-    public Direct3DRenderingAdapter(IController controller, Device device)
+    private readonly double _frameRate;
+    private TimeSpan _lastRenderingTime = TimeSpan.Zero;
+    private TimeSpan _lastUpdateTime = TimeSpan.Zero;
+    
+    public Direct3DRenderingAdapter(IController controller, Device device, double frameRate)
     {
+      if (controller == null) throw new ArgumentNullException("controller");
+      if (device == null) throw new ArgumentNullException("device");
       _controller = controller;
+      _frameRate = frameRate;
       Device = device;
     }
 
     public override void Render(TimeSpan elapsedTime)
     {
-      _timeZero += elapsedTime;
-      Device.OutputMerger.SetTargets(SampleDepthView, SampleRenderView);
-      Device.Rasterizer.SetViewports(ViewPort);
+      if (elapsedTime == _lastUpdateTime)
+        return;
 
-      Device.ClearDepthStencilView(SampleDepthView, DepthStencilClearFlags.Depth | DepthStencilClearFlags.Stencil, 1.0f, 0);
-      Device.ClearRenderTargetView(SampleRenderView, new SlimDX.Color4(new Vector3(0.9f,0.9f,1)));
+      var deltaUpdateSeconds = (elapsedTime - _lastUpdateTime).TotalSeconds;
+      var deltaRenderingSeconds = (elapsedTime - _lastRenderingTime).TotalSeconds;
+      _controller.Update(deltaUpdateSeconds);
 
-      _controller.Render(_timeZero.TotalSeconds/100000);
-      
-      Device.Flush();
+      if (deltaRenderingSeconds > 1.0/_frameRate)
+      {
+        Device.OutputMerger.SetTargets(SampleDepthView, SampleRenderView);
+        Device.Rasterizer.SetViewports(ViewPort);
+
+        Device.ClearDepthStencilView(SampleDepthView, DepthStencilClearFlags.Depth | DepthStencilClearFlags.Stencil,
+          1.0f, 0);
+        Device.ClearRenderTargetView(SampleRenderView, new SlimDX.Color4(new Vector3(0.9f, 0.9f, 1)));
+
+        _controller.Render(deltaRenderingSeconds);
+
+        Device.Flush();
+        _lastRenderingTime = elapsedTime;
+      }
+      _lastUpdateTime = elapsedTime;
     }
   }
 

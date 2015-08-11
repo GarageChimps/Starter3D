@@ -1,6 +1,4 @@
-﻿using Starter3D.API.renderer;
-
-namespace Starter3D.API.controller
+﻿namespace Starter3D.API.controller
 {
   public enum ControllerMouseButton
   {
@@ -23,8 +21,8 @@ namespace Starter3D.API.controller
     string Name { get; }
 
     void Load();
-    void Render(double time);
-    void Update(double time);
+    void Render(double deltaTime);
+    void Update(double deltaTime);
     void MouseDown(ControllerMouseButton button, int x, int y);
     void MouseUp(ControllerMouseButton button, int x, int y);
     void MouseWheel(int delta, int x, int y);

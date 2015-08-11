@@ -13,33 +13,51 @@ namespace Starter3D.Application.ui
   {
     private readonly IController _controller;
     private readonly GLControl _glControl;
-    private TimeSpan _timeZero = new TimeSpan(0);
+    private readonly double _frameRate;
+    private TimeSpan _lastRenderingTime = TimeSpan.Zero;
+    private TimeSpan _lastUpdateTime = TimeSpan.Zero;
 
-    public CompositeRenderingAdapter(IController controller, Device device, GLControl glControl)
+    public CompositeRenderingAdapter(IController controller, Device device, GLControl glControl, double frameRate)
     {
+      if (controller == null) throw new ArgumentNullException("controller");
+      if (device == null) throw new ArgumentNullException("device");
+      if (glControl == null) throw new ArgumentNullException("glControl");
       _controller = controller;
       _glControl = glControl;
+      _frameRate = frameRate;
       Device = device;
     }
 
     public override void Render(TimeSpan elapsedTime)
     {
-      _timeZero += elapsedTime;
-      Device.OutputMerger.SetTargets(SampleDepthView, SampleRenderView);
-      Device.Rasterizer.SetViewports(ViewPort);
+      if (elapsedTime == _lastUpdateTime)
+        return;
 
-      Device.ClearDepthStencilView(SampleDepthView, DepthStencilClearFlags.Depth | DepthStencilClearFlags.Stencil, 1.0f, 0);
-      Device.ClearRenderTargetView(SampleRenderView, new SlimDX.Color4(new Vector3(0.9f, 0.9f, 1)));
+      var deltaUpdateSeconds = (elapsedTime - _lastUpdateTime).TotalSeconds;
+      var deltaRenderingSeconds = (elapsedTime - _lastRenderingTime).TotalSeconds;
+      _controller.Update(deltaUpdateSeconds);
 
-      GL.Viewport(0, 0, (int)_glControl.Width, (int)_glControl.Height);
-      GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+      if (deltaRenderingSeconds > 1.0 / _frameRate)
+      {
+        Device.OutputMerger.SetTargets(SampleDepthView, SampleRenderView);
+        Device.Rasterizer.SetViewports(ViewPort);
 
-      _controller.Render(_timeZero.TotalSeconds / 100000);
+        Device.ClearDepthStencilView(SampleDepthView, DepthStencilClearFlags.Depth | DepthStencilClearFlags.Stencil,
+          1.0f, 0);
+        Device.ClearRenderTargetView(SampleRenderView, new SlimDX.Color4(new Vector3(0.9f, 0.9f, 1)));
 
-      GL.Flush();
-      _glControl.SwapBuffers();
+        GL.Viewport(0, 0, (int)_glControl.Width, (int)_glControl.Height);
+        GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-      Device.Flush();
+        _controller.Render(deltaRenderingSeconds);
+
+        GL.Flush();
+        _glControl.SwapBuffers();
+
+        Device.Flush();
+        _lastRenderingTime = elapsedTime;
+      }
+      _lastUpdateTime = elapsedTime;
     }
   }
 }

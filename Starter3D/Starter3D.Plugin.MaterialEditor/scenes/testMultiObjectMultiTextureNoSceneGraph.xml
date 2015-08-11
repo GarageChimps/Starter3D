@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
-<Scene>
-  <Shape shapeType='Mesh' shapeName='sphere1' filePath='meshes/sphere.obj' material='stones' tx='1.5' ty='0' tz='0' sx='0.7' sy='0.7' sz='0.7'/>
-  <Shape shapeType='Mesh' shapeName='sphere2' filePath='meshes/sphere.obj' material='earth' tx='-1.5' ty='0' tz='0' sx='0.7' sy='0.7' sz='0.7'/>
-  <!--<Shape shapeType='Mesh' shapeName='teapot1' filePath='meshes/teapot.obj' material='redSpecular' rx='0' ry='0' rz='1' angle='180'/>-->
-  <PerspectiveCamera nearClip="0.1" farClip="100" fieldOfView="45" aspectRatio="1" order="0" tx='0' ty='0' tz='5' rx='0' ry='0' rz='1' angle='180'/>
-  <PointLight r="0.5" g="0.5" b="0.5" tx='0' ty='0' tz='5'/>
-  
-</Scene>

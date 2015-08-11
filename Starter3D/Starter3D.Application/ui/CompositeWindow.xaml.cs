@@ -1,18 +1,14 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Forms.Integration;
 using System.Windows.Input;
-using System.Windows.Media;
 using OpenTK;
 using OpenTK.Graphics;
-using OpenTK.Graphics.OpenGL;
 using Starter3D.API.controller;
 using Starter3D.API.renderer;
 using Starter3D.Renderers;
-using KeyEventArgs = System.Windows.Forms.KeyEventArgs;
+using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 using KeyPressEventArgs = System.Windows.Forms.KeyPressEventArgs;
 using MouseEventArgs = System.Windows.Forms.MouseEventArgs;
 using WindowState = System.Windows.WindowState;
@@ -25,17 +21,18 @@ namespace Starter3D.Application.ui
     private GLControl _glControl;
     private readonly IController _controller;
     private readonly IRenderer _renderer;
+    private readonly double _frameRate;
 
-    private TimeSpan _lastTime = TimeSpan.Zero;
     private int _lastMousePositionX;
     private int _lastMousePositionY;
 
-    public CompositeWindow(IController controller, IRenderer renderer)
+    public CompositeWindow(IController controller, IRenderer renderer, double frameRate)
     {
       if (controller == null) throw new ArgumentNullException("controller");
       if (renderer == null) throw new ArgumentNullException("renderer");
       _controller = controller;
       _renderer = renderer;
+      _frameRate = frameRate;
       Width = controller.Width;
       Height = controller.Height;
       if (_controller.IsFullScreen)
@@ -67,7 +64,7 @@ namespace Starter3D.Application.ui
       if (_glControl != null)
       {
         _renderingAdapter = new CompositeRenderingAdapter(_controller,
-          ((CompositeRenderer) _renderer).D3DRenderer.Direct3DDevice, _glControl);
+          ((CompositeRenderer)_renderer).D3DRenderer.Direct3DDevice, _glControl, _frameRate);
         direct3DControl.RegisterRenderer(_renderingAdapter, (int) ActualWidth, (int) ActualHeight);
       }
       direct3DControl.Loaded += OnDirect3DControlLoaded;
@@ -193,7 +190,7 @@ namespace Starter3D.Application.ui
       _controller.MouseWheel(e.Delta / 100, (int)e.GetPosition(this).X, (int)e.GetPosition(this).X);
     }
 
-    private void OnKeyPress(object sender, System.Windows.Input.KeyEventArgs e)
+    private void OnKeyPress(object sender, KeyEventArgs e)
     {
       _controller.KeyDown((int)e.Key);
     }

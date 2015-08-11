@@ -157,7 +157,6 @@ namespace Starter3D.Plugin.PixelShader
 
     public void Render(double time)
     {
-      _accumulatedTime += time;
       _renderer.SetNumericParameter("time", (float)_accumulatedTime);
       _renderer.SetVectorParameter("mouse", _currentMousePosition);
       _shape.Render(_renderer);
@@ -165,7 +164,7 @@ namespace Starter3D.Plugin.PixelShader
 
     public void Update(double time)
     {
-
+      _accumulatedTime += time;
     }
 
     public void MouseDown(ControllerMouseButton button, int x, int y)

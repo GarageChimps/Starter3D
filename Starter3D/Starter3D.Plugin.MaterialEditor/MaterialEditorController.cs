@@ -14,7 +14,7 @@ namespace Starter3D.Plugin.MaterialEditor
 {
   public class MaterialEditorController : ViewModelBase, IController
   {
-    private const string ScenePath = @"scenes/testCamera.xml";
+    private const string ScenePath = @"scenes/scene.xml";
     private const string ResourcePath = @"resources/resources.xml";
 
     private readonly IRenderer _renderer;

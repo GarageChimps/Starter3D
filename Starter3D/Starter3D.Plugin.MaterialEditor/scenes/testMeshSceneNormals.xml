@@ -1,5 +1,0 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
-<Scene>
-	<Shape shapeType='Mesh' filePath='meshes/planeNormals.obj' material='test'>                                                   
-	</Shape>                          
-</Scene>
