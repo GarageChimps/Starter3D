@@ -81,9 +81,10 @@ namespace Starter3D.API.resources
         {
           _shader.SetTextureParameter(textureParameter.Key, textureParameter.Value);
         }
-        _shader.Render(renderer);
         _isDirty = false;
       }
+      _shader.Render(renderer);
+       
     }
 
     public virtual void Load(IDataNode dataNode, IResourceManager resourceManager)

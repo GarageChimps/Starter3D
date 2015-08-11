@@ -15,6 +15,8 @@ namespace Starter3D.API.resources
     private readonly Dictionary<string, float> _numericParameters = new Dictionary<string, float>();
     private readonly Dictionary<string, ITexture> _textureParameters = new Dictionary<string, ITexture>();
 
+    private bool _isDirty = true; 
+
     public string Name
     {
       get { return _shaderName; }
@@ -25,6 +27,7 @@ namespace Starter3D.API.resources
       if (!_vectorParameters.ContainsKey(name))
         throw new ApplicationException("Vector parameter doesnt exist in this shader");
       _vectorParameters[name] = vector;
+      _isDirty = true;
     }
 
     public void SetNumericParameter(string name, float number)
@@ -32,6 +35,7 @@ namespace Starter3D.API.resources
       if (!_numericParameters.ContainsKey(name))
         throw new ApplicationException("Numeric parameter doesnt exist in this shader");
       _numericParameters[name] = number;
+      _isDirty = true;
     }
 
     public void SetTextureParameter(string name, ITexture texture)
@@ -39,6 +43,7 @@ namespace Starter3D.API.resources
       if (!_textureParameters.ContainsKey(name))
         throw new ApplicationException("Texture doesnt exist in this shader");
       _textureParameters[name] = texture;
+      _isDirty = true;
     }
 
     public void Configure(IRenderer renderer)
@@ -55,18 +60,23 @@ namespace Starter3D.API.resources
     public void Render(IRenderer renderer)
     {
       renderer.UseShader(_shaderName);
-      foreach (var numericParameter in _numericParameters)
-      {
-        renderer.SetNumericParameter(numericParameter.Key, numericParameter.Value, _shaderName);
-      }
-      foreach (var vectorParameter in _vectorParameters)
-      {
-        renderer.SetVectorParameter(vectorParameter.Key, vectorParameter.Value, _shaderName);
-      }
       foreach (var textureParameter in _textureParameters)
       {
         renderer.UseTexture(textureParameter.Value.Name, _shaderName);
       }
+      if (_isDirty)
+      {
+        foreach (var numericParameter in _numericParameters)
+        {
+          renderer.SetNumericParameter(numericParameter.Key, numericParameter.Value, _shaderName);
+        }
+        foreach (var vectorParameter in _vectorParameters)
+        {
+          renderer.SetVectorParameter(vectorParameter.Key, vectorParameter.Value, _shaderName);
+        }
+        _isDirty = false;
+      }
+
     }
 
     public void Load(IDataNode dataNode, IResourceManager resourceManager)
