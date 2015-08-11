@@ -6,6 +6,7 @@ using OpenTK.Graphics;
 using Starter3D.API.controller;
 using Starter3D.API.renderer;
 using Starter3D.API.resources;
+using Starter3D.API.scene;
 using Starter3D.API.scene.nodes;
 using Starter3D.API.scene.persistence;
 
@@ -20,19 +21,15 @@ namespace Starter3D.Plugin.MaterialEditor
     private readonly ISceneReader _sceneReader;
     private readonly IResourceManager _resourceManager;
 
-    private readonly ISceneNode _sceneGraph;
-    private readonly IEnumerable<ShapeNode> _objects;
-    private readonly IEnumerable<LightNode> _lights;
-    private readonly IEnumerable<CameraNode> _cameras;
-    
-    private PerspectiveCamera _camera;
-    private PointLight _light;
-    private AmbientLight _ambientLight;
+    private readonly IScene _scene;
+    private readonly IScene _originalScene;
+    private readonly IEnumerable<ShapeNode> _shapes;
+
 
     private readonly MaterialEditorView _centralView;
     private readonly ObservableCollection<MaterialViewModel> _materials = new ObservableCollection<MaterialViewModel>();
     private MaterialViewModel _currentMaterial;
-    private readonly ObservableCollection<ShapeViewModel> _shapes = new ObservableCollection<ShapeViewModel>();
+    private readonly ObservableCollection<ShapeViewModel> _shapeViewModels = new ObservableCollection<ShapeViewModel>();
     private ShapeViewModel _currentShape;
 
     private bool _isDragging;
@@ -94,9 +91,9 @@ namespace Starter3D.Plugin.MaterialEditor
       get { return _materials; }
     }
 
-    public ObservableCollection<ShapeViewModel> Shapes
+    public ObservableCollection<ShapeViewModel> ShapeViewModels
     {
-      get { return _shapes; }
+      get { return _shapeViewModels; }
     }
 
     public MaterialViewModel CurrentMaterial
@@ -137,11 +134,11 @@ namespace Starter3D.Plugin.MaterialEditor
       _resourceManager = resourceManager;
 
       _resourceManager.Load(ResourcePath);
-      _sceneGraph = _sceneReader.Read(ScenePath);
-      _sceneGraph.GetNodes<ISceneNode>().ToList();
-      _objects = _sceneGraph.GetNodes<ShapeNode>().ToList();
-      _lights = _sceneGraph.GetNodes<LightNode>().ToList();
-      _cameras = _sceneGraph.GetNodes<CameraNode>().ToList();
+      
+      //AE August 2015: The scene definition from file contains multiple shapes, we only want to render one, so we create a new scene with only the first shape
+      _originalScene = _sceneReader.Read(ScenePath);
+      _scene = new Scene(_originalScene.Cameras.ToList(), new List<ShapeNode>{_originalScene.Shapes.First()}, _originalScene.Lights.ToList() );
+      _shapes = _originalScene.Shapes;
 
       _centralView = new MaterialEditorView();
       _centralView.DataContext = this;
@@ -151,43 +148,24 @@ namespace Starter3D.Plugin.MaterialEditor
     {
       InitRenderer();
 
-      _light = _sceneGraph.GetNodes<PointLight>().First();
-      _camera = _sceneGraph.GetNodes<PerspectiveCamera>().First();
-      var materials = _resourceManager.GetMaterials();
-      foreach (var material in materials)
+      _resourceManager.Configure(_renderer);
+      _originalScene.Configure(_renderer);
+
+      InitView();
+    }
+
+    private void InitView()
+    {
+      foreach (var material in _resourceManager.GetMaterials())
       {
-        material.Configure(_renderer);
         _materials.Add(new MaterialViewModel(material));
       }
       CurrentMaterial = _materials.First();
-      var pointLights = _sceneGraph.GetNodes<PointLight>().ToList();
-      for (int i = 0; i < pointLights.Count(); i++)
+      foreach (var obj in _shapes)
       {
-        pointLights.ElementAt(i).Index = i;
+        _shapeViewModels.Add(new ShapeViewModel(obj));
       }
-      var directionalLights = _sceneGraph.GetNodes<DirectionalLight>().ToList();
-      for (int i = 0; i < directionalLights.Count(); i++)
-      {
-        directionalLights.ElementAt(i).Index = i;
-      }
-      _ambientLight = _sceneGraph.GetNodes<AmbientLight>().First();
-      foreach (var obj in _objects)
-      {
-        obj.Configure(_renderer);
-        _shapes.Add(new ShapeViewModel(obj));
-      }
-      CurrentShape = Shapes.First();
-      foreach (var camera in _cameras)
-      {
-        camera.Configure(_renderer);
-      }
-      foreach (var light in _lights)
-      {
-        light.Configure(_renderer);
-      }
-      _renderer.SetNumericParameter("activeNumberOfPointLights", pointLights.Count());
-      _renderer.SetNumericParameter("activeNumberOfDirectionalLights", directionalLights.Count());
-
+      CurrentShape = ShapeViewModels.First();
     }
 
     private void InitRenderer()
@@ -198,13 +176,7 @@ namespace Starter3D.Plugin.MaterialEditor
 
     public void Render(double time)
     {
-      _camera.Render(_renderer);
-      foreach (var light in _lights)
-      {
-        light.Render(_renderer);
-      }
-      _ambientLight.Render(_renderer);
-      _currentShape.Shape.Render(_renderer);
+      _scene.Render(_renderer);
     }
 
     public void Update(double time)
@@ -214,13 +186,17 @@ namespace Starter3D.Plugin.MaterialEditor
 
     public void UpdateSize(double width, double height)
     {
-      _camera.AspectRatio = (float)(width / height);
+      var perspectiveCamera = _scene.CurrentCamera as PerspectiveCamera;
+      if (perspectiveCamera != null)
+        perspectiveCamera.AspectRatio = (float)(width / height);
     }
 
     public void MouseWheel(int delta, int x, int y)
     {
-      _camera.Zoom(delta);
-      _light.Position = _camera.Position;
+      _scene.CurrentCamera.Zoom(delta);
+      var pointLight = _scene.Lights.First() as PointLight;
+      if (pointLight != null)
+        pointLight.Position = _scene.CurrentCamera.Position;
     }
 
     public void MouseDown(ControllerMouseButton button, int x, int y)
@@ -242,10 +218,12 @@ namespace Starter3D.Plugin.MaterialEditor
     public void MouseMove(int x, int y, int deltaX, int deltaY)
     {
       if (_isDragging)
-        _camera.Drag(deltaX, deltaY);
+        _scene.CurrentCamera.Drag(deltaX, deltaY);
       else if (_isOrbiting)
-        _camera.Orbit(deltaX, deltaY);
-      _light.Position = _camera.Position;
+        _scene.CurrentCamera.Orbit(deltaX, deltaY);
+      var pointLight = _scene.Lights.First() as PointLight;
+      if (pointLight != null)
+        pointLight.Position = _scene.CurrentCamera.Position;
     }
 
     public void KeyDown(int key)
@@ -262,6 +240,11 @@ namespace Starter3D.Plugin.MaterialEditor
 
     private void OnCurrentShapeChanged()
     {
+      if (_currentShape != null)
+      {
+        _scene.ClearShapes();
+        _scene.AddShape(_currentShape.Shape);
+      }
       if (_currentShape != null && _currentMaterial != null)
         _currentShape.Shape.Shape.Material = _currentMaterial.Material;
     }

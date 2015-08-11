@@ -62,7 +62,6 @@ namespace Starter3D.API.resources
       {
         _shader.SetTextureParameter(textureParameter.Key, textureParameter.Value);
       } 
-      _shader.Configure(renderer);
     }
 
     public void Render(IRenderer renderer)

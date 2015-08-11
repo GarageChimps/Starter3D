@@ -49,12 +49,6 @@ namespace Starter3D.API.resources
     public void Configure(IRenderer renderer)
     {
       renderer.LoadShaders(_shaderName, _vertexShader, _fragmentShader);
-      int index = 0;
-      foreach (var textureParameter in _textureParameters)
-      {
-        textureParameter.Value.Configure(renderer, _shaderName, textureParameter.Key, index);
-        index++;
-      }
     }
 
     public void Render(IRenderer renderer)
@@ -62,7 +56,7 @@ namespace Starter3D.API.resources
       renderer.UseShader(_shaderName);
       foreach (var textureParameter in _textureParameters)
       {
-        renderer.UseTexture(textureParameter.Value.Name, _shaderName);
+        renderer.UseTexture(textureParameter.Value.Name, _shaderName, textureParameter.Key);
       }
       if (_isDirty)
       {

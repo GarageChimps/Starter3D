@@ -6,6 +6,7 @@ using OpenTK;
 using Starter3D.API.controller;
 using Starter3D.API.renderer;
 using Starter3D.API.resources;
+using Starter3D.API.scene;
 using Starter3D.API.scene.nodes;
 using Starter3D.API.scene.persistence;
 
@@ -20,8 +21,8 @@ namespace Starter3D.Plugin.PixelShader
     private readonly ISceneReader _sceneReader;
     private readonly IResourceManager _resourceManager;
 
-    private readonly ISceneNode _sceneGraph;
-    private readonly IEnumerable<ShapeNode> _objects;
+    private readonly IScene _scene;
+    private readonly IEnumerable<ShapeNode> _shapes;
     private ShapeNode _shape;
     private IMaterial _currentMaterial;
     private Vector3 _currentMousePosition;
@@ -115,12 +116,8 @@ namespace Starter3D.Plugin.PixelShader
 
       _resourceManager.Load(ResourcePath);
       _resourceManager.GetMaterials();
-      _sceneGraph = _sceneReader.Read(ScenePath);
-      _sceneGraph.GetNodes<ISceneNode>().ToList();
-      _objects = _sceneGraph.GetNodes<ShapeNode>().ToList();
-      _sceneGraph.GetNodes<LightNode>().ToList();
-      _sceneGraph.GetNodes<CameraNode>().ToList();
-
+      _scene = _sceneReader.Read(ScenePath);
+      _shapes = _scene.Shapes;
       _centralView = new PixelShaderView();
       _centralView.DataContext = this;
     }
@@ -138,18 +135,23 @@ namespace Starter3D.Plugin.PixelShader
       {
         shader.Configure(_renderer);
       }
+      _currentMaterial = new Material(shaders.First());
+      _currentMaterial.Configure(_renderer);
+
+      InitView(shaders);
+
+      _shape = _shapes.First();
+      _shape.Shape.Material = _currentMaterial;
+      _shape.Configure(_renderer);
+    }
+
+    private void InitView(List<IShader> shaders)
+    {
       foreach (var shader in shaders)
       {
         _shaders.Add(new ShaderViewModel(shader));
       }
       CurrentShader = _shaders.First();
-
-      _currentMaterial = new Material(shaders.First());
-      _currentMaterial.Configure(_renderer);
-
-      _shape = _objects.First();
-      _shape.Shape.Material = _currentMaterial;
-      _shape.Configure(_renderer);
     }
 
 

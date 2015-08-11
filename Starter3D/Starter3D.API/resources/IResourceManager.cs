@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
+using Starter3D.API.renderer;
 
 namespace Starter3D.API.resources
 {
   public interface IResourceManager
   {
     void Load(string resourceFile);
+    void Configure(IRenderer renderer);
     
     IMaterial GetMaterial(string key);
     IEnumerable<IMaterial> GetMaterials(); 

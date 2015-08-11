@@ -16,8 +16,8 @@ namespace Starter3D.API.renderer
     void SetVertexAttribute(string objectName, string shaderName, int index, string vertexPropertyName, int stride, int offset);
     
     //Texture related methods
-    void LoadTexture(string uniformName, string shader, int index, string textureName, Bitmap texture, TextureMinFilter minFilter, TextureMagFilter magFilter);
-    void UseTexture(string textureName, string shader);
+    void LoadTexture(string textureName, int index, Bitmap texture, TextureMinFilter minFilter, TextureMagFilter magFilter);
+    void UseTexture(string textureName, string shader, string uniformName);
 
     //Shader related methods
     void LoadShaders(string shaderName, string vertexShader, string fragmentShader);

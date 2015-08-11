@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using System.Linq;
 using OpenTK.Graphics.OpenGL;
 using Starter3D.API.renderer;
 
@@ -10,6 +11,7 @@ namespace Starter3D.API.resources
     private string _name;
     private string _path;
     private Bitmap _image;
+    private int _index;
     private TextureMinFilter _minFilter;
     private TextureMagFilter _magFilter;
 
@@ -22,15 +24,10 @@ namespace Starter3D.API.resources
     {
       get { return _image; }
     }
-
-    public void Configure(IRenderer renderer, string shaderName, string uniformName, int index)
-    {
-      renderer.LoadTexture(uniformName, shaderName, index, _name, _image, _minFilter, _magFilter);
-    }
-
+    
     public void Configure(IRenderer renderer)
     {
-      
+      renderer.LoadTexture(_name, _index, _image, _minFilter, _magFilter);
     }
 
     public void Render(IRenderer renderer)
@@ -49,6 +46,7 @@ namespace Starter3D.API.resources
       if (dataNode.HasParameter("magFilter"))
         _magFilter = (TextureMagFilter)Enum.Parse(typeof(TextureMagFilter), dataNode.ReadParameter("magFilter"));
       _image = (Bitmap) System.Drawing.Image.FromFile(_path);
+      _index = resourceManager.GetTextures().Count();
     }
 
     

@@ -65,7 +65,7 @@
           <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <TextBlock Text="Select a shape:"></TextBlock>
-        <ComboBox Grid.Row="1" ItemsSource="{Binding Shapes}" SelectedItem="{Binding CurrentShape}"></ComboBox>
+        <ComboBox Grid.Row="1" ItemsSource="{Binding ShapeViewModels}" SelectedItem="{Binding CurrentShape}"></ComboBox>
       </Grid>
     </Border>
     <Border Grid.Column="0" Grid.Row="1" Width="250" Margin="5" BorderThickness="1" BorderBrush="Black" CornerRadius="1">

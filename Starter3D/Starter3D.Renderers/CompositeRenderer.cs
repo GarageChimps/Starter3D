@@ -65,11 +65,19 @@ namespace Starter3D.Renderers
       }
     }
 
-    public void UseTexture(string textureName, string shader)
+    public void LoadTexture(string textureName, int index, Bitmap texture, TextureMinFilter minFilter, TextureMagFilter magFilter)
     {
       foreach (var renderer in _renderers)
       {
-        renderer.UseTexture(textureName, shader);
+        renderer.LoadTexture(textureName, index, texture, minFilter, magFilter);
+      }
+    }
+
+    public void UseTexture(string textureName, string shader, string uniformShader)
+    {
+      foreach (var renderer in _renderers)
+      {
+        renderer.UseTexture(textureName, shader, uniformShader);
       }
     }
 
@@ -169,14 +177,7 @@ namespace Starter3D.Renderers
       }
     }
 
-    public void LoadTexture(string uniformName, string shader, int index, string textureName, Bitmap texture,
-      TextureMinFilter minFilter, TextureMagFilter magFilter)
-    {
-      foreach (var renderer in _renderers)
-      {
-        renderer.LoadTexture(uniformName, shader, index, textureName, texture, minFilter, magFilter);
-      }
-    }
+   
 
     public void SetVerticesData(string objectName, List<Vector3> data)
     {

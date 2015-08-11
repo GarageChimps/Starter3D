@@ -18,12 +18,17 @@ namespace Starter3D.API.scene.nodes
     public float AspectRatio
     {
       get { return _aspectRatio; }
-      set { _aspectRatio = value; }
+      set
+      {
+        _aspectRatio = value;
+        _isDirty = true;
+      }
     }
 
 
-    public PerspectiveCamera(float nearClip, float farClip, int order, float fieldOfView, float aspectRatio)
-      : base(nearClip, farClip, order)
+    public PerspectiveCamera(float nearClip, float farClip, int order, float fieldOfView, float aspectRatio, Vector3 position = default(Vector3),
+      Vector3 target = default(Vector3), Vector3 up = default(Vector3))
+      : base(nearClip, farClip, order, position, target, up)
     {
       Init(fieldOfView, aspectRatio);
     }

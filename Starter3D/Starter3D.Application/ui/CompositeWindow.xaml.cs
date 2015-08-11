@@ -92,8 +92,6 @@ namespace Starter3D.Application.ui
 
     private void OnSizeChanged(object sender, SizeChangedEventArgs e)
     {
-      if(_renderingAdapter != null)
-        _renderingAdapter.Reinitialize((int)direct3DControl.ActualWidth, (int)direct3DControl.ActualHeight);
       _controller.UpdateSize(_glControl.Width, _glControl.Height);
     }
 
@@ -110,34 +108,12 @@ namespace Starter3D.Application.ui
       _glControl.KeyPress += OnKeyPress;
       _glControl.Dock = DockStyle.Fill;
       (sender as WindowsFormsHost).Child = _glControl;
-
-      //_renderingAdapter = new CompositeRenderingAdapter(_controller, ((CompositeRenderer)_renderer).D3DRenderer.Direct3DDevice, _glControl);
-      //direct3DControl.RegisterRenderer(_renderingAdapter, (int)ActualWidth, (int)ActualHeight);
       
 
       _controller.Load();
 
-      //CompositionTarget.Rendering += Render;
     }
-
-    private void Render(object sender, EventArgs e)
-    {
-      RenderingEventArgs args = (RenderingEventArgs)e;
-      if (args.RenderingTime == _lastTime)
-        return;
-
-      GL.Viewport(0, 0, (int)_glControl.Width, (int)_glControl.Height);
-      GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-
-      _controller.Render((args.RenderingTime - _lastTime).TotalSeconds);
-
-
-      GL.Flush();
-      _glControl.SwapBuffers();
-
-      _lastTime = args.RenderingTime;
-
-    }
+    
 
     private void OnMouseDown(object sender, MouseEventArgs e)
     {

@@ -65,10 +65,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\netDXF.0.9.3\lib\netDxf.dll</HintPath>
     </Reference>
-    <Reference Include="System" />
     <Reference Include="OpenTK">
-      <HintPath>..\Starter3D\Libraries\OpenTK.dll</HintPath>
+      <HintPath>..\libraries\OpenTK.dll</HintPath>
     </Reference>
+    <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
@@ -100,12 +100,14 @@
     <Compile Include="resources\Texture.cs" />
     <Compile Include="resources\TextureFactory.cs" />
     <Compile Include="resources\XmlDataNode.cs" />
+    <Compile Include="scene\IScene.cs" />
     <Compile Include="scene\nodes\AmbientLight.cs" />
     <Compile Include="scene\nodes\BaseSceneNode.cs" />
     <Compile Include="scene\nodes\CameraNode.cs" />
     <Compile Include="scene\nodes\IRenderElement.cs" />
     <Compile Include="scene\persistence\factories\SceneDataNodeFactory.cs" />
     <Compile Include="scene\nodes\DirectionalLight.cs" />
+    <Compile Include="scene\Scene.cs" />
     <Compile Include="utils\Configuration.cs" />
     <Compile Include="utils\Extensions.cs" />
     <Compile Include="geometry\Face.cs" />

@@ -49,18 +49,7 @@ namespace Starter3D.Renderers
       }
     }
 
-    class TextureInfo
-    {
-      public ShaderResourceView ShaderResource;
-      public string UniformName;
-
-      public TextureInfo(ShaderResourceView shaderResource, string uniformName)
-      {
-        ShaderResource = shaderResource;
-        UniformName = uniformName;
-      }
-    }
-
+   
     private const string ShaderBasePath = @"shaders/direct3d";
     private const string ShaderExtension = ".hlsl";
     private const string EffectExtension = ".fx";
@@ -69,7 +58,7 @@ namespace Starter3D.Renderers
     private string _currentShader;
     private readonly Dictionary<string, ShaderProgram> _shaderHandleDictionary = new Dictionary<string, ShaderProgram>();
     private readonly Dictionary<string, RenderObject> _objectsHandleDictionary = new Dictionary<string, RenderObject>();
-    private readonly Dictionary<string, TextureInfo> _textureHandleDictionary = new Dictionary<string, TextureInfo>();
+    private readonly Dictionary<string, ShaderResourceView> _textureHandleDictionary = new Dictionary<string, ShaderResourceView>();
     private readonly Dictionary<string, List<SlimDX.Vector4>> _vectorArrayShaderParameterDictionary = new Dictionary<string, List<SlimDX.Vector4>>();
 
     private readonly Dictionary<string, string> _semanticsTable = new Dictionary<string, string>();
@@ -309,25 +298,24 @@ namespace Starter3D.Renderers
       }
     }
 
-    public void LoadTexture(string uniformName, string shader, int index, string textureName, Bitmap texture,
-      TextureMinFilter minFilter, TextureMagFilter magFilter)
+    public void LoadTexture(string textureName, int index, Bitmap texture, TextureMinFilter minFilter, TextureMagFilter magFilter)
     {
       if (_textureHandleDictionary.ContainsKey(textureName))
         return;
       var texture2D = CreateTexture(texture.Width, texture.Height);
       LoadBitmapInTexture(texture, texture2D);
       var textureResource = CreateTextureResource(texture2D);
-      _textureHandleDictionary.Add(textureName, new TextureInfo(textureResource, uniformName));
+      _textureHandleDictionary.Add(textureName, textureResource);
     }
 
-    public void UseTexture(string textureName, string shader)
+    public void UseTexture(string textureName, string shader, string uniformName)
     {
       if (!_textureHandleDictionary.ContainsKey(textureName))
         throw new ApplicationException("Texture has to be added before using");
       var effect = _shaderHandleDictionary[shader].Effect;
-      var variable = effect.GetVariableByName(_textureHandleDictionary[textureName].UniformName).AsResource();
+      var variable = effect.GetVariableByName(uniformName).AsResource();
       if (variable != null)
-        variable.SetResource(_textureHandleDictionary[textureName].ShaderResource);
+        variable.SetResource(_textureHandleDictionary[textureName]);
     }
 
     private Texture2D CreateTexture(int width, int height)

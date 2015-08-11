@@ -34,7 +34,6 @@ namespace Starter3D.Renderers
     {
       public int Handle { get; set; }
       public int Unit { get; set; }
-      public string UniformName { get; set; }
     }
     #endregion
 
@@ -99,24 +98,24 @@ namespace Starter3D.Renderers
       }
     }
 
-    public void LoadTexture(string uniformName, string shader, int index, string textureName, Bitmap texture, TextureMinFilter minFilter, TextureMagFilter magFilter)
+    public void LoadTexture(string textureName, int index, Bitmap texture, TextureMinFilter minFilter, TextureMagFilter magFilter)
     {
-      if (_textureHandleDictionary.ContainsKey(textureName + shader))
+      if (_textureHandleDictionary.ContainsKey(textureName))
         return;
       var unit = TextureUnit.Texture0 + index;
       var textureHandle = CreateTexture(texture, unit, minFilter, magFilter);
-      _textureHandleDictionary.Add(textureName + shader, new TextureInfo{Handle = textureHandle, Unit = index, UniformName = uniformName});
+      _textureHandleDictionary.Add(textureName, new TextureInfo{Handle = textureHandle, Unit = index});
     }
 
-    public void UseTexture(string textureName, string shader)
+    public void UseTexture(string textureName, string shader, string uniformName)
     {
-      if (!_textureHandleDictionary.ContainsKey(textureName + shader))
+      if (!_textureHandleDictionary.ContainsKey(textureName))
         throw new ApplicationException("Texture has to be added before using");
       GL.UseProgram(_shaderHandleDictionary[shader]);
-      var textureInfo = _textureHandleDictionary[textureName + shader];
+      var textureInfo = _textureHandleDictionary[textureName];
       GL.ActiveTexture(TextureUnit.Texture0 + textureInfo.Unit);
       GL.BindTexture(TextureTarget.Texture2D, textureInfo.Handle);
-      int location = GL.GetUniformLocation(_shaderHandleDictionary[shader], textureInfo.UniformName);
+      int location = GL.GetUniformLocation(_shaderHandleDictionary[shader], uniformName);
       if (location != -1)
       {
         int textureUnitIndex = textureInfo.Unit;

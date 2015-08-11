@@ -75,7 +75,6 @@ namespace Starter3D.Application.ui
 
     private void OnSizeChanged(object sender, SizeChangedEventArgs e)
     {
-      _renderingAdapter.Reinitialize((int)direct3DControl.ActualWidth, (int)direct3DControl.ActualHeight);
       _controller.UpdateSize(direct3DControl.ActualWidth, direct3DControl.ActualHeight);
     }
 

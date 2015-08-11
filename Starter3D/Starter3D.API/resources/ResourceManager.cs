@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
+using Starter3D.API.renderer;
 using Starter3D.API.utils;
 
 namespace Starter3D.API.resources
@@ -12,6 +13,7 @@ namespace Starter3D.API.resources
     private readonly Dictionary<string, IShader> _shaders = new Dictionary<string, IShader>();
     private readonly Dictionary<string, IMaterial> _materials = new Dictionary<string, IMaterial>();
     private readonly Dictionary<string, ITexture> _textures = new Dictionary<string, ITexture>();
+    private readonly List<IResource> _resources = new List<IResource>(); 
     private readonly IMaterialFactory _materialFactory;
     private readonly IShaderFactory _shaderFactory;
     private readonly ITextureFactory _textureFactory;
@@ -38,6 +40,14 @@ namespace Starter3D.API.resources
         LoadTextures(element.Elements("Textures").First());
       if (element.Elements("Materials").Any())
         LoadMaterials(element.Elements("Materials").First());
+    }
+
+    public void Configure(IRenderer renderer)
+    {
+      foreach (var resource in _resources)
+      {
+        resource.Configure(renderer);
+      }
     }
 
     private void LoadTextures(XElement texturesRoot)
@@ -93,6 +103,7 @@ namespace Starter3D.API.resources
     public void AddMaterial(string key, IMaterial material)
     {
       _materials.Add(key, material);
+      _resources.Add(material);
     }
 
     public bool HasMaterial(string key)
@@ -110,6 +121,7 @@ namespace Starter3D.API.resources
     public void AddShader(string key, IShader shader)
     {
       _shaders.Add(key, shader);
+      _resources.Add(shader);
     }
 
     public IEnumerable<IShader> GetShaders()
@@ -132,6 +144,7 @@ namespace Starter3D.API.resources
     public void AddTexture(string key, ITexture texture)
     {
       _textures.Add(key, texture);
+      _resources.Add(texture);
     }
 
     public IEnumerable<ITexture> GetTextures()
