@@ -6,12 +6,15 @@ using System.IO;
 using OpenTK;
 using OpenTK.Graphics;
 using Starter3D.API.renderer;
+using Starter3D.API.utils;
 using BeginMode = OpenTK.Graphics.OpenGL.BeginMode;
 using BufferTarget = OpenTK.Graphics.OpenGL.BufferTarget;
 using BufferUsageHint = OpenTK.Graphics.OpenGL.BufferUsageHint;
+using CullFaceMode = OpenTK.Graphics.OpenGL.CullFaceMode;
 using DrawElementsType = OpenTK.Graphics.OpenGL.DrawElementsType;
 using EnableCap = OpenTK.Graphics.OpenGL.EnableCap;
 using GL = OpenTK.Graphics.OpenGL.GL;
+using MaterialFace = OpenTK.Graphics.OpenGL.MaterialFace;
 using PixelFormat = OpenTK.Graphics.OpenGL.PixelFormat;
 using PixelInternalFormat = OpenTK.Graphics.OpenGL.PixelInternalFormat;
 using PixelType = OpenTK.Graphics.OpenGL.PixelType;
@@ -44,6 +47,7 @@ namespace Starter3D.Renderers
     private readonly Dictionary<string, int> _shaderHandleDictionary = new Dictionary<string, int>();
     private readonly Dictionary<string, int> _objectsHandleDictionary = new Dictionary<string, int>();
     private readonly Dictionary<string, TextureInfo> _textureHandleDictionary = new Dictionary<string, TextureInfo>();
+
     #endregion
 
     #region Public Methods
@@ -227,6 +231,32 @@ namespace Starter3D.Renderers
         GL.Enable(EnableCap.DepthTest);
       else
         GL.Disable(EnableCap.DepthTest);
+    }
+
+    public void EnableWireframe(bool enable)
+    {
+      var polygonMode = enable ? OpenTK.Graphics.OpenGL.PolygonMode.Line : OpenTK.Graphics.OpenGL.PolygonMode.Fill;
+      GL.PolygonMode(MaterialFace.FrontAndBack, polygonMode);
+    }
+
+    public void SetCullMode(CullMode cullMode)
+    {
+      switch (cullMode)
+      {
+        case CullMode.None:
+          GL.Disable(EnableCap.CullFace);
+          break;
+        case CullMode.Back:
+          GL.Enable(EnableCap.CullFace);
+          GL.CullFace(CullFaceMode.Back);
+          break;
+        case CullMode.Front:
+          GL.Enable(EnableCap.CullFace);
+          GL.CullFace(CullFaceMode.Front);
+          break;
+        default:
+          throw new ArgumentOutOfRangeException("cullMode");
+      }
     }
 
     #endregion

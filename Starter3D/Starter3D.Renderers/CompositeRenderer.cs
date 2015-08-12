@@ -5,6 +5,7 @@ using OpenTK.Graphics;
 using TextureMagFilter = OpenTK.Graphics.OpenGL.TextureMagFilter;
 using TextureMinFilter = OpenTK.Graphics.OpenGL.TextureMinFilter;
 using Starter3D.API.renderer;
+using Starter3D.API.utils;
 
 namespace Starter3D.Renderers
 {
@@ -118,6 +119,22 @@ namespace Starter3D.Renderers
       foreach (var renderer in _renderers)
       {
         renderer.EnableZBuffer(enable);
+      }
+    }
+
+    public void EnableWireframe(bool enable)
+    {
+      foreach (var renderer in _renderers)
+      {
+        renderer.EnableWireframe(enable);
+      }
+    }
+
+    public void SetCullMode(CullMode cullMode)
+    {
+      foreach (var renderer in _renderers)
+      {
+        renderer.SetCullMode(cullMode);
       }
     }
 

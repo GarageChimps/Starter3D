@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using OpenTK;
+using OpenTK.Graphics.OpenGL;
 using SlimDX;
 using SlimDX.D3DCompiler;
 using SlimDX.Direct3D10;
 using SlimDX.Direct3D10_1;
 using SlimDX.DXGI;
 using Starter3D.API.renderer;
-using Color4 = OpenTK.Graphics.Color4;
-using TextureMagFilter = OpenTK.Graphics.OpenGL.TextureMagFilter;
-using TextureMinFilter = OpenTK.Graphics.OpenGL.TextureMinFilter;
-
+using Buffer = SlimDX.Direct3D10.Buffer;
+using CullMode = Starter3D.API.utils.CullMode;
 using Device = SlimDX.Direct3D10_1.Device1;
-using Vector3 = OpenTK.Vector3;
+using MapFlags = SlimDX.Direct3D10.MapFlags;
+using Vector3 = SlimDX.Vector3;
 using Vector4 = SlimDX.Vector4;
 
 namespace Starter3D.Renderers
@@ -24,8 +24,8 @@ namespace Starter3D.Renderers
     class RenderObject
     {
       public List<InputElement> InputElements = new List<InputElement>();
-      public SlimDX.Direct3D10.Buffer VertexBuffer;
-      public SlimDX.Direct3D10.Buffer IndexBuffer;
+      public Buffer VertexBuffer;
+      public Buffer IndexBuffer;
       public int IndexCount;
     }
 
@@ -64,14 +64,14 @@ namespace Starter3D.Renderers
     private RasterizerStateDescription _rasterizerStateDescription;
     private DepthStencilStateDescription _depthStencilStateDescription;
 
-    private SlimDX.Color4 _background = new SlimDX.Color4(new SlimDX.Vector3(1,1,1));
+    private Color4 _background = new Color4(new Vector3(1,1,1));
 
     public Device Direct3DDevice
     {
       get { return _device; }
     }
 
-    public SlimDX.Color4 Background
+    public Color4 Background
     {
       get { return _background; }
       set { _background = value; }
@@ -83,8 +83,9 @@ namespace Starter3D.Renderers
       _device = new Device(DriverType.Hardware, DeviceCreationFlags.BgraSupport, FeatureLevel.Level_10_0);
       _rasterizerStateDescription = new RasterizerStateDescription()
       {
-        CullMode = CullMode.None,
-        FillMode = FillMode.Solid
+        CullMode = SlimDX.Direct3D10.CullMode.None,
+        FillMode = FillMode.Solid,
+        IsFrontCounterclockwise = true
       };
       var rasterizerState = RasterizerState.FromDescription(_device, _rasterizerStateDescription);
       _device.Rasterizer.State = rasterizerState;
@@ -117,19 +118,19 @@ namespace Starter3D.Renderers
       var pass = technique.GetPassByIndex(0);
       _device.InputAssembler.SetInputLayout(GetInputLayout(pass, _objectsHandleDictionary[objectName].InputElements.ToArray()));
       _device.InputAssembler.SetPrimitiveTopology(PrimitiveTopology.TriangleList);
-      _device.InputAssembler.SetVertexBuffers(0, new VertexBufferBinding(_objectsHandleDictionary[objectName].VertexBuffer, Vector3.SizeInBytes * _objectsHandleDictionary[objectName].InputElements.Count, 0));
+      _device.InputAssembler.SetVertexBuffers(0, new VertexBufferBinding(_objectsHandleDictionary[objectName].VertexBuffer, OpenTK.Vector3.SizeInBytes * _objectsHandleDictionary[objectName].InputElements.Count, 0));
       _device.InputAssembler.SetIndexBuffer(_objectsHandleDictionary[objectName].IndexBuffer, Format.R32_UInt, 0);
       _device.DrawIndexed(_objectsHandleDictionary[objectName].IndexCount, 0, 0);
     }
 
-    public void SetVerticesData(string objectName, List<Vector3> data)
+    public void SetVerticesData(string objectName, List<OpenTK.Vector3> data)
     {
       if (!_objectsHandleDictionary.ContainsKey(objectName))
         throw new ApplicationException("Object must be added to the renderer before setting its vertex data");
-      var verticesStream = new DataStream(data.Count * Vector3.SizeInBytes, true, true);
+      var verticesStream = new DataStream(data.Count * OpenTK.Vector3.SizeInBytes, true, true);
       foreach (var vector in data)
       {
-        verticesStream.Write(new SlimDX.Vector3(vector.X, vector.Y, vector.Z));
+        verticesStream.Write(new Vector3(vector.X, vector.Y, vector.Z));
       }
       verticesStream.Position = 0;
       var bufferDesc = new BufferDescription
@@ -137,10 +138,10 @@ namespace Starter3D.Renderers
         BindFlags = BindFlags.VertexBuffer,
         CpuAccessFlags = CpuAccessFlags.None,
         OptionFlags = ResourceOptionFlags.None,
-        SizeInBytes = data.Count * Vector3.SizeInBytes,
+        SizeInBytes = data.Count * OpenTK.Vector3.SizeInBytes,
         Usage = ResourceUsage.Default
       };
-      var vertexBuffer = new SlimDX.Direct3D10.Buffer(_device, verticesStream, bufferDesc);
+      var vertexBuffer = new Buffer(_device, verticesStream, bufferDesc);
       _objectsHandleDictionary[objectName].VertexBuffer = vertexBuffer;
     }
 
@@ -162,7 +163,7 @@ namespace Starter3D.Renderers
         SizeInBytes = indices.Count * sizeof(int),
         Usage = ResourceUsage.Default
       };
-      var indexBuffer = new SlimDX.Direct3D10.Buffer(_device, indicesStream, bufferDesc);
+      var indexBuffer = new Buffer(_device, indicesStream, bufferDesc);
       _objectsHandleDictionary[objectName].IndexBuffer = indexBuffer;
       _objectsHandleDictionary[objectName].IndexCount = indices.Count;
     }
@@ -208,9 +209,36 @@ namespace Starter3D.Renderers
       _device.OutputMerger.DepthStencilState = null;
     }
 
+    public void EnableWireframe(bool enable)
+    {
+      _rasterizerStateDescription.FillMode = enable ? FillMode.Wireframe : FillMode.Solid;
+      var rasterizerState = RasterizerState.FromDescription(_device, _rasterizerStateDescription);
+      _device.Rasterizer.State = rasterizerState;
+    }
+
+    public void SetCullMode(CullMode cullMode)
+    {
+      switch (cullMode)
+      {
+        case CullMode.None:
+          _rasterizerStateDescription.CullMode = SlimDX.Direct3D10.CullMode.None;
+          break;
+        case CullMode.Back:
+          _rasterizerStateDescription.CullMode = SlimDX.Direct3D10.CullMode.Back;
+          break;
+        case CullMode.Front:
+          _rasterizerStateDescription.CullMode = SlimDX.Direct3D10.CullMode.Front;
+          break;
+        default:
+          throw new ArgumentOutOfRangeException("cullMode");
+      }
+      var rasterizerState = RasterizerState.FromDescription(_device, _rasterizerStateDescription);
+      _device.Rasterizer.State = rasterizerState;
+    }
+
     public void SetBackgroundColor(float r, float g, float b)
     {
-      _background = new SlimDX.Color4(new SlimDX.Vector3(r,g,b));
+      _background = new Color4(new Vector3(r,g,b));
     }
 
 
@@ -233,7 +261,7 @@ namespace Starter3D.Renderers
         variable.Set(number);
     }
 
-    public void SetVectorParameter(string name, Vector3 vector, string shader)
+    public void SetVectorParameter(string name, OpenTK.Vector3 vector, string shader)
     {
       var effect = _shaderHandleDictionary[shader].Effect;
       var variable = effect.GetVariableByName(name).AsVector();
@@ -241,7 +269,7 @@ namespace Starter3D.Renderers
         variable.Set(vector.ToSlimDXVector3());
     }
 
-    public void SetVectorParameter(string name, Vector3 vector)
+    public void SetVectorParameter(string name, OpenTK.Vector3 vector)
     {
       foreach (var shaderProgram in _shaderHandleDictionary)
       {
@@ -252,7 +280,7 @@ namespace Starter3D.Renderers
       }
     }
 
-    public void SetVectorArrayParameter(string name, int index, Vector3 vector, string shader)
+    public void SetVectorArrayParameter(string name, int index, OpenTK.Vector3 vector, string shader)
     {
       if (!_vectorArrayShaderParameterDictionary.ContainsKey(name))
         _vectorArrayShaderParameterDictionary[name] = new List<Vector4>();
@@ -264,7 +292,7 @@ namespace Starter3D.Renderers
     }
 
 
-    public void SetVectorArrayParameter(string name, int index, Vector3 vector)
+    public void SetVectorArrayParameter(string name, int index, OpenTK.Vector3 vector)
     {
       if (!_vectorArrayShaderParameterDictionary.ContainsKey(name))
         _vectorArrayShaderParameterDictionary[name] = new List<Vector4>();
@@ -352,12 +380,12 @@ namespace Starter3D.Renderers
     {
       var desc2 = new Texture2DDescription
       {
-        SampleDescription = new SlimDX.DXGI.SampleDescription(1, 0),
+        SampleDescription = new SampleDescription(1, 0),
         Width = width,
         Height = height,
         MipLevels = 1,
         ArraySize = 1,
-        Format = SlimDX.DXGI.Format.R8G8B8A8_UNorm,
+        Format = Format.R8G8B8A8_UNorm,
         Usage = ResourceUsage.Dynamic,
         BindFlags = BindFlags.ShaderResource,
         CpuAccessFlags = CpuAccessFlags.Write
@@ -367,13 +395,13 @@ namespace Starter3D.Renderers
 
     private void LoadBitmapInTexture(Bitmap bitmap, Texture2D texture)
     {
-      var rect = texture.Map(0, MapMode.WriteDiscard, SlimDX.Direct3D10.MapFlags.None);
+      var rect = texture.Map(0, MapMode.WriteDiscard, MapFlags.None);
       if (rect.Data.CanWrite)
       {
         for (int j = 0; j < texture.Description.Height; j++)
         {
           int rowStart = j * rect.Pitch;
-          rect.Data.Seek(rowStart, System.IO.SeekOrigin.Begin);
+          rect.Data.Seek(rowStart, SeekOrigin.Begin);
           for (int i = 0; i < texture.Description.Width; i++)
           {
             var color = bitmap.GetPixel(i, j);

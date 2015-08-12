@@ -1,5 +1,12 @@
 ﻿namespace Starter3D.API.utils
 {
+  public enum CullMode
+  {
+    None = 0,
+    Back,
+    Front
+  }
+
   public enum MaterialType
   {
     BaseMaterial = 0,

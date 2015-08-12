@@ -9,6 +9,7 @@ using Starter3D.API.resources;
 using Starter3D.API.scene;
 using Starter3D.API.scene.nodes;
 using Starter3D.API.scene.persistence;
+using Starter3D.API.utils;
 
 namespace Starter3D.Plugin.MaterialEditor
 {
@@ -172,6 +173,8 @@ namespace Starter3D.Plugin.MaterialEditor
     {
       _renderer.SetBackgroundColor(0.9f,0.9f,1.0f);
       _renderer.EnableZBuffer(true);
+      _renderer.EnableWireframe(false);
+      _renderer.SetCullMode(CullMode.None);
     }
 
     public void Render(double time)

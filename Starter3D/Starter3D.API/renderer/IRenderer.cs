@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using OpenTK;
-using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
+using Starter3D.API.utils;
 
 namespace Starter3D.API.renderer
 {
@@ -34,7 +34,8 @@ namespace Starter3D.API.renderer
     //General rendering properties
     void SetBackgroundColor(float r, float g, float b);
     void EnableZBuffer(bool enable);
-
+    void EnableWireframe(bool enable);
+    void SetCullMode(CullMode cullMode);
 
   }
 }
