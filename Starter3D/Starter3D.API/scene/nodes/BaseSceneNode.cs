@@ -11,11 +11,6 @@ namespace Starter3D.API.scene.nodes
     protected ISceneNode _parent;
     protected bool _isDirty = true;
 
-    public virtual Matrix4 Transform
-    {
-      get { return Matrix4.Identity; }
-    }
-
     public IEnumerable<ISceneNode> Children
     {
       get { return _children; }

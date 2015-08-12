@@ -74,12 +74,9 @@ namespace Starter3D.API.scene.nodes
       int order = 0;
       if (sceneDataNode.HasParameter("order"))
         order = int.Parse(sceneDataNode.ReadParameter("order"));
-      var position = new Vector3();
-      var target = new Vector3();
-      var up = new Vector3();
-      position = sceneDataNode.ReadVectorParameter("position");
-      target = sceneDataNode.ReadVectorParameter("target");
-      up = sceneDataNode.ReadVectorParameter("up");
+      var position = sceneDataNode.ReadVectorParameter("position");
+      var target = sceneDataNode.ReadVectorParameter("target");
+      var up = sceneDataNode.ReadVectorParameter("up");
 
       Init(nearClip, farClip, order, position, target, up);
     }
