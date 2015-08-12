@@ -46,9 +46,8 @@ namespace Starter3D.Application.ui
         Device.OutputMerger.SetTargets(SampleDepthView, SampleRenderView);
         Device.Rasterizer.SetViewports(ViewPort);
 
-        Device.ClearDepthStencilView(SampleDepthView, DepthStencilClearFlags.Depth | DepthStencilClearFlags.Stencil,
-          1.0f, 0);
-        Device.ClearRenderTargetView(SampleRenderView, new SlimDX.Color4(new Vector3(0.9f, 0.9f, 1)));
+        Device.ClearDepthStencilView(SampleDepthView, DepthStencilClearFlags.Depth | DepthStencilClearFlags.Stencil, 1.0f, 0);
+        Device.ClearRenderTargetView(SampleRenderView, _renderer.Background);
 
         GL.Viewport(0, 0, (int)_glControl.Width, (int)_glControl.Height);
         GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);

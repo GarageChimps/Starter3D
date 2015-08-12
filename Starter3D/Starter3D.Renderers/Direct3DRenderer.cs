@@ -61,15 +61,40 @@ namespace Starter3D.Renderers
 
     private readonly Device _device;
 
+    private RasterizerStateDescription _rasterizerStateDescription;
+    private DepthStencilStateDescription _depthStencilStateDescription;
+
+    private SlimDX.Color4 _background = new SlimDX.Color4(new SlimDX.Vector3(1,1,1));
+
     public Device Direct3DDevice
     {
       get { return _device; }
+    }
+
+    public SlimDX.Color4 Background
+    {
+      get { return _background; }
+      set { _background = value; }
     }
 
 
     public Direct3DRenderer()
     {
       _device = new Device(DriverType.Hardware, DeviceCreationFlags.BgraSupport, FeatureLevel.Level_10_0);
+      _rasterizerStateDescription = new RasterizerStateDescription()
+      {
+        CullMode = CullMode.None,
+        FillMode = FillMode.Solid
+      };
+      var rasterizerState = RasterizerState.FromDescription(_device, _rasterizerStateDescription);
+      _device.Rasterizer.State = rasterizerState;
+
+      _depthStencilStateDescription = new DepthStencilStateDescription()
+      {
+        IsDepthEnabled = true
+      };
+      //var depthStencilState = DepthStencilState.FromDescription(_device, _depthStencilStateDescription);
+      //_device.OutputMerger.DepthStencilState = depthStencilState;
 
       _semanticsTable.Add("inPosition", "POSITION");
       _semanticsTable.Add("inNormal", "NORMAL");
@@ -180,12 +205,12 @@ namespace Starter3D.Renderers
 
     public void EnableZBuffer(bool enable)
     {
-      //throw new NotImplementedException();
+      _device.OutputMerger.DepthStencilState = null;
     }
 
-    public void SetBackgroundColor(Color4 color)
+    public void SetBackgroundColor(float r, float g, float b)
     {
-      //throw new NotImplementedException();
+      _background = new SlimDX.Color4(new SlimDX.Vector3(r,g,b));
     }
 
 

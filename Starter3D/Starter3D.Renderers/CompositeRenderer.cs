@@ -121,11 +121,11 @@ namespace Starter3D.Renderers
       }
     }
 
-    public void SetBackgroundColor(Color4 color)
+    public void SetBackgroundColor(float r, float g, float b)
     {
       foreach (var renderer in _renderers)
       {
-        renderer.SetBackgroundColor(color);
+        renderer.SetBackgroundColor(r,g,b);
       }
     }
 

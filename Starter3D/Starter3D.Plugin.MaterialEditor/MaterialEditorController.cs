@@ -170,7 +170,7 @@ namespace Starter3D.Plugin.MaterialEditor
 
     private void InitRenderer()
     {
-      _renderer.SetBackgroundColor(new Color4(0.9f,0.9f,1.0f,1));
+      _renderer.SetBackgroundColor(0.9f,0.9f,1.0f);
       _renderer.EnableZBuffer(true);
     }
 

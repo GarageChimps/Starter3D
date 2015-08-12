@@ -216,9 +216,9 @@ namespace Starter3D.Renderers
         GL.Uniform1(location, number);
     }
 
-    public void SetBackgroundColor(Color4 color)
+    public void SetBackgroundColor(float r, float g, float b)
     {
-      GL.ClearColor(color);
+      GL.ClearColor(new Color4(r,g,b,1));
     }
 
     public void EnableZBuffer(bool enable)

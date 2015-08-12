@@ -32,7 +32,7 @@ namespace Starter3D.API.renderer
     void SetNumericParameter(string name, float number, string shader);
 
     //General rendering properties
-    void SetBackgroundColor(Color4 color);
+    void SetBackgroundColor(float r, float g, float b);
     void EnableZBuffer(bool enable);
 
 
