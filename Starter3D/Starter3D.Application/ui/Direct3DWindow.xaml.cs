@@ -1,12 +1,16 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using Flaxen.SlimDXControlLib;
 using Starter3D.API.controller;
 using Starter3D.API.renderer;
+using Starter3D.API.utils;
 using Starter3D.Renderers;
+using KeyEventArgs = System.Windows.Input.KeyEventArgs;
+using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 
 namespace Starter3D.Application.ui
 {
@@ -35,21 +39,23 @@ namespace Starter3D.Application.ui
       InitializeComponent();
       if (_controller.HasUserInterface)
       {
-        if(_controller.CentralView != null)
-          MainGrid.Children.Add((UIElement)_controller.CentralView);
+        if (_controller.CentralView != null)
+          MainGrid.Children.Add((UIElement) _controller.CentralView);
         if (_controller.LeftView != null)
-          LeftGrid.Children.Add((UIElement)_controller.LeftView);
+          LeftGrid.Children.Add((UIElement) _controller.LeftView);
         if (_controller.RightView != null)
-          RightGrid.Children.Add((UIElement)_controller.RightView);
+          RightGrid.Children.Add((UIElement) _controller.RightView);
         if (_controller.TopView != null)
-          TopGrid.Children.Add((UIElement)_controller.TopView);
+          TopGrid.Children.Add((UIElement) _controller.TopView);
         if (_controller.BottomView != null)
-          BottomGrid.Children.Add((UIElement)_controller.BottomView);
-        
+          BottomGrid.Children.Add((UIElement) _controller.BottomView);
+
       }
       Loaded += OnLoaded;
       Closing += OnClosing;
+      KeyDown += OnKeyPress;
     }
+  
 
     private void OnClosing(object sender, CancelEventArgs e)
     {
@@ -67,7 +73,6 @@ namespace Starter3D.Application.ui
       direct3DControl.MouseRightButtonUp += OnMouseRightButtonUp;
       direct3DControl.MouseMove += OnMouseMove;
       direct3DControl.MouseWheel += OnMouseWheel;
-      direct3DControl.KeyDown += OnKeyPress;
 
       _controller.Load();
     }
@@ -120,7 +125,8 @@ namespace Starter3D.Application.ui
 
     private void OnKeyPress(object sender, KeyEventArgs e)
     {
-      _controller.KeyDown((int)e.Key);
+      var formsKey = (Keys)KeyInterop.VirtualKeyFromKey(e.Key);
+      _controller.KeyDown((int)formsKey);
     }
 
   }

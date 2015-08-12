@@ -142,17 +142,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="shaders\opengl\blinnPhongGouraudVertex.glsl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="shaders\opengl\genericVertex.glsl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="shaders\opengl\passThroughFragment.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

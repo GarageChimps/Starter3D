@@ -144,7 +144,7 @@
     <Compile Include="geometry\factories\ShapeFactory.cs" />
     <Compile Include="scene\nodes\ShapeNode.cs" />
     <Compile Include="utils\IConfiguration.cs" />
-    <Compile Include="utils\TypeEnums.cs" />
+    <Compile Include="utils\Enums.cs" />
     <Compile Include="scene\nodes\TransformNode.cs" />
     <Compile Include="scene\nodes\TranslationNode.cs" />
     <Compile Include="geometry\Triangle.cs" />

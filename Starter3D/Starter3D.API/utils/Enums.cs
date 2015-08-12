@@ -1,5 +1,12 @@
 ﻿namespace Starter3D.API.utils
 {
+  public enum ControllerMouseButton
+  {
+    Left = 0,
+    Middle,
+    Right
+  }
+
   public enum CullMode
   {
     None = 0,

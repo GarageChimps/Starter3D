@@ -3,12 +3,16 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Forms.Integration;
+using System.Windows.Input;
 using System.Windows.Media;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using Starter3D.API.controller;
+using Starter3D.API.utils;
+using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 using KeyPressEventArgs = System.Windows.Forms.KeyPressEventArgs;
+using MouseEventArgs = System.Windows.Forms.MouseEventArgs;
 using WindowState = System.Windows.WindowState;
 
 namespace Starter3D.Application.ui
@@ -51,7 +55,7 @@ namespace Starter3D.Application.ui
         
       }
       SizeChanged += OnSizeChanged;
-      
+      KeyDown += OnKeyPress;
     }
 
     private void OnSizeChanged(object sender, SizeChangedEventArgs e)
@@ -69,7 +73,6 @@ namespace Starter3D.Application.ui
       _glControl.MouseUp += OnMouseUp;
       _glControl.MouseMove += OnMouseMove;
       _glControl.MouseWheel += OnMouseWheel;
-      _glControl.KeyPress += OnKeyPress;
       _glControl.Dock = DockStyle.Fill;
       (sender as WindowsFormsHost).Child = _glControl;
 
@@ -143,9 +146,10 @@ namespace Starter3D.Application.ui
       _controller.MouseWheel(e.Delta / 100, e.X, e.Y);
     }
 
-    private void OnKeyPress(object sender, KeyPressEventArgs e)
+    private void OnKeyPress(object sender, KeyEventArgs e)
     {
-      _controller.KeyDown(e.KeyChar);
+      var formsKey = (Keys)KeyInterop.VirtualKeyFromKey(e.Key);
+      _controller.KeyDown((int)formsKey);
     }
 
   }

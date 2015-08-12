@@ -7,6 +7,7 @@ using OpenTK;
 using OpenTK.Graphics;
 using Starter3D.API.controller;
 using Starter3D.API.renderer;
+using Starter3D.API.utils;
 using Starter3D.Renderers;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 using KeyPressEventArgs = System.Windows.Forms.KeyPressEventArgs;

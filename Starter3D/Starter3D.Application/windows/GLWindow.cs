@@ -4,6 +4,7 @@ using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
 using Starter3D.API.controller;
+using Starter3D.API.utils;
 
 namespace Starter3D.Application.windows
 {
@@ -87,8 +88,11 @@ namespace Starter3D.Application.windows
     }
 
      private void OnKeyPress(object sender, KeyPressEventArgs e)
-    {
-      _controller.KeyDown(e.KeyChar);
+     {
+       var keyChar = (int)e.KeyChar;
+       if (keyChar > 96 && keyChar < 123)
+         keyChar -= 32;
+      _controller.KeyDown(keyChar);
     }
 
   }
