@@ -27,14 +27,7 @@ namespace Starter3D.API.scene.nodes
       set { _parent = value; }
     }
 
-    public Matrix4 ComposeTransform()
-    {
-      var transform = Transform;
-      if (_parent != null)
-        transform = _parent.ComposeTransform() * transform;
-      return transform;
-    }
-
+   
     public void AddChild(ISceneNode child)
     {
       _children.Add(child);

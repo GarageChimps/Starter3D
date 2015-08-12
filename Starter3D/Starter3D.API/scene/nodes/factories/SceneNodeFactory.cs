@@ -24,12 +24,6 @@ namespace Starter3D.API.scene.nodes.factories
       {
         case SceneNodeType.Scene:
           return new BaseSceneNode();
-        case SceneNodeType.Translate:
-          return new TranslationNode();
-        case SceneNodeType.Rotate:
-          return new RotationNode();
-        case SceneNodeType.Scale:
-          return new ScaleNode();
         case SceneNodeType.Shape:
           return new ShapeNode(_shapeFactory, _resourceManager);
         case SceneNodeType.PerspectiveCamera:

@@ -7,7 +7,6 @@ namespace Starter3D.API.scene.nodes
 {
   public abstract class CameraNode : BaseSceneNode
   {
-    private bool _hasTransform;
     private Vector3 _position;
     private Vector3 _target;
     private Vector3 _up;
@@ -78,13 +77,9 @@ namespace Starter3D.API.scene.nodes
       var position = new Vector3();
       var target = new Vector3();
       var up = new Vector3();
-      if (sceneDataNode.HasParameter("position") && sceneDataNode.HasParameter("target") && sceneDataNode.HasParameter("up"))
-      {
-        _hasTransform = true;
-        position = sceneDataNode.ReadVectorParameter("position");
-        target = sceneDataNode.ReadVectorParameter("target");
-        up = sceneDataNode.ReadVectorParameter("up");
-      }
+      position = sceneDataNode.ReadVectorParameter("position");
+      target = sceneDataNode.ReadVectorParameter("target");
+      up = sceneDataNode.ReadVectorParameter("up");
 
       Init(nearClip, farClip, order, position, target, up);
     }
@@ -118,70 +113,30 @@ namespace Starter3D.API.scene.nodes
 
     public void Zoom(float delta)
     {
-      var movementDirection = _target - _position;
-      var zoom = delta * 0.05f * movementDirection.Length;
-      _position += zoom * movementDirection.Normalized();
+      //ToDo: Implement
       _isDirty = true;
     }
 
     public void Drag(float deltaX, float deltaY)
     {
-      var movementDirection = _target - _position;
-      var leftVector = Vector3.Cross(_up, movementDirection);
-      leftVector = leftVector.Normalized();
-      var upMovementDirection = Vector3.Cross(movementDirection, leftVector);
-      upMovementDirection = upMovementDirection.Normalized();
-
-      deltaX = deltaX * 0.001f * movementDirection.Length;
-      deltaY = deltaY * 0.001f * movementDirection.Length;
-
-      _position += leftVector * deltaX;
-      _target += leftVector * deltaX;
-
-      _position += upMovementDirection * deltaY;
-      _target += upMovementDirection * deltaY;
+      //ToDo: Implement
       _isDirty = true;
     }
 
     public void Orbit(float deltaX, float deltaY)
     {
-      var movementDirection = _target - _position;
-      var leftVector = Vector3.Cross(_up, movementDirection);
-      leftVector = leftVector.Normalized();
-      var upMovementDirection = Vector3.Cross(movementDirection, leftVector);
-      upMovementDirection = upMovementDirection.Normalized();
-
-      deltaX = -deltaX * 0.01f;
-      deltaY = deltaY * 0.01f;
-
-      var vectorToRotate = -movementDirection;
-      var pitchQuat = Quaternion.FromAxisAngle(leftVector, deltaY);
-      var pitchRotatedVector = Vector3.Transform(vectorToRotate, pitchQuat);
-      var yawQuat = Quaternion.FromAxisAngle(upMovementDirection, deltaX);
-      var yawRotatedVector = Vector3.Transform(pitchRotatedVector, yawQuat);
-      _position = _target + yawRotatedVector;
+      //ToDo: Implement
       _isDirty = true;
     }
 
     private Vector3 GetPosition()
     {
-      if (_hasTransform)
-        return _position;
-      var transform = ComposeTransform();
-      return transform.Row3.Xyz;
+      return _position;
     }
 
     private Matrix4 GetViewMatrix()
     {
-      if (_hasTransform)
-      {
-        return Matrix4.LookAt(_position, _target, _up);
-      }
-      var transform = ComposeTransform();
-      var translationFromTransform = transform.Row3.Xyz;
-      translationFromTransform *= _zoom;
-      transform.Row3.Xyz = translationFromTransform;
-      return transform.Inverted();
+      return Matrix4.LookAt(_position, _target, _up);
     }
 
     protected abstract Matrix4 CreateProjectionMatrix();

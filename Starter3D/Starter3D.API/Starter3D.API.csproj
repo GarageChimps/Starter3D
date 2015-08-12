@@ -138,15 +138,11 @@
     <Compile Include="scene\nodes\OrtographicCamera.cs" />
     <Compile Include="scene\nodes\PerspectiveCamera.cs" />
     <Compile Include="scene\nodes\PointLight.cs" />
-    <Compile Include="scene\nodes\RotationNode.cs" />
-    <Compile Include="scene\nodes\ScaleNode.cs" />
     <Compile Include="scene\nodes\factories\SceneNodeFactory.cs" />
     <Compile Include="geometry\factories\ShapeFactory.cs" />
     <Compile Include="scene\nodes\ShapeNode.cs" />
     <Compile Include="utils\IConfiguration.cs" />
     <Compile Include="utils\Enums.cs" />
-    <Compile Include="scene\nodes\TransformNode.cs" />
-    <Compile Include="scene\nodes\TranslationNode.cs" />
     <Compile Include="geometry\Triangle.cs" />
     <Compile Include="geometry\Vertex.cs" />
     <Compile Include="geometry\factories\VertexFactory.cs" />

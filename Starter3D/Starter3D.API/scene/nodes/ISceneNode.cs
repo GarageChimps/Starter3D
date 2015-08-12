@@ -14,8 +14,7 @@ namespace Starter3D.API.scene.nodes
     IEnumerable<ISceneNode> Children { get; }   //An element can have zero, one or N children elements
     ISceneNode Parent { get; set; }             //Parent node for this element
     Matrix4 Transform { get;  }                 //Transform associated to this node
-    Matrix4 ComposeTransform();                 //Composes transforms in the tree
-  
+    
     void AddChild(ISceneNode child);
     void RemoveChild(ISceneNode child);
     void Load(ISceneDataNode sceneDataNode);
