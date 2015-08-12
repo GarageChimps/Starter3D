@@ -4,6 +4,11 @@ using Starter3D.API.scene.nodes;
 
 namespace Starter3D.API.scene
 {
+  /// <summary>
+  /// Interface for a scene that contains all the necessary elements that will be used for an interactive rendering application
+  /// @author Alejandro Echeverria
+  /// @data July-2015   
+  /// </summary>
   public interface IScene
   {
     CameraNode CurrentCamera { get; }

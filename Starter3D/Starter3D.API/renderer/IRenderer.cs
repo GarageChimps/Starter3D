@@ -6,6 +6,11 @@ using Starter3D.API.utils;
 
 namespace Starter3D.API.renderer
 {
+  /// <summary>
+  /// Interface for a generic renderer that handles geometry (objects), textures, shaders and shader parameters
+  /// @author Alejandro Echeverria
+  /// @data July-2015   
+  /// </summary>
   public interface IRenderer
   {
     //Geometry object related methods    

@@ -4,16 +4,28 @@ using Starter3D.API.scene.persistence;
 
 namespace Starter3D.API.scene.nodes
 {
+  /// <summary>
+  /// Interface for a generic element of a scene
+  /// @author Alejandro Echeverria
+  /// @data July-2015   
+  /// </summary>
   public interface ISceneNode : IRenderElement
   {
-    IEnumerable<ISceneNode> Children { get; }
-    ISceneNode Parent { get; set; }
-    Matrix4 Transform { get;  }
-    Matrix4 ComposeTransform();
+    IEnumerable<ISceneNode> Children { get; }   //An element can have zero, one or N children elements
+    ISceneNode Parent { get; set; }             //Parent node for this element
+    Matrix4 Transform { get;  }                 //Transform associated to this node
+    Matrix4 ComposeTransform();                 //Composes transforms in the tree
+  
     void AddChild(ISceneNode child);
     void RemoveChild(ISceneNode child);
     void Load(ISceneDataNode sceneDataNode);
     void Save(ISceneDataNode sceneDataNode);
+    
+    /// <summary>
+    /// Returns all nodes of type provided that are part of this node subtree
+    /// </summary>
+    /// <typeparam name="T">Type</typeparam>
+    /// <returns>List of nodes</returns>
     IEnumerable<T> GetNodes<T>() where T : class, ISceneNode;
   }
 }
