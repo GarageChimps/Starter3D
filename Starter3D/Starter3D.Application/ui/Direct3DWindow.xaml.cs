@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -23,7 +24,7 @@ namespace Starter3D.Application.ui
       if (renderer == null) throw new ArgumentNullException("renderer");
       _controller = controller;
       _renderer = (Direct3DRenderer) renderer;
-      _renderingAdapter = new Direct3DRenderingAdapter(_controller, _renderer.Direct3DDevice, frameRate);
+      _renderingAdapter = new Direct3DRenderingAdapter(_controller, _renderer, _renderer.Direct3DDevice, frameRate);
 
       Width = controller.Width;
       Height = controller.Height;
@@ -47,7 +48,12 @@ namespace Starter3D.Application.ui
         
       }
       Loaded += OnLoaded;
+      Closing += OnClosing;
+    }
 
+    private void OnClosing(object sender, CancelEventArgs e)
+    {
+      _renderingAdapter.Dispose();
     }
 
     private void OnLoaded(object sender, RoutedEventArgs e)

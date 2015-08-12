@@ -31,37 +31,33 @@ namespace Starter3D.Renderers
 
     class ShaderProgram
     {
-      public VertexShader VertexShader;
-      public PixelShader PixelShader;
-      public ShaderSignature Signature;
       public Effect Effect;
 
       public ShaderProgram(Effect effect)
       {
         Effect = effect;
       }
-
-      public ShaderProgram(VertexShader vertexShader, PixelShader pixelShader, ShaderSignature signature)
-      {
-        VertexShader = vertexShader;
-        PixelShader = pixelShader;
-        Signature = signature;
-      }
     }
 
-   
+    class TextureInfo
+    {
+      public ShaderResourceView TextureResourceView;
+      public Texture2D Texture2D;
+    }
+
+
     private const string ShaderBasePath = @"shaders/direct3d";
-    private const string ShaderExtension = ".hlsl";
     private const string EffectExtension = ".fx";
     private const string ShaderVersion = "fx_4_0";
 
     private string _currentShader;
     private readonly Dictionary<string, ShaderProgram> _shaderHandleDictionary = new Dictionary<string, ShaderProgram>();
     private readonly Dictionary<string, RenderObject> _objectsHandleDictionary = new Dictionary<string, RenderObject>();
-    private readonly Dictionary<string, ShaderResourceView> _textureHandleDictionary = new Dictionary<string, ShaderResourceView>();
-    private readonly Dictionary<string, List<SlimDX.Vector4>> _vectorArrayShaderParameterDictionary = new Dictionary<string, List<SlimDX.Vector4>>();
+    private readonly Dictionary<string, TextureInfo> _textureHandleDictionary = new Dictionary<string, TextureInfo>();
+    private readonly Dictionary<string, List<Vector4>> _vectorArrayShaderParameterDictionary = new Dictionary<string, List<Vector4>>();
 
     private readonly Dictionary<string, string> _semanticsTable = new Dictionary<string, string>();
+    private readonly Dictionary<InputElement[], Dictionary<EffectPass, InputLayout>> _inputLayouts = new Dictionary<InputElement[], Dictionary<EffectPass, InputLayout>>();
 
     private readonly Device _device;
 
@@ -74,6 +70,7 @@ namespace Starter3D.Renderers
     public Direct3DRenderer()
     {
       _device = new Device(DriverType.Hardware, DeviceCreationFlags.BgraSupport, FeatureLevel.Level_10_0);
+
       _semanticsTable.Add("inPosition", "POSITION");
       _semanticsTable.Add("inNormal", "NORMAL");
       _semanticsTable.Add("inTextureCoords", "TEXCOORD");
@@ -93,7 +90,7 @@ namespace Starter3D.Renderers
       var effect = _shaderHandleDictionary[_currentShader].Effect;
       var technique = effect.GetTechniqueByIndex(0);
       var pass = technique.GetPassByIndex(0);
-      _device.InputAssembler.SetInputLayout(new InputLayout(_device, pass.Description.Signature, _objectsHandleDictionary[objectName].InputElements.ToArray()));
+      _device.InputAssembler.SetInputLayout(GetInputLayout(pass, _objectsHandleDictionary[objectName].InputElements.ToArray()));
       _device.InputAssembler.SetPrimitiveTopology(PrimitiveTopology.TriangleList);
       _device.InputAssembler.SetVertexBuffers(0, new VertexBufferBinding(_objectsHandleDictionary[objectName].VertexBuffer, Vector3.SizeInBytes * _objectsHandleDictionary[objectName].InputElements.Count, 0));
       _device.InputAssembler.SetIndexBuffer(_objectsHandleDictionary[objectName].IndexBuffer, Format.R32_UInt, 0);
@@ -152,31 +149,13 @@ namespace Starter3D.Renderers
       var inputElement = new InputElement(_semanticsTable[vertexPropertyName], 0, Format.R32G32B32A32_Float, offset, 0);
       _objectsHandleDictionary[objectName].InputElements.Add(inputElement);
     }
-   
+
     public void LoadShaders(string shaderName, string vertexShaderFileName, string fragmentShaderFileName)
     {
       if (_shaderHandleDictionary.ContainsKey(shaderName))
         return;
-      VertexShader vertexShader;
-      PixelShader pixelShader;
-      ShaderSignature shaderSignature;
       try
       {
-
-        //using (
-        //  var bytecode = ShaderBytecode.CompileFromFile(Path.Combine(ShaderBasePath, vertexShaderFileName + ShaderExtension), "VShader", "vs_4_0", ShaderFlags.None,
-        //    EffectFlags.None))
-        //{
-        //  vertexShader = new VertexShader(_device, bytecode);
-        //  shaderSignature = ShaderSignature.GetInputSignature(bytecode);
-        //}
-        //using (
-        //  var bytecode = ShaderBytecode.CompileFromFile(Path.Combine(ShaderBasePath, fragmentShaderFileName + ShaderExtension), "FShader", "ps_4_0", ShaderFlags.None,
-        //    EffectFlags.None))
-        //{
-        //  pixelShader = new PixelShader(_device, bytecode);
-        //}
-        //_shaderHandleDictionary.Add(shaderName, new ShaderProgram(vertexShader, pixelShader, shaderSignature));
         var shaderText = File.ReadAllText(Path.Combine(ShaderBasePath, fragmentShaderFileName + EffectExtension));
         var shaderEffect = Effect.FromString(_device, shaderText, ShaderVersion, ShaderFlags.None, EffectFlags.None, null, null, null);
         _shaderHandleDictionary.Add(shaderName, new ShaderProgram(shaderEffect));
@@ -185,15 +164,13 @@ namespace Starter3D.Renderers
       {
         Console.WriteLine(e.Message);
       }
-     
+
     }
 
     public void UseShader(string shaderName)
     {
       if (!_shaderHandleDictionary.ContainsKey(shaderName))
         throw new ApplicationException("Shader must be loaded before using it");
-      //_device.VertexShader.Set(_shaderHandleDictionary[shaderName].VertexShader);
-      //_device.PixelShader.Set(_shaderHandleDictionary[shaderName].PixelShader);
       _currentShader = shaderName;
       var effect = _shaderHandleDictionary[shaderName].Effect;
       var technique = effect.GetTechniqueByIndex(0);
@@ -211,7 +188,7 @@ namespace Starter3D.Renderers
       //throw new NotImplementedException();
     }
 
-    
+
     public void SetNumericParameter(string name, float number)
     {
       foreach (var shaderProgram in _shaderHandleDictionary)
@@ -264,10 +241,10 @@ namespace Starter3D.Renderers
 
     public void SetVectorArrayParameter(string name, int index, Vector3 vector)
     {
-      if(!_vectorArrayShaderParameterDictionary.ContainsKey(name))
+      if (!_vectorArrayShaderParameterDictionary.ContainsKey(name))
         _vectorArrayShaderParameterDictionary[name] = new List<Vector4>();
       _vectorArrayShaderParameterDictionary[name].Insert(index, vector.ToSlimDXVector4());
-        
+
       foreach (var shaderProgram in _shaderHandleDictionary)
       {
         var effect = shaderProgram.Value.Effect;
@@ -277,13 +254,13 @@ namespace Starter3D.Renderers
       }
     }
 
-   
+
 
     public void SetMatrixParameter(string name, Matrix4 matrix, string shader)
     {
       var effect = _shaderHandleDictionary[shader].Effect;
       var variable = effect.GetVariableByName(name).AsMatrix();
-      if(variable != null)
+      if (variable != null)
         variable.SetMatrix(matrix.ToSlimDXMatrix());
     }
 
@@ -305,7 +282,7 @@ namespace Starter3D.Renderers
       var texture2D = CreateTexture(texture.Width, texture.Height);
       LoadBitmapInTexture(texture, texture2D);
       var textureResource = CreateTextureResource(texture2D);
-      _textureHandleDictionary.Add(textureName, textureResource);
+      _textureHandleDictionary.Add(textureName, new TextureInfo(){Texture2D = texture2D, TextureResourceView =  textureResource});
     }
 
     public void UseTexture(string textureName, string shader, string uniformName)
@@ -315,7 +292,35 @@ namespace Starter3D.Renderers
       var effect = _shaderHandleDictionary[shader].Effect;
       var variable = effect.GetVariableByName(uniformName).AsResource();
       if (variable != null)
-        variable.SetResource(_textureHandleDictionary[textureName]);
+        variable.SetResource(_textureHandleDictionary[textureName].TextureResourceView);
+    }
+
+    public void Dispose()
+    {
+      foreach (var renderObject in _objectsHandleDictionary)
+      {
+        renderObject.Value.IndexBuffer.Dispose();
+        renderObject.Value.VertexBuffer.Dispose();
+      }
+
+      foreach (var inputLayout in _inputLayouts)
+      {
+        foreach (var inputLayoutPair in inputLayout.Value)
+        {
+          inputLayoutPair.Value.Dispose();
+        }
+      }
+
+      foreach (var shaderProgram in _shaderHandleDictionary)
+      {
+        shaderProgram.Value.Effect.Dispose();
+      }
+
+      foreach (var textureInfo in _textureHandleDictionary)
+      {
+        textureInfo.Value.Texture2D.Dispose();
+        textureInfo.Value.TextureResourceView.Dispose();
+      }
     }
 
     private Texture2D CreateTexture(int width, int height)
@@ -337,34 +342,24 @@ namespace Starter3D.Renderers
 
     private void LoadBitmapInTexture(Bitmap bitmap, Texture2D texture)
     {
-      try
+      var rect = texture.Map(0, MapMode.WriteDiscard, SlimDX.Direct3D10.MapFlags.None);
+      if (rect.Data.CanWrite)
       {
-        var rect = texture.Map(0, MapMode.WriteDiscard, SlimDX.Direct3D10.MapFlags.None);
-        if (rect.Data.CanWrite)
+        for (int j = 0; j < texture.Description.Height; j++)
         {
-          for (int j = 0; j < texture.Description.Height; j++)
+          int rowStart = j * rect.Pitch;
+          rect.Data.Seek(rowStart, System.IO.SeekOrigin.Begin);
+          for (int i = 0; i < texture.Description.Width; i++)
           {
-            int rowStart = j * rect.Pitch;
-            rect.Data.Seek(rowStart, System.IO.SeekOrigin.Begin);
-            for (int i = 0; i < texture.Description.Width; i++)
-            {
-              var color = bitmap.GetPixel(i, j);
-              rect.Data.WriteByte((byte)color.R);
-              rect.Data.WriteByte((byte)color.G);
-              rect.Data.WriteByte((byte)color.B);
-              rect.Data.WriteByte((byte)color.A);
-            }
+            var color = bitmap.GetPixel(i, j);
+            rect.Data.WriteByte((byte)color.R);
+            rect.Data.WriteByte((byte)color.G);
+            rect.Data.WriteByte((byte)color.B);
+            rect.Data.WriteByte((byte)color.A);
           }
         }
-        texture.Unmap(0);
-
-
       }
-      catch (Exception)
-      {
-
-        //Do nothing if texture creation fails
-      }
+      texture.Unmap(0);
     }
 
     private ShaderResourceView CreateTextureResource(Texture2D texture)
@@ -379,5 +374,13 @@ namespace Starter3D.Renderers
       return new ShaderResourceView(_device, texture, desc);
     }
 
+    private InputLayout GetInputLayout(EffectPass pass, InputElement[] elements)
+    {
+      if(!_inputLayouts.ContainsKey(elements))
+        _inputLayouts.Add(elements, new Dictionary<EffectPass, InputLayout>());
+      if(!_inputLayouts[elements].ContainsKey(pass))
+        _inputLayouts[elements].Add(pass, new InputLayout(_device, pass.Description.Signature, elements));
+      return _inputLayouts[elements][pass];
+    }
   }
 }

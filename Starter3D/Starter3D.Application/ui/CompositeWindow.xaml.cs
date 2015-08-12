@@ -63,8 +63,8 @@ namespace Starter3D.Application.ui
     {
       if (_glControl != null)
       {
-        _renderingAdapter = new CompositeRenderingAdapter(_controller,
-          ((CompositeRenderer)_renderer).D3DRenderer.Direct3DDevice, _glControl, _frameRate);
+        _renderingAdapter = new CompositeRenderingAdapter(_controller, ((CompositeRenderer)_renderer).D3DRenderer,
+          ((CompositeRenderer)_renderer).D3DRenderer.Direct3DDevice,  _glControl, _frameRate);
         direct3DControl.RegisterRenderer(_renderingAdapter, (int) ActualWidth, (int) ActualHeight);
       }
       direct3DControl.Loaded += OnDirect3DControlLoaded;
