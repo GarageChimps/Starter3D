@@ -77,11 +77,6 @@ namespace Starter3D.API.scene.nodes
       
     }
 
-    public virtual void Update(IRenderer renderer)
-    {
-      
-    }
-
     public virtual void Render(IRenderer renderer)
     {
       
