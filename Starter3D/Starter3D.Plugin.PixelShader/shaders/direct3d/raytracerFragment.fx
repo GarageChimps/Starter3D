@@ -1,11 +1,4 @@
-﻿RasterizerState RSFillBackCull
-{
-  FillMode = SOLID;
-  CullMode = None;
-  DepthBias = false;
-};
-
-struct vertexAttributes {
+﻿struct vertexAttributes {
   float3 inPosition : POSITION;
   float3 inNormal : NORMAL;
   float3 inTextureCoords: TEXCOORD0;
@@ -302,7 +295,6 @@ technique10 Render
 
     pass P0
     {
-      SetRasterizerState(RSFillBackCull);
       SetGeometryShader(0);
       SetVertexShader(CompileShader(vs_4_0, VShader()));
       SetPixelShader(CompileShader(ps_4_0, FShader()));

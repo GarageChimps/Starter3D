@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Starter3D.Plugin.MaterialEd
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Starter3D.Plugin.PixelShader", "Starter3D.Plugin.PixelShader\Starter3D.Plugin.PixelShader.csproj", "{5407E771-EF7F-4B2C-8C75-A34720B2732F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Starter3D.Plugin.SimpleMaterialEditor", "Starter3D.Plugin.SimpleMaterialEditor\Starter3D.Plugin.SimpleMaterialEditor.csproj", "{C9D87433-BBFF-40BB-99EA-9773636D3E11}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -127,6 +129,21 @@ Global
 		{5407E771-EF7F-4B2C-8C75-A34720B2732F}.Release2|x64.ActiveCfg = Release|x64
 		{5407E771-EF7F-4B2C-8C75-A34720B2732F}.Release2|x64.Build.0 = Release|x64
 		{5407E771-EF7F-4B2C-8C75-A34720B2732F}.Release2|x86.ActiveCfg = Release|Any CPU
+		{C9D87433-BBFF-40BB-99EA-9773636D3E11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9D87433-BBFF-40BB-99EA-9773636D3E11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9D87433-BBFF-40BB-99EA-9773636D3E11}.Debug|x64.ActiveCfg = Debug|x64
+		{C9D87433-BBFF-40BB-99EA-9773636D3E11}.Debug|x64.Build.0 = Debug|x64
+		{C9D87433-BBFF-40BB-99EA-9773636D3E11}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C9D87433-BBFF-40BB-99EA-9773636D3E11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9D87433-BBFF-40BB-99EA-9773636D3E11}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9D87433-BBFF-40BB-99EA-9773636D3E11}.Release|x64.ActiveCfg = Release|x64
+		{C9D87433-BBFF-40BB-99EA-9773636D3E11}.Release|x64.Build.0 = Release|x64
+		{C9D87433-BBFF-40BB-99EA-9773636D3E11}.Release|x86.ActiveCfg = Release|Any CPU
+		{C9D87433-BBFF-40BB-99EA-9773636D3E11}.Release2|Any CPU.ActiveCfg = Release|Any CPU
+		{C9D87433-BBFF-40BB-99EA-9773636D3E11}.Release2|Any CPU.Build.0 = Release|Any CPU
+		{C9D87433-BBFF-40BB-99EA-9773636D3E11}.Release2|x64.ActiveCfg = Release|x64
+		{C9D87433-BBFF-40BB-99EA-9773636D3E11}.Release2|x64.Build.0 = Release|x64
+		{C9D87433-BBFF-40BB-99EA-9773636D3E11}.Release2|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

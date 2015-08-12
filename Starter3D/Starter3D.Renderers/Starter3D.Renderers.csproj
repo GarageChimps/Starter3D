@@ -179,4 +179,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="shaders\direct3d\" />
+  </ItemGroup>
 </Project>

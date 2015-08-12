@@ -94,7 +94,7 @@ namespace Starter3D.Renderers
       {
         IsDepthEnabled = true,
         DepthComparison = Comparison.Less,
-        IsStencilEnabled = false
+        DepthWriteMask = DepthWriteMask.All
       };
       var depthStencilState = DepthStencilState.FromDescription(_device, _depthStencilStateDescription);
       _device.OutputMerger.DepthStencilState = depthStencilState;
@@ -347,9 +347,10 @@ namespace Starter3D.Renderers
       if (!_textureHandleDictionary.ContainsKey(textureName))
         throw new ApplicationException("Texture has to be added before using");
       var effect = _shaderHandleDictionary[shader].Effect;
-      var variable = effect.GetVariableByName(uniformName).AsResource();
-      if (variable != null)
-        variable.SetResource(_textureHandleDictionary[textureName].TextureResourceView);
+      
+      var textureUniform = effect.GetVariableByName(uniformName).AsResource();
+      if (textureUniform != null)
+        textureUniform.SetResource(_textureHandleDictionary[textureName].TextureResourceView);
     }
 
     public void Dispose()
