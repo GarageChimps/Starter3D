@@ -141,8 +141,7 @@ namespace Starter3D.Plugin.MaterialEditor
       _scene = new Scene(_originalScene.Cameras.ToList(), new List<ShapeNode>{_originalScene.Shapes.First()}, _originalScene.Lights.ToList() );
       _shapes = _originalScene.Shapes;
 
-      _centralView = new MaterialEditorView();
-      _centralView.DataContext = this;
+      _centralView = new MaterialEditorView(this);
     }
     
     public void Load()

@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿#if WIN64
+using System.Windows.Controls;
 
 namespace Starter3D.Plugin.MaterialEditor
 {
@@ -7,9 +8,12 @@ namespace Starter3D.Plugin.MaterialEditor
   /// </summary>
   public partial class MaterialEditorView : UserControl
   {
-    public MaterialEditorView()
+    public MaterialEditorView(MaterialEditorController controller)
     {
       InitializeComponent();
+      this.DataContext = controller;
+
     }
   }
 }
+#endif
