@@ -63,7 +63,7 @@ namespace Starter3D.Renderers
 
     private RasterizerStateDescription _rasterizerStateDescription;
     private DepthStencilStateDescription _depthStencilStateDescription;
-
+    
     private Color4 _background = new Color4(new Vector3(1,1,1));
 
     public Device Direct3DDevice
@@ -92,10 +92,12 @@ namespace Starter3D.Renderers
 
       _depthStencilStateDescription = new DepthStencilStateDescription()
       {
-        IsDepthEnabled = true
+        IsDepthEnabled = true,
+        DepthComparison = Comparison.Less,
+        IsStencilEnabled = false
       };
-      //var depthStencilState = DepthStencilState.FromDescription(_device, _depthStencilStateDescription);
-      //_device.OutputMerger.DepthStencilState = depthStencilState;
+      var depthStencilState = DepthStencilState.FromDescription(_device, _depthStencilStateDescription);
+      _device.OutputMerger.DepthStencilState = depthStencilState;
 
       _semanticsTable.Add("inPosition", "POSITION");
       _semanticsTable.Add("inNormal", "NORMAL");
@@ -206,7 +208,9 @@ namespace Starter3D.Renderers
 
     public void EnableZBuffer(bool enable)
     {
-      _device.OutputMerger.DepthStencilState = null;
+      _depthStencilStateDescription.IsDepthEnabled = enable;
+      var depthStencilState = DepthStencilState.FromDescription(_device, _depthStencilStateDescription);
+      _device.OutputMerger.DepthStencilState = depthStencilState;
     }
 
     public void EnableWireframe(bool enable)
