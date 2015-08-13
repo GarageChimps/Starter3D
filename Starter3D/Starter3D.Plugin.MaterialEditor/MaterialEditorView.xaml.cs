@@ -15,5 +15,19 @@ namespace Starter3D.Plugin.MaterialEditor
 
     }
   }
+}z
+#else
+namespace Starter3D.Plugin.MaterialEditor
+{
+  /// <summary>
+  /// Interaction logic for MaterialEditorUI.xaml
+  /// </summary>
+  public partial class MaterialEditorView 
+  {
+    public MaterialEditorView(MaterialEditorController controller)
+    {
+      
+    }
+  }
 }
 #endif

@@ -1,7 +1,7 @@
-﻿using System;
+﻿#if WIN64
+using System;
 using System.Windows;
 using System.Windows.Forms;
-using System.Windows.Forms.Integration;
 using System.Windows.Input;
 using OpenTK;
 using OpenTK.Graphics;
@@ -9,10 +9,14 @@ using Starter3D.API.controller;
 using Starter3D.API.renderer;
 using Starter3D.API.utils;
 using Starter3D.Renderers;
-using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 using KeyPressEventArgs = System.Windows.Forms.KeyPressEventArgs;
 using MouseEventArgs = System.Windows.Forms.MouseEventArgs;
+
+
+using System.Windows.Forms.Integration;
 using WindowState = System.Windows.WindowState;
+using KeyEventArgs = System.Windows.Input.KeyEventArgs;
+
 
 namespace Starter3D.Application.ui
 {
@@ -197,3 +201,4 @@ namespace Starter3D.Application.ui
     }
   }
 }
+#endif
