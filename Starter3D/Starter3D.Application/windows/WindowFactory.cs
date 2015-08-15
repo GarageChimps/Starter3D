@@ -43,9 +43,11 @@ namespace Starter3D.Application.windows
       controllerParameters[2] = _resourceManager;
 
       var controller = (IController)Activator.CreateInstance(controllerType, controllerParameters);
+    #if WIN64
       if(controller.HasUserInterface)
         return new WPFWindow(controller, renderer, rendererType);
       else
+    #endif
         return new GLWindow(controller);
       
     }

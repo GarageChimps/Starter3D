@@ -3,9 +3,12 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
-using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Interop;
+
+#if WIN64
+using System.Windows.Controls.Primitives;
+
 
 namespace Starter3D.Application.ui
 {
@@ -319,3 +322,4 @@ namespace Starter3D.Application.ui
     #endregion
   }
 }
+#endif

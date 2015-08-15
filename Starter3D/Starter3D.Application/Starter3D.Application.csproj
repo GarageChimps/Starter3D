@@ -34,6 +34,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>Starter3D.Application.EntryPoint</StartupObject>
@@ -47,6 +48,8 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
+    <WarningLevel>4</WarningLevel>
+    <Optimize>false</Optimize>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
@@ -56,6 +59,7 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
+    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release2|x64'">
     <OutputPath>bin\x64\Release2\</OutputPath>
@@ -65,6 +69,7 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
+    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -73,19 +78,11 @@
       <Name>Starter3D.API</Name>
     </ProjectReference>
     <ProjectReference Include="..\Starter3D.Plugin.MaterialEditor\Starter3D.Plugin.MaterialEditor.csproj">
-      <Project>{a0cc8134-f678-4413-8135-a8bb09e1b6d8}</Project>
+      <Project>{A0CC8134-F678-4413-8135-A8BB09E1B6D8}</Project>
       <Name>Starter3D.Plugin.MaterialEditor</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Starter3D.Plugin.PixelShader\Starter3D.Plugin.PixelShader.csproj">
-      <Project>{5407e771-ef7f-4b2c-8c75-a34720b2732f}</Project>
-      <Name>Starter3D.Plugin.PixelShader</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Starter3D.Plugin.SimpleMaterialEditor\Starter3D.Plugin.SimpleMaterialEditor.csproj">
-      <Project>{c9d87433-bbff-40bb-99ea-9773636d3e11}</Project>
-      <Name>Starter3D.Plugin.SimpleMaterialEditor</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Starter3D.Renderers\Starter3D.Renderers.csproj">
-      <Project>{78127754-23c1-4d69-a528-ae46cad6aec0}</Project>
+      <Project>{78127754-23C1-4D69-A528-AE46CAD6AEC0}</Project>
       <Name>Starter3D.Renderers</Name>
     </ProjectReference>
   </ItemGroup>
@@ -114,10 +111,6 @@
     <Reference Include="Autofac">
       <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="Flaxen.SlimDXControlLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\libraries\Flaxen.SlimDXControlLib.dll</HintPath>
-    </Reference>
     <Reference Include="OpenTK">
       <HintPath>..\libraries\OpenTK.dll</HintPath>
     </Reference>
@@ -135,6 +128,9 @@
     <Reference Include="System.Xaml" />
     <Reference Include="WindowsBase" />
     <Reference Include="WindowsFormsIntegration" />
+    <Reference Include="Flaxen.SlimDXControlLib">
+      <HintPath>..\libraries\Flaxen.SlimDXControlLib.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="config.xml">

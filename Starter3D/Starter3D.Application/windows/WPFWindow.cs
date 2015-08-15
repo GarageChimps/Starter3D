@@ -1,3 +1,5 @@
+#if WIN64
+
 using System;
 using System.Windows;
 using Starter3D.Application.ui;
@@ -53,3 +55,5 @@ namespace Starter3D.Application.windows
     }
   }
 }
+
+#endif

@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if WIN64
+using System;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Forms;
@@ -9,8 +10,11 @@ using Starter3D.API.controller;
 using Starter3D.API.renderer;
 using Starter3D.API.utils;
 using Starter3D.Renderers;
+
+
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
+
 
 namespace Starter3D.Application.ui
 {
@@ -131,3 +135,4 @@ namespace Starter3D.Application.ui
 
   }
 }
+#endif
