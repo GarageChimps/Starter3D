@@ -10,6 +10,7 @@ namespace Starter3D.API.scene.persistence
     void WriteParameter(string parameterName, string parameterValue);
     bool HasParameter(string parameterName);
     string ReadParameter(string parameterName);
+    float ReadFloatParameter(string parameterName);
     Vector3 ReadVectorParameter(string parameterName);
     Color4 ReadColorParameter(string parameterName);
   }

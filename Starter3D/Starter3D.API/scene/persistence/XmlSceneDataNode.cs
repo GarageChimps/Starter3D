@@ -52,6 +52,12 @@ namespace Starter3D.API.scene.persistence
       return _element.Attribute(parameterName).Value;
     }
 
+    public float ReadFloatParameter(string parameterName)
+    {
+      var parameter = ReadParameter(parameterName);
+      return float.Parse(parameter, CultureInfo.InvariantCulture);
+    }
+
     public Vector3 ReadVectorParameter(string parameterName)
     {
       var parameter = ReadParameter(parameterName);

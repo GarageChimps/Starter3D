@@ -25,7 +25,7 @@ namespace Starter3D.API.scene.nodes
       get { return _shape; }
     }
 
-    public ShapeNode(IShape shape, IShapeFactory shapeFactory, IResourceManager resourceManager, Vector3 scale = default(Vector3), Vector3 position = default(Vector3),
+    public ShapeNode(IShape shape, IShapeFactory shapeFactory, IResourceManager resourceManager, Vector3 scale = default(Vector3), Vector3 position = default(Vector3), 
       Vector3 orientationAxis = default(Vector3), float orientationAngle = 0)
       : this(shapeFactory, resourceManager, scale, position, orientationAxis, orientationAngle)
     {
@@ -50,14 +50,14 @@ namespace Starter3D.API.scene.nodes
 
     public override void Load(ISceneDataNode sceneDataNode)
     {
-      var scale = new Vector3();
+      var scale = new Vector3(1,1,1);
       var position = new Vector3();
       var orientationAxis = new Vector3();
       var orientationAngle = 0.0f;
       if (sceneDataNode.HasParameter("scale"))
       {
         scale = sceneDataNode.ReadVectorParameter("scale");
-      }
+      } 
       if (sceneDataNode.HasParameter("position"))
       {
         position = sceneDataNode.ReadVectorParameter("position");
@@ -65,7 +65,7 @@ namespace Starter3D.API.scene.nodes
       if (sceneDataNode.HasParameter("orientationAxis"))
       {
         orientationAxis = sceneDataNode.ReadVectorParameter("orientationAxis");
-        orientationAngle = float.Parse(sceneDataNode.ReadParameter("angle"));
+        orientationAngle = sceneDataNode.ReadFloatParameter("angle");
       }
       Init(scale, position, orientationAxis, orientationAngle);
 
@@ -75,7 +75,7 @@ namespace Starter3D.API.scene.nodes
       var fileTypeString = Path.GetExtension(filePath).TrimStart('.');
 
       var shapeType = (ShapeType)Enum.Parse(typeof(ShapeType), shapeTypeString);
-      var fileType = (FileType)Enum.Parse(typeof(FileType), fileTypeString);
+      var fileType = (FileType) Enum.Parse(typeof (FileType), fileTypeString);
       _shape = _shapeFactory.CreateShape(shapeType, fileType, name);
       _shape.Load(filePath);
 
@@ -88,7 +88,7 @@ namespace Starter3D.API.scene.nodes
     {
       _shape.Configure(renderer);
     }
-
+    
     public override void Render(IRenderer renderer)
     {
       var modelTransform = GetModelTransform();

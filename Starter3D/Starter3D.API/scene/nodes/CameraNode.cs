@@ -10,9 +10,7 @@ namespace Starter3D.API.scene.nodes
     private Vector3 _position;
     private Vector3 _target;
     private Vector3 _up;
-
-    private float _zoom = 1;
-
+    
     protected float _nearClip;
     protected float _farClip;
     protected int _order;
@@ -69,14 +67,17 @@ namespace Starter3D.API.scene.nodes
 
     public override void Load(ISceneDataNode sceneDataNode)
     {
-      float nearClip = float.Parse(sceneDataNode.ReadParameter("nearClip"));
-      float farClip = float.Parse(sceneDataNode.ReadParameter("farClip"));
+      float nearClip = sceneDataNode.ReadFloatParameter("nearClip");
+      float farClip = sceneDataNode.ReadFloatParameter("farClip");
       int order = 0;
       if (sceneDataNode.HasParameter("order"))
         order = int.Parse(sceneDataNode.ReadParameter("order"));
-      var position = sceneDataNode.ReadVectorParameter("position");
-      var target = sceneDataNode.ReadVectorParameter("target");
-      var up = sceneDataNode.ReadVectorParameter("up");
+      var position = new Vector3();
+      var target = new Vector3();
+      var up = new Vector3();
+      position = sceneDataNode.ReadVectorParameter("position");
+      target = sceneDataNode.ReadVectorParameter("target");
+      up = sceneDataNode.ReadVectorParameter("up");
 
       Init(nearClip, farClip, order, position, target, up);
     }
@@ -110,19 +111,48 @@ namespace Starter3D.API.scene.nodes
 
     public void Zoom(float delta)
     {
-      //ToDo: Implement
+      var movementDirection = _target - _position;
+      var zoom = delta * 0.05f * movementDirection.Length;
+      _position += zoom * movementDirection.Normalized();
       _isDirty = true;
     }
 
     public void Drag(float deltaX, float deltaY)
     {
-      //ToDo: Implement
+      var movementDirection = _target - _position;
+      var leftVector = Vector3.Cross(_up, movementDirection);
+      leftVector = leftVector.Normalized();
+      var upMovementDirection = Vector3.Cross(movementDirection, leftVector);
+      upMovementDirection = upMovementDirection.Normalized();
+
+      deltaX = deltaX * 0.001f * movementDirection.Length;
+      deltaY = deltaY * 0.001f * movementDirection.Length;
+
+      _position += leftVector * deltaX;
+      _target += leftVector * deltaX;
+
+      _position += upMovementDirection * deltaY;
+      _target += upMovementDirection * deltaY;
       _isDirty = true;
     }
 
     public void Orbit(float deltaX, float deltaY)
     {
-      //ToDo: Implement
+      var movementDirection = _target - _position;
+      var leftVector = Vector3.Cross(_up, movementDirection);
+      leftVector = leftVector.Normalized();
+      var upMovementDirection = Vector3.Cross(movementDirection, leftVector);
+      upMovementDirection = upMovementDirection.Normalized();
+
+      deltaX = -deltaX * 0.01f;
+      deltaY = deltaY * 0.01f;
+
+      var vectorToRotate = -movementDirection;
+      var pitchQuat = Quaternion.FromAxisAngle(leftVector, deltaY);
+      var pitchRotatedVector = Vector3.Transform(vectorToRotate, pitchQuat);
+      var yawQuat = Quaternion.FromAxisAngle(upMovementDirection, deltaX);
+      var yawRotatedVector = Vector3.Transform(pitchRotatedVector, yawQuat);
+      _position = _target + yawRotatedVector;
       _isDirty = true;
     }
 
