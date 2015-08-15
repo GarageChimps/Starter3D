@@ -48,8 +48,8 @@ namespace Starter3D.API.scene.nodes
     public override void Load(ISceneDataNode sceneDataNode)
     {
       base.Load(sceneDataNode);
-      float fov = float.Parse(sceneDataNode.ReadParameter("fieldOfView")).ToRadians();
-      float aspectRatio = float.Parse(sceneDataNode.ReadParameter("aspectRatio"));
+      float fov = sceneDataNode.ReadFloatParameter("fieldOfView").ToRadians();
+      float aspectRatio = sceneDataNode.ReadFloatParameter("aspectRatio");
       Init(fov, aspectRatio);
     }
 

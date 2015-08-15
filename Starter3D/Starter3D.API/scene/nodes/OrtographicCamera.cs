@@ -39,8 +39,8 @@ namespace Starter3D.API.scene.nodes
     public override void Load(ISceneDataNode sceneDataNode)
     {
       base.Load(sceneDataNode);
-      float width = float.Parse(sceneDataNode.ReadParameter("width"));
-      float height = float.Parse(sceneDataNode.ReadParameter("height"));
+      float width = sceneDataNode.ReadFloatParameter("width"); ;
+      float height = sceneDataNode.ReadFloatParameter("height"); ;
       Init(width, height);
     }
 

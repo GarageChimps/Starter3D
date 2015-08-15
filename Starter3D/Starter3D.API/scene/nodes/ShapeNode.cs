@@ -69,7 +69,7 @@ namespace Starter3D.API.scene.nodes
       {
         _hasTransform = true;
         orientationAxis = sceneDataNode.ReadVectorParameter("orientationAxis");
-        orientationAngle = float.Parse(sceneDataNode.ReadParameter("angle"));
+        orientationAngle = sceneDataNode.ReadFloatParameter("angle");
       }
       Init(scale, position, orientationAxis, orientationAngle);
 

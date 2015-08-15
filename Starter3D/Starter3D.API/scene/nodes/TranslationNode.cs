@@ -48,9 +48,9 @@ namespace Starter3D.API.scene.nodes
 
     public override void Load(ISceneDataNode sceneDataNode)
     {
-      float x = float.Parse(sceneDataNode.ReadParameter("x"));
-      float y = float.Parse(sceneDataNode.ReadParameter("y"));
-      float z = float.Parse(sceneDataNode.ReadParameter("z"));
+      float x = sceneDataNode.ReadFloatParameter("x");
+      float y = sceneDataNode.ReadFloatParameter("y");
+      float z = sceneDataNode.ReadFloatParameter("z");
       Init(x,y,z);
     }
 

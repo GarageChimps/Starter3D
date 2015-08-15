@@ -70,8 +70,8 @@ namespace Starter3D.API.scene.nodes
 
     public override void Load(ISceneDataNode sceneDataNode)
     {
-      float nearClip = float.Parse(sceneDataNode.ReadParameter("nearClip"));
-      float farClip = float.Parse(sceneDataNode.ReadParameter("farClip"));
+      float nearClip = sceneDataNode.ReadFloatParameter("nearClip");
+      float farClip = sceneDataNode.ReadFloatParameter("farClip");
       int order = 0;
       if (sceneDataNode.HasParameter("order"))
         order = int.Parse(sceneDataNode.ReadParameter("order"));

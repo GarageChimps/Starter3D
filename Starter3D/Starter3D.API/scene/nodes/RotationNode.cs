@@ -46,15 +46,15 @@ namespace Starter3D.API.scene.nodes
       _axis.Y = y;
       _axis.Z = z;
       _angle = angle;
-      _transform = Matrix4.CreateFromAxisAngle(_axis, angle.ToRadians());
+      _transform = Matrix4.CreateFromAxisAngle(_axis, angle);
     }
 
     public override void Load(ISceneDataNode sceneDataNode)
     {
-      float x = float.Parse(sceneDataNode.ReadParameter("x"));
-      float y = float.Parse(sceneDataNode.ReadParameter("y"));
-      float z = float.Parse(sceneDataNode.ReadParameter("z"));
-      float angle = float.Parse(sceneDataNode.ReadParameter("angle"));
+      float x = sceneDataNode.ReadFloatParameter("x");
+      float y = sceneDataNode.ReadFloatParameter("y");
+      float z = sceneDataNode.ReadFloatParameter("z");
+      float angle = sceneDataNode.ReadFloatParameter("angle").ToRadians();
       Init(x, y, z, angle);
     }
 
@@ -63,7 +63,7 @@ namespace Starter3D.API.scene.nodes
       sceneDataNode.WriteParameter("x", X.ToString(CultureInfo.InvariantCulture));
       sceneDataNode.WriteParameter("y", Y.ToString(CultureInfo.InvariantCulture));
       sceneDataNode.WriteParameter("z", Z.ToString(CultureInfo.InvariantCulture));
-      sceneDataNode.WriteParameter("angle", _angle.ToString(CultureInfo.InvariantCulture));
+      sceneDataNode.WriteParameter("angle", _angle.ToDegrees().ToString(CultureInfo.InvariantCulture));
     }
   }
 }
