@@ -17,7 +17,6 @@ using MouseEventArgs = System.Windows.Forms.MouseEventArgs;
 
 using WindowState = System.Windows.WindowState;
 using System.Windows.Forms.Integration;
-using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 using System.Windows.Controls;
 
 

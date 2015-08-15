@@ -15,7 +15,7 @@ namespace Starter3D.Plugin.MaterialEditor
 
     }
   }
-}z
+}
 #else
 namespace Starter3D.Plugin.MaterialEditor
 {
