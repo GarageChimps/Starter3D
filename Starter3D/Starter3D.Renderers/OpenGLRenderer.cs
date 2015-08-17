@@ -97,8 +97,8 @@ namespace Starter3D.Renderers
       int location = GL.GetAttribLocation(_shaderHandleDictionary[shaderName], vertexPropertyName);
       if (location != -1)
       {
-        GL.EnableVertexAttribArray(index);
-        GL.VertexAttribPointer(index, 3, VertexAttribPointerType.Float, false, stride, IntPtr.Add(IntPtr.Zero, offset));
+        GL.EnableVertexAttribArray(location);
+        GL.VertexAttribPointer(location, 3, VertexAttribPointerType.Float, false, stride, IntPtr.Add(IntPtr.Zero, offset));
       }
     }
 
