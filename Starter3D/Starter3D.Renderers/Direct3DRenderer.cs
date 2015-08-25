@@ -118,6 +118,7 @@ namespace Starter3D.Renderers
       var effect = _shaderHandleDictionary[_currentShader].Effect;
       var technique = effect.GetTechniqueByIndex(0);
       var pass = technique.GetPassByIndex(0);
+      pass.Apply();
       _device.InputAssembler.SetInputLayout(GetInputLayout(pass, _objectsHandleDictionary[objectName].InputElements.ToArray()));
       _device.InputAssembler.SetPrimitiveTopology(PrimitiveTopology.TriangleList);
       _device.InputAssembler.SetVertexBuffers(0, new VertexBufferBinding(_objectsHandleDictionary[objectName].VertexBuffer, OpenTK.Vector3.SizeInBytes * _objectsHandleDictionary[objectName].InputElements.Count, 0));
@@ -200,10 +201,7 @@ namespace Starter3D.Renderers
       if (!_shaderHandleDictionary.ContainsKey(shaderName))
         throw new ApplicationException("Shader must be loaded before using it");
       _currentShader = shaderName;
-      var effect = _shaderHandleDictionary[shaderName].Effect;
-      var technique = effect.GetTechniqueByIndex(0);
-      var pass = technique.GetPassByIndex(0);
-      pass.Apply();
+      
     }
 
     public void EnableZBuffer(bool enable)
