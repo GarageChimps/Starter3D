@@ -11,6 +11,8 @@ namespace Starter3D.API.scene.nodes
     protected ISceneNode _parent;
     protected bool _isDirty = true;
 
+    protected virtual Matrix4 Transform { get { return Matrix4.Identity; } }
+
     public IEnumerable<ISceneNode> Children
     {
       get { return _children; }
@@ -22,7 +24,14 @@ namespace Starter3D.API.scene.nodes
       set { _parent = value; }
     }
 
-   
+    public Matrix4 ComposeTransform()
+    {
+      var transform = Transform;
+      if (_parent != null)
+        transform = transform * _parent.ComposeTransform();
+      return transform;
+    }
+
     public void AddChild(ISceneNode child)
     {
       _children.Add(child);
@@ -62,12 +71,12 @@ namespace Starter3D.API.scene.nodes
 
     public virtual void Configure(IRenderer renderer)
     {
-      
+
     }
 
     public virtual void Render(IRenderer renderer)
     {
-      
+
     }
   }
 }

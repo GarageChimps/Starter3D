@@ -1,5 +1,10 @@
 ﻿namespace Starter3D.API.utils
 {
+  public enum PrimitiveType
+  {
+    Cube = 0,
+  }
+
   public enum ControllerMouseButton
   {
     Left = 0,
@@ -47,7 +52,7 @@
   {
     Mesh = 0,
     PointCloud,
-    Curve
+    Curve,
   }
 
   public enum FileType

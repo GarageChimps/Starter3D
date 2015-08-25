@@ -76,6 +76,9 @@
   <ItemGroup>
     <Compile Include="controller\IController.cs" />
     <Compile Include="geometry\loaders\DxfMeshLoader.cs" />
+    <Compile Include="geometry\primitives\Cube.cs" />
+    <Compile Include="geometry\primitives\IPrimitiveFactory.cs" />
+    <Compile Include="geometry\primitives\PrimitiveFactory.cs" />
     <Compile Include="resources\IDataNode.cs" />
     <Compile Include="resources\IMaterial.cs" />
     <Compile Include="resources\IMaterialFactory.cs" />

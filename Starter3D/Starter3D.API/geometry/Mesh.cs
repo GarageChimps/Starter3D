@@ -22,6 +22,11 @@ namespace Starter3D.API.geometry
       _name = name;
     }
 
+    public Mesh(string name = "default")
+    {
+      _name = name;
+    }
+
     public IEnumerable<IVertex> Vertices
     {
       get { return _vertices; }

@@ -18,6 +18,8 @@ namespace Starter3D.API.scene.nodes
     void RemoveChild(ISceneNode child);
     void Load(ISceneDataNode sceneDataNode);
     void Save(ISceneDataNode sceneDataNode);
+
+    Matrix4 ComposeTransform();
     
     /// <summary>
     /// Returns all nodes of type provided that are part of this node subtree

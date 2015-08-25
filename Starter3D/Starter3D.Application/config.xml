@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <!-- MaterialEditor Config-->
-<Configuration plugin="Starter3D.Plugin.SimpleMaterialEditor" renderer="Composite" frameRate="60"/>
+<Configuration plugin="Starter3D.Plugin.SceneGraph" renderer="Composite" frameRate="60"/>
 
 
 

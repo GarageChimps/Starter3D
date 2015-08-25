@@ -1,4 +1,5 @@
 using System;
+using Starter3D.API.geometry.primitives;
 using Starter3D.API.utils;
 
 namespace Starter3D.API.geometry.factories
@@ -6,10 +7,12 @@ namespace Starter3D.API.geometry.factories
   public class ShapeFactory : IShapeFactory
   {
     private readonly IMeshFactory _meshFactory;
+    private readonly IPrimitiveFactory _primitiveFactory;
 
-    public ShapeFactory(IMeshFactory meshFactory)
+    public ShapeFactory(IMeshFactory meshFactory, IPrimitiveFactory primitiveFactory)
     {
       _meshFactory = meshFactory;
+      _primitiveFactory = primitiveFactory;
     }
 
     public IShape CreateShape(ShapeType shapeType, FileType fileType, string name)
@@ -25,7 +28,12 @@ namespace Starter3D.API.geometry.factories
         default:
           throw new ArgumentOutOfRangeException("shapeType");
       }
-      
+
+    }
+
+    public IShape CreateShape(PrimitiveType primitiveType, string name)
+    {
+      return _primitiveFactory.CreatePrimitive(primitiveType, name);
     }
   }
 }

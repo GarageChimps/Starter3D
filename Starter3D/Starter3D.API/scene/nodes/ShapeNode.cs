@@ -16,13 +16,32 @@ namespace Starter3D.API.scene.nodes
     private readonly IShapeFactory _shapeFactory;
     private readonly IResourceManager _resourceManager;
     private Vector3 _position;
-    private Vector3 _orientationAxis;
-    private float _orientationAngle;
+    private Quaternion _rotation;
     private Vector3 _scale;
+
+    protected override Matrix4 Transform { get { return GetModelTransform(); } }
 
     public IShape Shape
     {
       get { return _shape; }
+    }
+
+    public Quaternion Rotation
+    {
+      get { return _rotation; }
+      set { _rotation = value; }
+    }
+
+    public Vector3 Position
+    {
+      get { return _position; }
+      set { _position = value; }
+    }
+
+    public Vector3 Scale
+    {
+      get { return _scale; }
+      set { _scale = value; }
     }
 
     public ShapeNode(IShape shape, IShapeFactory shapeFactory, IResourceManager resourceManager, Vector3 scale = default(Vector3), Vector3 position = default(Vector3), 
@@ -44,15 +63,14 @@ namespace Starter3D.API.scene.nodes
     {
       _scale = scale;
       _position = position;
-      _orientationAxis = orientationAxis;
-      _orientationAngle = orientationAngle;
+      _rotation = Quaternion.FromAxisAngle(orientationAxis, orientationAngle);
     }
 
     public override void Load(ISceneDataNode sceneDataNode)
     {
       var scale = new Vector3(1,1,1);
       var position = new Vector3();
-      var orientationAxis = new Vector3();
+      var orientationAxis = new Vector3(0,0,1);
       var orientationAngle = 0.0f;
       if (sceneDataNode.HasParameter("scale"))
       {
@@ -69,15 +87,25 @@ namespace Starter3D.API.scene.nodes
       }
       Init(scale, position, orientationAxis, orientationAngle);
 
-      var shapeTypeString = sceneDataNode.ReadParameter("shapeType");
       var name = sceneDataNode.ReadParameter("shapeName");
-      var filePath = sceneDataNode.ReadParameter("filePath");
-      var fileTypeString = Path.GetExtension(filePath).TrimStart('.');
 
-      var shapeType = (ShapeType)Enum.Parse(typeof(ShapeType), shapeTypeString);
-      var fileType = (FileType) Enum.Parse(typeof (FileType), fileTypeString);
-      _shape = _shapeFactory.CreateShape(shapeType, fileType, name);
-      _shape.Load(filePath);
+      if (sceneDataNode.HasParameter("filePath"))
+      {
+        var shapeTypeString = sceneDataNode.ReadParameter("shapeType");
+        var shapeType = (ShapeType)Enum.Parse(typeof(ShapeType), shapeTypeString);
+        var filePath = sceneDataNode.ReadParameter("filePath");
+        var fileTypeString = Path.GetExtension(filePath).TrimStart('.');
+
+        var fileType = (FileType) Enum.Parse(typeof (FileType), fileTypeString);
+        _shape = _shapeFactory.CreateShape(shapeType, fileType, name);
+        _shape.Load(filePath);
+      }
+      else
+      {
+        var primitveTypeString = sceneDataNode.ReadParameter("primitiveType");
+        var primitveType = (PrimitiveType)Enum.Parse(typeof(PrimitiveType), primitveTypeString);
+        _shape = _shapeFactory.CreateShape(primitveType, name);
+      }
 
       var materialKey = sceneDataNode.ReadParameter("material");
       if (_resourceManager.HasMaterial(materialKey))
@@ -91,18 +119,16 @@ namespace Starter3D.API.scene.nodes
     
     public override void Render(IRenderer renderer)
     {
-      var modelTransform = GetModelTransform();
+      var modelTransform = ComposeTransform();
       _shape.Render(renderer, modelTransform);
     }
 
     private Matrix4 GetModelTransform()
     {
       var translation = Matrix4.CreateTranslation(_position);
-      var rotation = Matrix4.Identity;
-      if (_orientationAngle != 0)
-        rotation = Matrix4.CreateFromAxisAngle(_orientationAxis, _orientationAngle.ToRadians());
+      var rotation = Matrix4.CreateFromQuaternion(_rotation);
       var scale = Matrix4.CreateScale(_scale);
-      var matrix = translation * rotation * scale;
+      var matrix =  scale * rotation * translation;
       return matrix;
     }
   }
