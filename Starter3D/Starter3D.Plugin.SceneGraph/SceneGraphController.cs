@@ -124,7 +124,12 @@ namespace Starter3D.Plugin.SceneGraph
 
     public void Update(double time)
     {
-
+      var s1 = _scene.Shapes.First(s => s.Shape.Name == "sphere");
+      var s2 = _scene.Shapes.First(s => s.Shape.Name == "sphere2");
+      var s3 = _scene.Shapes.First(s => s.Shape.Name == "sphere3");
+      s1.Rotation *= Quaternion.FromAxisAngle(new Vector3(0, 0, 1), 0.1f * (float)time);
+      s2.Rotation *= Quaternion.FromAxisAngle(new Vector3(0, 0, 1), 0.2f * (float)time);
+      s3.Rotation *= Quaternion.FromAxisAngle(new Vector3(0, 0, 1), 0.4f * (float)time);
     }
 
     public void UpdateSize(double width, double height)
@@ -137,6 +142,9 @@ namespace Starter3D.Plugin.SceneGraph
     public void MouseWheel(int delta, int x, int y)
     {
       _scene.CurrentCamera.Zoom(delta);
+      var pointLight = _scene.Lights.First() as PointLight;
+      if (pointLight != null)
+        pointLight.Position = _scene.CurrentCamera.Position;
     }
 
     public void MouseDown(ControllerMouseButton button, int x, int y)
@@ -161,6 +169,9 @@ namespace Starter3D.Plugin.SceneGraph
         _scene.CurrentCamera.Drag(deltaX, deltaY);
       else if (_isOrbiting)
         _scene.CurrentCamera.Orbit(deltaX, deltaY);
+      var pointLight = _scene.Lights.First() as PointLight;
+      if (pointLight != null)
+        pointLight.Position = _scene.CurrentCamera.Position;
     }
 
     public void KeyDown(int key)
