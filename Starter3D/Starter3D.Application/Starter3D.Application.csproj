@@ -86,6 +86,10 @@
       <Project>{5407e771-ef7f-4b2c-8c75-a34720b2732f}</Project>
       <Name>Starter3D.Plugin.PixelShader</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Starter3D.Plugin.SceneGraph\Starter3D.Plugin.SceneGraph.csproj">
+      <Project>{e9527f80-058f-43a5-a87f-00c8a7342f6d}</Project>
+      <Name>Starter3D.Plugin.SceneGraph</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Starter3D.Plugin.SimpleMaterialEditor\Starter3D.Plugin.SimpleMaterialEditor.csproj">
       <Project>{c9d87433-bbff-40bb-99ea-9773636d3e11}</Project>
       <Name>Starter3D.Plugin.SimpleMaterialEditor</Name>

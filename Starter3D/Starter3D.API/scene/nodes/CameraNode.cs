@@ -7,13 +7,10 @@ namespace Starter3D.API.scene.nodes
 {
   public abstract class CameraNode : BaseSceneNode
   {
-    private bool _hasTransform;
     private Vector3 _position;
     private Vector3 _target;
     private Vector3 _up;
-
-    private float _zoom = 1;
-
+    
     protected float _nearClip;
     protected float _farClip;
     protected int _order;
@@ -78,13 +75,9 @@ namespace Starter3D.API.scene.nodes
       var position = new Vector3();
       var target = new Vector3();
       var up = new Vector3();
-      if (sceneDataNode.HasParameter("position") && sceneDataNode.HasParameter("target") && sceneDataNode.HasParameter("up"))
-      {
-        _hasTransform = true;
-        position = sceneDataNode.ReadVectorParameter("position");
-        target = sceneDataNode.ReadVectorParameter("target");
-        up = sceneDataNode.ReadVectorParameter("up");
-      }
+      position = sceneDataNode.ReadVectorParameter("position");
+      target = sceneDataNode.ReadVectorParameter("target");
+      up = sceneDataNode.ReadVectorParameter("up");
 
       Init(nearClip, farClip, order, position, target, up);
     }
@@ -165,23 +158,12 @@ namespace Starter3D.API.scene.nodes
 
     private Vector3 GetPosition()
     {
-      if (_hasTransform)
-        return _position;
-      var transform = ComposeTransform();
-      return transform.Row3.Xyz;
+      return _position;
     }
 
     private Matrix4 GetViewMatrix()
     {
-      if (_hasTransform)
-      {
-        return Matrix4.LookAt(_position, _target, _up);
-      }
-      var transform = ComposeTransform();
-      var translationFromTransform = transform.Row3.Xyz;
-      translationFromTransform *= _zoom;
-      transform.Row3.Xyz = translationFromTransform;
-      return transform.Inverted();
+      return Matrix4.LookAt(_position, _target, _up);
     }
 
     protected abstract Matrix4 CreateProjectionMatrix();

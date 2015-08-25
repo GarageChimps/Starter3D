@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<Resources>
+  <Shaders>
+    <BaseShader key="blinnPhong" vertex="genericVertex" fragment="blinnPhongFragment" numbers="shininess" vectors="diffuseColor,specularColor"/>
+    </Shaders>
+  <Textures>
+    <BaseTexture key="stonesDiffTex" path="images/stones.jpg"/>
+    <BaseTexture key="stonesSpecTex" path="images/stones2.jpg"/>
+    <BaseTexture key="earthmapDiffTex" path="images/earthmap.jpg"/>
+  </Textures>
+	<Materials>
+    <BaseMaterial key='redSpecular' shader='blinnPhong' diffuseColor='1,0,0' specularColor='1,1,1' shininess='100'/>
+    <BaseMaterial key='blueDiffuse' shader='blinnPhong' diffuseColor='0.7,0.7,1' specularColor='0,0,0' shininess='0'/>
+  </Materials>                          
+</Resources>

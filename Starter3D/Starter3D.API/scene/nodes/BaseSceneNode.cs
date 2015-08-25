@@ -11,10 +11,7 @@ namespace Starter3D.API.scene.nodes
     protected ISceneNode _parent;
     protected bool _isDirty = true;
 
-    public virtual Matrix4 Transform
-    {
-      get { return Matrix4.Identity; }
-    }
+    protected virtual Matrix4 Transform { get { return Matrix4.Identity; } }
 
     public IEnumerable<ISceneNode> Children
     {
@@ -31,7 +28,7 @@ namespace Starter3D.API.scene.nodes
     {
       var transform = Transform;
       if (_parent != null)
-        transform = _parent.ComposeTransform() * transform;
+        transform = transform * _parent.ComposeTransform();
       return transform;
     }
 
@@ -74,12 +71,12 @@ namespace Starter3D.API.scene.nodes
 
     public virtual void Configure(IRenderer renderer)
     {
-      
+
     }
 
     public virtual void Render(IRenderer renderer)
     {
-      
+
     }
   }
 }

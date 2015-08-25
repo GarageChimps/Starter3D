@@ -7,10 +7,9 @@ namespace Starter3D.API.scene.nodes
 {
   public class PointLight : LightNode
   {
-    private bool _hasTransform;
     private Vector3 _position;
 
-    public PointLight(Color4 color, Vector3 position=default(Vector3))
+    public PointLight(Color4 color, Vector3 position = default(Vector3))
       : base(color)
     {
       Init(position);
@@ -18,7 +17,7 @@ namespace Starter3D.API.scene.nodes
 
     public PointLight()
     {
-      
+
     }
 
     public Vector3 Position
@@ -34,26 +33,18 @@ namespace Starter3D.API.scene.nodes
     private void Init(Vector3 position)
     {
       _position = position;
-      _hasTransform = true;
     }
 
     public Vector3 GetPosition()
     {
-      if(_hasTransform)
-        return _position;
-      var transform = ComposeTransform();
-      return transform.Row3.Xyz;
+      return _position;
     }
 
     public override void Load(ISceneDataNode sceneDataNode)
     {
       base.Load(sceneDataNode);
-      //Light position can be confgured through the scene graph or directly as a parameter of the node
-      if (sceneDataNode.HasParameter("position"))
-      {
-        var position = sceneDataNode.ReadVectorParameter("position");
-        Init(position);
-      }
+      var position = sceneDataNode.ReadVectorParameter("position");
+      Init(position);
     }
 
     public override void Configure(IRenderer renderer)

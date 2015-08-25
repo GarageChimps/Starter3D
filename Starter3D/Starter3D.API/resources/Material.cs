@@ -80,7 +80,7 @@ namespace Starter3D.API.resources
         {
           _shader.SetTextureParameter(textureParameter.Key, textureParameter.Value);
         }
-        _isDirty = false;
+        _isDirty = true;
       }
       _shader.Render(renderer);
        
