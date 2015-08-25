@@ -17,14 +17,14 @@ namespace Starter3D.Plugin.SceneGraph
   }
 }
 #else
-namespace Starter3D.Plugin.MaterialEditor
+namespace Starter3D.Plugin.SceneGraph
 {
   /// <summary>
   /// Interaction logic for MaterialEditorUI.xaml
   /// </summary>
-  public partial class MaterialEditorView 
+  public partial class SceneGraphView 
   {
-    public MaterialEditorView(MaterialEditorController controller)
+    public SceneGraphView(SceneGraphController controller)
     {
       
     }
