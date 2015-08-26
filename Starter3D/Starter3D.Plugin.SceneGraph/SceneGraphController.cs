@@ -24,14 +24,13 @@ namespace Starter3D.Plugin.SceneGraph
     private readonly IResourceManager _resourceManager;
 
     private readonly IScene _scene;
-    private readonly IEnumerable<ShapeNode> _shapes;
-
+    
 
     private readonly SceneGraphView _centralView;
 
     private bool _isDragging;
     private bool _isOrbiting;
-
+    private bool _isAnimating;
 
     public int Width
     {
@@ -94,7 +93,6 @@ namespace Starter3D.Plugin.SceneGraph
       _resourceManager = resourceManager;
 
       _resourceManager.Load(ResourcePath);
-      //AE August 2015: The scene definition from file contains multiple shapes, we only want to render one, so we create a new scene with only the first shape
       _scene = _sceneReader.Read(ScenePath);
 
       _centralView = new SceneGraphView(this);
@@ -124,12 +122,15 @@ namespace Starter3D.Plugin.SceneGraph
 
     public void Update(double time)
     {
-      var s1 = _scene.Shapes.First(s => s.Shape.Name == "sphere");
-      var s2 = _scene.Shapes.First(s => s.Shape.Name == "sphere2");
-      var s3 = _scene.Shapes.First(s => s.Shape.Name == "sphere3");
-      s1.Rotation *= Quaternion.FromAxisAngle(new Vector3(0, 0, 1), 0.1f * (float)time);
-      s2.Rotation *= Quaternion.FromAxisAngle(new Vector3(0, 0, 1), 0.2f * (float)time);
-      s3.Rotation *= Quaternion.FromAxisAngle(new Vector3(0, 0, 1), 0.4f * (float)time);
+      if (_isAnimating)
+      {
+        var s1 = _scene.Shapes.First(s => s.Shape.Name == "sphere");
+        var s2 = _scene.Shapes.First(s => s.Shape.Name == "sphere2");
+        var s3 = _scene.Shapes.First(s => s.Shape.Name == "sphere3");
+        s1.Rotation *= Quaternion.FromAxisAngle(new Vector3(0, 0, 1), 0.1f*(float) time);
+        s2.Rotation *= Quaternion.FromAxisAngle(new Vector3(0, 0, 1), 0.2f*(float) time);
+        s3.Rotation *= Quaternion.FromAxisAngle(new Vector3(0, 0, 1), 0.4f*(float) time);
+      }
     }
 
     public void UpdateSize(double width, double height)
@@ -183,14 +184,16 @@ namespace Starter3D.Plugin.SceneGraph
         s1.Rotation *= Quaternion.FromAxisAngle(new Vector3(0, 0, 1), 0.1f);
       else if (key == 's')
         s1.Rotation *= Quaternion.FromAxisAngle(new Vector3(0, 0, 1), -0.1f);
-      if (key == 'e')
+      else if (key == 'e')
         s2.Rotation *= Quaternion.FromAxisAngle(new Vector3(0, 0, 1), 0.1f);
       else if (key == 'd')
         s2.Rotation *= Quaternion.FromAxisAngle(new Vector3(0, 0, 1), -0.1f);
-      if (key == 'r')
+      else if (key == 'r')
         s3.Rotation *= Quaternion.FromAxisAngle(new Vector3(0, 0, 1), 0.1f);
       else if (key == 'f')
         s3.Rotation *= Quaternion.FromAxisAngle(new Vector3(0, 0, 1), -0.1f);
+      else if (key == ' ')
+        _isAnimating = !_isAnimating;
     }
 
 
