@@ -11,6 +11,8 @@ namespace Starter3D.API.scene
   /// </summary>
   public interface IScene
   {
+    ISceneNode RootNode { get; }
+
     CameraNode CurrentCamera { get; }
     IEnumerable<CameraNode> Cameras { get; }
     IEnumerable<ShapeNode> Shapes { get; }

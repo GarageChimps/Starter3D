@@ -1,4 +1,5 @@
 ﻿using OpenTK;
+using Starter3D.API.math;
 using Starter3D.API.renderer;
 using Starter3D.API.resources;
 
@@ -38,5 +39,12 @@ namespace Starter3D.API.geometry
     /// <param name="renderer">Renderer that will perform the rendering</param>
     /// <param name="modelTransform">Model to world transformation for this shape</param>
     void Render(IRenderer renderer, Matrix4 modelTransform);
+
+    /// <summary>
+    /// Returns true if the shape intersects with the given ray
+    /// </summary>
+    /// <param name="ray"></param>
+    /// <returns></returns>
+    bool Intersects(Ray ray);
   }
 }

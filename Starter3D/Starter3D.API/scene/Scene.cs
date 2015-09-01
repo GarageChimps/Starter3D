@@ -7,12 +7,15 @@ namespace Starter3D.API.scene
 {
   public class Scene : IScene
   {
+    private readonly ISceneNode _rootNode;
     private int _currentCameraIndex;
     private readonly List<CameraNode> _cameras;
     private readonly List<ShapeNode> _shapes;
     private readonly List<LightNode> _lights;
 
     private bool _isDirty = true;
+
+    public ISceneNode RootNode { get { return _rootNode; } }
 
     public CameraNode CurrentCamera { get { return _cameras[_currentCameraIndex]; } }
 
@@ -33,6 +36,7 @@ namespace Starter3D.API.scene
 
     public Scene(ISceneNode rootNode)
     {
+      _rootNode = rootNode;
       _cameras = rootNode.GetNodes<CameraNode>().OrderBy(c => c.Order).ToList();
       _lights = rootNode.GetNodes<LightNode>().ToList();
       _shapes = rootNode.GetNodes<ShapeNode>().ToList();

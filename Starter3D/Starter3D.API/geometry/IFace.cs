@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Starter3D.API.math;
 
 namespace Starter3D.API.geometry
 {
@@ -24,5 +25,7 @@ namespace Starter3D.API.geometry
     /// </summary>
     /// <param name="verticesIndices">List where the vertex will be appended (at the end of it)</param>
     void AppendData(List<int> verticesIndices);
+
+    bool Intersects(Ray ray, List<IVertex> vertices);
   }
 }

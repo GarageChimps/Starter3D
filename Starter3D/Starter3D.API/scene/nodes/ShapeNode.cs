@@ -12,9 +12,9 @@ namespace Starter3D.API.scene.nodes
 {
   public class ShapeNode : BaseSceneNode
   {
-    private IShape _shape;
+    protected IShape _shape;
     private readonly IShapeFactory _shapeFactory;
-    private readonly IResourceManager _resourceManager;
+    protected readonly IResourceManager _resourceManager;
     private Vector3 _position;
     private Quaternion _rotation;
     private Vector3 _scale;

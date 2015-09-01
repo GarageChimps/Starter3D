@@ -10,7 +10,7 @@ namespace Starter3D.API.scene.nodes
     private Vector3 _position;
     private Vector3 _target;
     private Vector3 _up;
-    
+
     protected float _nearClip;
     protected float _farClip;
     protected int _order;
@@ -154,6 +154,18 @@ namespace Starter3D.API.scene.nodes
       var yawRotatedVector = Vector3.Transform(pitchRotatedVector, yawQuat);
       _position = _target + yawRotatedVector;
       _isDirty = true;
+    }
+
+    public Vector3 Unproject(Vector3 positionInClipping)
+    {
+      var inverseViewMatrix = GetViewMatrix().Inverted();
+      var inverseProjectionMatrix = CreateProjectionMatrix().Inverted();
+
+      var positionInView = Vector4.Transform(new Vector4(positionInClipping, 1), inverseProjectionMatrix);
+      var positionInViewHomogenized = new Vector3(positionInView.X, positionInView.Y, positionInView.Z) / positionInView.W;
+      var positionInWorld = Vector4.Transform(new Vector4(positionInViewHomogenized, 1), inverseViewMatrix);
+      
+      return positionInWorld.Xyz;
     }
 
     private Vector3 GetPosition()

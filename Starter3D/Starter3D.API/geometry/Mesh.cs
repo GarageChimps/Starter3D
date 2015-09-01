@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using OpenTK;
 using Starter3D.API.geometry.loaders;
+using Starter3D.API.math;
 using Starter3D.API.renderer;
 using Starter3D.API.resources;
 
@@ -145,6 +146,17 @@ namespace Starter3D.API.geometry
       _material.Render(renderer);
       renderer.SetMatrixParameter("modelMatrix", transform, _material.Shader.Name);
       renderer.DrawTriangles(_name, GetTriangleCount());
+    }
+
+    public bool Intersects(Ray ray)
+    {
+      var intersected = false;
+      foreach (var face in _faces)
+      {
+        if (face.Intersects(ray, _vertices))
+          intersected = true;
+      }
+      return intersected;
     }
 
     public List<Vector3> GetVerticesData()

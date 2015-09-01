@@ -36,6 +36,8 @@ namespace Starter3D.API.scene.nodes.factories
           return new DirectionalLight();
         case SceneNodeType.AmbientLight:
           return new AmbientLight();
+        case SceneNodeType.InteractiveShape:
+          return new InteractiveShapeNode(_shapeFactory, _resourceManager);
         default:
           throw new ArgumentOutOfRangeException("type");
       }

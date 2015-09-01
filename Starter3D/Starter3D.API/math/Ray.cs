@@ -8,12 +8,20 @@ namespace Starter3D.API.math
     protected internal Vector3 Position;
     protected internal Vector3 Direction;
     private const float Precission = 0.000001f;
+    private double _intersectionDistance = double.PositiveInfinity;
 
     public Ray (Vector3 position, Vector3 direction)
     {
       Position = position;
       Direction = direction.Normalized();
     }
+
+    public double IntersectionDistance
+    {
+      get { return _intersectionDistance; }
+      set { _intersectionDistance = value; }
+    }
+
 
     public static bool Intersect(Ray ray, BoundingBox box, out float distance){
       // current minimum t to get inside

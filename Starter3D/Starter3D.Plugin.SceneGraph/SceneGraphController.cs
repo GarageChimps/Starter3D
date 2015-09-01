@@ -5,6 +5,7 @@ using System.Linq;
 using OpenTK;
 using Starter3D.API.controller;
 using Starter3D.API.geometry.primitives;
+using Starter3D.API.math;
 using Starter3D.API.renderer;
 using Starter3D.API.resources;
 using Starter3D.API.scene;
@@ -16,7 +17,7 @@ namespace Starter3D.Plugin.SceneGraph
 {
   public class SceneGraphController : ViewModelBase, IController
   {
-    private const string ScenePath = @"scenes/scenegraph.xml";
+    private const string ScenePath = @"scenes/interactivescenegraph.xml";
     private const string ResourcePath = @"resources/scenegraphresources.xml";
 
     private readonly IRenderer _renderer;
@@ -24,6 +25,8 @@ namespace Starter3D.Plugin.SceneGraph
     private readonly IResourceManager _resourceManager;
 
     private readonly IScene _scene;
+
+    private readonly IEnumerable<InteractiveShapeNode> _interactiveShapes; 
     
 
     private readonly SceneGraphView _centralView;
@@ -44,7 +47,7 @@ namespace Starter3D.Plugin.SceneGraph
 
     public bool IsFullScreen
     {
-      get { return true; }
+      get { return false; }
     }
 
     public object CentralView
@@ -94,6 +97,8 @@ namespace Starter3D.Plugin.SceneGraph
 
       _resourceManager.Load(ResourcePath);
       _scene = _sceneReader.Read(ScenePath);
+
+      _interactiveShapes = _scene.RootNode.GetNodes<InteractiveShapeNode>();
 
       _centralView = new SceneGraphView(this);
     }
@@ -173,6 +178,17 @@ namespace Starter3D.Plugin.SceneGraph
       var pointLight = _scene.Lights.First() as PointLight;
       if (pointLight != null)
         pointLight.Position = _scene.CurrentCamera.Position;
+
+      var adjustedX = (2.0f * ((float)x / Width) - 1.0f);
+      var adjustedY = (2.0f * ((float)(Height - y) / Height) - 1.0f);
+      var nearPoint = _scene.CurrentCamera.Unproject(new Vector3(adjustedX, adjustedY, 0));
+      var farPoint = _scene.CurrentCamera.Unproject(new Vector3(adjustedX, adjustedY, 1));
+      var direction = (farPoint - nearPoint).Normalized();
+      
+      foreach (var shape in _interactiveShapes)
+      {
+        shape.Select(new Ray(nearPoint, direction));
+      }
     }
 
     public void KeyDown(int key)
