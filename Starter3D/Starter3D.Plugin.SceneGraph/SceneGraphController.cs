@@ -29,6 +29,7 @@ namespace Starter3D.Plugin.SceneGraph
     private readonly IEnumerable<InteractiveShapeNode> _interactiveShapes;
     private InteractiveShapeNode _pickableShape;
     private InteractiveShapeNode _selectedShape;
+    private InteractiveShapeViewModel _selectedShapeVM;
 
     private readonly SceneGraphView _centralView;
 
@@ -51,7 +52,7 @@ namespace Starter3D.Plugin.SceneGraph
 
     public bool IsFullScreen
     {
-      get { return false; }
+      get { return true; }
     }
 
     public object CentralView
@@ -89,6 +90,19 @@ namespace Starter3D.Plugin.SceneGraph
       get { return "Scene Graph"; }
     }
 
+    public InteractiveShapeViewModel SelectedShape
+    {
+      get { return _selectedShapeVM; }
+      set
+      {
+        if (_selectedShapeVM != value)
+        {
+          _selectedShapeVM = value;
+          OnPropertyChanged(() => SelectedShape);
+        }
+      }
+    }
+
 
     public SceneGraphController(IRenderer renderer, ISceneReader sceneReader, IResourceManager resourceManager)
     {
@@ -103,7 +117,6 @@ namespace Starter3D.Plugin.SceneGraph
       _scene = _sceneReader.Read(ScenePath);
 
       _interactiveShapes = _scene.RootNode.GetNodes<InteractiveShapeNode>();
-
       _centralView = new SceneGraphView(this);
     }
 
@@ -172,10 +185,12 @@ namespace Starter3D.Plugin.SceneGraph
           _selectedShape.Select(false);
         _pickableShape.Select(true);
         _selectedShape = _pickableShape;
+        SelectedShape = new InteractiveShapeViewModel(_selectedShape);
       }
       else if (_selectedShape != null)
       {
         _selectedShape.Select(false);
+        SelectedShape = null;
       }
     }
 
@@ -197,8 +212,13 @@ namespace Starter3D.Plugin.SceneGraph
       if (pointLight != null)
         pointLight.Position = _scene.CurrentCamera.Position;
 
-      var adjustedX = (2.0f * ((float)x / _width) - 1.0f);
-      var adjustedY = (2.0f * ((float)(_height - y) / _height) - 1.0f);
+      Pick(x, y);
+    }
+
+    private void Pick(int x, int y)
+    {
+      var adjustedX = (2.0f*((float) x/_width) - 1.0f);
+      var adjustedY = (2.0f*((float) (_height - y)/_height) - 1.0f);
       var cameraPoint = _scene.CurrentCamera.Position;
       var farPoint = _scene.CurrentCamera.Unproject(new Vector3(adjustedX, adjustedY, -1));
       var direction = (farPoint - cameraPoint).Normalized();
@@ -212,10 +232,12 @@ namespace Starter3D.Plugin.SceneGraph
         {
           _pickableShape = shape;
         }
+        shape.Highlight(false);
       }
-      
+      if (_pickableShape != null)
+        _pickableShape.Highlight(true);
     }
-    
+
     public void KeyDown(int key)
     {
       var s1 = _scene.Shapes.First(s => s.Shape.Name == "sphere");

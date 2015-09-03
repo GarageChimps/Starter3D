@@ -14,6 +14,7 @@ namespace Starter3D.API.scene.nodes
     private IMaterial _baseMaterial;
 
     private bool _isSelected;
+    private bool _isHighlighted;
 
     public InteractiveShapeNode(IShape shape, IShapeFactory shapeFactory, IResourceManager resourceManager, Vector3 scale = new Vector3(), Vector3 position = new Vector3(), Vector3 orientationAxis = new Vector3(), float orientationAngle = 0)
       : base(shape, shapeFactory, resourceManager, scale, position, orientationAxis, orientationAngle)
@@ -45,20 +46,27 @@ namespace Starter3D.API.scene.nodes
       var newDirection = Vector4.Transform(new Vector4(ray.Direction, 0), inverseModelMatrix);
       var newRay = new Ray(newPosition.Xyz, newDirection.Xyz.Normalized());
       var intersects = _shape.Intersects(newRay);
-      if (intersects)
-        _shape.Material = _highlightMaterial;
-      else if (_isSelected)
-        _shape.Material = _selectionMaterial;
-      else
-        _shape.Material = _baseMaterial;
       return intersects;
+    }
+
+    public void Highlight(bool isHighlighted)
+    {
+      _isHighlighted = isHighlighted;
+      UpdateMaterial();
     }
 
     public void Select(bool isSelected)
     {
       _isSelected = isSelected;
-      if (isSelected)
+      UpdateMaterial();
+    }
+
+    private void UpdateMaterial()
+    {
+      if (_isSelected)
         _shape.Material = _selectionMaterial;
+      else if (_isHighlighted)
+        _shape.Material = _highlightMaterial;
       else
         _shape.Material = _baseMaterial;
     }
