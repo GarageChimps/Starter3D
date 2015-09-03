@@ -51,7 +51,7 @@ namespace Starter3D.API.scene.nodes
       sceneDataNode.WriteParameter("height", _height.ToString(CultureInfo.InvariantCulture));
     }
 
-    protected override Matrix4 CreateProjectionMatrix()
+    public override Matrix4 CreateProjectionMatrix()
     {
       return Matrix4.CreateOrthographic(_width, _height, NearClip, FarClip);
     }

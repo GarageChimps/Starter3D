@@ -26,14 +26,18 @@ namespace Starter3D.Plugin.SceneGraph
 
     private readonly IScene _scene;
 
-    private readonly IEnumerable<InteractiveShapeNode> _interactiveShapes; 
-    
+    private readonly IEnumerable<InteractiveShapeNode> _interactiveShapes;
+    private InteractiveShapeNode _pickableShape;
+    private InteractiveShapeNode _selectedShape;
 
     private readonly SceneGraphView _centralView;
 
     private bool _isDragging;
     private bool _isOrbiting;
     private bool _isAnimating;
+
+    private int _width;
+    private int _height;
 
     public int Width
     {
@@ -140,6 +144,8 @@ namespace Starter3D.Plugin.SceneGraph
 
     public void UpdateSize(double width, double height)
     {
+      _width = (int)width;
+      _height = (int)height;
       var perspectiveCamera = _scene.CurrentCamera as PerspectiveCamera;
       if (perspectiveCamera != null)
         perspectiveCamera.AspectRatio = (float)(width / height);
@@ -159,6 +165,16 @@ namespace Starter3D.Plugin.SceneGraph
         _isDragging = true;
       else if (button == ControllerMouseButton.Left)
         _isOrbiting = true;
+
+      if (_pickableShape != null)
+      {
+        _pickableShape.Select(true);
+        _selectedShape = _pickableShape;
+      }
+      else if (_selectedShape != null)
+      {
+        _selectedShape.Select(false);
+      }
     }
 
     public void MouseUp(ControllerMouseButton button, int x, int y)
@@ -171,6 +187,7 @@ namespace Starter3D.Plugin.SceneGraph
 
     public void MouseMove(int x, int y, int deltaX, int deltaY)
     {
+      Console.WriteLine("" + x + ", " + y);
       if (_isDragging)
         _scene.CurrentCamera.Drag(deltaX, deltaY);
       else if (_isOrbiting)
@@ -179,16 +196,36 @@ namespace Starter3D.Plugin.SceneGraph
       if (pointLight != null)
         pointLight.Position = _scene.CurrentCamera.Position;
 
-      var adjustedX = (2.0f * ((float)x / Width) - 1.0f);
-      var adjustedY = (2.0f * ((float)(Height - y) / Height) - 1.0f);
+      var adjustedX = (2.0f * ((float)x / _width) - 1.0f);
+      var adjustedY = (2.0f * ((float)(_height - y) / _height) - 1.0f);
+      var cameraPoint = _scene.CurrentCamera.Position;
       var nearPoint = _scene.CurrentCamera.Unproject(new Vector3(adjustedX, adjustedY, 0));
-      var farPoint = _scene.CurrentCamera.Unproject(new Vector3(adjustedX, adjustedY, 1));
-      var direction = (farPoint - nearPoint).Normalized();
-      
+      var farPoint = _scene.CurrentCamera.Unproject(new Vector3(adjustedX, adjustedY, -1));
+      var direction = (farPoint - cameraPoint).Normalized();
+
+      var ray = new Ray(cameraPoint, direction);
+      _pickableShape = null;
       foreach (var shape in _interactiveShapes)
       {
-        shape.Select(new Ray(nearPoint, direction));
+        var intersects = shape.TestIntersection(ray);
+        if (intersects)
+        {
+          _pickableShape = shape;
+        }
       }
+      
+    }
+
+    private Vector3 Unproject(Vector3 positionInClipping)
+    {
+      var inverseViewMatrix = _scene.CurrentCamera.GetViewMatrix().Inverted();
+      var inverseProjectionMatrix = _scene.CurrentCamera.CreateProjectionMatrix().Inverted();
+
+      var positionInView = Vector4.Transform(new Vector4(positionInClipping, 1), inverseProjectionMatrix);
+      var positionInViewHomogenized = new Vector3(positionInView.X, positionInView.Y, positionInView.Z) / positionInView.W;
+      var positionInWorld = Vector4.Transform(new Vector4(positionInViewHomogenized, 1), inverseViewMatrix);
+
+      return positionInWorld.Xyz;
     }
 
     public void KeyDown(int key)

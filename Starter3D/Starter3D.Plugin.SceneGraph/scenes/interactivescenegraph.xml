@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <Scene>
-  <InteractiveShape shapeType='Mesh' shapeName='sphere' filePath='meshes/bunny.obj' material='redSpecular' selectionMaterial='yellowSelection'>
+  <InteractiveShape shapeType='Mesh' shapeName='sphere' filePath='meshes/sphere.obj' material='redSpecular' selectionMaterial='yellowSelection' highlightMaterial='whiteHighlight'>
     <!--<Shape primitiveType='Cube' shapeName='cube' material='blueDiffuse' scale='10, 1, 1' />
     <InteractiveShape shapeType='Mesh' shapeName='sphere2' filePath='meshes/sphere.obj' material='redSpecular' selectionMaterial='yellowSelection' position='11,0,0' orientationAxis="0,0,1" angle="-30">
       <Shape primitiveType='Cube' shapeName='cube2' material='blueDiffuse' scale='10, 1, 1' />

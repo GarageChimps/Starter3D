@@ -10,7 +10,10 @@ namespace Starter3D.API.scene.nodes
   public class InteractiveShapeNode : ShapeNode
   {
     private IMaterial _selectionMaterial;
+    private IMaterial _highlightMaterial;
     private IMaterial _baseMaterial;
+
+    private bool _isSelected;
 
     public InteractiveShapeNode(IShape shape, IShapeFactory shapeFactory, IResourceManager resourceManager, Vector3 scale = new Vector3(), Vector3 position = new Vector3(), Vector3 orientationAxis = new Vector3(), float orientationAngle = 0)
       : base(shape, shapeFactory, resourceManager, scale, position, orientationAxis, orientationAngle)
@@ -26,23 +29,38 @@ namespace Starter3D.API.scene.nodes
     {
       base.Load(sceneDataNode);
 
-      var materialKey = sceneDataNode.ReadParameter("selectionMaterial");
-      if (_resourceManager.HasMaterial(materialKey))
-        _selectionMaterial = _resourceManager.GetMaterial(materialKey);
+      var selectionMaterialKey = sceneDataNode.ReadParameter("selectionMaterial");
+      if (_resourceManager.HasMaterial(selectionMaterialKey))
+        _selectionMaterial = _resourceManager.GetMaterial(selectionMaterialKey);
+      var highlightMaterialKey = sceneDataNode.ReadParameter("highlightMaterial");
+      if (_resourceManager.HasMaterial(highlightMaterialKey))
+        _highlightMaterial = _resourceManager.GetMaterial(highlightMaterialKey);
       _baseMaterial = _shape.Material;
     }
 
-    public void Select(Ray ray)
+    public bool TestIntersection(Ray ray)
     {
       var inverseModelMatrix = ComposeTransform();
       var newPosition = Vector4.Transform(new Vector4(ray.Position, 1), inverseModelMatrix);
       var newDirection = Vector4.Transform(new Vector4(ray.Direction, 0), inverseModelMatrix);
       var newRay = new Ray(newPosition.Xyz, newDirection.Xyz.Normalized());
-      if (_shape.Intersects(newRay))
+      var intersects = _shape.Intersects(ray);
+      if (intersects)
+        _shape.Material = _highlightMaterial;
+      else if (_isSelected)
         _shape.Material = _selectionMaterial;
       else
         _shape.Material = _baseMaterial;
+      return intersects;
+    }
 
+    public void Select(bool isSelected)
+    {
+      _isSelected = isSelected;
+      if (isSelected)
+        _shape.Material = _selectionMaterial;
+      else
+        _shape.Material = _baseMaterial;
     }
   }
 }
