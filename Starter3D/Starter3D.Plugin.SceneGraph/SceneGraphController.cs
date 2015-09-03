@@ -215,19 +215,7 @@ namespace Starter3D.Plugin.SceneGraph
       }
       
     }
-
-    private Vector3 Unproject(Vector3 positionInClipping)
-    {
-      var inverseViewMatrix = _scene.CurrentCamera.GetViewMatrix().Inverted();
-      var inverseProjectionMatrix = _scene.CurrentCamera.CreateProjectionMatrix().Inverted();
-
-      var positionInView = Vector4.Transform(new Vector4(positionInClipping, 1), inverseProjectionMatrix);
-      var positionInViewHomogenized = new Vector3(positionInView.X, positionInView.Y, positionInView.Z) / positionInView.W;
-      var positionInWorld = Vector4.Transform(new Vector4(positionInViewHomogenized, 1), inverseViewMatrix);
-
-      return positionInWorld.Xyz;
-    }
-
+    
     public void KeyDown(int key)
     {
       var s1 = _scene.Shapes.First(s => s.Shape.Name == "sphere");

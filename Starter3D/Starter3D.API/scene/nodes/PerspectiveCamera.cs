@@ -60,7 +60,7 @@ namespace Starter3D.API.scene.nodes
       sceneDataNode.WriteParameter("aspectRatio", _aspectRatio.ToString(CultureInfo.InvariantCulture));
     }
 
-    public override Matrix4 CreateProjectionMatrix()
+    protected override Matrix4 CreateProjectionMatrix()
     {
       var perspectiveMatrix = Matrix4.CreatePerspectiveFieldOfView(_fieldOfView, _aspectRatio, NearClip, FarClip);
       return perspectiveMatrix;

@@ -173,11 +173,11 @@ namespace Starter3D.API.scene.nodes
       return _position;
     }
 
-    public Matrix4 GetViewMatrix()
+    private Matrix4 GetViewMatrix()
     {
       return Matrix4.LookAt(_position, _target, _up);
     }
 
-    public abstract Matrix4 CreateProjectionMatrix();
+    protected abstract Matrix4 CreateProjectionMatrix();
   }
 }
