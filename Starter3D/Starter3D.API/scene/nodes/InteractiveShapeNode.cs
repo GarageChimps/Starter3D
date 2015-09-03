@@ -40,11 +40,11 @@ namespace Starter3D.API.scene.nodes
 
     public bool TestIntersection(Ray ray)
     {
-      var inverseModelMatrix = ComposeTransform();
+      var inverseModelMatrix = ComposeTransform().Inverted();
       var newPosition = Vector4.Transform(new Vector4(ray.Position, 1), inverseModelMatrix);
       var newDirection = Vector4.Transform(new Vector4(ray.Direction, 0), inverseModelMatrix);
       var newRay = new Ray(newPosition.Xyz, newDirection.Xyz.Normalized());
-      var intersects = _shape.Intersects(ray);
+      var intersects = _shape.Intersects(newRay);
       if (intersects)
         _shape.Material = _highlightMaterial;
       else if (_isSelected)

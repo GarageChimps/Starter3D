@@ -168,6 +168,8 @@ namespace Starter3D.Plugin.SceneGraph
 
       if (_pickableShape != null)
       {
+        if (_selectedShape != null)
+          _selectedShape.Select(false);
         _pickableShape.Select(true);
         _selectedShape = _pickableShape;
       }
@@ -187,7 +189,6 @@ namespace Starter3D.Plugin.SceneGraph
 
     public void MouseMove(int x, int y, int deltaX, int deltaY)
     {
-      Console.WriteLine("" + x + ", " + y);
       if (_isDragging)
         _scene.CurrentCamera.Drag(deltaX, deltaY);
       else if (_isOrbiting)
@@ -199,7 +200,6 @@ namespace Starter3D.Plugin.SceneGraph
       var adjustedX = (2.0f * ((float)x / _width) - 1.0f);
       var adjustedY = (2.0f * ((float)(_height - y) / _height) - 1.0f);
       var cameraPoint = _scene.CurrentCamera.Position;
-      var nearPoint = _scene.CurrentCamera.Unproject(new Vector3(adjustedX, adjustedY, 0));
       var farPoint = _scene.CurrentCamera.Unproject(new Vector3(adjustedX, adjustedY, -1));
       var direction = (farPoint - cameraPoint).Normalized();
 
