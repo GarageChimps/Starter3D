@@ -71,6 +71,11 @@ namespace Starter3D.API.geometry
       _vertices.Add(new Vertex(position, new Vector3(), new Vector3() ));
     }
 
+    public void Clear()
+    {
+      _vertices.Clear();
+    }
+
     public List<Vector3> GetVerticesData()
     {
       var data = new List<Vector3>();

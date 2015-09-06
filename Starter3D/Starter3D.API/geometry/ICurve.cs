@@ -10,5 +10,6 @@ namespace Starter3D.API.geometry
   public interface ICurve : IShape
   {
     void AddPoint(Vector3 position);
+    void Clear();
   }
 }

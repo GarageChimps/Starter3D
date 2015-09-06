@@ -23,6 +23,8 @@ namespace Starter3D.Plugin.CurveEditor
     private CurveEditorView _view;
 
     private ICurve _curve;
+    private Spline _spline;
+    private float _step = 0.1f;
 
     private double _width;
     private double _height;
@@ -97,10 +99,9 @@ namespace Starter3D.Plugin.CurveEditor
       _resourceManager.Configure(_renderer);
       _curve = new Curve("curve1");
       _curve.Material = _resourceManager.GetMaterials().First();
-      //_curve.AddPoint(new Vector3(0, 0, 0));
-      //_curve.AddPoint(new Vector3(1, 1, 0));
-      //_curve.AddPoint(new Vector3(0.5f, 0, 0));
       _curve.Configure(_renderer);
+
+      _spline = new CatmullRom();
 
     }
 
@@ -124,10 +125,19 @@ namespace Starter3D.Plugin.CurveEditor
 
     public void MouseDown(ControllerMouseButton button, int x, int y)
     {
-      float adjustedX = (2.0f * (float)x/(float)_width) - 1;
-      float adjustedY = (2.0f * (float)(_height  - y )/ (float)_height) - 1;
-      _curve.AddPoint(new Vector3(adjustedX, adjustedY, 0));
-      _curve.Configure(_renderer);
+      float adjustedX = (2.0f*(float) x/(float) _width) - 1;
+      float adjustedY = (2.0f*(float) (_height - y)/(float) _height) - 1;
+      _spline.AddPoint(new Vector3(adjustedX, adjustedY, 0));
+      if (_spline.Points.Count >= 4)
+      {
+        _curve.Clear();
+        var points = _spline.Interpolate(_step);
+        foreach (var point in points)
+        {
+          _curve.AddPoint(point);
+        }
+        _curve.Configure(_renderer);
+      }
     }
 
     public void MouseUp(ControllerMouseButton button, int x, int y)
