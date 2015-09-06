@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using OpenTK;
 using Starter3D.API.controller;
@@ -22,7 +23,9 @@ namespace Starter3D.Plugin.CurveEditor
 
     private CurveEditorView _view;
 
+    private List<Circle> _circles = new List<Circle>(); 
     private ICurve _curve;
+
     private Spline _spline;
     private float _step = 0.1f;
 
@@ -90,6 +93,7 @@ namespace Starter3D.Plugin.CurveEditor
       _resourceManager = resourceManager;
 
       _resourceManager.Load(ResourcePath);
+      _view = new CurveEditorView();
     }
 
     public void Load()
@@ -100,7 +104,6 @@ namespace Starter3D.Plugin.CurveEditor
       _curve = new Curve("curve1");
       _curve.Material = _resourceManager.GetMaterials().First();
       _curve.Configure(_renderer);
-
       _spline = new CatmullRom();
 
     }
@@ -116,6 +119,10 @@ namespace Starter3D.Plugin.CurveEditor
     public void Render(double time)
     {
       _curve.Render(_renderer, Matrix4.Identity);
+      foreach (var circle in _circles)
+      {
+        circle.Render(_renderer, Matrix4.Identity);
+      }
     }
 
     public void Update(double deltaTime)
@@ -127,7 +134,12 @@ namespace Starter3D.Plugin.CurveEditor
     {
       float adjustedX = (2.0f*(float) x/(float) _width) - 1;
       float adjustedY = (2.0f*(float) (_height - y)/(float) _height) - 1;
-      _spline.AddPoint(new Vector3(adjustedX, adjustedY, 0));
+      var mousePoint = new Vector3(adjustedX, adjustedY, 0);
+      _spline.AddPoint(mousePoint);
+      var newCircle = new Circle("circle " + _circles.Count, mousePoint, 0.01f, 0.1f);
+      newCircle.Material = _resourceManager.GetMaterials().First(); 
+      newCircle.Configure(_renderer);
+      _circles.Add(newCircle);
       if (_spline.Points.Count >= 4)
       {
         _curve.Clear();

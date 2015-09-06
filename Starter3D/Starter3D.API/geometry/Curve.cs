@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using OpenTK;
 using Starter3D.API.math;
@@ -88,7 +89,7 @@ namespace Starter3D.API.geometry
 
     public List<int> GetFaceData()
     {
-      var data = Enumerable.Range(0, _vertices.Count).ToList();
+      var data = Enumerable.Range(0, Math.Max(0, _vertices.Count - 1)).ToList();
       return data;
     }
   }
