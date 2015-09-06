@@ -108,7 +108,10 @@ namespace Starter3D.Renderers
     public void LoadObject(string objectName)
     {
       if (_objectsHandleDictionary.ContainsKey(objectName))
+      {
+        _objectsHandleDictionary[objectName].InputElements.Clear();
         return;
+      }
       _objectsHandleDictionary[objectName] = new RenderObject();
     }
 
@@ -131,12 +134,14 @@ namespace Starter3D.Renderers
     {
       if (!_objectsHandleDictionary.ContainsKey(objectName))
         throw new ApplicationException("Object must be added to the renderer before drawing");
+      if (lineCount == 0)
+        return;
       var effect = _shaderHandleDictionary[_currentShader].Effect;
       var technique = effect.GetTechniqueByIndex(0);
       var pass = technique.GetPassByIndex(0);
       pass.Apply();
       _device.InputAssembler.SetInputLayout(GetInputLayout(pass, _objectsHandleDictionary[objectName].InputElements.ToArray()));
-      _device.InputAssembler.SetPrimitiveTopology(PrimitiveTopology.LineList);
+      _device.InputAssembler.SetPrimitiveTopology(PrimitiveTopology.LineStrip);
       _device.InputAssembler.SetVertexBuffers(0, new VertexBufferBinding(_objectsHandleDictionary[objectName].VertexBuffer, OpenTK.Vector3.SizeInBytes * _objectsHandleDictionary[objectName].InputElements.Count, 0));
       _device.InputAssembler.SetIndexBuffer(_objectsHandleDictionary[objectName].IndexBuffer, Format.R32_UInt, 0);
       _device.DrawIndexed(_objectsHandleDictionary[objectName].IndexCount, 0, 0);
@@ -146,6 +151,8 @@ namespace Starter3D.Renderers
     {
       if (!_objectsHandleDictionary.ContainsKey(objectName))
         throw new ApplicationException("Object must be added to the renderer before setting its vertex data");
+      if (data.Count == 0)
+        return;
       var verticesStream = new DataStream(data.Count * OpenTK.Vector3.SizeInBytes, true, true);
       foreach (var vector in data)
       {
@@ -168,6 +175,8 @@ namespace Starter3D.Renderers
     {
       if (!_objectsHandleDictionary.ContainsKey(objectName))
         throw new ApplicationException("Object must be added to the renderer before setting its index data");
+      if (indices.Count == 0)
+        return;
       var indicesStream = new DataStream(indices.Count * sizeof(int), true, true);
       foreach (var index in indices)
       {

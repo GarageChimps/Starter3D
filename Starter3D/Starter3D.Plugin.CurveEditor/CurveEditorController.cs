@@ -20,6 +20,8 @@ namespace Starter3D.Plugin.CurveEditor
     private readonly ISceneReader _sceneReader;
     private readonly IResourceManager _resourceManager;
 
+    private CurveEditorView _view;
+
     private ICurve _curve;
 
     private double _width;
@@ -43,32 +45,32 @@ namespace Starter3D.Plugin.CurveEditor
 
     public object CentralView
     {
-      get { throw new System.NotImplementedException(); }
+      get { return _view; }
     }
 
     public object LeftView
     {
-      get { throw new System.NotImplementedException(); }
+      get { return null; }
     }
 
     public object RightView
     {
-      get { throw new System.NotImplementedException(); }
+      get { return null; }
     }
 
     public object TopView
     {
-      get { throw new System.NotImplementedException(); }
+      get { return null; }
     }
 
     public object BottomView
     {
-      get { throw new System.NotImplementedException(); }
+      get { return null; }
     }
 
     public bool HasUserInterface
     {
-      get { return false; }
+      get { return true; }
     }
 
     public string Name
