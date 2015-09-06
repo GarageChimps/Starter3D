@@ -6,7 +6,7 @@ namespace Starter3D.API.geometry
 {
   public class Vertex : IVertex
   {
-    private Vector3 _position;
+    protected Vector3 _position;
     private Vector3 _normal;
     private Vector3 _textureCoords;
 
@@ -50,14 +50,14 @@ namespace Starter3D.API.geometry
       return !(_normal.X == 0 && _normal.Y == 0 && _normal.Z == 0);
     }
 
-    public void AppendData(List<Vector3> vertexData)
+    public virtual void AppendData(List<Vector3> vertexData)
     {
       vertexData.Add(_position);
       vertexData.Add(_normal);
       vertexData.Add(_textureCoords);
     }
 
-    public void Configure(string objectName, string shaderName, IRenderer renderer)
+    public virtual void Configure(string objectName, string shaderName, IRenderer renderer)
     {
       renderer.SetVertexAttribute(objectName, shaderName, 0, "inPosition", 3 * Vector3.SizeInBytes, 0);
       renderer.SetVertexAttribute(objectName, shaderName, 1, "inNormal", 3 * Vector3.SizeInBytes, Vector3.SizeInBytes);

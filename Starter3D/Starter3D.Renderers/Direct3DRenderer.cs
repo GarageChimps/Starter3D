@@ -102,6 +102,7 @@ namespace Starter3D.Renderers
       _semanticsTable.Add("inPosition", "POSITION");
       _semanticsTable.Add("inNormal", "NORMAL");
       _semanticsTable.Add("inTextureCoords", "TEXCOORD");
+      _semanticsTable.Add("inColor", "COLOR");
     }
 
     public void LoadObject(string objectName)
@@ -121,6 +122,21 @@ namespace Starter3D.Renderers
       pass.Apply();
       _device.InputAssembler.SetInputLayout(GetInputLayout(pass, _objectsHandleDictionary[objectName].InputElements.ToArray()));
       _device.InputAssembler.SetPrimitiveTopology(PrimitiveTopology.TriangleList);
+      _device.InputAssembler.SetVertexBuffers(0, new VertexBufferBinding(_objectsHandleDictionary[objectName].VertexBuffer, OpenTK.Vector3.SizeInBytes * _objectsHandleDictionary[objectName].InputElements.Count, 0));
+      _device.InputAssembler.SetIndexBuffer(_objectsHandleDictionary[objectName].IndexBuffer, Format.R32_UInt, 0);
+      _device.DrawIndexed(_objectsHandleDictionary[objectName].IndexCount, 0, 0);
+    }
+
+    public void DrawLines(string objectName, int lineCount)
+    {
+      if (!_objectsHandleDictionary.ContainsKey(objectName))
+        throw new ApplicationException("Object must be added to the renderer before drawing");
+      var effect = _shaderHandleDictionary[_currentShader].Effect;
+      var technique = effect.GetTechniqueByIndex(0);
+      var pass = technique.GetPassByIndex(0);
+      pass.Apply();
+      _device.InputAssembler.SetInputLayout(GetInputLayout(pass, _objectsHandleDictionary[objectName].InputElements.ToArray()));
+      _device.InputAssembler.SetPrimitiveTopology(PrimitiveTopology.LineList);
       _device.InputAssembler.SetVertexBuffers(0, new VertexBufferBinding(_objectsHandleDictionary[objectName].VertexBuffer, OpenTK.Vector3.SizeInBytes * _objectsHandleDictionary[objectName].InputElements.Count, 0));
       _device.InputAssembler.SetIndexBuffer(_objectsHandleDictionary[objectName].IndexBuffer, Format.R32_UInt, 0);
       _device.DrawIndexed(_objectsHandleDictionary[objectName].IndexCount, 0, 0);

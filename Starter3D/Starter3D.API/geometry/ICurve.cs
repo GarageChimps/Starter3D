@@ -1,4 +1,6 @@
-﻿namespace Starter3D.API.geometry
+﻿using OpenTK;
+
+namespace Starter3D.API.geometry
 {
   /// <summary>
   /// Interface for curve geometry, not implemented yet
@@ -7,6 +9,6 @@
   /// </summary>
   public interface ICurve : IShape
   {
-     
+    void AddPoint(Vector3 position);
   }
 }

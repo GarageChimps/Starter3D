@@ -78,6 +78,10 @@
       <Project>{3567CAD0-DE95-4BA8-98DE-750B75DCB45A}</Project>
       <Name>Starter3D.API</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Starter3D.Plugin.CurveEditor\Starter3D.Plugin.CurveEditor.csproj">
+      <Project>{2d06761c-9d09-4dd0-8b90-f3871eafd817}</Project>
+      <Name>Starter3D.Plugin.CurveEditor</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Starter3D.Plugin.MaterialEditor\Starter3D.Plugin.MaterialEditor.csproj">
       <Project>{A0CC8134-F678-4413-8135-A8BB09E1B6D8}</Project>
       <Name>Starter3D.Plugin.MaterialEditor</Name>

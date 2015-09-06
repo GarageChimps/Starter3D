@@ -79,6 +79,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="controller\IController.cs" />
+    <Compile Include="geometry\ColorVertex.cs" />
+    <Compile Include="geometry\Curve.cs" />
     <Compile Include="geometry\loaders\DxfMeshLoader.cs" />
     <Compile Include="geometry\primitives\Cube.cs" />
     <Compile Include="geometry\primitives\IPrimitiveFactory.cs" />

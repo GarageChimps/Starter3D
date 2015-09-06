@@ -26,9 +26,9 @@
           <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <TextBlock Text="{Binding Name}"></TextBlock>
-        <Slider Grid.Row="1" Value="{Binding X}" Minimum="-100" Maximum="100"></Slider>
-        <Slider Grid.Row="2" Value="{Binding Y}" Minimum="-100" Maximum="100"></Slider>
-        <Slider Grid.Row="3" Value="{Binding Z}" Minimum="-100" Maximum="100"></Slider>
+        <Slider Grid.Row="1" Value="{Binding X}" Minimum="-10" Maximum="10"></Slider>
+        <Slider Grid.Row="2" Value="{Binding Y}" Minimum="-10" Maximum="10"></Slider>
+        <Slider Grid.Row="3" Value="{Binding Z}" Minimum="-10" Maximum="10"></Slider>
       </Grid>
     </DataTemplate>
     <DataTemplate DataType="{x:Type scenegraph:InteractiveShapeViewModel}">

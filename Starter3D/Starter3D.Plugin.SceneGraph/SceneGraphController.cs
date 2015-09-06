@@ -222,7 +222,7 @@ namespace Starter3D.Plugin.SceneGraph
       var cameraPoint = _scene.CurrentCamera.Position;
       var farPoint = _scene.CurrentCamera.Unproject(new Vector3(adjustedX, adjustedY, -1));
       var direction = (farPoint - cameraPoint).Normalized();
-
+      
       var ray = new Ray(cameraPoint, direction);
       _pickableShape = null;
       foreach (var shape in _interactiveShapes)

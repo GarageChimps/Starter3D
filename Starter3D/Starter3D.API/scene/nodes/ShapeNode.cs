@@ -56,6 +56,7 @@ namespace Starter3D.API.scene.nodes
     {
       _shapeFactory = shapeFactory;
       _resourceManager = resourceManager;
+      Init(scale, position, orientationAxis, orientationAngle);
     }
 
     private void Init(Vector3 scale = default(Vector3), Vector3 position = default(Vector3),

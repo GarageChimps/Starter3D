@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<Resources>
+  <Shaders>
+    <BaseShader key="canvas" vertex="canvasVertex" fragment="canvasFragment" vectors="color"/>
+  </Shaders>
+  <Materials>
+    <BaseMaterial key="canvasMaterial" shader='canvas' color='1,1,1'/>
+  </Materials>
+</Resources>
