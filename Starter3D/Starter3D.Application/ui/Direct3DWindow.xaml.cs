@@ -94,22 +94,22 @@ namespace Starter3D.Application.ui
 
     private void OnMouseRightButtonUp(object sender, MouseButtonEventArgs e)
     {
-      _controller.MouseUp(ControllerMouseButton.Right, (int)e.GetPosition(this).X, (int)e.GetPosition(this).X);
+      _controller.MouseUp(ControllerMouseButton.Right, (int)e.GetPosition(this).X, (int)e.GetPosition(this).Y);
     }
 
     private void OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
     {
-      _controller.MouseUp(ControllerMouseButton.Left, (int)e.GetPosition(this).X, (int)e.GetPosition(this).X);
+      _controller.MouseUp(ControllerMouseButton.Left, (int)e.GetPosition(this).X, (int)e.GetPosition(this).Y);
     }
 
     private void OnMouseRightButtonDown(object sender, MouseButtonEventArgs e)
     {
-      _controller.MouseDown(ControllerMouseButton.Right, (int)e.GetPosition(this).X, (int)e.GetPosition(this).X);
+      _controller.MouseDown(ControllerMouseButton.Right, (int)e.GetPosition(this).X, (int)e.GetPosition(this).Y);
     }
 
     private void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-      _controller.MouseDown(ControllerMouseButton.Left, (int)e.GetPosition(this).X, (int)e.GetPosition(this).X);
+      _controller.MouseDown(ControllerMouseButton.Left, (int)e.GetPosition(this).X, (int)e.GetPosition(this).Y);
     }
 
    

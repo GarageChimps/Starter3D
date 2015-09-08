@@ -9,6 +9,26 @@
     
   </UserControl.Resources>
   <Grid>
-    
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"></RowDefinition>
+      <RowDefinition Height="*"></RowDefinition>
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto"></ColumnDefinition>
+      <ColumnDefinition Width="*"></ColumnDefinition>
+    </Grid.ColumnDefinitions>
+    <Border Width="250" Margin="5" BorderThickness="1" BorderBrush="Black" CornerRadius="1">
+      <Border.Background>
+        <SolidColorBrush Color="#AAFFFFFF"></SolidColorBrush>
+      </Border.Background>
+      <Grid Margin="5">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"></RowDefinition>
+          <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBlock Text="Select the step size:"></TextBlock>
+        <Slider Grid.Row="1" Value="{Binding Step}" Minimum="0.0001" Maximum="1"></Slider>
+      </Grid>
+    </Border>
   </Grid>
 </UserControl>

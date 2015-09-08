@@ -57,6 +57,14 @@ namespace Starter3D.Renderers
       }
     }
 
+    public void DrawPoints(string objectName, int pointCount)
+    {
+      foreach (var renderer in _renderers)
+      {
+        renderer.DrawPoints(objectName, pointCount);
+      }
+    }
+
     public void SetFacesData(string objectName, List<int> indices)
     {
       foreach (var renderer in _renderers)

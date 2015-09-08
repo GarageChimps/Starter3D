@@ -77,6 +77,14 @@ namespace Starter3D.Renderers
       GL.DrawElements(BeginMode.LineStrip, lineCount, DrawElementsType.UnsignedInt, IntPtr.Zero);
     }
 
+    public void DrawPoints(string name, int pointCount)
+    {
+      if (!_objectsHandleDictionary.ContainsKey(name))
+        throw new ApplicationException("Object must be added to the renderer before drawing");
+      GL.BindVertexArray(_objectsHandleDictionary[name]);
+      GL.DrawElements(BeginMode.Points, pointCount, DrawElementsType.UnsignedInt, IntPtr.Zero);
+    }
+
     public void SetVerticesData(string name, List<Vector3> data)
     {
       var verticesArray = data.ToArray();

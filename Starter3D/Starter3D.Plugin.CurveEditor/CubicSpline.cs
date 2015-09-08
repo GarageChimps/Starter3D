@@ -31,5 +31,7 @@ namespace Starter3D.Plugin.CurveEditor
     {
       return _basisMatrix.M14 + _basisMatrix.M24 * t + _basisMatrix.M34 * t * t + _basisMatrix.M44 * t * t * t;
     }
+
+    
   }
 }

@@ -7,9 +7,10 @@ namespace Starter3D.Plugin.CurveEditor
   /// </summary>
   public partial class CurveEditorView : UserControl
   {
-    public CurveEditorView()
+    public CurveEditorView(CurveEditorController controller)
     {
       InitializeComponent();
+      this.DataContext = controller;
     }
   }
 }

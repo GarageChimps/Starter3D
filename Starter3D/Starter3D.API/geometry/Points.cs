@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using OpenTK;
 using Starter3D.API.math;
@@ -8,7 +7,7 @@ using Starter3D.API.resources;
 
 namespace Starter3D.API.geometry
 {
-  public class Curve : ICurve
+  public class Points : IPoints
   {
     private string _name;
     private IMaterial _material;
@@ -26,12 +25,7 @@ namespace Starter3D.API.geometry
       set { _material = value; }
     }
 
-    public List<IVertex> Vertices
-    {
-      get { return _vertices; }
-    }
-
-    public Curve(string name)
+    public Points(string name)
     {
       _name = name;
     }
@@ -61,7 +55,7 @@ namespace Starter3D.API.geometry
       if (_vertices.Count > 0)
       {
         _material.Render(renderer);
-        renderer.DrawLines(_name, _vertices.Count - 1);
+        renderer.DrawPoints(_name, _vertices.Count);
       }
     }
 

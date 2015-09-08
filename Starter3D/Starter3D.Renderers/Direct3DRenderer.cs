@@ -147,6 +147,23 @@ namespace Starter3D.Renderers
       _device.DrawIndexed(_objectsHandleDictionary[objectName].IndexCount, 0, 0);
     }
 
+    public void DrawPoints(string objectName, int pointCount)
+    {
+      if (!_objectsHandleDictionary.ContainsKey(objectName))
+        throw new ApplicationException("Object must be added to the renderer before drawing");
+      if (pointCount == 0)
+        return;
+      var effect = _shaderHandleDictionary[_currentShader].Effect;
+      var technique = effect.GetTechniqueByIndex(0);
+      var pass = technique.GetPassByIndex(0);
+      pass.Apply();
+      _device.InputAssembler.SetInputLayout(GetInputLayout(pass, _objectsHandleDictionary[objectName].InputElements.ToArray()));
+      _device.InputAssembler.SetPrimitiveTopology(PrimitiveTopology.PointList);
+      _device.InputAssembler.SetVertexBuffers(0, new VertexBufferBinding(_objectsHandleDictionary[objectName].VertexBuffer, OpenTK.Vector3.SizeInBytes * _objectsHandleDictionary[objectName].InputElements.Count, 0));
+      _device.InputAssembler.SetIndexBuffer(_objectsHandleDictionary[objectName].IndexBuffer, Format.R32_UInt, 0);
+      _device.DrawIndexed(_objectsHandleDictionary[objectName].IndexCount, 0, 0);
+    }
+
     public void SetVerticesData(string objectName, List<OpenTK.Vector3> data)
     {
       if (!_objectsHandleDictionary.ContainsKey(objectName))

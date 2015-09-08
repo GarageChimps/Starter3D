@@ -80,9 +80,11 @@
   <ItemGroup>
     <Compile Include="controller\IController.cs" />
     <Compile Include="geometry\Circle.cs" />
+    <Compile Include="geometry\CircleCollection.cs" />
     <Compile Include="geometry\ColorVertex.cs" />
     <Compile Include="geometry\Curve.cs" />
     <Compile Include="geometry\loaders\DxfMeshLoader.cs" />
+    <Compile Include="geometry\Points.cs" />
     <Compile Include="geometry\primitives\Cube.cs" />
     <Compile Include="geometry\primitives\IPrimitiveFactory.cs" />
     <Compile Include="geometry\primitives\PrimitiveFactory.cs" />

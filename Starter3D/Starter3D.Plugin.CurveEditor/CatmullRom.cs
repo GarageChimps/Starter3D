@@ -31,14 +31,17 @@ namespace Starter3D.Plugin.CurveEditor
 
       for (int n = 0; n < Points.Count - 3; n++)
       {
-        var controlPoints = new List<Vector3>() { Points[n], Points[n+1], Points[n+2], Points[n+3] };
-        for (float t = 0; t <= 1; t += step)
+        var controlPoints = new List<Vector3>() { Points[n], Points[n + 1], Points[n + 2], Points[n + 3] };
+        for (float t = 0; t < 1; t += step)
         {
           var point = BlendPoints(controlPoints, t);
           interpolated.Add(point);
         }
+        var lastPoint = BlendPoints(controlPoints, 1);
+        interpolated.Add(lastPoint);
       }
       return interpolated;
     }
+    
   }
 }
