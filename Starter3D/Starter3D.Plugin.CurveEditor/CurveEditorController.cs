@@ -25,7 +25,7 @@ namespace Starter3D.Plugin.CurveEditor
     private ICurve _curve;
 
     private Spline _spline;
-    private float _step = 0.1f;
+    private float _step = 0.01f;
 
     private double _width;
     private double _height;
@@ -132,8 +132,8 @@ namespace Starter3D.Plugin.CurveEditor
 
     public void Render(double time)
     {
-      _curve.Render(_renderer, Matrix4.Identity);
       _points.Render(_renderer, Matrix4.Identity);
+      _curve.Render(_renderer, Matrix4.Identity);
     }
 
     public void Update(double deltaTime)
@@ -142,6 +142,11 @@ namespace Starter3D.Plugin.CurveEditor
     }
 
     public void MouseDown(ControllerMouseButton button, int x, int y)
+    {
+      AddCurvePoint(x, y);
+    }
+
+    private void AddCurvePoint(int x, int y)
     {
       float adjustedX = (2.0f*(float) x/(float) _width) - 1;
       float adjustedY = (2.0f*(float) (_height - y)/(float) _height) - 1;

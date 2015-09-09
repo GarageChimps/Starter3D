@@ -27,7 +27,7 @@
           <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <TextBlock Text="Select the step size:"></TextBlock>
-        <Slider Grid.Row="1" Value="{Binding Step}" Minimum="0.0001" Maximum="1"></Slider>
+        <Slider Grid.Row="1" Value="{Binding Step}" Minimum="0.01" Maximum="1"></Slider>
       </Grid>
     </Border>
   </Grid>

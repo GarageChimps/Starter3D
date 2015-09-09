@@ -61,7 +61,7 @@ namespace Starter3D.API.geometry
       if (_vertices.Count > 0)
       {
         _material.Render(renderer);
-        renderer.DrawLines(_name, _vertices.Count - 1);
+        renderer.DrawLines(_name, _vertices.Count);
       }
     }
 
