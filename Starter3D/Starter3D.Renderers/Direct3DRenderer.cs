@@ -130,7 +130,7 @@ namespace Starter3D.Renderers
       _device.DrawIndexed(_objectsHandleDictionary[objectName].IndexCount, 0, 0);
     }
 
-    public void DrawLines(string objectName, int lineCount)
+    public void DrawLines(string objectName, int lineCount, float lineWidth)
     {
       if (!_objectsHandleDictionary.ContainsKey(objectName))
         throw new ApplicationException("Object must be added to the renderer before drawing");
@@ -147,7 +147,7 @@ namespace Starter3D.Renderers
       _device.DrawIndexed(_objectsHandleDictionary[objectName].IndexCount, 0, 0);
     }
 
-    public void DrawPoints(string objectName, int pointCount)
+    public void DrawPoints(string objectName, int pointCount, float pointSize)
     {
       if (!_objectsHandleDictionary.ContainsKey(objectName))
         throw new ApplicationException("Object must be added to the renderer before drawing");
@@ -397,8 +397,10 @@ namespace Starter3D.Renderers
     {
       foreach (var renderObject in _objectsHandleDictionary)
       {
-        renderObject.Value.IndexBuffer.Dispose();
-        renderObject.Value.VertexBuffer.Dispose();
+        if (renderObject.Value.IndexBuffer != null)
+          renderObject.Value.IndexBuffer.Dispose();
+        if (renderObject.Value.VertexBuffer != null)
+          renderObject.Value.VertexBuffer.Dispose();
       }
 
       foreach (var inputLayout in _inputLayouts)

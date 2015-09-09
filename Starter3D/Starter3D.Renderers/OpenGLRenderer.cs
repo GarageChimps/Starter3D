@@ -69,24 +69,27 @@ namespace Starter3D.Renderers
       GL.DrawElements(BeginMode.Triangles, triangleCount, DrawElementsType.UnsignedInt, IntPtr.Zero);
     }
 
-    public void DrawLines(string name, int lineCount)
+    public void DrawLines(string name, int lineCount, float lineWidth)
     {
       if (!_objectsHandleDictionary.ContainsKey(name))
         throw new ApplicationException("Object must be added to the renderer before drawing");
       GL.BindVertexArray(_objectsHandleDictionary[name]);
+      GL.LineWidth(lineWidth);
       GL.DrawElements(BeginMode.LineStrip, lineCount, DrawElementsType.UnsignedInt, IntPtr.Zero);
     }
 
-    public void DrawPoints(string name, int pointCount)
+    public void DrawPoints(string name, int pointCount, float pointSize)
     {
       if (!_objectsHandleDictionary.ContainsKey(name))
         throw new ApplicationException("Object must be added to the renderer before drawing");
       GL.BindVertexArray(_objectsHandleDictionary[name]);
+      GL.PointSize(pointSize);
       GL.DrawElements(BeginMode.Points, pointCount, DrawElementsType.UnsignedInt, IntPtr.Zero);
     }
 
     public void SetVerticesData(string name, List<Vector3> data)
     {
+      GL.BindVertexArray(_objectsHandleDictionary[name]);
       var verticesArray = data.ToArray();
       int vboHandle;
       GL.GenBuffers(1, out vboHandle);
@@ -96,6 +99,7 @@ namespace Starter3D.Renderers
 
     public void SetFacesData(string name, List<int> indices)
     {
+      GL.BindVertexArray(_objectsHandleDictionary[name]);
       var indicesArray = new uint[indices.Count];
       for (int i = 0; i < indices.Count; i++)
       {
@@ -110,6 +114,7 @@ namespace Starter3D.Renderers
 
     public void SetVertexAttribute(string objectName, string shaderName, int index, string vertexPropertyName, int stride, int offset)
     {
+      GL.BindVertexArray(_objectsHandleDictionary[objectName]);
       int location = GL.GetAttribLocation(_shaderHandleDictionary[shaderName], vertexPropertyName);
       if (location != -1)
       {

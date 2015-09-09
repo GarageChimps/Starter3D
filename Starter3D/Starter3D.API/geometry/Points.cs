@@ -11,6 +11,7 @@ namespace Starter3D.API.geometry
   {
     private string _name;
     private IMaterial _material;
+    private float _size;
 
     private readonly List<IVertex> _vertices = new List<IVertex>();
 
@@ -25,9 +26,16 @@ namespace Starter3D.API.geometry
       set { _material = value; }
     }
 
-    public Points(string name)
+    public float Size
+    {
+      get { return _size; }
+      set { _size = value; }
+    }
+
+    public Points(string name, float size)
     {
       _name = name;
+      _size = size;
     }
 
     public void Load(string filePath)
@@ -55,7 +63,7 @@ namespace Starter3D.API.geometry
       if (_vertices.Count > 0)
       {
         _material.Render(renderer);
-        renderer.DrawPoints(_name, _vertices.Count);
+        renderer.DrawPoints(_name, _vertices.Count, _size);
       }
     }
 

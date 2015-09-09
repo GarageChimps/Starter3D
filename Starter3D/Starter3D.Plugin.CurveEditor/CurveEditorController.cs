@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Media;
 using OpenTK;
 using Starter3D.API.controller;
 using Starter3D.API.geometry;
+using Starter3D.API.geometry.primitives;
 using Starter3D.API.renderer;
 using Starter3D.API.resources;
 using Starter3D.API.scene.persistence;
@@ -20,12 +23,13 @@ namespace Starter3D.Plugin.CurveEditor
     private readonly IResourceManager _resourceManager;
 
     private CurveEditorView _view;
+    private ObservableCollection<SplineViewModel> _splines = new ObservableCollection<SplineViewModel>();
+    private SplineViewModel _selectedSpline;
 
     private IPoints _points;
     private ICurve _curve;
 
-    private Spline _spline;
-    private float _step = 0.01f;
+    private float _step = 0.1f;
 
     private double _width;
     private double _height;
@@ -95,6 +99,25 @@ namespace Starter3D.Plugin.CurveEditor
       }
     }
 
+    public SplineViewModel SelectedSpline
+    {
+      get { return _selectedSpline; }
+      set
+      {
+        if (_selectedSpline != value)
+        {
+          _selectedSpline = value;
+          UpdateCurve();
+          OnPropertyChanged(() => SelectedSpline);
+        }
+      }
+    }
+
+    public ObservableCollection<SplineViewModel> Splines
+    {
+      get { return _splines; }
+    }
+
     public CurveEditorController(IRenderer renderer, ISceneReader sceneReader, IResourceManager resourceManager)
     {
       if (renderer == null) throw new ArgumentNullException("renderer");
@@ -113,12 +136,14 @@ namespace Starter3D.Plugin.CurveEditor
       InitRenderer();
 
       _resourceManager.Configure(_renderer);
-      _curve = new Curve("curve1");
-      _curve.Material = _resourceManager.GetMaterials().First();
+      _curve = new Curve("curve1", 2);
+      _curve.Material = _resourceManager.GetMaterial("lineMaterial");
       _curve.Configure(_renderer);
-      _spline = new CatmullRom();
-      _points = new Points("points");
-      _points.Material = _resourceManager.GetMaterials().First();
+      _splines.Add(new SplineViewModel(new CatmullRom()));
+      _splines.Add(new SplineViewModel(new Bezier()));
+      SelectedSpline = _splines.First();
+      _points = new Points("points", 5);
+      _points.Material = _resourceManager.GetMaterial("pointMaterial");
       _points.Configure(_renderer);
     }
 
@@ -132,8 +157,8 @@ namespace Starter3D.Plugin.CurveEditor
 
     public void Render(double time)
     {
-      _points.Render(_renderer, Matrix4.Identity);
       _curve.Render(_renderer, Matrix4.Identity);
+      _points.Render(_renderer, Matrix4.Identity);
     }
 
     public void Update(double deltaTime)
@@ -151,7 +176,10 @@ namespace Starter3D.Plugin.CurveEditor
       float adjustedX = (2.0f*(float) x/(float) _width) - 1;
       float adjustedY = (2.0f*(float) (_height - y)/(float) _height) - 1;
       var mousePoint = new Vector3(adjustedX, adjustedY, 0);
-      _spline.AddPoint(mousePoint);
+      foreach (var spline in Splines)
+      {
+        spline.Spline.AddPoint(mousePoint);
+      }
       _points.AddPoint(mousePoint);
       _points.Configure(_renderer);
 
@@ -160,10 +188,10 @@ namespace Starter3D.Plugin.CurveEditor
 
     private void UpdateCurve()
     {
-      if (_spline.Points.Count >= 4)
+      if (SelectedSpline.Spline.Points.Count >= 4)
       {
         _curve.Clear();
-        var points = _spline.Interpolate(_step);
+        var points = SelectedSpline.Spline.Interpolate(_step);
         foreach (var point in points)
         {
           _curve.AddPoint(point);

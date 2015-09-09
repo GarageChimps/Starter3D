@@ -4,6 +4,7 @@
     <BaseShader key="canvas" vertex="canvasVertex" fragment="canvasFragment" vectors="color"/>
   </Shaders>
   <Materials>
-    <BaseMaterial key="canvasMaterial" shader='canvas' color='1,1,1'/>
+    <BaseMaterial key="lineMaterial" shader='canvas' color='1,1,1'/>
+    <BaseMaterial key="pointMaterial" shader='canvas' color='1,1,0'/>
   </Materials>
 </Resources>

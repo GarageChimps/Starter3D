@@ -5,8 +5,9 @@ namespace Starter3D.Plugin.CurveEditor
 {
   public class CatmullRom : CubicSpline
   {
-    public CatmullRom() : base() 
+    public CatmullRom() : base()
     {
+      _name = "Catmull Rom";
       _basisMatrix.M11 = 0;
       _basisMatrix.M12 = 1;
       _basisMatrix.M13 = 0;

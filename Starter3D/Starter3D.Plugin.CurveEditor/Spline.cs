@@ -3,10 +3,12 @@ using OpenTK;
 
 namespace Starter3D.Plugin.CurveEditor
 {
-  public abstract class Spline
+  public abstract class Spline : ISpline
   {
     protected Matrix4 _basisMatrix;
     protected List<Vector3> _points;
+
+    protected string _name = "spline";
 
     protected Spline()
     {
@@ -17,6 +19,11 @@ namespace Starter3D.Plugin.CurveEditor
     public List<Vector3> Points
     {
       get { return _points; }
+    }
+
+    public string Name
+    {
+      get { return _name; }
     }
 
     public void AddPoint(Vector3 point)

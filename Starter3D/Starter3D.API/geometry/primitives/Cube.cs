@@ -17,16 +17,16 @@ namespace Starter3D.API.geometry.primitives
     private void CreateCube(float x, float y, float z, float sizeX, float sizeY, float sizeZ)
     {
       //Top vertexes
-      var point1Bottom = new Vector3(x, z, y);
-      var point2Bottom = new Vector3(x + sizeX, z, y);
-      var point3Bottom = new Vector3(x + sizeX, z, y + sizeY);
-      var point4Bottom = new Vector3(x, z, y + sizeY);
+      var point1Bottom = new Vector3(x, y, z);
+      var point2Bottom = new Vector3(x + sizeX, y, z);
+      var point3Bottom = new Vector3(x + sizeX, y, z + sizeZ);
+      var point4Bottom = new Vector3(x, y, z + sizeZ);
 
       //Bottom vertexes
-      var point1Top = new Vector3(x, z + sizeZ, y);
-      var point2Top = new Vector3(x + sizeX, z + sizeZ, y);
-      var point3Top = new Vector3(x + sizeX, z + sizeZ, y + sizeY);
-      var point4Top = new Vector3(x, z + sizeZ, y + sizeY);
+      var point1Top = new Vector3(x, y + sizeY, z);
+      var point2Top = new Vector3(x + sizeX, y + sizeY, z);
+      var point3Top = new Vector3(x + sizeX, y + sizeY, z + sizeZ);
+      var point4Top = new Vector3(x, y + sizeY, z + sizeZ);
 
       //Normals
       var topNormal = new Vector3(0, 1, 0);

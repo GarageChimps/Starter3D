@@ -49,19 +49,19 @@ namespace Starter3D.Renderers
       }
     }
 
-    public void DrawLines(string objectName, int lineCount)
+    public void DrawLines(string objectName, int lineCount, float lineWidth)
     {
       foreach (var renderer in _renderers)
       {
-        renderer.DrawLines(objectName, lineCount);
+        renderer.DrawLines(objectName, lineCount, lineWidth);
       }
     }
 
-    public void DrawPoints(string objectName, int pointCount)
+    public void DrawPoints(string objectName, int pointCount, float pointSize)
     {
       foreach (var renderer in _renderers)
       {
-        renderer.DrawPoints(objectName, pointCount);
+        renderer.DrawPoints(objectName, pointCount, pointSize);
       }
     }
 

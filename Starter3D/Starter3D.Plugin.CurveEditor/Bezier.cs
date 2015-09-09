@@ -6,8 +6,9 @@ namespace Starter3D.Plugin.CurveEditor
   class Bezier : CubicSpline
   {
     public Bezier()
-      : base() 
+      : base()
     {
+      _name = "Bezier";
       _basisMatrix.M11 = 1;
       _basisMatrix.M12 = 0;
       _basisMatrix.M13 = 0;

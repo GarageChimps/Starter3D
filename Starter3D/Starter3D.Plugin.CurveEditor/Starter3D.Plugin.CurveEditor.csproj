@@ -56,9 +56,11 @@
       <DependentUpon>CurveEditorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Bezier.cs" />
+    <Compile Include="ISpline.cs" />
     <Compile Include="LinearSpline.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Spline.cs" />
+    <Compile Include="SplineViewModel.cs" />
     <Compile Include="ViewModelBase.cs" />
   </ItemGroup>
   <ItemGroup>

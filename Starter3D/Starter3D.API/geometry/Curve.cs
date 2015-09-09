@@ -12,6 +12,7 @@ namespace Starter3D.API.geometry
   {
     private string _name;
     private IMaterial _material;
+    private float _width;
 
     private readonly List<IVertex> _vertices = new List<IVertex>();
 
@@ -31,9 +32,16 @@ namespace Starter3D.API.geometry
       get { return _vertices; }
     }
 
-    public Curve(string name)
+    public float Width
+    {
+      get { return _width; }
+      set { _width = value; }
+    }
+
+    public Curve(string name, float width)
     {
       _name = name;
+      _width = width;
     }
 
     public void Load(string filePath)
@@ -61,7 +69,7 @@ namespace Starter3D.API.geometry
       if (_vertices.Count > 0)
       {
         _material.Render(renderer);
-        renderer.DrawLines(_name, _vertices.Count);
+        renderer.DrawLines(_name, _vertices.Count, _width);
       }
     }
 
