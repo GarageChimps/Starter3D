@@ -39,6 +39,9 @@ namespace Starter3D.Plugin.CurveEditor
     protected abstract Vector3 BlendPoints(List<Vector3> points, float t);
 
     public abstract List<Vector3> Interpolate(float step);
-
+    public void Clear()
+    {
+      _points.Clear();
+    }
   }
 }

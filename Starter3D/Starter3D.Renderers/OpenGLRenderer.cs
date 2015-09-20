@@ -69,6 +69,11 @@ namespace Starter3D.Renderers
       GL.DrawElements(BeginMode.Triangles, triangleCount, DrawElementsType.UnsignedInt, IntPtr.Zero);
     }
 
+    public void DrawMeshCollection(string objectName, int triangleCount, int instanceCount)
+    {
+      throw new NotImplementedException();
+    }
+
     public void DrawLines(string name, int lineCount, float lineWidth)
     {
       if (!_objectsHandleDictionary.ContainsKey(name))
@@ -97,7 +102,7 @@ namespace Starter3D.Renderers
       GL.BufferData(BufferTarget.ArrayBuffer, new IntPtr(verticesArray.Length * Vector3.SizeInBytes), verticesArray, BufferUsageHint.StaticDraw);
     }
 
-    public void SetFacesData(string name, List<int> indices)
+    public void SetIndexData(string name, List<int> indices)
     {
       GL.BindVertexArray(_objectsHandleDictionary[name]);
       var indicesArray = new uint[indices.Count];
@@ -121,6 +126,17 @@ namespace Starter3D.Renderers
         GL.EnableVertexAttribArray(location);
         GL.VertexAttribPointer(location, 3, VertexAttribPointerType.Float, false, stride, IntPtr.Add(IntPtr.Zero, offset));
       }
+    }
+
+    public void SetInstanceAttribute(string objectName, string shaderName, int index, string vertexPropertyName, int stride,
+      int offset)
+    {
+      throw new NotImplementedException();
+    }
+
+    public void SetInstanceData(string objectName, List<Vector3> instanceData)
+    {
+      throw new NotImplementedException();
     }
 
     public void LoadTexture(string textureName, int index, Bitmap texture, TextureMinFilter minFilter, TextureMagFilter magFilter)

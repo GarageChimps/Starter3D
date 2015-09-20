@@ -55,5 +55,7 @@ namespace Starter3D.API.geometry
     /// </summary>
     /// <returns></returns>
     List<int> GetFaceData();
+
+    int GetTriangleCount();
   }
 }

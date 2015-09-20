@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<Scene>
+  <Shape shapeType='Mesh' shapeName='sphere' filePath='meshes/sphere.obj' material='redSpecular' position="-5,0,0" orientationAxis="0,0,1" angle="-30">
+    <Shape primitiveType='Cube' shapeName='cube' material='blueDiffuse' scale='10, 1, 1' />
+    <Shape shapeType='Mesh' shapeName='sphere2' filePath='meshes/sphere.obj' material='redSpecular' position='11,0,0' orientationAxis="0,0,1" angle="-30">
+      <Shape primitiveType='Cube' shapeName='cube2' material='blueDiffuse' scale='10, 1, 1' />
+      <Shape shapeType='Mesh' shapeName='sphere3' filePath='meshes/sphere.obj' material='redSpecular' position='11,0,0' orientationAxis="0,0,1" angle="-30">
+        <Shape primitiveType='Cube' shapeName='cube3' material='blueDiffuse' scale='10, 1, 1' />
+      </Shape>
+    </Shape>
+  </Shape>
+  <PerspectiveCamera nearClip="0.1" farClip="100" fieldOfView="45" aspectRatio="1" order="0" position='0, 0, 50' target="0,0,0" up="0,1,0"/>
+  <PointLight position='0, 0, 50' color="0.5, 0.5, 0.5"/>
+  <AmbientLight color="0.2, 0.2, 0.2"/>
+</Scene>
+

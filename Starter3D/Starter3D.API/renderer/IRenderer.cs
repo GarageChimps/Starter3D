@@ -16,12 +16,15 @@ namespace Starter3D.API.renderer
     //Geometry object related methods    
     void LoadObject(string objectName);
     void DrawTriangles(string objectName, int triangleCount);
+    void DrawMeshCollection(string objectName, int triangleCount, int instanceCount);
     void DrawLines(string objectName, int lineCount, float lineWidth);
     void DrawPoints(string objectName, int pointCount, float pointSize);
     void SetVerticesData(string objectName, List<Vector3> data);
-    void SetFacesData(string objectName, List<int> indices);
+    void SetIndexData(string objectName, List<int> indices);
+    void SetInstanceData(string objectName, List<Vector3> instanceData);
     void SetVertexAttribute(string objectName, string shaderName, int index, string vertexPropertyName, int stride, int offset);
-    
+    void SetInstanceAttribute(string objectName, string shaderName, int index, string vertexPropertyName, int stride, int offset);
+
     //Texture related methods
     void LoadTexture(string textureName, int index, Bitmap texture, TextureMinFilter minFilter, TextureMagFilter magFilter);
     void UseTexture(string textureName, string shader, string uniformName);

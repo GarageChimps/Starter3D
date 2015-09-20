@@ -46,5 +46,7 @@ namespace Starter3D.API.geometry
     /// <param name="ray"></param>
     /// <returns></returns>
     bool Intersects(Ray ray);
+
+    IShape Clone();
   }
 }

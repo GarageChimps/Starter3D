@@ -10,5 +10,6 @@ namespace Starter3D.Plugin.CurveEditor
     void AddPoint(Vector3 point);
     void AddPoints(List<Vector3> points);
     List<Vector3> Interpolate(float step);
+    void Clear();
   }
 }

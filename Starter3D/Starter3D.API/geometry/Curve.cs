@@ -59,7 +59,7 @@ namespace Starter3D.API.geometry
       _material.Configure(renderer);
       renderer.LoadObject(_name);
       renderer.SetVerticesData(_name, GetVerticesData());
-      renderer.SetFacesData(_name, GetFaceData());
+      renderer.SetIndexData(_name, GetFaceData());
       if (_vertices.Count > 0)
         _vertices.First().Configure(_name, _material.Shader.Name, renderer);
     }
@@ -76,6 +76,16 @@ namespace Starter3D.API.geometry
     public bool Intersects(Ray ray)
     {
       throw new System.NotImplementedException();
+    }
+
+    public IShape Clone()
+    {
+      var curve = new Curve(_name + " clone", _width);
+      foreach (var vertex in _vertices)
+      {
+        curve.AddPoint(vertex.Position);
+      }
+      return curve;
     }
 
     public void AddPoint(Vector3 position)

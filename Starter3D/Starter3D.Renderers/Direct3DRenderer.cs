@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using SlimDX;
@@ -26,6 +27,7 @@ namespace Starter3D.Renderers
       public List<InputElement> InputElements = new List<InputElement>();
       public Buffer VertexBuffer;
       public Buffer IndexBuffer;
+      public Buffer InstanceBuffer;
       public int IndexCount;
     }
 
@@ -57,6 +59,7 @@ namespace Starter3D.Renderers
     private readonly Dictionary<string, List<Vector4>> _vectorArrayShaderParameterDictionary = new Dictionary<string, List<Vector4>>();
 
     private readonly Dictionary<string, string> _semanticsTable = new Dictionary<string, string>();
+    private readonly Dictionary<string, int> _semanticsIndexTable = new Dictionary<string, int>();
     private readonly Dictionary<InputElement[], Dictionary<EffectPass, InputLayout>> _inputLayouts = new Dictionary<InputElement[], Dictionary<EffectPass, InputLayout>>();
 
     private readonly Device _device;
@@ -103,6 +106,14 @@ namespace Starter3D.Renderers
       _semanticsTable.Add("inNormal", "NORMAL");
       _semanticsTable.Add("inTextureCoords", "TEXCOORD");
       _semanticsTable.Add("inColor", "COLOR");
+      _semanticsTable.Add("inTranslation", "TEXCOORD");
+
+      _semanticsIndexTable.Add("inPosition", 0);
+      _semanticsIndexTable.Add("inNormal", 0);
+      _semanticsIndexTable.Add("inTextureCoords", 0);
+      _semanticsIndexTable.Add("inColor", 0);
+      _semanticsIndexTable.Add("inTranslation", 1);
+
     }
 
     public void LoadObject(string objectName)
@@ -128,6 +139,26 @@ namespace Starter3D.Renderers
       _device.InputAssembler.SetVertexBuffers(0, new VertexBufferBinding(_objectsHandleDictionary[objectName].VertexBuffer, OpenTK.Vector3.SizeInBytes * _objectsHandleDictionary[objectName].InputElements.Count, 0));
       _device.InputAssembler.SetIndexBuffer(_objectsHandleDictionary[objectName].IndexBuffer, Format.R32_UInt, 0);
       _device.DrawIndexed(_objectsHandleDictionary[objectName].IndexCount, 0, 0);
+    }
+
+    public void DrawMeshCollection(string objectName, int triangleCount, int instanceCount)
+    {
+      if (!_objectsHandleDictionary.ContainsKey(objectName))
+        throw new ApplicationException("Object must be added to the renderer before drawing");
+      var effect = _shaderHandleDictionary[_currentShader].Effect;
+      var technique = effect.GetTechniqueByIndex(0);
+      var pass = technique.GetPassByIndex(0);
+      pass.Apply();
+      _device.InputAssembler.SetInputLayout(GetInputLayout(pass, _objectsHandleDictionary[objectName].InputElements.ToArray()));
+      _device.InputAssembler.SetPrimitiveTopology(PrimitiveTopology.TriangleList);
+      var vertexBufferBinding = new VertexBufferBinding(_objectsHandleDictionary[objectName].VertexBuffer,
+        OpenTK.Vector3.SizeInBytes*_objectsHandleDictionary[objectName].InputElements.Count(ie => ie.Classification != InputClassification.PerInstanceData), 0);
+      var instanceBufferBinding = new VertexBufferBinding(_objectsHandleDictionary[objectName].InstanceBuffer,
+        OpenTK.Vector3.SizeInBytes*_objectsHandleDictionary[objectName].InputElements.Count(ie => ie.Classification == InputClassification.PerInstanceData), 0);
+
+      _device.InputAssembler.SetVertexBuffers(0, new[] { vertexBufferBinding, instanceBufferBinding });
+      _device.InputAssembler.SetIndexBuffer(_objectsHandleDictionary[objectName].IndexBuffer, Format.R32_UInt, 0);
+      _device.DrawIndexedInstanced(_objectsHandleDictionary[objectName].IndexCount, instanceCount, 0, 0, 0);
     }
 
     public void DrawLines(string objectName, int lineCount, float lineWidth)
@@ -188,7 +219,7 @@ namespace Starter3D.Renderers
       _objectsHandleDictionary[objectName].VertexBuffer = vertexBuffer;
     }
 
-    public void SetFacesData(string objectName, List<int> indices)
+    public void SetIndexData(string objectName, List<int> indices)
     {
       if (!_objectsHandleDictionary.ContainsKey(objectName))
         throw new ApplicationException("Object must be added to the renderer before setting its index data");
@@ -217,8 +248,40 @@ namespace Starter3D.Renderers
     {
       if (!_objectsHandleDictionary.ContainsKey(objectName))
         throw new ApplicationException("Object must be added to the renderer before setting its index data");
-      var inputElement = new InputElement(_semanticsTable[vertexPropertyName], 0, Format.R32G32B32A32_Float, offset, 0);
+      var inputElement = new InputElement(_semanticsTable[vertexPropertyName], _semanticsIndexTable[vertexPropertyName], Format.R32G32B32A32_Float, offset, 0);
       _objectsHandleDictionary[objectName].InputElements.Add(inputElement);
+    }
+
+    public void SetInstanceAttribute(string objectName, string shaderName, int index, string vertexPropertyName, int stride, int offset)
+    {
+      if (!_objectsHandleDictionary.ContainsKey(objectName))
+        throw new ApplicationException("Object must be added to the renderer before setting its index data");
+      var inputElement = new InputElement(_semanticsTable[vertexPropertyName], _semanticsIndexTable[vertexPropertyName], Format.R32G32B32A32_Float, offset, 1, InputClassification.PerInstanceData, 1);
+      _objectsHandleDictionary[objectName].InputElements.Add(inputElement);
+    }
+
+    public void SetInstanceData(string objectName, List<OpenTK.Vector3> instanceData)
+    {
+      if (!_objectsHandleDictionary.ContainsKey(objectName))
+        throw new ApplicationException("Object must be added to the renderer before setting its vertex data");
+      if (instanceData.Count == 0)
+        return;
+      var verticesStream = new DataStream(instanceData.Count * OpenTK.Vector3.SizeInBytes, true, true);
+      foreach (var vector in instanceData)
+      {
+        verticesStream.Write(new Vector3(vector.X, vector.Y, vector.Z));
+      }
+      verticesStream.Position = 0;
+      var bufferDesc = new BufferDescription
+      {
+        BindFlags = BindFlags.VertexBuffer,
+        CpuAccessFlags = CpuAccessFlags.None,
+        OptionFlags = ResourceOptionFlags.None,
+        SizeInBytes = instanceData.Count * OpenTK.Vector3.SizeInBytes,
+        Usage = ResourceUsage.Default
+      };
+      var instanceBuffer = new Buffer(_device, verticesStream, bufferDesc);
+      _objectsHandleDictionary[objectName].InstanceBuffer = instanceBuffer;
     }
 
     public void LoadShaders(string shaderName, string vertexShaderFileName, string fragmentShaderFileName)

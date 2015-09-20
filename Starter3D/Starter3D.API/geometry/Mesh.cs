@@ -28,6 +28,21 @@ namespace Starter3D.API.geometry
       _name = name;
     }
 
+    public IShape Clone()
+    {
+      var clone = new Mesh(_meshLoader, _name + " clone");
+      clone.Material = _material;
+      foreach (var vertex in _vertices)
+      {
+        clone.AddVertex(vertex);
+      }
+      foreach (var face in _faces)
+      {
+        clone.AddFace(face);
+      }
+      return clone;
+    }
+
     public IEnumerable<IVertex> Vertices
     {
       get { return _vertices; }
@@ -137,7 +152,7 @@ namespace Starter3D.API.geometry
       _material.Configure(renderer);
       renderer.LoadObject(_name);
       renderer.SetVerticesData(_name, GetVerticesData());
-      renderer.SetFacesData(_name, GetFaceData());
+      renderer.SetIndexData(_name, GetFaceData());
       _vertices.First().Configure(_name, _material.Shader.Name, renderer); //We use the first vertex as representatve to configure the vertex info of the renderer
     }
 
@@ -199,7 +214,7 @@ namespace Starter3D.API.geometry
       return cross;
     }
 
-    private int GetTriangleCount()
+    public int GetTriangleCount()
     {
       return FacesCount * 3;
     }

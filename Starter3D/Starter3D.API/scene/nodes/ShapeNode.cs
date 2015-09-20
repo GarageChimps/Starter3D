@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Security.Cryptography;
 using OpenTK;
 using Starter3D.API.geometry;
 using Starter3D.API.geometry.factories;
@@ -24,6 +25,7 @@ namespace Starter3D.API.scene.nodes
     public IShape Shape
     {
       get { return _shape; }
+      set { _shape = value; }
     }
 
     public Quaternion Rotation
@@ -57,6 +59,13 @@ namespace Starter3D.API.scene.nodes
       _shapeFactory = shapeFactory;
       _resourceManager = resourceManager;
       Init(scale, position, orientationAxis, orientationAngle);
+    }
+
+    public ShapeNode Clone()
+    {
+      var cloneShape = _shape.Clone();
+      var axisAngle = _rotation.ToAxisAngle();
+      return new ShapeNode(cloneShape, _shapeFactory, _resourceManager, _scale, _position, new Vector3(axisAngle.X, axisAngle.Y, axisAngle.Z), axisAngle.W);
     }
 
     private void Init(Vector3 scale = default(Vector3), Vector3 position = default(Vector3),

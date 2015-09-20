@@ -86,6 +86,10 @@
       <Project>{A0CC8134-F678-4413-8135-A8BB09E1B6D8}</Project>
       <Name>Starter3D.Plugin.MaterialEditor</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Starter3D.Plugin.Physics\Starter3D.Plugin.Physics.csproj">
+      <Project>{1c2c6297-1479-4924-8f15-870da192a6d7}</Project>
+      <Name>Starter3D.Plugin.Physics</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Starter3D.Plugin.PixelShader\Starter3D.Plugin.PixelShader.csproj">
       <Project>{5407e771-ef7f-4b2c-8c75-a34720b2732f}</Project>
       <Name>Starter3D.Plugin.PixelShader</Name>

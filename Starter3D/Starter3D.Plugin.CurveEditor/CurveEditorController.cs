@@ -217,7 +217,15 @@ namespace Starter3D.Plugin.CurveEditor
 
     public void KeyDown(int key)
     {
-
+      if (key == 'r')
+      {
+        _curve.Clear();
+        _points.Clear();
+        foreach (var spline in Splines)
+        {
+          spline.Spline.Clear();
+        }
+      }
     }
 
     public void UpdateSize(double width, double height)

@@ -49,6 +49,11 @@ namespace Starter3D.Renderers
       }
     }
 
+    public void DrawMeshCollection(string objectName, int triangleCount, int instanceCount)
+    {
+      throw new System.NotImplementedException();
+    }
+
     public void DrawLines(string objectName, int lineCount, float lineWidth)
     {
       foreach (var renderer in _renderers)
@@ -65,11 +70,11 @@ namespace Starter3D.Renderers
       }
     }
 
-    public void SetFacesData(string objectName, List<int> indices)
+    public void SetIndexData(string objectName, List<int> indices)
     {
       foreach (var renderer in _renderers)
       {
-        renderer.SetFacesData(objectName, indices);
+        renderer.SetIndexData(objectName, indices);
       }
     }
 
@@ -80,6 +85,17 @@ namespace Starter3D.Renderers
       {
         renderer.SetVertexAttribute(objectName, shaderName, index, vertexPropertyName, stride, offset);
       }
+    }
+
+    public void SetInstanceAttribute(string objectName, string shaderName, int index, string vertexPropertyName, int stride,
+      int offset)
+    {
+      throw new System.NotImplementedException();
+    }
+
+    public void SetInstanceData(string objectName, List<Vector3> instanceData)
+    {
+      throw new System.NotImplementedException();
     }
 
     public void LoadTexture(string textureName, int index, Bitmap texture, TextureMinFilter minFilter, TextureMagFilter magFilter)
