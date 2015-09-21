@@ -106,13 +106,13 @@ namespace Starter3D.Renderers
       _semanticsTable.Add("inNormal", "NORMAL");
       _semanticsTable.Add("inTextureCoords", "TEXCOORD");
       _semanticsTable.Add("inColor", "COLOR");
-      _semanticsTable.Add("inTranslation", "TEXCOORD");
+      _semanticsTable.Add("instanceMatrix", "INSTANCE_TRANSFORM");
 
       _semanticsIndexTable.Add("inPosition", 0);
       _semanticsIndexTable.Add("inNormal", 0);
       _semanticsIndexTable.Add("inTextureCoords", 0);
       _semanticsIndexTable.Add("inColor", 0);
-      _semanticsIndexTable.Add("inTranslation", 1);
+      _semanticsIndexTable.Add("instanceMatrix", 0);
 
     }
 
@@ -154,7 +154,7 @@ namespace Starter3D.Renderers
       var vertexBufferBinding = new VertexBufferBinding(_objectsHandleDictionary[objectName].VertexBuffer,
         OpenTK.Vector3.SizeInBytes*_objectsHandleDictionary[objectName].InputElements.Count(ie => ie.Classification != InputClassification.PerInstanceData), 0);
       var instanceBufferBinding = new VertexBufferBinding(_objectsHandleDictionary[objectName].InstanceBuffer,
-        OpenTK.Vector3.SizeInBytes*_objectsHandleDictionary[objectName].InputElements.Count(ie => ie.Classification == InputClassification.PerInstanceData), 0);
+        OpenTK.Vector4.SizeInBytes*_objectsHandleDictionary[objectName].InputElements.Count(ie => ie.Classification == InputClassification.PerInstanceData), 0);
 
       _device.InputAssembler.SetVertexBuffers(0, new[] { vertexBufferBinding, instanceBufferBinding });
       _device.InputAssembler.SetIndexBuffer(_objectsHandleDictionary[objectName].IndexBuffer, Format.R32_UInt, 0);
@@ -256,20 +256,26 @@ namespace Starter3D.Renderers
     {
       if (!_objectsHandleDictionary.ContainsKey(objectName))
         throw new ApplicationException("Object must be added to the renderer before setting its index data");
-      var inputElement = new InputElement(_semanticsTable[vertexPropertyName], _semanticsIndexTable[vertexPropertyName], Format.R32G32B32A32_Float, offset, 1, InputClassification.PerInstanceData, 1);
+      var inputElement = new InputElement(_semanticsTable[vertexPropertyName], _semanticsIndexTable[vertexPropertyName], Format.R32G32B32A32_Float, 0, 1, InputClassification.PerInstanceData, 1);
+      _objectsHandleDictionary[objectName].InputElements.Add(inputElement);
+      inputElement = new InputElement(_semanticsTable[vertexPropertyName], _semanticsIndexTable[vertexPropertyName] + 1, Format.R32G32B32A32_Float, InputElement.AppendAligned, 1, InputClassification.PerInstanceData, 1);
+      _objectsHandleDictionary[objectName].InputElements.Add(inputElement);
+      inputElement = new InputElement(_semanticsTable[vertexPropertyName], _semanticsIndexTable[vertexPropertyName] + 2, Format.R32G32B32A32_Float, InputElement.AppendAligned, 1, InputClassification.PerInstanceData, 1);
+      _objectsHandleDictionary[objectName].InputElements.Add(inputElement);
+      inputElement = new InputElement(_semanticsTable[vertexPropertyName], _semanticsIndexTable[vertexPropertyName] + 3, Format.R32G32B32A32_Float, InputElement.AppendAligned, 1, InputClassification.PerInstanceData, 1);
       _objectsHandleDictionary[objectName].InputElements.Add(inputElement);
     }
 
-    public void SetInstanceData(string objectName, List<OpenTK.Vector3> instanceData)
+    public void SetInstanceData(string objectName, List<OpenTK.Matrix4> instanceData)
     {
       if (!_objectsHandleDictionary.ContainsKey(objectName))
         throw new ApplicationException("Object must be added to the renderer before setting its vertex data");
       if (instanceData.Count == 0)
         return;
-      var verticesStream = new DataStream(instanceData.Count * OpenTK.Vector3.SizeInBytes, true, true);
-      foreach (var vector in instanceData)
+      var verticesStream = new DataStream(instanceData.Count * OpenTK.Vector4.SizeInBytes*4, true, true);
+      foreach (var matrix in instanceData)
       {
-        verticesStream.Write(new Vector3(vector.X, vector.Y, vector.Z));
+        verticesStream.Write(matrix.ToSlimDXMatrix());
       }
       verticesStream.Position = 0;
       var bufferDesc = new BufferDescription
@@ -277,7 +283,7 @@ namespace Starter3D.Renderers
         BindFlags = BindFlags.VertexBuffer,
         CpuAccessFlags = CpuAccessFlags.None,
         OptionFlags = ResourceOptionFlags.None,
-        SizeInBytes = instanceData.Count * OpenTK.Vector3.SizeInBytes,
+        SizeInBytes = instanceData.Count * OpenTK.Vector4.SizeInBytes * 4,
         Usage = ResourceUsage.Default
       };
       var instanceBuffer = new Buffer(_device, verticesStream, bufferDesc);

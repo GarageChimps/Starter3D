@@ -2,7 +2,7 @@
   float3 inPosition : POSITION;
   float3 inNormal : NORMAL;
   float3 inTextureCoords: TEXCOORD0;
-  float3 inTranslation: TEXCOORD1;
+  row_major float4x4 instanceMatrix: INSTANCE_TRANSFORM;
 };
 
 struct fragmentAttributes {
@@ -79,8 +79,9 @@ float3 shade(float3 p, float3 n, float3 diffuse)
 fragmentAttributes VShader(vertexAttributes input)
 {
   fragmentAttributes output = (fragmentAttributes)0;
-  float4 worldPosition = mul(float4(input.inPosition, 1), modelMatrix) + float4(input.inTranslation,0);
-  float4 worldNormal = mul(float4(input.inNormal, 0), modelMatrix);
+  float4x4 modelInstanceMatrix = mul(modelMatrix, input.instanceMatrix);
+  float4 worldPosition = mul(float4(input.inPosition, 1), modelInstanceMatrix);
+  float4 worldNormal = mul(float4(input.inNormal, 0), modelInstanceMatrix);
   output.fragPosition = worldPosition.xyz;
   output.fragNormal = worldNormal.xyz;
   output.fragTextureCoords = input.inTextureCoords;

@@ -12,7 +12,7 @@ namespace Starter3D.API.geometry
     private readonly string _name;
     private IMesh _mesh;
 
-    private List<Vector3> _instancePositions = new List<Vector3>(); 
+    private List<Matrix4> _instanceMatrices = new List<Matrix4>(); 
     
     public string Name
     {
@@ -45,15 +45,15 @@ namespace Starter3D.API.geometry
     {
       _material.Configure(renderer);
       _mesh.Configure(renderer);
-      renderer.SetInstanceData(_name, _instancePositions);
-      renderer.SetInstanceAttribute(_name, _material.Name, 0, "inTranslation", 3 * Vector3.SizeInBytes, 0);
+      renderer.SetInstanceData(_name, _instanceMatrices);
+      renderer.SetInstanceAttribute(_name, _material.Name, 0, "instanceMatrix", Vector4.SizeInBytes, Vector4.SizeInBytes);
     }
 
     public void Render(IRenderer renderer, Matrix4 transform)
     {
       _material.Render(renderer);
       renderer.SetMatrixParameter("modelMatrix", transform, _material.Shader.Name);
-      renderer.DrawMeshCollection(_name, _mesh.GetTriangleCount(), _instancePositions.Count);
+      renderer.DrawMeshCollection(_name, _mesh.GetTriangleCount(), _instanceMatrices.Count);
     }
 
     public bool Intersects(Ray ray)
@@ -66,9 +66,9 @@ namespace Starter3D.API.geometry
       throw new System.NotImplementedException();
     }
 
-    public void AddInstance(Vector3 instancePosition)
+    public void AddInstance(Matrix4 instanceMatrix)
     {
-      _instancePositions.Add(instancePosition);
+      _instanceMatrices.Add(instanceMatrix);
     }
   }
 }

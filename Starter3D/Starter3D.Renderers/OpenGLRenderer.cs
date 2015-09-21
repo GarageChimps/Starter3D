@@ -134,7 +134,7 @@ namespace Starter3D.Renderers
       throw new NotImplementedException();
     }
 
-    public void SetInstanceData(string objectName, List<Vector3> instanceData)
+    public void SetInstanceData(string objectName, List<Matrix4> instanceData)
     {
       throw new NotImplementedException();
     }

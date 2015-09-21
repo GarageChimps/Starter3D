@@ -90,12 +90,18 @@ namespace Starter3D.Renderers
     public void SetInstanceAttribute(string objectName, string shaderName, int index, string vertexPropertyName, int stride,
       int offset)
     {
-      throw new System.NotImplementedException();
+      foreach (var renderer in _renderers)
+      {
+        renderer.SetInstanceAttribute(objectName, shaderName, index, vertexPropertyName, stride, offset);
+      }
     }
 
-    public void SetInstanceData(string objectName, List<Vector3> instanceData)
+    public void SetInstanceData(string objectName, List<Matrix4> instanceData)
     {
-      throw new System.NotImplementedException();
+      foreach (var renderer in _renderers)
+      {
+        renderer.SetInstanceData(objectName, instanceData);
+      }
     }
 
     public void LoadTexture(string textureName, int index, Bitmap texture, TextureMinFilter minFilter, TextureMagFilter magFilter)

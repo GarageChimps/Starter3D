@@ -143,7 +143,7 @@ namespace Starter3D.Plugin.Physics
         {
           for (int k = -_numZ / 2; k < _numZ / 2; k++)
           {
-            meshCollection.AddInstance(new Vector3(i,j,k));
+            meshCollection.AddInstance(Matrix4.CreateTranslation(new Vector3(i,j,k)));
           }
         }
       }
