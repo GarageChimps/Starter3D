@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using OpenTK;
 using Starter3D.API.controller;
 using Starter3D.API.geometry;
-using Starter3D.API.geometry.loaders;
-using Starter3D.API.math;
 using Starter3D.API.renderer;
 using Starter3D.API.resources;
 using Starter3D.API.scene;
@@ -18,7 +15,7 @@ namespace Starter3D.Plugin.Physics
 {
   public class PhysicsController : ViewModelBase, IController
   {
-    private const string ScenePath = @"scenes/physics.xml";
+    private const string ScenePath = @"scenes/physicsscene.xml";
     private const string ResourcePath = @"resources/physics.xml";
 
     private readonly IRenderer _renderer;
@@ -126,7 +123,7 @@ namespace Starter3D.Plugin.Physics
       InitRenderer();
 
       _resourceManager.Configure(_renderer);
-      CreateNonInstancedCollection();
+      CreateInstancedCollection();
       _scene.Configure(_renderer);
 
     }
