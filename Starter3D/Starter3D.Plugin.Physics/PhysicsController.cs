@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Documents;
 using OpenTK;
 using Starter3D.API.controller;
 using Starter3D.API.geometry;
@@ -23,21 +25,32 @@ namespace Starter3D.Plugin.Physics
     private readonly IResourceManager _resourceManager;
 
     private readonly IScene _scene;
-    
+
     private readonly PhysicsView _centralView;
+
+    private readonly List<Asteroid> _asteroids = new List<Asteroid>();
+
+    private ShapeNode _asteroidsNode;
+    private MeshCollection _asteroidMeshCollection;
 
     private bool _isDragging;
     private bool _isOrbiting;
-   
+
     private int _width;
     private int _height;
 
     private int _frameCount = 0;
     private float _fps;
 
-    private int _numX = 10;
-    private int _numY = 10;
-    private int _numZ = 10;
+    private int _numberOfAsteroids = 1000;
+    private float _minRadius = 90;
+    private float _maxRadius = 110;
+    private float _minSpeed = 0.3f;
+    private float _maxSpeed = 0.7f;
+    private float _minSize = 0.5f;
+    private float _maxSize = 3f;
+
+    private float t = 0.0f;
 
     public int Width
     {
@@ -120,52 +133,28 @@ namespace Starter3D.Plugin.Physics
 
     public void Load()
     {
+      var random = new Random();
+      for (int i = 0; i < _numberOfAsteroids; i++)
+      {
+        var radius = _minRadius + (float) (random.NextDouble()*_maxRadius);
+        var speed = _minSpeed + (float) (random.NextDouble()*_maxSpeed);
+        var size = _minSize + (float)(random.NextDouble() * _maxSize);
+        _asteroids.Add(new Asteroid(radius, speed, new Vector3(), size));
+      }
+      _asteroidsNode = _scene.Shapes.First(s => s.Shape.Name == "asteroid");
+      var mesh = _asteroidsNode.Shape as IMesh;
+      mesh.Material = _resourceManager.GetMaterial("whiteInstancing");
+      _asteroidMeshCollection = new MeshCollection(mesh.Name, mesh);
+      _asteroidMeshCollection.Material = _resourceManager.GetMaterial("whiteInstancing");
+      _asteroidsNode.Shape = _asteroidMeshCollection;
+
       InitRenderer();
 
       _resourceManager.Configure(_renderer);
-      CreateInstancedCollection();
       _scene.Configure(_renderer);
 
     }
-
-    private void CreateInstancedCollection()
-    {
-      var shape = _scene.Shapes.First();
-      var mesh = shape.Shape as IMesh;
-      mesh.Material = _resourceManager.GetMaterial("whiteInstancing");
-      var meshCollection = new MeshCollection(mesh.Name, mesh);
-      meshCollection.Material = _resourceManager.GetMaterial("whiteInstancing");
-      shape.Shape = meshCollection;
-      shape.Position = new Vector3();
-      for (int i = -_numX / 2; i <= _numX / 2; i++)
-      {
-        for (int j = -_numY / 2; j <= _numY / 2; j++)
-        {
-          for (int k = -_numZ / 2; k <= _numZ / 2; k++)
-          {
-            meshCollection.AddInstance(Matrix4.CreateTranslation(new Vector3(i,j,k)));
-          }
-        }
-      }
-    }
-
-    private void CreateNonInstancedCollection()
-    {
-      var shape = _scene.Shapes.First();
-      for (int i = -_numX/2; i < _numX/2; i++)
-      {
-        for (int j = -_numY/2; j < _numY/2; j++)
-        {
-          for (int k = -_numZ/2; k < _numZ/2; k++)
-          {
-            var clone = shape.Clone();
-            clone.Position += new Vector3(i, j, k);
-            _scene.AddShape(clone);
-          }
-        }
-      }
-    }
-
+   
     private void InitRenderer()
     {
       _renderer.SetBackgroundColor(0.0f, 0.0f, 0.0f);
@@ -183,11 +172,20 @@ namespace Starter3D.Plugin.Physics
     {
       _frameCount++;
       if (_frameCount % 10 == 0)
-        FPS = 1.0f/(float) time;
-      foreach (var shapeNode in _scene.Shapes)
+        FPS = 1.0f / (float)time;
+      t += (float)time;
+      UpdateAsteroids(t);
+
+    }
+
+    private void UpdateAsteroids(float time)
+    {
+      _asteroidMeshCollection.Clear();
+      foreach (var asteroid in _asteroids)
       {
-        shapeNode.Rotation *= Quaternion.FromAxisAngle(new Vector3(0, 1, 0), 0.1f);
+        _asteroidMeshCollection.AddInstance(asteroid.GetTransformantion(time));
       }
+      _asteroidMeshCollection.Configure(_renderer);
     }
 
     public void UpdateSize(double width, double height)
@@ -236,12 +234,12 @@ namespace Starter3D.Plugin.Physics
 
     private void Pick(int x, int y)
     {
-      
+
     }
 
     public void KeyDown(int key)
     {
-      
+
     }
 
 

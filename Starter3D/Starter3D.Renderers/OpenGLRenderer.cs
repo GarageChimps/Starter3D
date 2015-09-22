@@ -125,6 +125,7 @@ namespace Starter3D.Renderers
       {
         GL.EnableVertexAttribArray(location);
         GL.VertexAttribPointer(location, 3, VertexAttribPointerType.Float, false, stride, IntPtr.Add(IntPtr.Zero, offset));
+        GL.VertexAttribDivisor(location, 0);
       }
     }
 

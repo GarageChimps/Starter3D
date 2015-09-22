@@ -10,9 +10,9 @@ namespace Starter3D.API.geometry
   {
     private IMaterial _material;
     private readonly string _name;
-    private IMesh _mesh;
+    private readonly IMesh _mesh;
 
-    private List<Matrix4> _instanceMatrices = new List<Matrix4>(); 
+    private readonly List<Matrix4> _instanceMatrices = new List<Matrix4>(); 
     
     public string Name
     {
@@ -69,6 +69,11 @@ namespace Starter3D.API.geometry
     public void AddInstance(Matrix4 instanceMatrix)
     {
       _instanceMatrices.Add(instanceMatrix);
+    }
+
+    public void Clear()
+    {
+      _instanceMatrices.Clear();
     }
   }
 }

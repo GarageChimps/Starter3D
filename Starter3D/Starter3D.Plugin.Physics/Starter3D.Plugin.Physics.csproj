@@ -67,6 +67,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Asteroid.cs" />
     <Compile Include="PhysicsController.cs" />
     <Compile Include="PhysicsView.xaml.cs">
       <DependentUpon>PhysicsView.xaml</DependentUpon>
