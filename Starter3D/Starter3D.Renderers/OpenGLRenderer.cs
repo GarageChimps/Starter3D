@@ -71,7 +71,7 @@ namespace Starter3D.Renderers
 
     public void DrawMeshCollection(string objectName, int triangleCount, int instanceCount)
     {
-      throw new NotImplementedException();
+      GL.DrawElementsInstanced(BeginMode.Triangles, triangleCount, DrawElementsType.UnsignedInt, IntPtr.Zero, instanceCount);
     }
 
     public void DrawLines(string name, int lineCount, float lineWidth)
@@ -128,15 +128,29 @@ namespace Starter3D.Renderers
       }
     }
 
-    public void SetInstanceAttribute(string objectName, string shaderName, int index, string vertexPropertyName, int stride,
-      int offset)
+    public void SetInstanceAttribute(string objectName, string shaderName, int index, string instancePropertyName, int stride, int offset)
     {
-      throw new NotImplementedException();
+      GL.BindVertexArray(_objectsHandleDictionary[objectName]);
+      int location = GL.GetAttribLocation(_shaderHandleDictionary[shaderName], instancePropertyName);
+      if (location != -1)
+      {
+        for (int i = 0; i < 4; i++)
+        {
+          GL.EnableVertexAttribArray(location + i);
+          GL.VertexAttribPointer(location + i, 4, VertexAttribPointerType.Float, false, stride, IntPtr.Add(IntPtr.Zero, i * offset));
+          GL.VertexAttribDivisor(location + i, 1);
+        }
+      }
     }
 
-    public void SetInstanceData(string objectName, List<Matrix4> instanceData)
+    public void SetInstanceData(string name, List<Matrix4> instanceData)
     {
-      throw new NotImplementedException();
+      GL.BindVertexArray(_objectsHandleDictionary[name]);
+      var verticesArray = instanceData.ToArray();
+      int vboHandle;
+      GL.GenBuffers(1, out vboHandle);
+      GL.BindBuffer(BufferTarget.ArrayBuffer, vboHandle);
+      GL.BufferData(BufferTarget.ArrayBuffer, new IntPtr(verticesArray.Length * 4 * Vector4.SizeInBytes), verticesArray, BufferUsageHint.StaticDraw);
     }
 
     public void LoadTexture(string textureName, int index, Bitmap texture, TextureMinFilter minFilter, TextureMagFilter magFilter)

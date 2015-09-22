@@ -132,16 +132,16 @@ namespace Starter3D.Plugin.Physics
     {
       var shape = _scene.Shapes.First();
       var mesh = shape.Shape as IMesh;
-      mesh.Material = _resourceManager.GetMaterial("redSpecularInstancing");
+      mesh.Material = _resourceManager.GetMaterial("whiteInstancing");
       var meshCollection = new MeshCollection(mesh.Name, mesh);
-      meshCollection.Material = _resourceManager.GetMaterial("redSpecularInstancing");
+      meshCollection.Material = _resourceManager.GetMaterial("whiteInstancing");
       shape.Shape = meshCollection;
       shape.Position = new Vector3();
-      for (int i = -_numX / 2; i < _numX / 2; i++)
+      for (int i = -_numX / 2; i <= _numX / 2; i++)
       {
-        for (int j = -_numY / 2; j < _numY / 2; j++)
+        for (int j = -_numY / 2; j <= _numY / 2; j++)
         {
-          for (int k = -_numZ / 2; k < _numZ / 2; k++)
+          for (int k = -_numZ / 2; k <= _numZ / 2; k++)
           {
             meshCollection.AddInstance(Matrix4.CreateTranslation(new Vector3(i,j,k)));
           }
@@ -168,7 +168,7 @@ namespace Starter3D.Plugin.Physics
 
     private void InitRenderer()
     {
-      _renderer.SetBackgroundColor(0.9f, 0.9f, 1.0f);
+      _renderer.SetBackgroundColor(0.0f, 0.0f, 0.0f);
       _renderer.EnableZBuffer(true);
       _renderer.EnableWireframe(false);
       _renderer.SetCullMode(CullMode.None);

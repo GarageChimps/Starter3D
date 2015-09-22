@@ -51,7 +51,10 @@ namespace Starter3D.Renderers
 
     public void DrawMeshCollection(string objectName, int triangleCount, int instanceCount)
     {
-      throw new System.NotImplementedException();
+      foreach (var renderer in _renderers)
+      {
+        renderer.DrawMeshCollection(objectName, triangleCount, instanceCount);
+      }
     }
 
     public void DrawLines(string objectName, int lineCount, float lineWidth)
@@ -87,12 +90,12 @@ namespace Starter3D.Renderers
       }
     }
 
-    public void SetInstanceAttribute(string objectName, string shaderName, int index, string vertexPropertyName, int stride,
+    public void SetInstanceAttribute(string objectName, string shaderName, int index, string instancePropertyName, int stride,
       int offset)
     {
       foreach (var renderer in _renderers)
       {
-        renderer.SetInstanceAttribute(objectName, shaderName, index, vertexPropertyName, stride, offset);
+        renderer.SetInstanceAttribute(objectName, shaderName, index, instancePropertyName, stride, offset);
       }
     }
 

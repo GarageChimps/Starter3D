@@ -252,17 +252,17 @@ namespace Starter3D.Renderers
       _objectsHandleDictionary[objectName].InputElements.Add(inputElement);
     }
 
-    public void SetInstanceAttribute(string objectName, string shaderName, int index, string vertexPropertyName, int stride, int offset)
+    public void SetInstanceAttribute(string objectName, string shaderName, int index, string instancePropertyName, int stride, int offset)
     {
       if (!_objectsHandleDictionary.ContainsKey(objectName))
         throw new ApplicationException("Object must be added to the renderer before setting its index data");
-      var inputElement = new InputElement(_semanticsTable[vertexPropertyName], _semanticsIndexTable[vertexPropertyName], Format.R32G32B32A32_Float, 0, 1, InputClassification.PerInstanceData, 1);
+      var inputElement = new InputElement(_semanticsTable[instancePropertyName], _semanticsIndexTable[instancePropertyName], Format.R32G32B32A32_Float, 0, 1, InputClassification.PerInstanceData, 1);
       _objectsHandleDictionary[objectName].InputElements.Add(inputElement);
-      inputElement = new InputElement(_semanticsTable[vertexPropertyName], _semanticsIndexTable[vertexPropertyName] + 1, Format.R32G32B32A32_Float, InputElement.AppendAligned, 1, InputClassification.PerInstanceData, 1);
+      inputElement = new InputElement(_semanticsTable[instancePropertyName], _semanticsIndexTable[instancePropertyName] + 1, Format.R32G32B32A32_Float, InputElement.AppendAligned, 1, InputClassification.PerInstanceData, 1);
       _objectsHandleDictionary[objectName].InputElements.Add(inputElement);
-      inputElement = new InputElement(_semanticsTable[vertexPropertyName], _semanticsIndexTable[vertexPropertyName] + 2, Format.R32G32B32A32_Float, InputElement.AppendAligned, 1, InputClassification.PerInstanceData, 1);
+      inputElement = new InputElement(_semanticsTable[instancePropertyName], _semanticsIndexTable[instancePropertyName] + 2, Format.R32G32B32A32_Float, InputElement.AppendAligned, 1, InputClassification.PerInstanceData, 1);
       _objectsHandleDictionary[objectName].InputElements.Add(inputElement);
-      inputElement = new InputElement(_semanticsTable[vertexPropertyName], _semanticsIndexTable[vertexPropertyName] + 3, Format.R32G32B32A32_Float, InputElement.AppendAligned, 1, InputClassification.PerInstanceData, 1);
+      inputElement = new InputElement(_semanticsTable[instancePropertyName], _semanticsIndexTable[instancePropertyName] + 3, Format.R32G32B32A32_Float, InputElement.AppendAligned, 1, InputClassification.PerInstanceData, 1);
       _objectsHandleDictionary[objectName].InputElements.Add(inputElement);
     }
 

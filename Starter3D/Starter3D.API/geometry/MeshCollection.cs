@@ -46,7 +46,7 @@ namespace Starter3D.API.geometry
       _material.Configure(renderer);
       _mesh.Configure(renderer);
       renderer.SetInstanceData(_name, _instanceMatrices);
-      renderer.SetInstanceAttribute(_name, _material.Name, 0, "instanceMatrix", Vector4.SizeInBytes, Vector4.SizeInBytes);
+      renderer.SetInstanceAttribute(_name, _material.Shader.Name, 0, "instanceMatrix", 4 * Vector4.SizeInBytes, Vector4.SizeInBytes);
     }
 
     public void Render(IRenderer renderer, Matrix4 transform)

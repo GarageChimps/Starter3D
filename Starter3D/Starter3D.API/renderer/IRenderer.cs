@@ -23,7 +23,7 @@ namespace Starter3D.API.renderer
     void SetIndexData(string objectName, List<int> indices);
     void SetInstanceData(string objectName, List<Matrix4> instanceData);
     void SetVertexAttribute(string objectName, string shaderName, int index, string vertexPropertyName, int stride, int offset);
-    void SetInstanceAttribute(string objectName, string shaderName, int index, string vertexPropertyName, int stride, int offset);
+    void SetInstanceAttribute(string objectName, string shaderName, int index, string instancePropertyName, int stride, int offset);
 
     //Texture related methods
     void LoadTexture(string textureName, int index, Bitmap texture, TextureMinFilter minFilter, TextureMagFilter magFilter);
