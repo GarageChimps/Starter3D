@@ -16,6 +16,7 @@ namespace Starter3D.API.geometry
     private readonly List<IFace> _faces = new List<IFace>();
     private IMaterial _material;
     private readonly string _name;
+    private bool _isDynamic;
 
     public Mesh(IMeshLoader meshLoader, string name="default")
     {
@@ -65,6 +66,12 @@ namespace Starter3D.API.geometry
     {
       get { return _material; }
       set { _material = value; }
+    }
+
+    public bool IsDynamic
+    {
+      get { return _isDynamic; }
+      set { _isDynamic =value; }
     }
 
     public string Name
@@ -161,6 +168,14 @@ namespace Starter3D.API.geometry
       _material.Render(renderer);
       renderer.SetMatrixParameter("modelMatrix", transform, _material.Shader.Name);
       renderer.DrawTriangles(_name, GetTriangleCount());
+    }
+
+    public void Update(IRenderer renderer)
+    {
+      if (!_isDynamic)
+        return;
+      renderer.UpdateVerticesData(_name, GetVerticesData());
+      renderer.UpdateIndexData(_name, GetFaceData());
     }
 
     public bool Intersects(Ray ray)

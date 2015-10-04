@@ -34,6 +34,8 @@ namespace Starter3D.Plugin.CurveEditor
     private double _width;
     private double _height;
 
+    private bool _firstPoint = true;
+    private bool _firstCurve = true;
 
     public int Width
     {
@@ -181,7 +183,13 @@ namespace Starter3D.Plugin.CurveEditor
         spline.Spline.AddPoint(mousePoint);
       }
       _points.AddPoint(mousePoint);
-      _points.Configure(_renderer);
+      if (_firstPoint)
+      {
+        _points.Configure(_renderer);
+        _firstPoint = false;
+      }
+      else
+        _points.Update(_renderer);
 
       UpdateCurve();
     }
@@ -196,7 +204,13 @@ namespace Starter3D.Plugin.CurveEditor
         {
           _curve.AddPoint(point);
         }
-        _curve.Configure(_renderer);
+        if (_firstCurve)
+        {
+          _curve.Configure(_renderer);
+          _firstCurve = false;
+        }
+        else
+          _curve.Update(_renderer);
       }
     }
 

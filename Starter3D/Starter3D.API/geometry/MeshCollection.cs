@@ -11,6 +11,7 @@ namespace Starter3D.API.geometry
     private IMaterial _material;
     private readonly string _name;
     private readonly IMesh _mesh;
+    private bool _isDynamic;
 
     private readonly List<Matrix4> _instanceMatrices = new List<Matrix4>(); 
     
@@ -23,6 +24,12 @@ namespace Starter3D.API.geometry
     {
       get { return _material; }
       set { _material = value; }
+    }
+
+    public bool IsDynamic
+    {
+      get { return _isDynamic; }
+      set { _isDynamic = value; }
     }
 
     public MeshCollection(string name, IMesh mesh)
@@ -54,6 +61,11 @@ namespace Starter3D.API.geometry
       _material.Render(renderer);
       renderer.SetMatrixParameter("modelMatrix", transform, _material.Shader.Name);
       renderer.DrawMeshCollection(_name, _mesh.GetTriangleCount(), _instanceMatrices.Count);
+    }
+
+    public void Update(IRenderer renderer)
+    {
+      throw new System.NotImplementedException();
     }
 
     public bool Intersects(Ray ray)

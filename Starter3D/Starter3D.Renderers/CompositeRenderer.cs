@@ -73,12 +73,22 @@ namespace Starter3D.Renderers
       }
     }
 
-    public void SetIndexData(string objectName, List<int> indices)
+    public void UpdateVerticesData(string objectName, List<Vector3> data)
+    {
+      throw new System.NotImplementedException();
+    }
+
+    public void SetIndexData(string objectName, List<int> indices, bool isDynamic = false)
     {
       foreach (var renderer in _renderers)
       {
         renderer.SetIndexData(objectName, indices);
       }
+    }
+
+    public void UpdateIndexData(string objectName, List<int> indices)
+    {
+      throw new System.NotImplementedException();
     }
 
     public void SetVertexAttribute(string objectName, string shaderName, int index, string vertexPropertyName, int stride,
@@ -235,9 +245,9 @@ namespace Starter3D.Renderers
       }
     }
 
-   
 
-    public void SetVerticesData(string objectName, List<Vector3> data)
+
+    public void SetVerticesData(string objectName, List<Vector3> data, bool isDynamic = false)
     {
       foreach (var renderer in _renderers)
       {

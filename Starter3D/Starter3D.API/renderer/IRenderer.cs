@@ -19,8 +19,10 @@ namespace Starter3D.API.renderer
     void DrawMeshCollection(string objectName, int triangleCount, int instanceCount);
     void DrawLines(string objectName, int lineCount, float lineWidth);
     void DrawPoints(string objectName, int pointCount, float pointSize);
-    void SetVerticesData(string objectName, List<Vector3> data);
-    void SetIndexData(string objectName, List<int> indices);
+    void SetVerticesData(string objectName, List<Vector3> data, bool isDynamic=false);
+    void UpdateVerticesData(string objectName, List<Vector3> data);
+    void SetIndexData(string objectName, List<int> indices, bool isDynamic = false);
+    void UpdateIndexData(string objectName, List<int> indices);
     void SetInstanceData(string objectName, List<Matrix4> instanceData);
     void SetVertexAttribute(string objectName, string shaderName, int index, string vertexPropertyName, int stride, int offset);
     void SetInstanceAttribute(string objectName, string shaderName, int index, string instancePropertyName, int stride, int offset);

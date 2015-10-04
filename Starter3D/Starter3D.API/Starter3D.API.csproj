@@ -88,6 +88,16 @@
     <Compile Include="geometry\primitives\Cube.cs" />
     <Compile Include="geometry\primitives\IPrimitiveFactory.cs" />
     <Compile Include="geometry\primitives\PrimitiveFactory.cs" />
+    <Compile Include="physics\EulerCromerSolver.cs" />
+    <Compile Include="physics\EulerSolver.cs" />
+    <Compile Include="physics\Gravity.cs" />
+    <Compile Include="physics\IForce.cs" />
+    <Compile Include="physics\IParticle.cs" />
+    <Compile Include="physics\IPhysicsEngine.cs" />
+    <Compile Include="physics\IRigidSolid.cs" />
+    <Compile Include="physics\ISolver.cs" />
+    <Compile Include="physics\PhysicsEngine.cs" />
+    <Compile Include="physics\RungeKuttaSolver.cs" />
     <Compile Include="resources\IDataNode.cs" />
     <Compile Include="resources\IMaterial.cs" />
     <Compile Include="resources\IMaterialFactory.cs" />

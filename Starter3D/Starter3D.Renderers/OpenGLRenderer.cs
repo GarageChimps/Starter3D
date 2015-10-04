@@ -71,6 +71,9 @@ namespace Starter3D.Renderers
 
     public void DrawMeshCollection(string objectName, int triangleCount, int instanceCount)
     {
+      if (!_objectsHandleDictionary.ContainsKey(objectName))
+        throw new ApplicationException("Object must be added to the renderer before drawing");
+      GL.BindVertexArray(_objectsHandleDictionary[objectName]);
       GL.DrawElementsInstanced(BeginMode.Triangles, triangleCount, DrawElementsType.UnsignedInt, IntPtr.Zero, instanceCount);
     }
 
@@ -92,7 +95,7 @@ namespace Starter3D.Renderers
       GL.DrawElements(BeginMode.Points, pointCount, DrawElementsType.UnsignedInt, IntPtr.Zero);
     }
 
-    public void SetVerticesData(string name, List<Vector3> data)
+    public void SetVerticesData(string name, List<Vector3> data, bool isDynamic = false)
     {
       GL.BindVertexArray(_objectsHandleDictionary[name]);
       var verticesArray = data.ToArray();
@@ -102,7 +105,12 @@ namespace Starter3D.Renderers
       GL.BufferData(BufferTarget.ArrayBuffer, new IntPtr(verticesArray.Length * Vector3.SizeInBytes), verticesArray, BufferUsageHint.StaticDraw);
     }
 
-    public void SetIndexData(string name, List<int> indices)
+    public void UpdateVerticesData(string objectName, List<Vector3> data)
+    {
+      throw new NotImplementedException();
+    }
+
+    public void SetIndexData(string name, List<int> indices, bool isDynamic = false)
     {
       GL.BindVertexArray(_objectsHandleDictionary[name]);
       var indicesArray = new uint[indices.Count];
@@ -115,6 +123,11 @@ namespace Starter3D.Renderers
       GL.BindBuffer(BufferTarget.ElementArrayBuffer, indicesVboHandle);
       GL.BufferData(BufferTarget.ElementArrayBuffer, new IntPtr(indicesArray.Length * sizeof(uint)), indicesArray,
         BufferUsageHint.StaticDraw);
+    }
+
+    public void UpdateIndexData(string objectName, List<int> indices)
+    {
+      throw new NotImplementedException();
     }
 
     public void SetVertexAttribute(string objectName, string shaderName, int index, string vertexPropertyName, int stride, int offset)

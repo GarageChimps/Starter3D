@@ -14,6 +14,7 @@ namespace Starter3D.API.geometry
   {
     string Name { get; }               //Name of this shape
     IMaterial Material { get; set; }   //Material associated to this shape
+    bool IsDynamic { get; set; }
     
     /// <summary>
     /// Loads the shape from file, using the suitable loader
@@ -39,6 +40,8 @@ namespace Starter3D.API.geometry
     /// <param name="renderer">Renderer that will perform the rendering</param>
     /// <param name="modelTransform">Model to world transformation for this shape</param>
     void Render(IRenderer renderer, Matrix4 modelTransform);
+
+    void Update(IRenderer renderer);
 
     /// <summary>
     /// Returns true if the shape intersects with the given ray

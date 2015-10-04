@@ -102,6 +102,10 @@
       <Project>{c9d87433-bbff-40bb-99ea-9773636d3e11}</Project>
       <Name>Starter3D.Plugin.SimpleMaterialEditor</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Starter3D.Plugin.Tessellation\Starter3D.Plugin.Tessellation.csproj">
+      <Project>{03847cad-bad9-4a9b-972b-fb098ff21e53}</Project>
+      <Name>Starter3D.Plugin.Tessellation</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Starter3D.Renderers\Starter3D.Renderers.csproj">
       <Project>{78127754-23C1-4D69-A528-AE46CAD6AEC0}</Project>
       <Name>Starter3D.Renderers</Name>

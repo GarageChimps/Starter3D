@@ -12,6 +12,7 @@ namespace Starter3D.API.geometry
     private string _name;
     private IMaterial _material;
     private float _size;
+    private bool _isDynamic;
 
     private readonly List<IVertex> _vertices = new List<IVertex>();
 
@@ -26,6 +27,12 @@ namespace Starter3D.API.geometry
       set { _material = value; }
     }
 
+    public bool IsDynamic
+    {
+      get { return _isDynamic; }
+      set { _isDynamic = value; }
+    }
+
     public float Size
     {
       get { return _size; }
@@ -36,6 +43,7 @@ namespace Starter3D.API.geometry
     {
       _name = name;
       _size = size;
+      _isDynamic = true;
     }
 
     public void Load(string filePath)
@@ -65,6 +73,14 @@ namespace Starter3D.API.geometry
         _material.Render(renderer);
         renderer.DrawPoints(_name, _vertices.Count, _size);
       }
+    }
+
+    public void Update(IRenderer renderer)
+    {
+      if (!_isDynamic)
+        return;
+      renderer.UpdateVerticesData(_name, GetVerticesData());
+      renderer.UpdateIndexData(_name, GetFaceData());
     }
 
     public bool Intersects(Ray ray)

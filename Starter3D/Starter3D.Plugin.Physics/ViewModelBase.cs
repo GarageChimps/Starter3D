@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace Starter3D.Plugin.SceneGraph
+namespace Starter3D.Plugin.Physics
 {
   public class ViewModelBase : INotifyPropertyChanged, INotifyDataErrorInfo
   {

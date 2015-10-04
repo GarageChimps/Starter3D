@@ -29,6 +29,8 @@ namespace Starter3D.Renderers
       public Buffer IndexBuffer;
       public Buffer InstanceBuffer;
       public int IndexCount;
+      public int VertexBufferSize;
+      public int IndexBufferSize;
     }
 
     class ShaderProgram
@@ -66,8 +68,8 @@ namespace Starter3D.Renderers
 
     private RasterizerStateDescription _rasterizerStateDescription;
     private DepthStencilStateDescription _depthStencilStateDescription;
-    
-    private Color4 _background = new Color4(new Vector3(1,1,1));
+
+    private Color4 _background = new Color4(new Vector3(1, 1, 1));
 
     public Device Direct3DDevice
     {
@@ -152,9 +154,9 @@ namespace Starter3D.Renderers
       _device.InputAssembler.SetInputLayout(GetInputLayout(pass, _objectsHandleDictionary[objectName].InputElements.ToArray()));
       _device.InputAssembler.SetPrimitiveTopology(PrimitiveTopology.TriangleList);
       var vertexBufferBinding = new VertexBufferBinding(_objectsHandleDictionary[objectName].VertexBuffer,
-        OpenTK.Vector3.SizeInBytes*_objectsHandleDictionary[objectName].InputElements.Count(ie => ie.Classification != InputClassification.PerInstanceData), 0);
+        OpenTK.Vector3.SizeInBytes * _objectsHandleDictionary[objectName].InputElements.Count(ie => ie.Classification != InputClassification.PerInstanceData), 0);
       var instanceBufferBinding = new VertexBufferBinding(_objectsHandleDictionary[objectName].InstanceBuffer,
-        OpenTK.Vector4.SizeInBytes*_objectsHandleDictionary[objectName].InputElements.Count(ie => ie.Classification == InputClassification.PerInstanceData), 0);
+        OpenTK.Vector4.SizeInBytes * _objectsHandleDictionary[objectName].InputElements.Count(ie => ie.Classification == InputClassification.PerInstanceData), 0);
 
       _device.InputAssembler.SetVertexBuffers(0, new[] { vertexBufferBinding, instanceBufferBinding });
       _device.InputAssembler.SetIndexBuffer(_objectsHandleDictionary[objectName].IndexBuffer, Format.R32_UInt, 0);
@@ -195,13 +197,18 @@ namespace Starter3D.Renderers
       _device.DrawIndexed(_objectsHandleDictionary[objectName].IndexCount, 0, 0);
     }
 
-    public void SetVerticesData(string objectName, List<OpenTK.Vector3> data)
+    public void SetVerticesData(string objectName, List<OpenTK.Vector3> data, bool isDynamic = false)
     {
       if (!_objectsHandleDictionary.ContainsKey(objectName))
         throw new ApplicationException("Object must be added to the renderer before setting its vertex data");
       if (data.Count == 0)
         return;
-      var verticesStream = new DataStream(data.Count * OpenTK.Vector3.SizeInBytes, true, true);
+      CreateVerticesData(objectName, data, isDynamic, data.Count);
+    }
+
+    private void CreateVerticesData(string objectName, List<OpenTK.Vector3> data, bool isDynamic, int bufferSize)
+    {
+      var verticesStream = new DataStream(bufferSize * OpenTK.Vector3.SizeInBytes, false, true);
       foreach (var vector in data)
       {
         verticesStream.Write(new Vector3(vector.X, vector.Y, vector.Z));
@@ -210,22 +217,49 @@ namespace Starter3D.Renderers
       var bufferDesc = new BufferDescription
       {
         BindFlags = BindFlags.VertexBuffer,
-        CpuAccessFlags = CpuAccessFlags.None,
+        CpuAccessFlags = isDynamic ? CpuAccessFlags.Write : CpuAccessFlags.None,
         OptionFlags = ResourceOptionFlags.None,
-        SizeInBytes = data.Count * OpenTK.Vector3.SizeInBytes,
-        Usage = ResourceUsage.Default
+        SizeInBytes = bufferSize * OpenTK.Vector3.SizeInBytes,
+        Usage = isDynamic ? ResourceUsage.Dynamic : ResourceUsage.Default
       };
       var vertexBuffer = new Buffer(_device, verticesStream, bufferDesc);
       _objectsHandleDictionary[objectName].VertexBuffer = vertexBuffer;
+      _objectsHandleDictionary[objectName].VertexBufferSize = bufferSize;
     }
 
-    public void SetIndexData(string objectName, List<int> indices)
+    public void UpdateVerticesData(string objectName, List<OpenTK.Vector3> data)
+    {
+      if (data.Count > _objectsHandleDictionary[objectName].VertexBufferSize)
+      {
+        CreateVerticesData(objectName, data, true, _objectsHandleDictionary[objectName].VertexBufferSize * 2);
+      }
+      else
+      {
+        using (
+          var dataStream = _objectsHandleDictionary[objectName].VertexBuffer.Map(MapMode.WriteDiscard, MapFlags.None))
+        {
+          foreach (var vector in data)
+          {
+            dataStream.Write(new Vector3(vector.X, vector.Y, vector.Z));
+          }
+          dataStream.Position = 0;
+          _objectsHandleDictionary[objectName].VertexBuffer.Unmap();
+        }
+      }
+    }
+
+    public void SetIndexData(string objectName, List<int> indices, bool isDynamic = false)
     {
       if (!_objectsHandleDictionary.ContainsKey(objectName))
         throw new ApplicationException("Object must be added to the renderer before setting its index data");
       if (indices.Count == 0)
         return;
-      var indicesStream = new DataStream(indices.Count * sizeof(int), true, true);
+      CreateIndicesData(objectName, indices, isDynamic, indices.Count);
+    }
+
+    private void CreateIndicesData(string objectName, List<int> indices, bool isDynamic, int bufferSize)
+    {
+      var indicesStream = new DataStream(bufferSize * sizeof(int), false, true);
       foreach (var index in indices)
       {
         indicesStream.Write(index);
@@ -234,14 +268,37 @@ namespace Starter3D.Renderers
       var bufferDesc = new BufferDescription
       {
         BindFlags = BindFlags.IndexBuffer,
-        CpuAccessFlags = CpuAccessFlags.None,
+        CpuAccessFlags = isDynamic ? CpuAccessFlags.Write : CpuAccessFlags.None,
         OptionFlags = ResourceOptionFlags.None,
-        SizeInBytes = indices.Count * sizeof(int),
-        Usage = ResourceUsage.Default
+        SizeInBytes = bufferSize * sizeof(int),
+        Usage = isDynamic ? ResourceUsage.Dynamic : ResourceUsage.Default
       };
       var indexBuffer = new Buffer(_device, indicesStream, bufferDesc);
       _objectsHandleDictionary[objectName].IndexBuffer = indexBuffer;
       _objectsHandleDictionary[objectName].IndexCount = indices.Count;
+      _objectsHandleDictionary[objectName].IndexBufferSize = bufferSize;
+    }
+
+    public void UpdateIndexData(string objectName, List<int> indices)
+    {
+      if (indices.Count > _objectsHandleDictionary[objectName].IndexBufferSize)
+      {
+        CreateIndicesData(objectName, indices, true, _objectsHandleDictionary[objectName].IndexBufferSize * 2);
+      }
+      else
+      {
+        _objectsHandleDictionary[objectName].IndexCount = indices.Count;
+        using (
+          var indicesStream = _objectsHandleDictionary[objectName].IndexBuffer.Map(MapMode.WriteDiscard, MapFlags.None))
+        {
+          foreach (var index in indices)
+          {
+            indicesStream.Write(index);
+          }
+          indicesStream.Position = 0;
+          _objectsHandleDictionary[objectName].IndexBuffer.Unmap();
+        }
+      }
     }
 
     public void SetVertexAttribute(string objectName, string shaderName, int index, string vertexPropertyName, int stride, int offset)
@@ -272,7 +329,7 @@ namespace Starter3D.Renderers
         throw new ApplicationException("Object must be added to the renderer before setting its vertex data");
       if (instanceData.Count == 0)
         return;
-      var verticesStream = new DataStream(instanceData.Count * OpenTK.Vector4.SizeInBytes*4, true, true);
+      var verticesStream = new DataStream(instanceData.Count * OpenTK.Vector4.SizeInBytes * 4, true, true);
       foreach (var matrix in instanceData)
       {
         verticesStream.Write(matrix.ToSlimDXMatrix());
@@ -312,7 +369,7 @@ namespace Starter3D.Renderers
       if (!_shaderHandleDictionary.ContainsKey(shaderName))
         throw new ApplicationException("Shader must be loaded before using it");
       _currentShader = shaderName;
-      
+
     }
 
     public void EnableZBuffer(bool enable)
@@ -351,7 +408,7 @@ namespace Starter3D.Renderers
 
     public void SetBackgroundColor(float r, float g, float b)
     {
-      _background = new Color4(new Vector3(r,g,b));
+      _background = new Color4(new Vector3(r, g, b));
     }
 
 
@@ -448,7 +505,7 @@ namespace Starter3D.Renderers
       var texture2D = CreateTexture(texture.Width, texture.Height);
       LoadBitmapInTexture(texture, texture2D);
       var textureResource = CreateTextureResource(texture2D);
-      _textureHandleDictionary.Add(textureName, new TextureInfo(){Texture2D = texture2D, TextureResourceView =  textureResource});
+      _textureHandleDictionary.Add(textureName, new TextureInfo() { Texture2D = texture2D, TextureResourceView = textureResource });
     }
 
     public void UseTexture(string textureName, string shader, string uniformName)
@@ -456,7 +513,7 @@ namespace Starter3D.Renderers
       if (!_textureHandleDictionary.ContainsKey(textureName))
         throw new ApplicationException("Texture has to be added before using");
       var effect = _shaderHandleDictionary[shader].Effect;
-      
+
       var textureUniform = effect.GetVariableByName(uniformName).AsResource();
       if (textureUniform != null)
         textureUniform.SetResource(_textureHandleDictionary[textureName].TextureResourceView);
@@ -545,9 +602,9 @@ namespace Starter3D.Renderers
 
     private InputLayout GetInputLayout(EffectPass pass, InputElement[] elements)
     {
-      if(!_inputLayouts.ContainsKey(elements))
+      if (!_inputLayouts.ContainsKey(elements))
         _inputLayouts.Add(elements, new Dictionary<EffectPass, InputLayout>());
-      if(!_inputLayouts[elements].ContainsKey(pass))
+      if (!_inputLayouts[elements].ContainsKey(pass))
         _inputLayouts[elements].Add(pass, new InputLayout(_device, pass.Description.Signature, elements));
       return _inputLayouts[elements][pass];
     }

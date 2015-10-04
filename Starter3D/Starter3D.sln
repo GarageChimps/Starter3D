@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Starter3D.Plugin.CurveEdito
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Starter3D.Plugin.Physics", "Starter3D.Plugin.Physics\Starter3D.Plugin.Physics.csproj", "{1C2C6297-1479-4924-8F15-870DA192A6D7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Starter3D.Plugin.Tessellation", "Starter3D.Plugin.Tessellation\Starter3D.Plugin.Tessellation.csproj", "{03847CAD-BAD9-4A9B-972B-FB098FF21E53}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -231,6 +233,27 @@ Global
 		{1C2C6297-1479-4924-8F15-870DA192A6D7}.Release2|x64.ActiveCfg = Release|x64
 		{1C2C6297-1479-4924-8F15-870DA192A6D7}.Release2|x64.Build.0 = Release|x64
 		{1C2C6297-1479-4924-8F15-870DA192A6D7}.Release2|x86.ActiveCfg = Release|Any CPU
+		{03847CAD-BAD9-4A9B-972B-FB098FF21E53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03847CAD-BAD9-4A9B-972B-FB098FF21E53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03847CAD-BAD9-4A9B-972B-FB098FF21E53}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{03847CAD-BAD9-4A9B-972B-FB098FF21E53}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{03847CAD-BAD9-4A9B-972B-FB098FF21E53}.Debug|x64.ActiveCfg = Debug|x64
+		{03847CAD-BAD9-4A9B-972B-FB098FF21E53}.Debug|x64.Build.0 = Debug|x64
+		{03847CAD-BAD9-4A9B-972B-FB098FF21E53}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{03847CAD-BAD9-4A9B-972B-FB098FF21E53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03847CAD-BAD9-4A9B-972B-FB098FF21E53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03847CAD-BAD9-4A9B-972B-FB098FF21E53}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{03847CAD-BAD9-4A9B-972B-FB098FF21E53}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{03847CAD-BAD9-4A9B-972B-FB098FF21E53}.Release|x64.ActiveCfg = Release|x64
+		{03847CAD-BAD9-4A9B-972B-FB098FF21E53}.Release|x64.Build.0 = Release|x64
+		{03847CAD-BAD9-4A9B-972B-FB098FF21E53}.Release|x86.ActiveCfg = Release|Any CPU
+		{03847CAD-BAD9-4A9B-972B-FB098FF21E53}.Release2|Any CPU.ActiveCfg = Release|Any CPU
+		{03847CAD-BAD9-4A9B-972B-FB098FF21E53}.Release2|Any CPU.Build.0 = Release|Any CPU
+		{03847CAD-BAD9-4A9B-972B-FB098FF21E53}.Release2|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{03847CAD-BAD9-4A9B-972B-FB098FF21E53}.Release2|Mixed Platforms.Build.0 = Release|Any CPU
+		{03847CAD-BAD9-4A9B-972B-FB098FF21E53}.Release2|x64.ActiveCfg = Release|x64
+		{03847CAD-BAD9-4A9B-972B-FB098FF21E53}.Release2|x64.Build.0 = Release|x64
+		{03847CAD-BAD9-4A9B-972B-FB098FF21E53}.Release2|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
