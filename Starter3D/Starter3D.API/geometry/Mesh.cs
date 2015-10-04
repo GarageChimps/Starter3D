@@ -16,12 +16,15 @@ namespace Starter3D.API.geometry
     private readonly List<IFace> _faces = new List<IFace>();
     private IMaterial _material;
     private readonly string _name;
-    private bool _isDynamic;
+    private bool _hasDynamicVertices;
+    private bool _hasDynamicIndices;
 
     public Mesh(IMeshLoader meshLoader, string name="default")
     {
       _meshLoader = meshLoader;
       _name = name;
+      _hasDynamicVertices = true;
+      _hasDynamicIndices = true;
     }
 
     public Mesh(string name = "default")
@@ -68,12 +71,7 @@ namespace Starter3D.API.geometry
       set { _material = value; }
     }
 
-    public bool IsDynamic
-    {
-      get { return _isDynamic; }
-      set { _isDynamic =value; }
-    }
-
+   
     public string Name
     {
       get { return _name; }
@@ -158,8 +156,8 @@ namespace Starter3D.API.geometry
     {
       _material.Configure(renderer);
       renderer.LoadObject(_name);
-      renderer.SetVerticesData(_name, GetVerticesData());
-      renderer.SetIndexData(_name, GetFaceData());
+      renderer.SetVerticesData(_name, GetVerticesData(), _hasDynamicVertices);
+      renderer.SetIndexData(_name, GetFaceData(), _hasDynamicIndices);
       _vertices.First().Configure(_name, _material.Shader.Name, renderer); //We use the first vertex as representatve to configure the vertex info of the renderer
     }
 
@@ -172,10 +170,10 @@ namespace Starter3D.API.geometry
 
     public void Update(IRenderer renderer)
     {
-      if (!_isDynamic)
-        return;
-      renderer.UpdateVerticesData(_name, GetVerticesData());
-      renderer.UpdateIndexData(_name, GetFaceData());
+      if (_hasDynamicVertices)
+        renderer.UpdateVerticesData(_name, GetVerticesData());
+      if(_hasDynamicIndices)
+        renderer.UpdateIndexData(_name, GetFaceData());
     }
 
     public bool Intersects(Ray ray)

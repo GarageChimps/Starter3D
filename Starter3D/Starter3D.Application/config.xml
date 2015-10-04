@@ -1,2 +1,2 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
-<Configuration plugin="Starter3D.Plugin.CurveEditor" renderer="Direct3D" frameRate="60"/>
+<Configuration plugin="Starter3D.Plugin.Physics" renderer="Direct3D" frameRate="60"/>

@@ -130,6 +130,11 @@ namespace Starter3D.Renderers
       throw new NotImplementedException();
     }
 
+    public void UpdateInstanceData(string objectName, List<Matrix4> instanceData)
+    {
+      throw new NotImplementedException();
+    }
+
     public void SetVertexAttribute(string objectName, string shaderName, int index, string vertexPropertyName, int stride, int offset)
     {
       GL.BindVertexArray(_objectsHandleDictionary[objectName]);
@@ -157,7 +162,7 @@ namespace Starter3D.Renderers
       }
     }
 
-    public void SetInstanceData(string name, List<Matrix4> instanceData)
+    public void SetInstanceData(string name, List<Matrix4> instanceData, bool isDynamic = false)
     {
       GL.BindVertexArray(_objectsHandleDictionary[name]);
       var verticesArray = instanceData.ToArray();

@@ -14,7 +14,6 @@ namespace Starter3D.API.geometry
   {
     string Name { get; }               //Name of this shape
     IMaterial Material { get; set; }   //Material associated to this shape
-    bool IsDynamic { get; set; }
     
     /// <summary>
     /// Loads the shape from file, using the suitable loader

@@ -73,20 +73,39 @@ namespace Starter3D.Renderers
       }
     }
 
+    public void SetVerticesData(string objectName, List<Vector3> data, bool isDynamic = false)
+    {
+      foreach (var renderer in _renderers)
+      {
+        renderer.SetVerticesData(objectName, data, isDynamic);
+      }
+    }
+
     public void UpdateVerticesData(string objectName, List<Vector3> data)
     {
-      throw new System.NotImplementedException();
+      foreach (var renderer in _renderers)
+      {
+        renderer.UpdateVerticesData(objectName, data);
+      }
     }
 
     public void SetIndexData(string objectName, List<int> indices, bool isDynamic = false)
     {
       foreach (var renderer in _renderers)
       {
-        renderer.SetIndexData(objectName, indices);
+        renderer.SetIndexData(objectName, indices, isDynamic);
       }
     }
 
     public void UpdateIndexData(string objectName, List<int> indices)
+    {
+      foreach (var renderer in _renderers)
+      {
+        renderer.UpdateIndexData(objectName, indices);
+      }
+    }
+
+    public void UpdateInstanceData(string objectName, List<Matrix4> instanceData)
     {
       throw new System.NotImplementedException();
     }
@@ -109,7 +128,7 @@ namespace Starter3D.Renderers
       }
     }
 
-    public void SetInstanceData(string objectName, List<Matrix4> instanceData)
+    public void SetInstanceData(string objectName, List<Matrix4> instanceData, bool isDynamic = false)
     {
       foreach (var renderer in _renderers)
       {
@@ -247,12 +266,6 @@ namespace Starter3D.Renderers
 
 
 
-    public void SetVerticesData(string objectName, List<Vector3> data, bool isDynamic = false)
-    {
-      foreach (var renderer in _renderers)
-      {
-        renderer.SetVerticesData(objectName, data);
-      }
-    }
+   
   }
 }

@@ -31,6 +31,7 @@ namespace Starter3D.Renderers
       public int IndexCount;
       public int VertexBufferSize;
       public int IndexBufferSize;
+      public int InstanceBufferSize;
     }
 
     class ShaderProgram
@@ -301,6 +302,27 @@ namespace Starter3D.Renderers
       }
     }
 
+    public void UpdateInstanceData(string objectName, List<Matrix4> instanceData)
+    {
+      if (instanceData.Count > _objectsHandleDictionary[objectName].InstanceBufferSize)
+      {
+        CreateInstanceBuffer(objectName, instanceData, true, _objectsHandleDictionary[objectName].InstanceBufferSize * 2);
+      }
+      else
+      {
+        using (
+          var instancesStream = _objectsHandleDictionary[objectName].InstanceBuffer.Map(MapMode.WriteDiscard, MapFlags.None))
+        {
+          foreach (var matrix in instanceData)
+          {
+            instancesStream.Write(matrix.ToSlimDXMatrix());
+          }
+          instancesStream.Position = 0;
+          _objectsHandleDictionary[objectName].InstanceBuffer.Unmap();
+        }
+      }
+    }
+
     public void SetVertexAttribute(string objectName, string shaderName, int index, string vertexPropertyName, int stride, int offset)
     {
       if (!_objectsHandleDictionary.ContainsKey(objectName))
@@ -323,13 +345,18 @@ namespace Starter3D.Renderers
       _objectsHandleDictionary[objectName].InputElements.Add(inputElement);
     }
 
-    public void SetInstanceData(string objectName, List<OpenTK.Matrix4> instanceData)
+    public void SetInstanceData(string objectName, List<OpenTK.Matrix4> instanceData, bool isDynamic = false)
     {
       if (!_objectsHandleDictionary.ContainsKey(objectName))
         throw new ApplicationException("Object must be added to the renderer before setting its vertex data");
       if (instanceData.Count == 0)
         return;
-      var verticesStream = new DataStream(instanceData.Count * OpenTK.Vector4.SizeInBytes * 4, true, true);
+      CreateInstanceBuffer(objectName, instanceData, isDynamic, instanceData.Count);
+    }
+
+    private void CreateInstanceBuffer(string objectName, List<Matrix4> instanceData, bool isDynamic, int bufferSize)
+    {
+      var verticesStream = new DataStream(bufferSize * OpenTK.Vector4.SizeInBytes * 4, false, true);
       foreach (var matrix in instanceData)
       {
         verticesStream.Write(matrix.ToSlimDXMatrix());
@@ -338,13 +365,14 @@ namespace Starter3D.Renderers
       var bufferDesc = new BufferDescription
       {
         BindFlags = BindFlags.VertexBuffer,
-        CpuAccessFlags = CpuAccessFlags.None,
+        CpuAccessFlags = isDynamic ? CpuAccessFlags.Write : CpuAccessFlags.None,
         OptionFlags = ResourceOptionFlags.None,
-        SizeInBytes = instanceData.Count * OpenTK.Vector4.SizeInBytes * 4,
-        Usage = ResourceUsage.Default
+        SizeInBytes = bufferSize * OpenTK.Vector4.SizeInBytes * 4,
+        Usage = isDynamic ? ResourceUsage.Dynamic : ResourceUsage.Default
       };
       var instanceBuffer = new Buffer(_device, verticesStream, bufferDesc);
       _objectsHandleDictionary[objectName].InstanceBuffer = instanceBuffer;
+      _objectsHandleDictionary[objectName].InstanceBufferSize = bufferSize;
     }
 
     public void LoadShaders(string shaderName, string vertexShaderFileName, string fragmentShaderFileName)

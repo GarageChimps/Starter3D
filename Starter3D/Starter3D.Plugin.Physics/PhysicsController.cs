@@ -159,6 +159,7 @@ namespace Starter3D.Plugin.Physics
       _asteroidMeshCollection = new MeshCollection(mesh.Name, mesh);
       _asteroidMeshCollection.Material = _resourceManager.GetMaterial("whiteInstancing");
       _asteroidsNode.Shape = _asteroidMeshCollection;
+      UpdateAsteroids(0, true);
 
       InitRenderer();
 
@@ -190,14 +191,17 @@ namespace Starter3D.Plugin.Physics
       _engine.Update((float)time);
     }
 
-    private void UpdateAsteroids(float time)
+    private void UpdateAsteroids(float time, bool firstTime=false)
     {
       _asteroidMeshCollection.Clear();
       foreach (var asteroid in _asteroids)
       {
         _asteroidMeshCollection.AddInstance(asteroid.GetTransformantion(time));
       }
-      _asteroidMeshCollection.Configure(_renderer);
+      if (firstTime)
+        _asteroidMeshCollection.Configure(_renderer);
+      else
+        _asteroidMeshCollection.Update(_renderer);
     }
 
     public void UpdateSize(double width, double height)
