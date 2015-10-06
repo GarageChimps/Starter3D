@@ -6,5 +6,39 @@
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
   <Grid>
+
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"></RowDefinition>
+      <RowDefinition Height="*"></RowDefinition>
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto"></ColumnDefinition>
+      <ColumnDefinition Width="*"></ColumnDefinition>
+    </Grid.ColumnDefinitions>
+    <Border Width="250" Margin="5" BorderThickness="1" BorderBrush="Black" CornerRadius="1">
+      <Border.Background>
+        <SolidColorBrush Color="#AAFFFFFF"></SolidColorBrush>
+      </Border.Background>
+      <Grid Margin="5">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"></RowDefinition>
+          <RowDefinition Height="Auto"></RowDefinition>
+          <RowDefinition Height="Auto"></RowDefinition>
+          <RowDefinition Height="Auto"></RowDefinition>
+          <RowDefinition Height="Auto"></RowDefinition>
+          <RowDefinition Height="Auto"></RowDefinition>
+          <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Text="Select a primitive:"></TextBlock>
+        <ComboBox Grid.Row="1" ></ComboBox>
+        <TextBlock Grid.Row="2" Text="Number of tessellation elements in U:"></TextBlock>
+        <Slider Grid.Row="3" Value="{Binding NumU}" Minimum="2" Maximum="100"></Slider>
+        <TextBlock Grid.Row="4" Text="Number of tessellation elements in V:"></TextBlock>
+        <Slider Grid.Row="5" Value="{Binding NumV}" Minimum="2" Maximum="100"></Slider>
+        <CheckBox Grid.Row="6" Content="Show wireframe" IsChecked="{Binding ShowWireframe}"></CheckBox>
+
+      </Grid>
+    </Border>
+
   </Grid>
 </UserControl>

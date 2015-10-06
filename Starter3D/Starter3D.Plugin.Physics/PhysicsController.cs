@@ -159,12 +159,13 @@ namespace Starter3D.Plugin.Physics
       _asteroidMeshCollection = new MeshCollection(mesh.Name, mesh);
       _asteroidMeshCollection.Material = _resourceManager.GetMaterial("whiteInstancing");
       _asteroidsNode.Shape = _asteroidMeshCollection;
-      UpdateAsteroids(0, true);
-
+      
       InitRenderer();
 
       _resourceManager.Configure(_renderer);
       _scene.Configure(_renderer);
+
+      UpdateAsteroids(0, true);
 
     }
 

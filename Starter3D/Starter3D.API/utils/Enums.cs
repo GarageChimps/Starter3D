@@ -3,6 +3,7 @@
   public enum PrimitiveType
   {
     Cube = 0,
+    Sphere,
   }
 
   public enum ControllerMouseButton

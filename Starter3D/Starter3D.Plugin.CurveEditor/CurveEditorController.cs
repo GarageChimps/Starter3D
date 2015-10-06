@@ -171,6 +171,7 @@ namespace Starter3D.Plugin.CurveEditor
     public void MouseDown(ControllerMouseButton button, int x, int y)
     {
       AddCurvePoint(x, y);
+
     }
 
     private void AddCurvePoint(int x, int y)

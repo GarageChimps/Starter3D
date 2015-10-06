@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Starter3D.API.controller;
+using Starter3D.API.geometry.primitives;
 using Starter3D.API.renderer;
 using Starter3D.API.resources;
 using Starter3D.API.scene;
@@ -10,7 +11,7 @@ using Starter3D.API.utils;
 
 namespace Starter3D.Plugin.Tessellation
 {
-  public class TesselationController : IController
+  public class TesselationController : ViewModelBase, IController 
   {
     private const string ScenePath = @"scenes/tessellationScene.xml";
     private const string ResourcePath = @"resources/tessellationResources.xml";
@@ -20,13 +21,18 @@ namespace Starter3D.Plugin.Tessellation
     private readonly IResourceManager _resourceManager;
 
     private readonly IScene _scene;
+    private TesselatedMesh _tesselatedMesh;
     
     private readonly TessellationView _centralView;
 
     private bool _isDragging;
     private bool _isOrbiting;
-    
-    
+
+    private int _numU;
+    private int _numV;
+
+    private bool _showWireframe;
+
     public int Width
     {
       get { return 800; }
@@ -77,6 +83,49 @@ namespace Starter3D.Plugin.Tessellation
       get { return "Simple Material Editor"; }
     }
 
+    public int NumU
+    {
+      get { return _numU; }
+      set
+      {
+        if (_numU != value)
+        {
+          _numU = value;
+          OnPropertyChanged(() => NumU);
+          Tessellate();
+        }
+      }
+    }
+
+   
+    public int NumV
+    {
+      get { return _numV; }
+      set
+      {
+        if (_numV != value)
+        {
+          _numV = value;
+          OnPropertyChanged(() => NumV);
+          Tessellate();
+        }
+      }
+    }
+
+    public bool ShowWireframe
+    {
+      get { return _showWireframe; }
+      set
+      {
+        if (_showWireframe != value)
+        {
+          _showWireframe = value;
+          OnPropertyChanged(() => ShowWireframe);
+          _renderer.EnableWireframe(_showWireframe);
+        }
+      }
+    }
+
     public TesselationController(IRenderer renderer, ISceneReader sceneReader, IResourceManager resourceManager)
     {
       if (renderer == null) throw new ArgumentNullException("renderer");
@@ -88,9 +137,22 @@ namespace Starter3D.Plugin.Tessellation
 
       _resourceManager.Load(ResourcePath);
       _scene = _sceneReader.Read(ScenePath);
+      _tesselatedMesh = _scene.Shapes.First().Shape as TesselatedMesh;
+      _numU = _tesselatedMesh.NumU;
+      _numV = _tesselatedMesh.NumV;
+      //_scene.Shapes.First().Shape = new Cube();
+      //_scene.Shapes.First().Shape.Material = _resourceManager.GetMaterials().First();
       
       _centralView = new TessellationView();
+      _centralView.DataContext = this;
     }
+
+    private void Tessellate()
+    {
+      _tesselatedMesh.Tesselate(NumU, NumV);
+      _tesselatedMesh.Update(_renderer);
+    }
+
     
     public void Load()
     {

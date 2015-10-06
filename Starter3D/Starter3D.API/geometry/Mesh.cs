@@ -30,6 +30,8 @@ namespace Starter3D.API.geometry
     public Mesh(string name = "default")
     {
       _name = name;
+      _hasDynamicVertices = true;
+      _hasDynamicIndices = true;
     }
 
     public IShape Clone()
@@ -232,6 +234,11 @@ namespace Starter3D.API.geometry
       return FacesCount * 3;
     }
 
+    protected void Reset()
+    {
+      _vertices.Clear();
+      _faces.Clear();
+    }
    
   }
 }

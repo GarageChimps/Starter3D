@@ -11,6 +11,8 @@ namespace Starter3D.API.geometry.primitives
       {
         case PrimitiveType.Cube:
           return new Cube(primitiveName);
+        case PrimitiveType.Sphere:
+          return new Sphere(10, 10);
         default:
           throw new ArgumentOutOfRangeException("primitiveType");
       }

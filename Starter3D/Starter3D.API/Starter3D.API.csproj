@@ -88,6 +88,9 @@
     <Compile Include="geometry\primitives\Cube.cs" />
     <Compile Include="geometry\primitives\IPrimitiveFactory.cs" />
     <Compile Include="geometry\primitives\PrimitiveFactory.cs" />
+    <Compile Include="geometry\primitives\Sphere.cs" />
+    <Compile Include="geometry\primitives\TesselatedMesh.cs" />
+    <Compile Include="geometry\primitives\Torus.cs" />
     <Compile Include="physics\EulerCromerSolver.cs" />
     <Compile Include="physics\EulerSolver.cs" />
     <Compile Include="physics\Gravity.cs" />
