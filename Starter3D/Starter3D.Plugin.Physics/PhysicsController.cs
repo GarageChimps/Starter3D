@@ -44,7 +44,7 @@ namespace Starter3D.Plugin.Physics
     private int _frameCount = 0;
     private float _fps;
 
-    private int _numberOfAsteroids = 3000;
+    private int _numberOfAsteroids = 30000;
     private float _minRadius = 100;
     private float _maxRadius = 150;
     private float _minSpeed = 10f;
@@ -199,10 +199,7 @@ namespace Starter3D.Plugin.Physics
       {
         _asteroidMeshCollection.AddInstance(asteroid.GetTransformantion(time));
       }
-      if (firstTime)
-        _asteroidMeshCollection.Configure(_renderer);
-      else
-        _asteroidMeshCollection.Update(_renderer);
+      _asteroidMeshCollection.Configure(_renderer);
     }
 
     public void UpdateSize(double width, double height)

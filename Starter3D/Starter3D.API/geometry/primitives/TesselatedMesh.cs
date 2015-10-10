@@ -42,7 +42,6 @@
       float dU = (_maxU - _minU) / _numU;
       float dV = (_maxV - _minV) / _numV;
 
-      var vertexMatrix = new IVertex[_numU + 1, _numV + 1];
       for (int iu = 0; iu <= _numU; iu++)
       {
         float u = _minU + iu * dU;
@@ -51,7 +50,6 @@
           float v = _minV + iv * dV;
           var vertex = GetVertex(u, v);
           AddVertex(vertex);
-          vertexMatrix[iu, iv] = vertex;
         }
       }
 

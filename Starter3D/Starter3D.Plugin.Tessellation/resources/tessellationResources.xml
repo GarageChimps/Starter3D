@@ -3,6 +3,7 @@
   <Shaders>
     <BaseShader key="blinnPhong" vertex="genericVertex" fragment="blinnPhongFragment" numbers="shininess" vectors="diffuseColor,specularColor"/>
     <BaseShader key="blinnPhongDiffuseTexture" vertex="genericVertex" fragment="blinnPhongDiffuseTextureFragment" numbers="shininess" vectors="specularColor" textures="diffuseTexture"/>
+    <BaseShader key="pixelatedTexture" vertex="genericVertex" fragment="pixelatedTextureFragment" numbers="shininess,numU,numV" vectors="specularColor" textures="diffuseTexture"/>
   </Shaders>
   <Textures>
     <BaseTexture key="stonesDiffTex" path="images/stones.jpg"/>
@@ -14,6 +15,7 @@
     <BaseMaterial key='blueDiffuse' shader='blinnPhong' diffuseColor='0,0,1' specularColor='0,0,0' shininess='0'/>
     <BaseMaterial key='redDiffuse' shader='blinnPhong' diffuseColor='1,0,0' specularColor='0,0,0' shininess='0'/>
     <BaseMaterial key='earth' shader='blinnPhongDiffuseTexture' diffuseTexture='earthmapDiffTex' specularColor='0,0,0' shininess='0'/>
+    <BaseMaterial key='earthPixelated' shader='pixelatedTexture' diffuseTexture='earthmapDiffTex' specularColor='0,0,0' shininess='0' numU='10' numV='10'/>
     <BaseMaterial key='stones' shader='blinnPhongDiffuseTexture' diffuseTexture='stonesDiffTex' specularColor='1,1,1' shininess='100'/>
  </Materials>                          
 </Resources>

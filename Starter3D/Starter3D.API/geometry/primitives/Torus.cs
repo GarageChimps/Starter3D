@@ -5,9 +5,12 @@ namespace Starter3D.API.geometry.primitives
 {
   public class Torus : TesselatedMesh
   {
+    private float _r1;
+
     public Torus(int numU, int numV)
       : base(numU, numV, 0, (float)Math.PI * 2.0f, 0, (float)Math.PI * 2.0f)
     {
+      _r1 = 0.5f;
     }
     //vx = (r1 + np.cos(v))*np.cos(u)
     //    vy = (r1 + np.cos(v))*np.sin(u)
@@ -22,10 +25,12 @@ namespace Starter3D.API.geometry.primitives
     //    nz = tx*sy - ty*sx;
     protected override IVertex GetVertex(float u, float v)
     {
-      var position = new Vector3((float)(Math.Sin(u) * Math.Cos(v)), (float)(Math.Sin(u) * Math.Sin(v)),
-        (float)(Math.Cos(u)));
+      var position = new Vector3((float)((_r1 + Math.Cos(v)) * Math.Cos(u)), (float)(Math.Sin(v)), (float)((_r1 + Math.Cos(v)) * Math.Sin(u)));
+      var tx = (float)(-Math.Sin(u));
+      var tz = (float)(Math.Cos(u));
+
       var normal = position.Normalized();
-      return new Vertex(position, normal, new Vector2(u, v));
+      return new Vertex(position, normal, new Vector2(u / ((float)Math.PI * 2.0f), v / ((float)Math.PI * 2.0f)));
     }
   }
 }

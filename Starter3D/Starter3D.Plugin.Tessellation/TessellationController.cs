@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Starter3D.API.controller;
 using Starter3D.API.geometry.primitives;
@@ -24,6 +25,8 @@ namespace Starter3D.Plugin.Tessellation
     private TesselatedMesh _tesselatedMesh;
     
     private readonly TessellationView _centralView;
+    private readonly ObservableCollection<MaterialViewModel> _materials = new ObservableCollection<MaterialViewModel>();
+    private MaterialViewModel _currentMaterial;
 
     private bool _isDragging;
     private bool _isOrbiting;
@@ -126,6 +129,25 @@ namespace Starter3D.Plugin.Tessellation
       }
     }
 
+    public ObservableCollection<MaterialViewModel> Materials
+    {
+      get { return _materials; }
+    }
+
+    public MaterialViewModel CurrentMaterial
+    {
+      get { return _currentMaterial; }
+      set
+      {
+        if (_currentMaterial != value)
+        {
+          _currentMaterial = value;
+          _tesselatedMesh.Material = _currentMaterial.Material;
+          OnPropertyChanged(() => CurrentMaterial);
+        }
+      }
+    }
+
     public TesselationController(IRenderer renderer, ISceneReader sceneReader, IResourceManager resourceManager)
     {
       if (renderer == null) throw new ArgumentNullException("renderer");
@@ -149,6 +171,8 @@ namespace Starter3D.Plugin.Tessellation
 
     private void Tessellate()
     {
+      _tesselatedMesh.Material.SetParameter("numU", NumU);
+      _tesselatedMesh.Material.SetParameter("numV", NumV);
       _tesselatedMesh.Tesselate(NumU, NumV);
       _tesselatedMesh.Update(_renderer);
     }
@@ -160,6 +184,12 @@ namespace Starter3D.Plugin.Tessellation
 
       _resourceManager.Configure(_renderer);
       _scene.Configure(_renderer);
+
+      foreach (var material in _resourceManager.GetMaterials())
+      {
+        _materials.Add(new MaterialViewModel(material));
+      }
+      CurrentMaterial = _materials.First();
 
     }
 

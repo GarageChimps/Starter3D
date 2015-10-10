@@ -12,10 +12,9 @@ namespace Starter3D.API.geometry.primitives
 
     protected override IVertex GetVertex(float u, float v)
     {
-      var position = new Vector3((float) (Math.Sin(u)*Math.Cos(v)), (float) (Math.Sin(u)*Math.Sin(v)),
-        (float) (Math.Cos(u)));
+      var position = new Vector3((float) (Math.Sin(u)*Math.Cos(v)), (float) (Math.Cos(u)), (float) (Math.Sin(u)*Math.Sin(v)));
       var normal = position.Normalized();
-      return new Vertex(position, normal, new Vector2(u,v));
+      return new Vertex(position, normal, new Vector2(1 - v / ((float)Math.PI * 2.0f), u / (float)Math.PI));
     }
   }
 }

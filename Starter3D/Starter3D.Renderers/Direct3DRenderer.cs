@@ -123,6 +123,7 @@ namespace Starter3D.Renderers
     {
       if (_objectsHandleDictionary.ContainsKey(objectName))
       {
+        DisposeObject(_objectsHandleDictionary[objectName]);
         _objectsHandleDictionary[objectName].InputElements.Clear();
         return;
       }
@@ -549,13 +550,7 @@ namespace Starter3D.Renderers
 
     public void Dispose()
     {
-      foreach (var renderObject in _objectsHandleDictionary)
-      {
-        if (renderObject.Value.IndexBuffer != null)
-          renderObject.Value.IndexBuffer.Dispose();
-        if (renderObject.Value.VertexBuffer != null)
-          renderObject.Value.VertexBuffer.Dispose();
-      }
+      DisposeObjects();
 
       foreach (var inputLayout in _inputLayouts)
       {
@@ -575,6 +570,24 @@ namespace Starter3D.Renderers
         textureInfo.Value.Texture2D.Dispose();
         textureInfo.Value.TextureResourceView.Dispose();
       }
+    }
+
+    private void DisposeObjects()
+    {
+      foreach (var renderObject in _objectsHandleDictionary)
+      {
+        DisposeObject(renderObject.Value);
+      }
+    }
+
+    private static void DisposeObject(RenderObject renderObject)
+    {
+      if (renderObject.IndexBuffer != null)
+        renderObject.IndexBuffer.Dispose();
+      if (renderObject.VertexBuffer != null)
+        renderObject.VertexBuffer.Dispose();
+      if (renderObject.InstanceBuffer != null)
+        renderObject.InstanceBuffer.Dispose();
     }
 
     private Texture2D CreateTexture(int width, int height)

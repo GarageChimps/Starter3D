@@ -67,11 +67,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MaterialViewModel.cs" />
+    <Compile Include="NumericParameterViewModel.cs" />
     <Compile Include="TessellationController.cs" />
     <Compile Include="TessellationView.xaml.cs">
       <DependentUpon>TessellationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VectorParameterViewModel.cs" />
     <Compile Include="ViewModelBase.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -98,6 +101,7 @@
     </Content>
     <Content Include="resources\tessellationResources.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="scenes\tessellationScene.xml">
       <SubType>Designer</SubType>
@@ -135,7 +139,22 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="shaders\direct3d\pixelatedTextureFragment.fx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="shaders\direct3d\blinnPhongDiffuseTextureFragment.fx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="shaders\direct3d\blinnPhongFragment.fx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="shaders\direct3d\blinnPhongSpecularDiffuseTextureFragment.fx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="shaders\direct3d\edwardsFragment.fx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="shaders\direct3d\minnaertFragment.fx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="shaders\opengl\blinnPhongDiffuseTextureFragment.glsl">
@@ -156,6 +175,9 @@
     <None Include="meshes\icosahedron.obj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Content Include="shaders\opengl\pixelatedTextureFragment.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
